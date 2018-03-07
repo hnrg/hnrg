@@ -74,3 +74,6 @@ coverage/
 data/
 compiled/
 SSR.js
+
+package-lock.json
+yarn.lock
