@@ -1,10 +1,8 @@
 import {
   applyMiddleware,
-  createStore
+  createStore,
 } from 'redux';
-import {
-  createLogger
-} from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import reducers from './reducers';
