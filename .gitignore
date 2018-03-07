@@ -68,7 +68,7 @@ npm-debug.log
 dump.rdb
 .vscode/
 public/*
-dist
+dist/
 coverage/
 .nyc_output/
 data/
