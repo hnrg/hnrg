@@ -14,9 +14,6 @@
     "type": "git",
     "url": "git+https://gitlab.com/COD-Project/grupo5.git"
   },
-  "pre-commit": [
-    "lint"
-  ],
   "author": "COD-Project <codproject267@gmail.com>",
   "license": "MIT",
   "bugs": {
