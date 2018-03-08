@@ -1,7 +1,7 @@
 {
   "name": "grupo5-hnrg",
   "version": "0.1.0",
-  "description": "Boilerplate project for building Isomorphic apps using React and Redux",
+  "description": "Aplicación para automatización de tareas en el Hospital de Niños Ricardo Gutierrez",
   "scripts": {
     "test": "echo 'Running tests' && ./node_modules/.bin/jest --forceExit",
     "lint": "echo 'Running linter' && ./node_modules/.bin/eslint . --fix",
