@@ -13,6 +13,7 @@ En este documento se van a especificar todo lo requerido para tener la app del H
 - Opcionales:
     - [docker](https://www.docker.com/)
     - [docker-compose](https://docs.docker.com/compose/)
+    - [mongodb compass](https://www.mongodb.com/products/compass)
 
 ## Instalación del ambiente
 _si le falta cumplir alguno de los requerimientos, seguir a la siguiente sección_
@@ -104,3 +105,33 @@ _Ademas, **cada vez que se modifique** se debe ejecutar:_
 ```bash
 $ direnv allow
 ```
+
+## Visualización de los datos
+
+Para poder visualizar los datos de una manera más cómoda, se recomienda la
+utilización de Mongodb Compass, una app de los creadores de mongo, que permite
+visualización de datos, estadísticas, entre otras funcionalidades interesantes.
+
+Dependiendo como se haya levantado el ambiente, las configuraciones que se van a
+tener que ingresar en Mongodb Compass.
+
+Si el ambiente se levantó completamente local (es decir, instalando los
+programas directamente en el SO), no va a ser necesario cambios, a menos que se
+hayan cambiados las configuraciones por defecto de Mongodb.
+Por defecto, son las siguientes:
+
+- Hostname: localhost
+- Port: 27017
+- Authentication: None
+- SSL: off
+- SSH Tunel: off
+
+De utilizar el ambiente dockerizado, va a ser necesario especificar el hostname
+y puerto especificado al momento de levantar el ambiente.
+En los archivos docker-compose se utiliza la siguiente configuración:
+
+- Hostname: 172.17.0.1
+- Port: 27017
+- Authentication: none
+- SSL: off
+- SSH Tunel: off
