@@ -1,5 +1,7 @@
 FROM node:8.9.4
 
+MAINTAINER COD-Project <codproject267@gmail.com>
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
