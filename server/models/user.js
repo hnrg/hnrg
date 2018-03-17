@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   email: {
-    type: 'String',
+    type: String,
     trim: true,
     lowercase: true,
     unique: true,
@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     ]
   },
   username: {
-    type: 'String',
+    type: String,
     trim: true,
     lowercase: true,
     unique: true,
@@ -23,19 +23,19 @@ const userSchema = new mongoose.Schema({
       'Un nombre de usuario solo puede contener letras y guiones bajos'
     ],
   },
-  firstName: { type: 'String', trim: true },
-  lastName: { type: 'String', trim: true },
+  firstName: { type: String, trim: true },
+  lastName: { type: String, trim: true },
   password: {
-    type: 'String',
+    type: String,
     required: 'El campo `contraseña` es requerido',
     match: [
       /\S+/,
       'Una contraseña no puede tener espacios blancos'
     ]
   },
-  active: { type: 'Boolean', default: false },
-  createdAt: { type: 'Date', default: Date.now },
-  updatedAt: { type: 'Date', default: Date.now },
+  active: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('User', userSchema);
