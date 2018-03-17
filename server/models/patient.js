@@ -2,20 +2,20 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
 
-const patientSchema = new mongoose.Schema({
+const patientSchema = new Schema({
   firstName: {
-    type: 'String',
+    type: String,
     trim: true,
     required: 'El campo `nombre` es requerido'
   },
   lastName: {
-    type: 'String',
+    type: String,
     trim: true,
     required: 'El campo `apellido` es requerido'
   },
-  address: { type: 'String', trim: true },
+  address: { type: String, trim: true },
   phone: {
-    type: 'String',
+    type: String,
     trim: true,
     match: [
       /^\+?[0-9]{3}-?[0-9]{6,12}$/,
@@ -23,11 +23,11 @@ const patientSchema = new mongoose.Schema({
     ]
   },
   birthday: {
-    type: 'Date',
+    type: Date,
     required: 'El campo `fecha de nacimiento` es requerido'
   },
   sex: {
-    type: 'String',
+    type: String,
     default: 'Otro',
     match: [
       /Masculino|Femenino|Otro/,
@@ -41,11 +41,11 @@ const patientSchema = new mongoose.Schema({
     required: 'El campo `tipo de documento` es requerido'
   },
   documentNumber: {
-    type: 'Number',
+    type: Number,
     required: 'El campo `número de documento` es requerido'
   },
   deleted: {
-    type: 'Boolean',
+    type: Boolean,
     default: false
   },
 });
