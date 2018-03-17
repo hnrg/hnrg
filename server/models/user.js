@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const Rol = require('./rol');
+
 const userSchema = new Schema({
   email: {
     type: String,
@@ -37,7 +39,7 @@ const userSchema = new Schema({
   active: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  rolesId: { type: [Schema.Types.ObjectId] },
+  rolesId: [{ type: Schema.Types.ObjectId, ref: Rol }],
 });
 
 module.exports = mongoose.model('User', userSchema);
