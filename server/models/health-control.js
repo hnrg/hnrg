@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const Patient = require('./patient');
+const User = require('./user');
+
 const healthControlSchema = new Schema({
   date: {
     type: Date,
@@ -39,12 +42,14 @@ const healthControlSchema = new Schema({
   physicalExaminationObservations: { type: String },
   feeding: { type: String },
   generalObservations: { type: String },
-  patientId: {
+  patient: {
     type: Schema.Types.ObjectId,
+    ref: Patient,
     required: 'El campo `paciente` es requerido'
   },
-  userId: {
+  user: {
     type: Schema.Types.ObjectId,
+    ref: User,
     required: 'El campo `user` es requerido'
   },
   active: {

@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
+const DemographicData = require('./demographic-data');
+const MedicalInsurance = require('./medical-insurance');
+const DocumentType = require('./document-type');
 
 const patientSchema = new Schema({
   firstName: {
@@ -34,10 +37,17 @@ const patientSchema = new Schema({
       'Indique un sexo valido'
     ]
   },
-  demographicDataId: { type: Schema.Types.ObjectId },
-  medicalInsuranceId: { type: Schema.Types.ObjectId },
-  documentTypeId: {
+  demographicData: {
     type: Schema.Types.ObjectId,
+    ref: DemographicData
+  },
+  medicalInsurance: {
+    type: Schema.Types.ObjectId,
+    ref: MedicalInsurance
+  },
+  documentType: {
+    type: Schema.Types.ObjectId,
+    ref: DocumentType,
     required: 'El campo `tipo de documento` es requerido'
   },
   documentNumber: {
