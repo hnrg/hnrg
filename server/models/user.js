@@ -39,7 +39,7 @@ const userSchema = new Schema({
   active: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  rolesId: [{ type: Schema.Types.ObjectId, ref: Rol }],
+  roles: [{ type: Schema.Types.ObjectId, ref: Rol }],
 });
 
 module.exports = mongoose.model('User', userSchema);

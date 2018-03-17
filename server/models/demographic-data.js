@@ -18,17 +18,17 @@ const demographicDataSchema = new Schema({
     type: Boolean,
     required: 'El campo `mascota` es requerido'
   },
-  apartmentTypeId: {
+  apartmentType: {
     type: Schema.Types.ObjectId,
     ref: ApartmentType,
     required: 'El campo `tipo de vivienda` es requerido'
   },
-  heatingTypeId: {
+  heatingType: {
     type: Schema.Types.ObjectId,
     ref: HeatingType,
     required: 'El campo `tipo de calefacción` es requerido'
   },
-  waterTypeId: {
+  waterType: {
     type: Schema.Types.ObjectId,
     ref: WaterType,
     required: 'El campo `tipo de agua` es requerido'

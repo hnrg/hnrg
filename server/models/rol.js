@@ -5,7 +5,7 @@ const Permission = require('./permission');
 
 const rolSchema = new Schema({
   name: { type: String, required: 'El campo `nombre` es requerido' },
-  permissionId: [{ type: Schema.Types.ObjectId, ref: Permission }],
+  permission: [{ type: Schema.Types.ObjectId, ref: Permission }],
 });
 
 module.exports = mongoose.model('Rol', rolSchema);
