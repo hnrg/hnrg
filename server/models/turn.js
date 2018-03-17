@@ -10,7 +10,7 @@ const turnSchema = new Schema({
     type: Number,
     required: 'El campo `número de documento` es requerido'
   },
-  chatId: { type: Number }
+  chatId: { type: Number },
 });
 
 module.exports = mongoose.model('Turn', turnSchema);

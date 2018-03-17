@@ -50,7 +50,7 @@ const healthControlSchema = new Schema({
   active: {
     type: Boolean,
     default: true
-  }
+  },
 });
 
 module.exports = mongoose.model('HealthControl', healthControlSchema);
