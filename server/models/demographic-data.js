@@ -23,7 +23,7 @@ const demographicDataSchema = new Schema({
     required: 'El campo `tipo de calefacción` es requerido'
   },
   waterTypeId: {
-    type: Schema.Type.ObjectId,
+    type: Schema.Types.ObjectId,
     required: 'El campo `tipo de agua` es requerido'
   },
 });
