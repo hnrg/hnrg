@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
+
 const Schema = mongoose.Schema;
 
 const Rol = require('./rol');
@@ -41,5 +43,13 @@ const userSchema = new Schema({
   updatedAt: { type: Date, default: Date.now },
   roles: [{ type: Schema.Types.ObjectId, ref: Rol }],
 });
+
+userSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+}
+
+userSchema.methods.validatePassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+}
 
 module.exports = mongoose.model('User', userSchema);
