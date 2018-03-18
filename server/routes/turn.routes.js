@@ -1,5 +1,5 @@
 const {Router} = require('express');
-const TurnController = require('../controllers/Turn.controller');
+const TurnController = require('../controllers/turn.controller');
 
 const router = Router();
 
