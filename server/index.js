@@ -65,6 +65,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
 app.use('/api', routes.turns);
+app.use('/auth', routes.auth);
 
 app.get('*', SSR.default);
 
