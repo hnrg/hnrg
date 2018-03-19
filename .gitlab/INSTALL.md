@@ -135,3 +135,11 @@ En los archivos docker-compose se utiliza la siguiente configuración:
 - Authentication: none
 - SSL: off
 - SSH Tunel: off
+
+## Extra
+
+Para que las consultas a las apis sean más amigables, se propone utilizar el
+gist
+[api\_request](https://gist.github.com/lucasdc6/741972836ddff247551e5e8b52277541),
+el cual es un wrapper de curl, agregando un beautifier para las respuestas en
+JSON.
