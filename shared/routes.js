@@ -1,14 +1,18 @@
 import React from 'react';
 import {
   Switch,
-  Route
+  Route,
+  IndexRoute,
 } from 'react-router-dom';
 
-import Feed from './containers/Feed';
+import App from './containers/App';
+import HomeContainer from './containers/Home';
 
 const Routes = () => (
   <Switch>
-    <Route exact path = "/" component = {Feed} />
+      <Route path="/" component={App} >
+          <IndexRoute component={HomeContainer} />
+      </Route>
   </Switch>
 );
 
