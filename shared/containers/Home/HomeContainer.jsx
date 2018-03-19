@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Footer from '../../components/Footer';
 
 class HomeContainer extends Component {
   render() {
     return (
-      <div>Wellcome!</div>
+      <div>
+        <h3>Wellcome!</h3>
+        <Footer />
+      </div>
     );
   }
 }
