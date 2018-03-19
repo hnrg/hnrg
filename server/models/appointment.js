@@ -13,4 +13,4 @@ const appointmentSchema = new Schema({
   chatId: { type: Number },
 });
 
-module.exports = mongoose.model('Turn', appointmentSchema);
+module.exports = mongoose.model('Appointment', appointmentSchema);
