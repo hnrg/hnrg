@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   Switch,
-  Route
+  Route,
+  IndexRoute,
 } from 'react-router-dom';
 
 import App from './containers/App';

@@ -9,9 +9,7 @@ const slug = require('limax');
  */
 exports.getAppointments = async function getAppointments(req, res) {
   try {
-    const appointment = await Appointment.find(!req.params.date? : {
-      date: req.params.date
-    }).sort('-date -time').exec();
+    const appointment = await Appointment.find().sort('-date -time').exec();
 
     res.status(200).json({appointments});
   } catch (e) {

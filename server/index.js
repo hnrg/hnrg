@@ -64,8 +64,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // server public assets and routes
 app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
-app.use('/api', routes.appointment);
-app.use('/auth', routes.auth);
+app.use('/api', routes.appointments);
+/*app.use('/auth', routes.auth);*/
 
 app.get('*', SSR.default);
 

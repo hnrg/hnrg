@@ -20,9 +20,8 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
+/*App.propTypes = {
   children: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
-};
+};*/
 
 export default connect()(App);
