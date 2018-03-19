@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 /* import * as Actions from '../actions/auth-actions'; */
 
@@ -20,8 +21,8 @@ class App extends Component {
   }
 }
 
-/*App.propTypes = {
+App.propTypes = {
   children: PropTypes.object.isRequired,
-};*/
+};
 
 export default connect()(App);
