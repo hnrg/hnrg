@@ -12,6 +12,7 @@ const Routes = () => (
   <App>
     <Switch>
         <Route exact path="/" component={HomeContainer} ></Route>
+        <Route path="/home" component={HomeContainer} ></Route>
     </Switch>
   </App>
 );
