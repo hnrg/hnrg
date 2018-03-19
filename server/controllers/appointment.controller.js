@@ -1,19 +1,19 @@
-const Turn = require('../models/turn');
+const Appointment = require('../models/appointment');
 const slug = require('limax');
 
 /**
- * Get all turns
+ * Get all appointment
  * @param req
  * @param res
  * @returns void
  */
-exports.getTurns = async function getTurns(req, res) {
+exports.getAppointments = async function getAppointments(req, res) {
   try {
-    const turns = await Turn.find(!req.params.date? : {
+    const appointment = await Appointment.find(!req.params.date? : {
       date: req.params.date
     }).sort('-date -time').exec();
 
-    res.status(200).json({turns});
+    res.status(200).json({appointments});
   } catch (e) {
     return res.status(500).send(e);
   }
@@ -25,14 +25,14 @@ exports.getTurns = async function getTurns(req, res) {
  * @param res
  * @returns void
  */
-exports.addTurn = async function addTurn(req, res) {
+exports.addAppointment = async function addAppointment(req, res) {
   try {
     if (!req.body.turn.documentNumber || !req.body.turn.date) {
       return res.status(403).end();
     }
 
-    const newTurn = new Turn(req.body.turn);
-    const saved = await newTurn.save();
+    const newAppointment = new Appointment(req.body.turn);
+    const saved = await newAppointment.save();
     res.status(201).json({turn: saved});
   } catch (e) {
     return res.status(500).send(e);
@@ -45,9 +45,9 @@ exports.addTurn = async function addTurn(req, res) {
  * @param res
  * @returns void
  */
-exports.getTurn = async function getTurn(req, res) {
+exports.getAppointment = async function getAppointment(req, res) {
   try {
-    const turn = await Turn.findOne({id: req.params.id}).exec();
+    const turn = await Appointment.findOne({id: req.params.id}).exec();
     if (!turn) {
       return res.sendStatus(404);
     }
@@ -66,9 +66,9 @@ exports.getTurn = async function getTurn(req, res) {
  * @param res
  * @returns void
  */
-exports.deleteTurn = async function deleteTurn(req, res) {
+exports.deleteAppointment = async function deleteAppointment(req, res) {
   try {
-    const turn = await Turn.findOne({id: req.params.id}).exec();
+    const turn = await Appointment.findOne({id: req.params.id}).exec();
     if (!turn) {
       return res.sendStatus(404);
     }

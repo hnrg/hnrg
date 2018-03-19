@@ -1,5 +1,5 @@
-const turns = require('./turn.routes');
+const appointments = require('./appointment.routes');
 
 module.exports = {
-  turns,
+  appointments,
 };

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const turnSchema = new Schema({
+const appointmentSchema = new Schema({
   date: {
     type: Date,
     required: 'El campo `fecha` es requerido'
@@ -13,4 +13,4 @@ const turnSchema = new Schema({
   chatId: { type: Number },
 });
 
-module.exports = mongoose.model('Turn', turnSchema);
+module.exports = mongoose.model('Turn', appointmentSchema);
