@@ -25,11 +25,11 @@ exports.getAppointments = async function getAppointments(req, res) {
  */
 exports.addAppointment = async function addAppointment(req, res) {
   try {
-    if (!req.body.turn.documentNumber || !req.body.turn.date) {
+    if (!req.body.appointment.documentNumber || !req.body.appointment.date) {
       return res.status(403).end();
     }
 
-    const newAppointment = new Appointment(req.body.turn);
+    const newAppointment = new Appointment(req.body.appointment);
     const saved = await newAppointment.save();
     res.status(201).json({turn: saved});
   } catch (e) {
