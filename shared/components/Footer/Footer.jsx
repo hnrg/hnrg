@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Footer() {
+const Footer = () => {
   return (
    <div className="footer">
      <p>&copy; 2018 &middot; COD-Project &middot; Hospital de Niños Ricardo Gutierrez</p>
