@@ -28,6 +28,7 @@
     "limax": "^1.6.0",
     "mongoose": "^5.0.9",
     "morgan": "^1.9.0",
+    "node-telegram-bot-api": "^0.30.0",
     "nodemon": "^1.17.1",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
