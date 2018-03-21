@@ -51,7 +51,7 @@ exports.getAppointment = async function getAppointment(req, res) {
     if (!appointment) {
       return res.sendStatus(404);
     }
-    res.status(200).json({turn});
+    res.status(200).json({appointment});
   } catch (e) {
     if (e.name === 'CastError') {
       return res.sendStatus(400);
