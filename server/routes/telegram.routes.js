@@ -4,6 +4,6 @@ const {Router} = require('express');
 const router = Router();
 
 // Get all Appointment
-router.route('/telegram').get(()=>{});
+//router.route('/telegram').get(()=>{});
 
 module.exports = router;
