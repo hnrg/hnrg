@@ -3,17 +3,20 @@ import {
   Switch,
   Route,
   IndexRoute,
+  Redirect,
 } from 'react-router-dom';
 
 import App from './containers/App';
 import HomeContainer from './containers/Home';
 
 const Routes = () => (
-  <Switch>
-      <Route path="/" component={App} >
-          <IndexRoute component={HomeContainer} />
-      </Route>
-  </Switch>
+  <App>
+    <Switch>
+        <Route exact path="/" component={HomeContainer} />
+        <Route path="/home" component={HomeContainer} />
+        <Redirect to="/not-found" />
+    </Switch>
+  </App>
 );
 
 export default Routes;

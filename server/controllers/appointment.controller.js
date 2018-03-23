@@ -9,7 +9,9 @@ const slug = require('limax');
  */
 exports.getAppointments = async function getAppointments(req, res) {
   try {
-    const appointment = await Appointment.find().sort('-date -time').exec();
+    const appointment = await Appointment.find(req.params.date && {
+      date: req.params.date
+    }).sort('-date -time').exec();
 
     res.status(200).json({appointments});
   } catch (e) {
@@ -18,7 +20,7 @@ exports.getAppointments = async function getAppointments(req, res) {
 };
 
 /**
- * Save a turn
+ * Save a appointment
  * @param req
  * @param res
  * @returns void
@@ -38,18 +40,18 @@ exports.addAppointment = async function addAppointment(req, res) {
 };
 
 /**
- * Get a single turn by slug
+ * Get a single appointment by slug
  * @param req
  * @param res
  * @returns void
  */
 exports.getAppointment = async function getAppointment(req, res) {
   try {
-    const turn = await Appointment.findOne({id: req.params.id}).exec();
-    if (!turn) {
+    const appointment = await Appointment.findOne({id: req.params.id}).exec();
+    if (!appointment) {
       return res.sendStatus(404);
     }
-    res.status(200).json({turn});
+    res.status(200).json({appointment});
   } catch (e) {
     if (e.name === 'CastError') {
       return res.sendStatus(400);
@@ -59,18 +61,19 @@ exports.getAppointment = async function getAppointment(req, res) {
 };
 
 /**
- * Delete a turn by slug
+ * Delete a appointment by slug
  * @param req
  * @param res
  * @returns void
  */
 exports.deleteAppointment = async function deleteAppointment(req, res) {
   try {
-    const turn = await Appointment.findOne({id: req.params.id}).exec();
-    if (!turn) {
+    const appointment = await Appointment.findOne({id: req.params.id}).exec();
+    if (!appointment) {
       return res.sendStatus(404);
     }
-    await turn.remove();
+
+    await appointment.remove();
     res.sendStatus(200);
   } catch (e) {
     if (e.name === 'CastError') {
