@@ -136,6 +136,16 @@ En los archivos docker-compose se utiliza la siguiente configuración:
 - SSL: off
 - SSH Tunel: off
 
+## Manejo del repositorio en desarrollo
+
+Para el manejo del repositorio en etapas de desarrollo, se recomienda la
+utilización de `git-flow`, para una mayor organización en el desarrollo.
+
+Además se recomienda también utilizar los `git-flow-hooks`, para una mayor
+comodidad. Además de agregar la versión actual del código al archivo "VERSION",
+de no utilizar git-flow-hooks, mantener en **todo momento** actualizado dicho
+archivo para poder mostrar dicha versión en la app funcionando en producción.
+
 ## Extra
 
 Para que las consultas a las apis sean más amigables, se propone utilizar el
