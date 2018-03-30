@@ -21,7 +21,7 @@ _si le falta cumplir alguno de los requerimientos, seguir a la siguiente secció
 Instalación de los componentes necesarios usando npm:
 ```bash
 $ npm install
-$ npm build:dev
+$ npm run build:dev
 ```
 
 Con esto, se procederá a crear la carpeta node-modules, y algunos archivos extra
