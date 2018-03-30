@@ -7,10 +7,10 @@ const Appointment = require('../models/appointment');
  * Return an array with all the available times
  * @returns array
  */
-function timesArray() {
+const timesArray = function() {
   var times = [];
 
-  for (let i = 8; i < 19; i++) {
+  for (let i = 8; i < 24; i++) {
     for (let j = 0; j < 2; j++) {
       let k = j * 30;
 
@@ -25,26 +25,18 @@ function timesArray() {
   return times;
 }
 
+
 /**
  * Return an array with all the available times
  * @returns array
  */
-function stringTimesArray() {
-  var times = [];
+const stringTimesArray = () => timesArray().map(each => each.format("HH:mm:ss"));
 
-  for (let i = 8; i < 24; i++) {
-    for (let j = 0; j < 2; j++) {
-      let k = j * 30;
 
-      times.push(moment()
-        .hours(i)
-        .minutes(k)
-        .seconds(0)
-        .format("HH:mm:ss")
-      );
-    }
-  }
-}
+const totalTime = date => {
+  return date.hours()*10000 + date.minutes()*100 + date.seconds();
+};
+
 
 /**
  * Get all appointment
@@ -64,20 +56,21 @@ exports.getAppointments = async function(req, res) {
     }).exec();
 
     const times = timesArray();
-    const newDate = moment();
+    const currentTime = totalTime(moment());
 
     var freeAppointments = times.filter(each => {
-      let eachTime = each.hours()*100 + each.minutes();
-      let nowTime = newDate.hours()*100 + newDate.minutes();
+      let eachTime = totalTime(each);
 
       date
         .hours(each.hours())
         .minutes(each.minutes())
-        .seconds(0);
+        .seconds(each.seconds());
 
-      return (eachTime > nowTime) && !(appointments.find(e => date.isSame(e, 'hours')));
-
-      /* FIXME: filter */
+      return (eachTime > currentTime) && !appointments.find(e => {
+        return date.isSame(e, 'hours')
+            && date.isSame(e, 'minutes')
+            && date.isSame(e, 'seconds');
+      });
     }).map(each => each.format("HH:mm:ss"));
 
     res.status(200).json({appointments: freeAppointments});
