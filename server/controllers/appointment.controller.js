@@ -10,7 +10,7 @@ const Appointment = require('../models/appointment');
 function timesArray() {
   var times = [];
 
-  for (let i = 8; i < 24; i++) {
+  for (let i = 8; i < 19; i++) {
     for (let j = 0; j < 2; j++) {
       let k = j * 30;
 
