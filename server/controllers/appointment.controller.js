@@ -67,9 +67,9 @@ exports.getAppointments = async function(req, res) {
         .seconds(each.seconds());
 
       return (eachTime > currentTime) && !appointments.find(e => {
-        return date.isSame(e, 'hours')
-            && date.isSame(e, 'minutes')
-            && date.isSame(e, 'seconds');
+        return date.isSame(e.date, 'hours')
+            && date.isSame(e.date, 'minutes')
+            && date.isSame(e.date, 'seconds');
       });
     }).map(each => each.format("HH:mm:ss"));
 
