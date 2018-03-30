@@ -1,5 +1,7 @@
-const Appointment = require('../models/appointment');
+const moment = require('moment-timezone');
 const slug = require('limax');
+
+const Appointment = require('../models/appointment');
 
 /**
  * Return an array with all the available times
@@ -7,31 +9,41 @@ const slug = require('limax');
  */
 function timesArray() {
   var times = [];
-  for (let i = 8; i < 19; i++) {
+
+  for (let i = 8; i < 24; i++) {
     for (let j = 0; j < 2; j++) {
       let k = j * 30;
-      times.push({
-        hours : i,
-        minutes : k
-      });
+
+      times.push(moment()
+        .hours(i)
+        .minutes(k)
+        .seconds(0)
+      );
     }
   }
+
   return times;
 }
 
 /**
- * Return an array with all the available times as strings
+ * Return an array with all the available times
  * @returns array
  */
 function stringTimesArray() {
   var times = [];
-  for (let i = 8; i < 19; i++) {
+
+  for (let i = 8; i < 24; i++) {
     for (let j = 0; j < 2; j++) {
       let k = j * 30;
-      times.push(`${i}:${k}:00`);
+
+      times.push(moment()
+        .hours(i)
+        .minutes(k)
+        .seconds(0)
+        .format("HH:mm:ss")
+      );
     }
   }
-  return times;
 }
 
 /**
@@ -42,27 +54,31 @@ function stringTimesArray() {
  */
 exports.getAppointments = async function(req, res) {
   try {
-    var date = new Date(req.params.date || null);
+    var date = moment(req.params.date);
 
     const appointments = await Appointment.find({
-      date: date,
+      date: {
+        $gte: moment().startOf('day').toDate(),
+        $lt: moment(new Date).add(1, 'days').toDate(),
+      },
     }).exec();
 
     const times = timesArray();
-    const newDate = new Date;
+    const newDate = moment();
 
     var freeAppointments = times.filter(each => {
-      var eachTime = each.hours*100 + each.minutes;
-      var nowTime = newDate.getHours()*100 + newDate.getMinutes();
+      let eachTime = each.hours()*100 + each.minutes();
+      let nowTime = newDate.hours()*100 + newDate.minutes();
 
-      date.setHours(each.hours);
-      date.setMinutes(each.minutes);
-      date.setSeconds(0);
+      date
+        .hours(each.hours())
+        .minutes(each.minutes())
+        .seconds(0);
 
-      return eachTime > nowTime;
+      return (eachTime > nowTime) && !(appointments.find(e => date.isSame(e, 'hours')));
 
       /* FIXME: filter */
-    }).map(each => `${each.hours}:${each.minutes}:00`);
+    }).map(each => each.format("HH:mm:ss"));
 
     res.status(200).json({appointments: freeAppointments});
   } catch (e) {
