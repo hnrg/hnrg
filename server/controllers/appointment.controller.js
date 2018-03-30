@@ -7,12 +7,12 @@ const Appointment = require('../models/appointment');
  * Return an array with all the available times
  * @returns array
  */
-const timesArray = function() {
+const timesArray = function(start = 0, end = 24, delta = 30) {
   var times = [];
 
-  for (let i = 8; i < 19; i++) {
-    for (let j = 0; j < 2; j++) {
-      let k = j * 30;
+  for (let i = start; i < end; i++) {
+    for (let j = 0; j < 60/delta; j++) {
+      let k = j * delta;
 
       times.push(moment()
         .hours(i)
