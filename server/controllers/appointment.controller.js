@@ -2,16 +2,49 @@ const Appointment = require('../models/appointment');
 const slug = require('limax');
 
 /**
+ * Return an array with all the available times
+ * @returns array
+ */
+function timesArray() {
+  var times = [];
+  for (let i = 8; i < 19; i++) {
+    for (let j = 0; j < 2; j++) {
+      let k = j * 30;
+      times.push({
+        hours : i,
+        minutes : k
+      });
+    }
+  }
+  return times;
+}
+
+/**
+ * Return an array with all the available times as strings
+ * @returns array
+ */
+function stringTimesArray() {
+  var times = [];
+  for (let i = 8; i < 19; i++) {
+    for (let j = 0; j < 2; j++) {
+      let k = j * 30;
+      times.push(`${i}:${k}:00`);
+    }
+  }
+  return times;
+}
+
+/**
  * Get all appointment
  * @param req
  * @param res
  * @returns void
  */
-exports.getAppointments = async function getAppointments(req, res) {
+exports.getAppointments = async function(req, res) {
   try {
     const appointment = await Appointment.find(req.params.date && {
       date: req.params.date
-    }).sort('-date -time').exec();
+    }).sort('-date').exec();
 
     res.status(200).json({appointments});
   } catch (e) {
@@ -20,12 +53,12 @@ exports.getAppointments = async function getAppointments(req, res) {
 };
 
 /**
- * Save a appointment
+ * Save an appointment
  * @param req
  * @param res
  * @returns void
  */
-exports.addAppointment = async function addAppointment(req, res) {
+exports.addAppointment = async function(req, res) {
   try {
     if (!req.body.appointment.documentNumber || !req.body.appointment.date) {
       return res.status(403).end();
@@ -45,7 +78,7 @@ exports.addAppointment = async function addAppointment(req, res) {
  * @param res
  * @returns void
  */
-exports.getAppointment = async function getAppointment(req, res) {
+exports.getAppointment = async function(req, res) {
   try {
     const appointment = await Appointment.findOne({id: req.params.id}).exec();
     if (!appointment) {
@@ -61,12 +94,12 @@ exports.getAppointment = async function getAppointment(req, res) {
 };
 
 /**
- * Delete a appointment by slug
+ * Delete an appointment by slug
  * @param req
  * @param res
  * @returns void
  */
-exports.deleteAppointment = async function deleteAppointment(req, res) {
+exports.deleteAppointment = async function(req, res) {
   try {
     const appointment = await Appointment.findOne({id: req.params.id}).exec();
     if (!appointment) {
