@@ -9,11 +9,27 @@ const slug = require('limax');
  */
 exports.getAppointments = async function getAppointments(req, res) {
   try {
-    const appointment = await Appointment.find(req.params.date && {
-      date: req.params.date
-    }).sort('-date -time').exec();
+    const date = Date.now();
 
-    res.status(200).json({appointments});
+    const appointments = await Appointment.find({
+      date: date,
+    }).sort('-date').exec();
+
+    const times = timesArray();
+    const newDate = Date.now();
+
+    var freeAppointments = times.filter(each => {
+      var eachTime = each.hours*100 + each.minutes;
+      var nowTime = newDate.getHours()*100 + newDate.minutes;
+
+      date.setHours(each.hours);
+      date.setMinutes(each.minutes);
+      date.setSeconds(0);
+
+      return eachTime > nowTime && appointments.filter(e => e.compare(date)).length
+    });
+
+    res.status(200).json({appointments: freeAppointments});
   } catch (e) {
     return res.status(500).send(e);
   }
