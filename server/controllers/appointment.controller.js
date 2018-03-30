@@ -42,25 +42,27 @@ function stringTimesArray() {
  */
 exports.getAppointments = async function(req, res) {
   try {
-    const date = Date.now();
+    var date = new Date(req.params.date || null);
 
     const appointments = await Appointment.find({
       date: date,
-    }).sort('-date').exec();
+    }).exec();
 
     const times = timesArray();
-    const newDate = Date.now();
+    const newDate = new Date;
 
     var freeAppointments = times.filter(each => {
       var eachTime = each.hours*100 + each.minutes;
-      var nowTime = newDate.getHours()*100 + newDate.minutes;
+      var nowTime = newDate.getHours()*100 + newDate.getMinutes();
 
       date.setHours(each.hours);
       date.setMinutes(each.minutes);
       date.setSeconds(0);
 
-      return eachTime > nowTime && appointments.filter(e => e.compare(date)).length
-    });
+      return eachTime > nowTime;
+
+      /* FIXME: filter */
+    }).map(each => `${each.hours}:${each.minutes}:00`);
 
     res.status(200).json({appointments: freeAppointments});
   } catch (e) {
