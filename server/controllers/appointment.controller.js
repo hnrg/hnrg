@@ -51,7 +51,7 @@ exports.getAppointments = async function(req, res) {
     const appointments = await Appointment.find({
       date: {
         $gte: moment().startOf('day').toDate(),
-        $lt: moment(new Date).add(1, 'days').toDate(),
+        $lt: moment().add(1, 'days').toDate(),
       },
     }).exec();
 
@@ -91,9 +91,12 @@ exports.addAppointment = async function(req, res) {
       return res.status(403).end();
     }
 
-    const newAppointment = new Appointment(req.body.appointment);
+    var appointment = {documentNumber, date} = req.body.appointment;
+    appointment.date = moment(appointment.date);
+
+    const newAppointment = new Appointment(appointment);
     const saved = await newAppointment.save();
-    res.status(201).json({turn: saved});
+    res.status(201).json({appointment: saved});
   } catch (e) {
     return res.status(500).send(e);
   }
