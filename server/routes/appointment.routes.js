@@ -13,7 +13,7 @@ router.route('/turnos/:date').get(AppointmentController.getAppointments);
 router.route('/turnos').post(AppointmentController.addAppointment);
 
 router.route('/turnos/:document/fecha/:date/hora/:time')
-        .get(AppointmentController.addAppointmentWithParams);
+        .get(AppointmentController.addAppointment);
 
 // Delete a appointment by id
 router.route('/turnos/:id').delete(AppointmentController.deleteAppointment);

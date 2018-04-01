@@ -90,30 +90,8 @@ exports.getAppointments = async function(req, res) {
  */
 exports.addAppointment = async function(req, res) {
   try {
-    if (!req.body.appointment.documentNumber || !req.body.appointment.date) {
-      return res.status(403).end();
-    }
-
-    var appointment = {documentNumber, date} = req.body.appointment;
-    appointment.date = moment(appointment.date).toDate();
-
-    const newAppointment = new Appointment(appointment);
-    const saved = await newAppointment.save();
-    res.status(201).json({appointment: saved});
-  } catch (e) {
-    return res.status(500).send(e);
-  }
-};
-
-/**
- * Save an appointment
- * @param req
- * @param res
- * @returns void
- */
-exports.addAppointmentWithParams = async function(req, res) {
-  try {
-    var { document, date, time } = req.params;
+    var { document, date, time } = req.body.appointment || req.params;
+    console.log(document);
 
     if (!document || !date || !time) {
       return res.status(403).end();
