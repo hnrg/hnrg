@@ -1,4 +1,4 @@
-var bot = require('../modules/bot');
+var bot = require('../modules/telegram/bot');
 
 exports.request = function (req, res) {
   bot.processUpdate(req.body);
