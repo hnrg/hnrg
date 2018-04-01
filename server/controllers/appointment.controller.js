@@ -72,7 +72,7 @@ exports.getAppointments = async function(req, res) {
     var freeAppointments = times.filter(each => {
       let eachTime = totalTime(each);
 
-      return eachTime > currentTime
+      return (eachTime > currentTime || !date.isSame(moment(), 'day'))
           && !dateInArray(mergeTime(date, each), appointments.map(e => e.date));
     }).map(each => each.format("HH:mm:ss"));
 
@@ -113,21 +113,21 @@ exports.addAppointment = async function(req, res) {
  */
 exports.addAppointmentWithParams = async function(req, res) {
   try {
-    const params = req.params;
+    var { document, date, time } = req.params;
 
-    if (!params.document || !params.date || !params.time) {
+    if (!document || !date || !time) {
       return res.status(403).end();
     }
 
-    var date = moment(`${params.date} ${params.time}`, "yyyy-MM-dd HH:mm:ss");
+    var newDate = moment(`${date} ${time}`, "yyyy-MM-dd HH:mm:ss");
 
-    if (!date.isValid()) {
+    if (!newDate.isValid()) {
       return res.status(403).end();
     }
 
     const newAppointment = new Appointment({
-      documentNumber: params.document,
-      date: date.toDate()
+      documentNumber: document,
+      date: newDate.toDate(),
     });
 
     const saved = await newAppointment.save();
