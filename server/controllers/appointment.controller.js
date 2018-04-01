@@ -45,7 +45,7 @@ const dateInArray = (date, times) => {
   })
 };
 
-const mergeTime = (src, dest) => {
+const mergeTime = (dest, src) => {
   return dest.hours(src.hours()).minutes(src.minutes()).seconds(src.seconds())
 };
 
@@ -73,7 +73,7 @@ exports.getAppointments = async function(req, res) {
       let eachTime = totalTime(each);
 
       return eachTime > currentTime
-          && !dateInArray(mergeTime(each, date), appointments.map(e => e.date));
+          && !dateInArray(mergeTime(date, each), appointments.map(e => e.date));
     }).map(each => each.format("HH:mm:ss"));
 
     res.status(200).json({appointments: freeAppointments});
