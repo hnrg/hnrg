@@ -1,24 +1,25 @@
 var TelegramBot = require('node-telegram-bot-api');
 var axios = require('axios');
+var moment = require('moment-timezone');
 
 // Set config variables
 var TOKEN = process.env.TELEGRAM_TOKEN || '';
-var url = process.env.URL || 'http://localhost:3000';
+var url = process.env.URL || 'http://localhost:8000';
 var maxConnections = parseInt(process.env.MAX_CONNECTIONS) || 40;
 
 // Basic bot configurations
 var bot = new TelegramBot(TOKEN);
 
 var getAppiontments = function(chatId, date) {
-  axios.get(`api/turnos/${date.format("Y-M-D")}`)
+  axios.get(`${url}/api/turnos/${date.format("Y-MM-DD")}`)
     .then( (response) => {
-      if (response.data.length > 0) {
-        data = response.data.map( (elem) => {
-          return `- elem`
+      if (response.data.appointments.length > 0) {
+        data = response.data.appointments.map( (elem) => {
+          return `- ${elem}`
         });
-        return bot.sendMessage(chatId, `Turnos para la fecha ${date.format("D-M-Y")}\n${data.join("\n")}`);
+        return bot.sendMessage(chatId, `Turnos para la fecha ${date.format("DD-MM-Y")}\n${data.join("\n")}`);
       } else {
-        return bot.sendMessage(chatId, `No hay turnos disponibles para la fecha ${date.format("D-M-Y")}`);
+        return bot.sendMessage(chatId, `No hay turnos disponibles para la fecha ${date.format("DD-MM-Y")}`);
       }
     })
   .catch( (error) => {
