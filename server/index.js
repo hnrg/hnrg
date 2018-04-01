@@ -1,6 +1,7 @@
 /* eslint no-console: 0 */
 
 const express = require('express');
+const moment = require('moment-timezone');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -14,6 +15,8 @@ const routes = require('./routes');
 const dummyData = require('./dummyData');
 const webpackConfig = require('../webpack.config.dev')[0];
 const SSR = require('./SSR');
+
+moment.tz.setDefault(serverConfig.tz);
 
 // Initialize Express App
 const app = express();
