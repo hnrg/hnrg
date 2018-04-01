@@ -37,6 +37,17 @@ const totalTime = date => {
   return date.hours()*10000 + date.minutes()*100 + date.seconds();
 };
 
+const dateInArray = (date, times) => {
+  return times.find(each => {
+    return date.isSame(moment(each), 'hours')
+        && date.isSame(moment(each), 'minutes')
+        && date.isSame(moment(each), 'seconds');
+  })
+};
+
+const mergeTime = (src, dest) => {
+  return dest.hours(src.hours()).minutes(src.minutes()).seconds(src.seconds())
+};
 
 /**
  * Get all appointment
@@ -61,16 +72,8 @@ exports.getAppointments = async function(req, res) {
     var freeAppointments = times.filter(each => {
       let eachTime = totalTime(each);
 
-      date
-        .hours(each.hours())
-        .minutes(each.minutes())
-        .seconds(each.seconds());
-
-      return (eachTime > currentTime) && !appointments.find(e => {
-        return date.isSame(e.date, 'hours')
-            && date.isSame(e.date, 'minutes')
-            && date.isSame(e.date, 'seconds');
-      });
+      return eachTime > currentTime
+          && !dateInArray(mergeTime(each, date), appointments.map(e => e.date));
     }).map(each => each.format("HH:mm:ss"));
 
     res.status(200).json({appointments: freeAppointments});
@@ -92,9 +95,41 @@ exports.addAppointment = async function(req, res) {
     }
 
     var appointment = {documentNumber, date} = req.body.appointment;
-    appointment.date = moment(appointment.date);
+    appointment.date = moment(appointment.date).toDate();
 
     const newAppointment = new Appointment(appointment);
+    const saved = await newAppointment.save();
+    res.status(201).json({appointment: saved});
+  } catch (e) {
+    return res.status(500).send(e);
+  }
+};
+
+/**
+ * Save an appointment
+ * @param req
+ * @param res
+ * @returns void
+ */
+exports.addAppointmentWithParams = async function(req, res) {
+  try {
+    const params = req.params;
+
+    if (!params.document || !params.date || !params.time) {
+      return res.status(403).end();
+    }
+
+    var date = moment(`${params.date} ${params.time}`, "yyyy-MM-dd HH:mm:ss");
+
+    if (!date.isValid()) {
+      return res.status(403).end();
+    }
+
+    const newAppointment = new Appointment({
+      documentNumber: params.document,
+      date: date.toDate()
+    });
+
     const saved = await newAppointment.save();
     res.status(201).json({appointment: saved});
   } catch (e) {
