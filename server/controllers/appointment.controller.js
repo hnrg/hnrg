@@ -46,7 +46,7 @@ const dateInArray = (date, times) => {
 };
 
 const mergeTime = (dest, src) => {
-  return dest.hours(src.hours()).minutes(src.minutes()).seconds(src.seconds())
+  return moment(dest).hours(src.hours()).minutes(src.minutes()).seconds(src.seconds())
 };
 
 /**
