@@ -11,11 +11,11 @@ de sus etapas.
 ### Ayuda
 
 * _Si desconoce como poner en funcionamiento la app, se recomienda leer el_
-_[archivo de instalación](https://gitlab.com/COD-Project/grupo74/blob/master/.gitlab/INSTALL.md)_
+_[archivo de instalación](https://gitlab.catedras.linti.unlp.edu.ar/proyecto2017/grupo74/blob/master/.gitlab/INSTALL.md)_
 
 * _Si desconoce como poner el ambiente completo de desarrollo en funcionamiento_
-_[archivo desarrollo](https://gitlab.com/COD-Project/grupo74/blob/master/.gitlab/DESARROLLO.md)_
+_[archivo desarrollo](https://gitlab.catedras.linti.unlp.edu.ar/proyecto2017/grupo74/blob/master/.gitlab/DESARROLLO.md)_
 
 * _Para leer una guia de introducción a los usuarios, los roles y los mensajes de_
 _error del sistema, se recomienta leer el_
-_[archivo de uso](https://gitlab.com/COD-Project/grupo74/blob/master/.gitlab/USO.md)_
+_[archivo de uso](https://gitlab.catedras.linti.unlp.edu.ar/proyecto2017/grupo74/blob/master/.gitlab/USO.md)_
