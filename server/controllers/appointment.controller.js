@@ -119,7 +119,7 @@ exports.addAppointmentWithParams = async function(req, res) {
       return res.status(403).end();
     }
 
-    var newDate = moment(`${date} ${time}`, "yyyy-MM-dd HH:mm:ss");
+    var newDate = moment(`${date} ${time}`);
 
     if (!newDate.isValid()) {
       return res.status(403).end();
