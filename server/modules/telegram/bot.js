@@ -15,7 +15,7 @@ var getAppiontments = function(chatId, date) {
     .then( (response) => {
       if (response.data.appointments.length > 0) {
         data = response.data.appointments.map( (elem) => {
-          return `- ${elem}`
+          return `- ${elem}`;
         });
         return bot.sendMessage(chatId, `Turnos para la fecha ${date.format("DD-MM-Y")}\n${data.join("\n")}`);
       } else {
@@ -45,7 +45,7 @@ bot.onText(/\/turnos\s*(\S*)/gi, (msg, match) => {
   } catch(e) {
     return bot.sendMessage(chatId, "Hay un error en el formato de la fecha");
   }
-})
+});
 
 bot.on('webhook_error', (error) => {
   console.log(error.code);
