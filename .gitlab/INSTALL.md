@@ -4,7 +4,7 @@ En este documento se van a especificar todo lo requerido para tener la app del H
 
 ## Requerimientos
 - Mínimos:
-    - [NodeJs](https://nodejs.org/en/) v8.10.0
+    - [NodeJs](https://nodejs.org/en/) v9.5.0
     - [Npm](https://www.npmjs.com/) 5.6.0
     - [Mongo](https://www.mongodb.com) 3.6.3
     - [direnv](https://github.com/direnv/direnv) 2.4.0 o superior
@@ -21,7 +21,7 @@ _si le falta cumplir alguno de los requerimientos, seguir a la siguiente secció
 Instalación de los componentes necesarios usando npm:
 ```bash
 $ npm install
-$ npm build:dev
+$ npm run build:dev
 ```
 
 Con esto, se procederá a crear la carpeta node-modules, y algunos archivos extra

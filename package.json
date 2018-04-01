@@ -1,5 +1,5 @@
 {
-  "name": "grupo5-hnrg",
+  "name": "grupo74-hnrg",
   "version": "0.1.0",
   "description": "Aplicación para automatización de tareas en el Hospital de Niños Ricardo Gutierrez",
   "scripts": {
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/COD-Project/grupo5.git"
+    "url": "git+https://gitlab.com/COD-Project/grupo74.git"
   },
   "author": "COD-Project <codproject267@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/COD-Project/grupo5/issues"
+    "url": "https://gitlab.com/COD-Project/grupo74/issues"
   },
-  "homepage": "https://gitlab.com/COD-Project/grupo5#readme",
+  "homepage": "https://gitlab.com/COD-Project/grupo74#readme",
   "dependencies": {
     "axios": "^0.18.0",
     "bcrypt-nodejs": "0.0.3",

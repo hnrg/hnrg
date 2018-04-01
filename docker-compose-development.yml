@@ -10,6 +10,8 @@ web:
   environment:
    NODE_ENV: development
    MONGO_URL: mongodb://db:27017/hnrg
+   TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+   URL: ${URL_BASE}
 db:
   image: mongo:latest
   ports:
