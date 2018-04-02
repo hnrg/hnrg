@@ -9,7 +9,7 @@ var TOKEN = process.env.TELEGRAM_TOKEN || '';
 var url = process.env.URL || 'http://localhost:8000';
 var maxConnections = parseInt(process.env.MAX_CONNECTIONS) || 40;
 
-const appointment_format = [
+const new_appointment_format = [
   "DD-MM-YYYY HH:mm",
   "DD/MM/YYYY HH:mm",
   "DD-MM-YY HH:mm",
@@ -20,17 +20,28 @@ const appointment_format = [
   "YYYY/MM/DD HH:mm"
 ];
 
+const appointment_format = [
+  "DD-MM-YYYY",
+  "DD/MM/YYYY",
+  "DD-MM-YY",
+  "DD/MM/YY",
+  "YY-MM-DD",
+  "YY/MM/DD",
+  "YYYY-MM-DD",
+  "YYYY/MM/DD"
+];
+
 // Basic bot configurations
 var bot = new TelegramBot(TOKEN);
 
-var getAppiontments = function(chatId, date) {
-  axios.get(`${url}/api/turnos/${date.format("Y-MM-DD")}`)
+var getAppointments = function(chatId, date) {
+  axios.get(`${url}/api/turnos/${date.format("YYYY-MM-DD")}`)
     .then( (response) => {
       if (response.data.appointments.length > 0) {
         data = response.data.appointments.map( (elem) => {
           return `- ${elem}`;
         });
-        return bot.sendMessage(chatId, `Turnos para la fecha ${date.format("DD-MM-Y")}\n${data.join("\n")}`);
+        return bot.sendMessage(chatId, `Turnos para la fecha ${date.format("DD-MM-Y")}\n    ${data.join("\n    ")}`);
       } else {
         return bot.sendMessage(chatId, `No hay turnos disponibles para la fecha ${date.format("DD-MM-Y")}`);
       }
@@ -47,17 +58,22 @@ bot.setWebHook(`${url}/api/telegram/bot${TOKEN}`, {
 
 bot.onText(/\/turnos\s*(\S*)/gi, (msg, match) => {
   const chatId = msg.chat.id;
-  try {
-    var date;
-    if (match[1]){
-      date = moment(match[1]);
-    } else {
-      date = moment();
-    }
-    getAppiontments(chatId, date);
-  } catch(e) {
-    return bot.sendMessage(chatId, "Hay un error en el formato de la fecha");
+  var date;
+  if (match[1]){
+    date = moment(match[1], appointment_format);
+  } else {
+    date = moment();
   }
+
+  if (!date.isValid()) {
+    var help = "Fecha no válida\nFormatos válidos:\n";
+    help += `    ${appointment_format.join("\n    ").replace(/Y/g, "A")}\n\n`;
+    help += "A: año - M: Mes - D: día";
+
+    return bot.sendMessage(chatId, help);
+  }
+
+  getAppointments(chatId, date);
 });
 
 bot.onText(/\/reservar\s*(\S*)\s*(\S*)\s*(\S*)/gi, (msg, match) => {
@@ -76,7 +92,7 @@ bot.onText(/\/reservar\s*(\S*)\s*(\S*)\s*(\S*)/gi, (msg, match) => {
     return bot.sendMessage(chatId, "Número de documento invalido");
   }
 
-  const date = moment(`${match[2]} ${match[3]}`, appointment_format);
+  const date = moment(`${match[2]} ${match[3]}`, new_appointment_format);
   if (!date.isValid()) {
     return bot.sendMessage(chatId, "Fecha u hora inválida");
   }
