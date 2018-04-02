@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const appointmentSchema = new Schema({
   date: {
     type: Date,
-    required: 'El campo `fecha` es requerido'
+    required: 'El campo `fecha` es requerido',
+    unique: true
   },
   documentNumber: {
     type: Number,
