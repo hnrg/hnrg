@@ -127,8 +127,11 @@ bot.onText(/\/reservar\s*(\S*)\s*(\S*)\s*(\S*)/gi, (msg, match) => {
   });
 });
 
-bot.onText(/\/ingresar\s*(\S+)/, (msg, match) => {
+bot.onText(/\/ingresar\s*(\S*)/, (msg, match) => {
   const chatId = msg.chat.id;
+  if (!match[1]) {
+    return bot.sendMessage(chatId, "Debe ingresar un número de documento");
+  }
   Patient
     .findOne({ documentNumber: match[1]})
     .exec( (err, patient) => {
