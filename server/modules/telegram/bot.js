@@ -1,13 +1,26 @@
 var TelegramBot = require('node-telegram-bot-api');
 var axios = require('axios');
 var moment = require('moment-timezone');
-var Patient = require('../../models/patient');
 var Appointment = require('../../models/appointment');
+var Patient = require('../../models/patient');
+var TelegramUser = require('../../models/telegram-user');
 
 // Set config variables
 var TOKEN = process.env.TELEGRAM_TOKEN || '';
 var url = process.env.URL || 'http://localhost:8000';
 var maxConnections = parseInt(process.env.MAX_CONNECTIONS) || 40;
+
+Array.prototype.chunk = function(groupsize){
+  var sets = [], chunks, i = 0;
+  chunks = this.length / groupsize;
+
+  while(i < chunks){
+    sets[i] = this.splice(0,groupsize);
+    i++;
+  }
+
+  return sets;
+};
 
 const new_appointment_format = [
   "DD-MM-YYYY HH:mm",
@@ -104,13 +117,43 @@ bot.onText(/\/reservar\s*(\S*)\s*(\S*)\s*(\S*)/gi, (msg, match) => {
       time: date.format("HH:mm:ss")
     }
   })
-    .then( (response) => {
-      bot.sendMessage(chatId, `Turno reservado para la fecha ${date.format("DD/MM/YYYY HH:mm")}\nPara el paciente ${documentNumber}`);
-    })
+  .then( (response) => {
+    bot.sendMessage(chatId, `Turno reservado para la fecha ${date.format("DD/MM/YYYY HH:mm")}\nPara el paciente ${documentNumber}`);
+  })
   .catch( (error) => {
     console.log(error);
-    return bot.sendMessage(chatId, "Hubo un error reservar el turno.\nDisculpe las molestias.\nInténtelo más tarde.");
+    return bot.sendMessage(chatId, "Hubo un error reservar el turno.\nInténtelo más tarde.\nDisculpe las molestias.");
   });
+});
+
+bot.onText(/\/ingresar\s*(\S+)/, (msg, match) => {
+  const chatId = msg.chat.id;
+  Patient
+    .findOne({ documentNumber: match[1]})
+    .exec( (err, patient) => {
+      if (err) {
+        return bot.sendMessage(chatId, "Número de documento no váldo");
+      }
+
+      if(!patient) {
+        return bot.sendMessage(chatId, "Usted no es paciente del hospital");
+      }
+      TelegramUser.findOne({ chatId: chatId }, (err, user) => {
+        if (err) {
+          return bot.sendMessage(chatId, "Hubo un error al ingresar al sistema\nInténtelo más tarde.\nDisculpe las molestias.");
+        }
+
+        if (!user) {
+          return new TelegramUser({chatId: chatId, patient: patient.id}).save();
+        }
+
+        if (user.patient.id != patient.id) {
+          user.patient = patient.id;
+          user.save();
+        }
+      });
+      bot.sendMessage(chatId, `Bienvenido ${patient.firstName} ${patient.lastName}`);
+    });
 });
 
 bot.onText(/\/perfil/gi, (msg, match) => {
@@ -119,37 +162,30 @@ bot.onText(/\/perfil/gi, (msg, match) => {
     reply_markup: {
       inline_keyboard: [
         [
-          {
-            text: "Mis turnos",
-            callback_data: "turnos"
-          },
-          {
-            text: "Reservar turno",
-            callback_data: "reservar"
-          }
+          { text: "Mis turnos", callback_data: "turnos" },
+          { text: "Reservar turno", callback_data: "reservar" }
         ],
         [
-          {
-            text: "Mi información",
-            callback_data: "info"
-          },
-          {
-            text: "Desvincular cuenta",
-            callback_data: "desvincular"
-          }
+          { text: "Mi información", callback_data: "info"},
+          { text: "Salir", callback_data: "desvincular" }
         ]
       ]
     }
   };
-  Patient.findOne({ 'telegramId': chatId }, 'firstName lastName', (err, patient) => {
-    if (err) {
+  TelegramUser
+    .findOne({ 'chatId': chatId })
+    .populate('patient')
+    .exec()
+    .then( (user) => {
+      if (!user || !user.patient) {
+        return bot.sendMessage(chatId, "Parece que eres nuevo por aquí.\nDebes acercarte al hospital para registrarte como paciente.");
+      }
+      bot.sendMessage(chatId, `Bienvenido ${user.patient.firstName} ${user.patient.lastName}\n¿Qué quieres hacer?`, opt);
+    })
+    .catch( (err) => {
+      console.log(err);
       return bot.sendMessage(chatId, "Hubo un error al recuperar tu perfil.\nDisculpe las molestias.\nInténtelo más tarde.");
-    }
-    if (!patient) {
-      return bot.sendMessage(chatId, "Parece que eres nuevo por aquí.\nDebes acercarte al hospital para registrarte como paciente.");
-    }
-    bot.sendMessage(chatId, `Bienvenido ${patient.firstName} ${patient.lastName}\n¿Qué quieres hacer?`, opt);
-  });
+    });
 });
 
 bot.onText(/\/help/gi, (msg, match) => {
@@ -160,10 +196,53 @@ bot.onText(/\/help/gi, (msg, match) => {
   help += "    Si no se especifica fecha, se asume el dia corriente.\n\n";
   help += "  - /reservar documento dd/mm/aaaa hh:mm\n";
   help += "    Se reservará un turno para la persona con documento en la fecha y hora especificada\n\n"
-  help += "  - /perfil\n";
+    help += "  - /perfil\n";
   help += "    Ver perfil del usuario telegram.\n\n"
 
-  bot.sendMessage(chatId, help);
+    bot.sendMessage(chatId, help);
+});
+
+bot.onText(/(\d{2}[-|\/]\d{2}[-|\/]\d{2,4})/, (msg, match) => {
+  const chatId = msg.chat.id;
+
+  if (true) {
+    return bot.sendMessage(chatId, "¡Sesión expirada!\nVuelva a su perfil, y seleccione 'Reservar turno' nuevamente");
+  }
+
+  var date = moment(match[1], appointment_format);
+  if (!date.isValid()) {
+    bot.sendMessage(chatId, "Ingrese una fecha válida");
+  }
+  axios.get(`${url}/api/turnos/${date.format("YYYY-MM-DD")}`)
+    .then( (response) => {
+      var appointments = response.data.appointments.chunk(4);
+      var opts = {
+        reply_markup: {
+          keyboard: appointments,
+          resize_keyboard: true,
+          one_time_keyboard: true
+        }
+      }
+      bot.sendMessage(chatId, "Seleccione un turno", opts);
+    })
+  .catch( (err) => {
+    return bot.sendMessage(chatId, "Hubo un error al recuperar los turnos.\nDisculpe las molestias.\nInténtelo más tarde.");
+  })
+});
+
+bot.onText(/(\d{2}:\d{2}?)/, (msg, match) => {
+  const chatId = msg.chat.id;
+  var opts = {
+    reply_markup: {
+      remove_keyboard: true
+    }
+  };
+
+  if (true) {
+    return bot.sendMessage(chatId, "¡Sesión expirada!\nVuelva a su perfil, y seleccione 'Reservar turno' nuevamente", opts);
+  }
+
+  bot.sendMessage(chatId, `Turno el dia a las ${match[1]}`, opts);
 });
 
 bot.on("callback_query", (msg) => {
@@ -173,41 +252,54 @@ bot.on("callback_query", (msg) => {
     chat_id: chatId,
     message_id: msg.message.message_id
   };
-  patient = Patient.findOne({ 'telegramId': chatId}).exec();
+  user = TelegramUser
+    .findOne({ chatId: chatId})
+    .populate({
+      path: 'patient',
+      populate: {
+        path: 'documentType'
+      }
+    })
+    .exec();
   switch(msg.data) {
     case "turnos":
-      patient
-        .then( (patient) => {
-          Appointment.find({documentNumber: patient.documentNumber}).exec().then( (appointment) => {
+      user
+        .then( (user) => {
+          Appointment.find({documentNumber: user.patient.documentNumber}).exec().then( (appointment) => {
             var data;
             if (appointment.length > 0) {
               appointments = appointment.map( (elem) => {
                 return `- ${moment(elem.date).format("DD/MM/YYYY HH:mm")}`;
               })
-              data = `Turnos de ${patient.firstName} ${patient.lastName}\n\n`;
+              data = `Turnos de ${user.patient.firstName} ${user.patient.lastName}\n\n`;
               data += appointments.join("\n");
             } else {
-              data = `${patient.firstName} ${patient.lastName} no tiene turnos.`;
+              data = `${user.patient.firstName} ${user.patient.lastName} no tiene turnos.`;
             }
             bot.editMessageText(data, message);
           })
         })
       break;
     case "reservar":
-      bot.editMessageText("Comming soon", message);
+      var chatMessage = "Tendrá 5 minutos para completar la reserva.\n";
+      chatMessage += "Ingrese una fecha\n";
+      bot.editMessageText(chatMessage, message);
       break;
     case "info":
-      patient
-        .then( (patient) => {
-          var info = `Nombre y apellido: ${patient.firstName} ${patient.lastName}\n`;
-          info += `Número de documento: ${patient.documentNumber}\n`;
-          info += `Fecha de nacimiento: ${moment(patient.birthday).format("DD/MM/YYYY")}\n`;
+      user
+        .then( (user) => {
+          var info = `Nombre y apellido: ${user.patient.firstName} ${user.patient.lastName}\n`;
+          info += `${user.patient.documentType.name}: ${user.patient.documentNumber}\n`;
+          info += `Fecha de nacimiento: ${moment(user.patient.birthday).format("DD/MM/YYYY")}\n`;
           info += "\n\nSi quiere cambiar algun dato, debe comunicarse con la secretaría del Hospital.";
           bot.editMessageText(info, message);
         });
       break;
     case "desvincular":
-      bot.editMessageText("Comming soon", message);
+      user.then( (user) => {
+        bot.editMessageText(`Hasta luego ${user.patient.firstName} ${user.patient.lastName}`, message);
+        user.remove();
+      });
       break;
   }
   bot.answerCallbackQuery(callbackId);
