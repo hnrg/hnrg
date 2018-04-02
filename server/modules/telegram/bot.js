@@ -69,14 +69,15 @@ bot.setWebHook(`${url}/api/telegram/bot${TOKEN}`, {
 });
 
 
-bot.onText(/\/turnos\s*(\S*)/gi, (msg, match) => {
+bot.onText(/^\/turnos$/, (msg, match) => {
   const chatId = msg.chat.id;
-  var date;
-  if (match[1]){
-    date = moment(match[1], appointment_format);
-  } else {
-    date = moment();
-  }
+  var date = moment();
+  getAppointments(chatId, date);
+});
+
+bot.onText(/\/turnos\s*(\S+)/gi, (msg, match) => {
+  const chatId = msg.chat.id;
+  var date = moment(match[1], appointment_format);
 
   if (!date.isValid()) {
     var help = "Fecha no válida\nFormatos válidos:\n";
@@ -178,7 +179,9 @@ bot.onText(/\/perfil/gi, (msg, match) => {
     .exec()
     .then( (user) => {
       if (!user || !user.patient) {
-        return bot.sendMessage(chatId, "Parece que eres nuevo por aquí.\nDebes acercarte al hospital para registrarte como paciente.");
+        var message = "Si ya eres paciente del hospital, puedes ingresar mediante /ingresar + tu dni\n\n";
+        message += "Si eres nuevo, debes acercarte al hospital, o sacar un turno mediante /reservar\n\n";
+        return bot.sendMessage(chatId, message);
       }
       bot.sendMessage(chatId, `Bienvenido ${user.patient.firstName} ${user.patient.lastName}\n¿Qué quieres hacer?`, opt);
     })
@@ -188,21 +191,23 @@ bot.onText(/\/perfil/gi, (msg, match) => {
     });
 });
 
-bot.onText(/\/help/gi, (msg, match) => {
+bot.onText(/\/ayuda/gi, (msg, match) => {
   const chatId = msg.chat.id;
   var help = "Ayuda\n";
+  help += "  -/ingresar documento\n";
+  help += "    Ingresar al sistema con tu número de documento\n\n";
   help += "  - /turnos [dd/mm/aaaa]\n";
   help += "    Se mostraran todos los turnos disponibles para el día dd/mm/aaaa\n";
   help += "    Si no se especifica fecha, se asume el dia corriente.\n\n";
   help += "  - /reservar documento dd/mm/aaaa hh:mm\n";
-  help += "    Se reservará un turno para la persona con documento en la fecha y hora especificada\n\n"
-    help += "  - /perfil\n";
-  help += "    Ver perfil del usuario telegram.\n\n"
+  help += "    Se reservará un turno para la persona con documento en la fecha y hora especificada\n\n";
+  help += "  - /perfil\n";
+  help += "    Ver perfil del usuario telegram.\n\n";
 
-    bot.sendMessage(chatId, help);
+  bot.sendMessage(chatId, help);
 });
 
-bot.onText(/(\d{2}[-|\/]\d{2}[-|\/]\d{2,4})/, (msg, match) => {
+bot.onText(/^(\d{2}[-|\/]\d{2}[-|\/]\d{2,4})$/, (msg, match) => {
   const chatId = msg.chat.id;
 
   if (true) {
@@ -230,7 +235,7 @@ bot.onText(/(\d{2}[-|\/]\d{2}[-|\/]\d{2,4})/, (msg, match) => {
   })
 });
 
-bot.onText(/(\d{2}:\d{2}?)/, (msg, match) => {
+bot.onText(/^(\d{2}:\d{2}?)$/, (msg, match) => {
   const chatId = msg.chat.id;
   var opts = {
     reply_markup: {
