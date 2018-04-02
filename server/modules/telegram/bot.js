@@ -87,8 +87,8 @@ bot.onText(/\/reservar\s*(\S*)\s*(\S*)\s*(\S*)/gi, (msg, match) => {
     return bot.sendMessage(chatId, "No se especificó la hora del turno");
   }
 
-  const dni = parseInt(match[1]);
-  if (isNaN(dni)) {
+  const documentNumber = parseInt(match[1]);
+  if (isNaN(documentNumber)) {
     return bot.sendMessage(chatId, "Número de documento invalido");
   }
 
@@ -97,9 +97,9 @@ bot.onText(/\/reservar\s*(\S*)\s*(\S*)\s*(\S*)/gi, (msg, match) => {
     return bot.sendMessage(chatId, "Fecha u hora inválida");
   }
 
-  axios.get(`${url}/api/turnos/${dni}/fecha/${date.format("YYYY-MM-DD")}/hora/${date.format("HH:mm:ss")}`)
+  axios.get(`${url}/api/turnos/${documentNumber}/fecha/${date.format("YYYY-MM-DD")}/hora/${date.format("HH:mm:ss")}`)
     .then( (response) => {
-      bot.sendMessage(chatId, `Turno reservado para la fecha ${date.format("DD/MM/YYYY HH:mm")}\nPara el paciente ${dni}`);
+      bot.sendMessage(chatId, `Turno reservado para la fecha ${date.format("DD/MM/YYYY HH:mm")}\nPara el paciente ${documentNumber}`);
     })
   .catch( (error) => {
     return bot.sendMessage(chatId, "Hubo un error reservar el turno.\nDisculpe las molestias.\nInténtelo más tarde.");
@@ -151,8 +151,8 @@ bot.onText(/\/help/gi, (msg, match) => {
   help += "  - /turnos [dd/mm/aaaa]\n";
   help += "    Se mostraran todos los turnos disponibles para el día dd/mm/aaaa\n";
   help += "    Si no se especifica fecha, se asume el dia corriente.\n\n";
-  help += "  - /reservar dni dd/mm/aaaa hh:mm\n";
-  help += "    Se reservará un turno para la persona con dni en la fecha y hora especificada\n\n"
+  help += "  - /reservar documento dd/mm/aaaa hh:mm\n";
+  help += "    Se reservará un turno para la persona con documento en la fecha y hora especificada\n\n"
   help += "  - /perfil\n";
   help += "    Ver perfil del usuario telegram.\n\n"
 
