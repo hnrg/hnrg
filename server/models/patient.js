@@ -39,15 +39,15 @@ const patientSchema = new Schema({
   },
   demographicData: {
     type: Schema.Types.ObjectId,
-    ref: DemographicData
+    ref: 'DemographicData'
   },
   medicalInsurance: {
     type: Schema.Types.ObjectId,
-    ref: MedicalInsurance
+    ref: 'MedicalInsurance'
   },
   documentType: {
     type: Schema.Types.ObjectId,
-    ref: DocumentType,
+    ref: 'DocumentType',
     required: 'El campo `tipo de documento` es requerido'
   },
   documentNumber: {
