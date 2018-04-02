@@ -97,11 +97,18 @@ bot.onText(/\/reservar\s*(\S*)\s*(\S*)\s*(\S*)/gi, (msg, match) => {
     return bot.sendMessage(chatId, "Fecha u hora inválida");
   }
 
-  axios.get(`${url}/api/turnos/${documentNumber}/fecha/${date.format("YYYY-MM-DD")}/hora/${date.format("HH:mm:ss")}`)
+  axios.post(`${url}/api/turnos/`, {
+    appointment: {
+      document: documentNumber,
+      date: date.format("YYYY-MM-DD"),
+      time: date.format("HH:mm:ss")
+    }
+  })
     .then( (response) => {
       bot.sendMessage(chatId, `Turno reservado para la fecha ${date.format("DD/MM/YYYY HH:mm")}\nPara el paciente ${documentNumber}`);
     })
   .catch( (error) => {
+    console.log(error);
     return bot.sendMessage(chatId, "Hubo un error reservar el turno.\nDisculpe las molestias.\nInténtelo más tarde.");
   });
 });
