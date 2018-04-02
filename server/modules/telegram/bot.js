@@ -2,6 +2,7 @@ var TelegramBot = require('node-telegram-bot-api');
 var axios = require('axios');
 var moment = require('moment-timezone');
 var Patient = require('../../models/patient');
+var Appointment = require('../../models/appointment');
 
 // Set config variables
 var TOKEN = process.env.TELEGRAM_TOKEN || '';
@@ -102,10 +103,16 @@ bot.onText(/\/perfil/gi, (msg, match) => {
           {
             text: "Reservar turno",
             callback_data: "reservar"
-          },
+          }
+        ],
+        [
           {
             text: "Mi información",
             callback_data: "info"
+          },
+          {
+            text: "Desvincular cuenta",
+            callback_data: "desvincular"
           }
         ]
       ]
@@ -148,11 +155,23 @@ bot.on("callback_query", (msg) => {
     case "turnos":
       patient
         .then( (patient) => {
-          bot.editMessageText(`Turnos de ${patient.firstName} ${patient.lastName}`, message);
+          Appointment.find({documentNumber: patient.documentNumber}).exec().then( (appointment) => {
+            var data;
+            if (appointment.length > 0) {
+              appointments = appointment.map( (elem) => {
+                return `- ${moment(elem.date).format("DD/MM/YYYY HH:mm")}`;
+              })
+              data = `Turnos de ${patient.firstName} ${patient.lastName}\n\n`;
+              data += appointments.join("\n");
+            } else {
+              data = `${patient.firstName} ${patient.lastName} no tiene turnos.`;
+            }
+            bot.editMessageText(data, message);
+          })
         })
       break;
     case "reservar":
-      bot.editMessageText("Reservar", message);
+      bot.editMessageText("Comming soon", message);
       break;
     case "info":
       patient
@@ -163,6 +182,9 @@ bot.on("callback_query", (msg) => {
           info += "\n\nSi quiere cambiar algun dato, debe comunicarse con la secretaría del Hospital.";
           bot.editMessageText(info, message);
         });
+      break;
+    case "desvincular":
+      bot.editMessageText("Comming soon", message);
       break;
   }
   bot.answerCallbackQuery(callbackId);
