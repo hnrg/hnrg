@@ -1,3 +1,4 @@
+const serverConfig = require('./config');
 var TelegramBot = require('node-telegram-bot-api');
 var axios = require('axios');
 var moment = require('moment-timezone');
@@ -5,10 +6,7 @@ var Appointment = require('../../models/appointment');
 var Patient = require('../../models/patient');
 var TelegramUser = require('../../models/telegram-user');
 
-// Set config variables
-var TOKEN = process.env.TELEGRAM_TOKEN || '';
-var url = process.env.URL || 'http://localhost:8000';
-var maxConnections = parseInt(process.env.MAX_CONNECTIONS) || 40;
+var url = serverConfig.url;
 
 Array.prototype.chunk = function(groupsize){
   var sets = [], chunks, i = 0;
@@ -45,7 +43,7 @@ const appointment_format = [
 ];
 
 // Basic bot configurations
-var bot = new TelegramBot(TOKEN);
+var bot = new TelegramBot(serverConfig.telegram_token);
 
 var getAppointments = function(chatId, date) {
   axios.get(`${url}/api/turnos/${date.format("YYYY-MM-DD")}`)
@@ -64,8 +62,8 @@ var getAppointments = function(chatId, date) {
   });
 }
 
-bot.setWebHook(`${url}/api/telegram/bot${TOKEN}`, {
-  max_connections: maxConnections
+bot.setWebHook(`${url}/api/telegram/bot${serverConfig.telegram_token}`, {
+  max_connections: serverConfig.telegramMaxConnections
 });
 
 
