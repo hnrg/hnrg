@@ -7,7 +7,7 @@ const telegramUserSchema = new Schema({
   chatId: Number,
   patient: {
     type: Schema.Types.ObjectId,
-    ref: Patient
+    ref: 'Patient'
   },
 });
 

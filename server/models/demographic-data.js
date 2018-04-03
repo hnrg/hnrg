@@ -20,17 +20,17 @@ const demographicDataSchema = new Schema({
   },
   apartmentType: {
     type: Schema.Types.ObjectId,
-    ref: ApartmentType,
+    ref: 'ApartmentType',
     required: 'El campo `tipo de vivienda` es requerido'
   },
   heatingType: {
     type: Schema.Types.ObjectId,
-    ref: HeatingType,
+    ref: 'HeatingType',
     required: 'El campo `tipo de calefacción` es requerido'
   },
   waterType: {
     type: Schema.Types.ObjectId,
-    ref: WaterType,
+    ref: 'WaterType',
     required: 'El campo `tipo de agua` es requerido'
   },
 });

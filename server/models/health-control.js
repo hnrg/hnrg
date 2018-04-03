@@ -44,12 +44,12 @@ const healthControlSchema = new Schema({
   generalObservations: { type: String },
   patient: {
     type: Schema.Types.ObjectId,
-    ref: Patient,
+    ref: 'Patient',
     required: 'El campo `paciente` es requerido'
   },
   user: {
     type: Schema.Types.ObjectId,
-    ref: User,
+    ref: 'User',
     required: 'El campo `user` es requerido'
   },
   active: {

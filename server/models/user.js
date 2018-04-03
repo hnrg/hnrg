@@ -41,7 +41,7 @@ const userSchema = new Schema({
   active: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  roles: [{ type: Schema.Types.ObjectId, ref: Rol }],
+  roles: [{ type: Schema.Types.ObjectId, ref: 'Rol' }],
 });
 
 userSchema.pre('save', function(next) {
