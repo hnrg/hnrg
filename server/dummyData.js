@@ -26,8 +26,6 @@ const dummyData = async function()
 
 const dummyDataForTest = async function()
 {
-  dummyData();
-
   const appointment = new Appointment({
     documentNumber: 40081109,
     date: moment().hours(16).minutes(30).seconds(0).toDate(),
