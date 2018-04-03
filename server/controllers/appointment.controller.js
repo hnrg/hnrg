@@ -84,9 +84,9 @@ exports.getAppointments = async function(req, res) {
  */
 exports.addAppointment = async function(req, res) {
   try {
-    var {document, date, time} = req.body.appointment || req.params;
+    var {documentNumber, date, time} = req.body.appointment || req.params;
 
-    if (!document || !date || !time) {
+    if (!documentNumber || !date || !time) {
       return res.status(403).end();
     }
 
@@ -97,7 +97,7 @@ exports.addAppointment = async function(req, res) {
     }
 
     const newAppointment = new Appointment({
-      documentNumber: document,
+      documentNumber: documentNumber,
       date: newDate.toDate(),
     });
 
