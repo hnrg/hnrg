@@ -46,12 +46,12 @@ const appointment_format = [
 ];
 
 // Basic bot configurations
-var bot = new TelegramBot(serverConfig.telegram_token);
+const bot = new TelegramBot(serverConfig.telegram_token);
 
-var getAppointments = function(chatId, date) {
+const getAppointments = function(chatId, date) {
   axios.get(`${url}/api/turnos/${date.format("YYYY-MM-DD")}`).then((response) => {
-    if (response.data.appointments.length > 0) {
-      data = response.data.appointments.map((elem) => {
+    if (response.data.availables.length > 0) {
+      data = response.data.availables.map((elem) => {
         return `- ${elem}`;
       });
       return bot.sendMessage(chatId, `Turnos para la fecha ${date.format("DD-MM-Y")}\n    ${data.join("\n    ")}`);
