@@ -7,8 +7,11 @@ web:
   volumes:
    - .:/usr/src/app/
   environment:
-   NODE_ENV: production
-   MONGO_URL: mongodb://db:27017/hnrg
+    NODE_ENV: production
+    MONGO_URL: mongodb://db:27017/hnrg
+    TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+    NTBA_FIX_319: "true"
+    URL: ${URL_BASE}
 db:
   image: mongo:latest
   ports:
