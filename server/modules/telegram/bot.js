@@ -1,19 +1,22 @@
-const serverConfig = require('./config');
-var TelegramBot = require('node-telegram-bot-api');
-var axios = require('axios');
-var moment = require('moment-timezone');
-var Appointment = require('../../models/appointment');
-var Patient = require('../../models/patient');
-var TelegramUser = require('../../models/telegram-user');
+const TelegramBot = require('node-telegram-bot-api');
+const axios = require('axios');
+const moment = require('moment-timezone');
 
-var url = serverConfig.url;
+const serverConfig = require('../../config');
+const Appointment = require('../../models/appointment');
+const Patient = require('../../models/patient');
+const TelegramUser = require('../../models/telegram-user');
 
-Array.prototype.chunk = function(groupsize){
-  var sets = [], chunks, i = 0;
+const url = serverConfig.url;
+
+Array.prototype.chunk = function(groupsize) {
+  var sets = [],
+    chunks,
+    i = 0;
   chunks = this.length / groupsize;
 
-  while(i < chunks){
-    sets[i] = this.splice(0,groupsize);
+  while (i < chunks) {
+    sets[i] = this.splice(0, groupsize);
     i++;
   }
 
@@ -46,26 +49,21 @@ const appointment_format = [
 var bot = new TelegramBot(serverConfig.telegram_token);
 
 var getAppointments = function(chatId, date) {
-  axios.get(`${url}/api/turnos/${date.format("YYYY-MM-DD")}`)
-    .then( (response) => {
-      if (response.data.appointments.length > 0) {
-        data = response.data.appointments.map( (elem) => {
-          return `- ${elem}`;
-        });
-        return bot.sendMessage(chatId, `Turnos para la fecha ${date.format("DD-MM-Y")}\n    ${data.join("\n    ")}`);
-      } else {
-        return bot.sendMessage(chatId, `No hay turnos disponibles para la fecha ${date.format("DD-MM-Y")}`);
-      }
-    })
-  .catch( (error) => {
+  axios.get(`${url}/api/turnos/${date.format("YYYY-MM-DD")}`).then((response) => {
+    if (response.data.appointments.length > 0) {
+      data = response.data.appointments.map((elem) => {
+        return `- ${elem}`;
+      });
+      return bot.sendMessage(chatId, `Turnos para la fecha ${date.format("DD-MM-Y")}\n    ${data.join("\n    ")}`);
+    } else {
+      return bot.sendMessage(chatId, `No hay turnos disponibles para la fecha ${date.format("DD-MM-Y")}`);
+    }
+  }).catch((error) => {
     return bot.sendMessage(chatId, "Hubo un error al recuperar los turnos.\nDisculpe las molestias.\nInténtelo más tarde.");
   });
 }
 
-bot.setWebHook(`${url}/api/telegram/bot${serverConfig.telegram_token}`, {
-  max_connections: serverConfig.telegramMaxConnections
-});
-
+bot.setWebHook(`${url}/api/telegram/bot${serverConfig.telegram_token}`, {max_connections: serverConfig.telegramMaxConnections});
 
 bot.onText(/^\/turnos$/, (msg, match) => {
   const chatId = msg.chat.id;
@@ -93,9 +91,9 @@ bot.onText(/\/reservar\s*(\S*)\s*(\S*)\s*(\S*)/gi, (msg, match) => {
 
   if (!match[1]) {
     return bot.sendMessage(chatId, "No se especificó número de documento");
-  } else if(!match[2]) {
+  } else if (!match[2]) {
     return bot.sendMessage(chatId, "No se especificó fecha del turno");
-  } else if(!match[3]) {
+  } else if (!match[3]) {
     return bot.sendMessage(chatId, "No se especificó la hora del turno");
   }
 
@@ -115,11 +113,9 @@ bot.onText(/\/reservar\s*(\S*)\s*(\S*)\s*(\S*)/gi, (msg, match) => {
       date: date.format("YYYY-MM-DD"),
       time: date.format("HH:mm:ss")
     }
-  })
-  .then( (response) => {
+  }).then((response) => {
     bot.sendMessage(chatId, `Turno reservado para la fecha ${date.format("DD/MM/YYYY HH:mm")}\nPara el paciente ${documentNumber}`);
-  })
-  .catch( (error) => {
+  }).catch((error) => {
     console.log(error);
     return bot.sendMessage(chatId, "Hubo un error reservar el turno.\nInténtelo más tarde.\nDisculpe las molestias.");
   });
@@ -130,32 +126,32 @@ bot.onText(/\/ingresar\s*(\S*)/, (msg, match) => {
   if (!match[1]) {
     return bot.sendMessage(chatId, "Debe ingresar un número de documento");
   }
-  Patient
-    .findOne({ documentNumber: match[1]})
-    .exec( (err, patient) => {
+  Patient.findOne({documentNumber: match[1]}).exec((err, patient) => {
+    if (err) {
+      return bot.sendMessage(chatId, "Número de documento no váldo");
+    }
+
+    if (!patient) {
+      return bot.sendMessage(chatId, "Usted no es paciente del hospital");
+    }
+    TelegramUser.findOne({
+      chatId: chatId
+    }, (err, user) => {
       if (err) {
-        return bot.sendMessage(chatId, "Número de documento no váldo");
+        return bot.sendMessage(chatId, "Hubo un error al ingresar al sistema\nInténtelo más tarde.\nDisculpe las molestias.");
       }
 
-      if(!patient) {
-        return bot.sendMessage(chatId, "Usted no es paciente del hospital");
+      if (!user) {
+        return new TelegramUser({chatId: chatId, patient: patient.id}).save();
       }
-      TelegramUser.findOne({ chatId: chatId }, (err, user) => {
-        if (err) {
-          return bot.sendMessage(chatId, "Hubo un error al ingresar al sistema\nInténtelo más tarde.\nDisculpe las molestias.");
-        }
 
-        if (!user) {
-          return new TelegramUser({chatId: chatId, patient: patient.id}).save();
-        }
-
-        if (user.patient.id != patient.id) {
-          user.patient = patient.id;
-          user.save();
-        }
-      });
-      bot.sendMessage(chatId, `Bienvenido ${patient.firstName} ${patient.lastName}`);
+      if (user.patient.id != patient.id) {
+        user.patient = patient.id;
+        user.save();
+      }
     });
+    bot.sendMessage(chatId, `Bienvenido ${patient.firstName} ${patient.lastName}`);
+  });
 });
 
 bot.onText(/\/perfil/gi, (msg, match) => {
@@ -168,28 +164,23 @@ bot.onText(/\/perfil/gi, (msg, match) => {
           { text: "Reservar turno", callback_data: "reservar" }
         ],
         [
-          { text: "Mi información", callback_data: "info"},
+          { text: "Mi información", callback_data: "info" },
           { text: "Salir", callback_data: "desvincular" }
         ]
       ]
     }
   };
-  TelegramUser
-    .findOne({ 'chatId': chatId })
-    .populate('patient')
-    .exec()
-    .then( (user) => {
-      if (!user || !user.patient) {
-        var message = "Si ya eres paciente del hospital, puedes ingresar mediante /ingresar + tu dni\n\n";
-        message += "Si eres nuevo, debes acercarte al hospital, o sacar un turno mediante /reservar\n\n";
-        return bot.sendMessage(chatId, message);
-      }
-      bot.sendMessage(chatId, `Bienvenido ${user.patient.firstName} ${user.patient.lastName}\n¿Qué quieres hacer?`, opt);
-    })
-    .catch( (err) => {
-      console.log(err);
-      return bot.sendMessage(chatId, "Hubo un error al recuperar tu perfil.\nDisculpe las molestias.\nInténtelo más tarde.");
-    });
+  TelegramUser.findOne({'chatId': chatId}).populate('patient').exec().then((user) => {
+    if (!user || !user.patient) {
+      var message = "Si ya eres paciente del hospital, puedes ingresar mediante /ingresar + tu dni\n\n";
+      message += "Si eres nuevo, debes acercarte al hospital, o sacar un turno mediante /reservar\n\n";
+      return bot.sendMessage(chatId, message);
+    }
+    bot.sendMessage(chatId, `Bienvenido ${user.patient.firstName} ${user.patient.lastName}\n¿Qué quieres hacer?`, opt);
+  }).catch((err) => {
+    console.log(err);
+    return bot.sendMessage(chatId, "Hubo un error al recuperar tu perfil.\nDisculpe las molestias.\nInténtelo más tarde.");
+  });
 });
 
 bot.onText(/\/ayuda/gi, (msg, match) => {
@@ -219,19 +210,17 @@ bot.onText(/^(\d{2}[-|\/]\d{2}[-|\/]\d{2,4})$/, (msg, match) => {
   if (!date.isValid()) {
     bot.sendMessage(chatId, "Ingrese una fecha válida");
   }
-  axios.get(`${url}/api/turnos/${date.format("YYYY-MM-DD")}`)
-    .then( (response) => {
-      var appointments = response.data.appointments.chunk(4);
-      var opts = {
-        reply_markup: {
-          keyboard: appointments,
-          resize_keyboard: true,
-          one_time_keyboard: true
-        }
+  axios.get(`${url}/api/turnos/${date.format("YYYY-MM-DD")}`).then((response) => {
+    var appointments = response.data.appointments.chunk(4);
+    var opts = {
+      reply_markup: {
+        keyboard: appointments,
+        resize_keyboard: true,
+        one_time_keyboard: true
       }
-      bot.sendMessage(chatId, "Seleccione un turno", opts);
-    })
-  .catch( (err) => {
+    }
+    bot.sendMessage(chatId, "Seleccione un turno", opts);
+  }).catch((err) => {
     return bot.sendMessage(chatId, "Hubo un error al recuperar los turnos.\nDisculpe las molestias.\nInténtelo más tarde.");
   })
 });
@@ -258,33 +247,29 @@ bot.on("callback_query", (msg) => {
     chat_id: chatId,
     message_id: msg.message.message_id
   };
-  user = TelegramUser
-    .findOne({ chatId: chatId})
-    .populate({
-      path: 'patient',
-      populate: {
-        path: 'documentType'
-      }
-    })
-    .exec();
-  switch(msg.data) {
+  user = TelegramUser.findOne({chatId: chatId}).populate({
+    path: 'patient',
+    populate: {
+      path: 'documentType'
+    }
+  }).exec();
+  switch (msg.data) {
     case "turnos":
-      user
-        .then( (user) => {
-          Appointment.find({documentNumber: user.patient.documentNumber}).exec().then( (appointment) => {
-            var data;
-            if (appointment.length > 0) {
-              appointments = appointment.map( (elem) => {
-                return `- ${moment(elem.date).format("DD/MM/YYYY HH:mm")}`;
-              })
-              data = `Turnos de ${user.patient.firstName} ${user.patient.lastName}\n\n`;
-              data += appointments.join("\n");
-            } else {
-              data = `${user.patient.firstName} ${user.patient.lastName} no tiene turnos.`;
-            }
-            bot.editMessageText(data, message);
-          })
+      user.then((user) => {
+        Appointment.find({documentNumber: user.patient.documentNumber}).exec().then((appointment) => {
+          var data;
+          if (appointment.length > 0) {
+            appointments = appointment.map((elem) => {
+              return `- ${moment(elem.date).format("DD/MM/YYYY HH:mm")}`;
+            })
+            data = `Turnos de ${user.patient.firstName} ${user.patient.lastName}\n\n`;
+            data += appointments.join("\n");
+          } else {
+            data = `${user.patient.firstName} ${user.patient.lastName} no tiene turnos.`;
+          }
+          bot.editMessageText(data, message);
         })
+      })
       break;
     case "reservar":
       var chatMessage = "Tendrá 5 minutos para completar la reserva.\n";
@@ -292,17 +277,16 @@ bot.on("callback_query", (msg) => {
       bot.editMessageText(chatMessage, message);
       break;
     case "info":
-      user
-        .then( (user) => {
-          var info = `Nombre y apellido: ${user.patient.firstName} ${user.patient.lastName}\n`;
-          info += `${user.patient.documentType.name}: ${user.patient.documentNumber}\n`;
-          info += `Fecha de nacimiento: ${moment(user.patient.birthday).format("DD/MM/YYYY")}\n`;
-          info += "\n\nSi quiere cambiar algun dato, debe comunicarse con la secretaría del Hospital.";
-          bot.editMessageText(info, message);
-        });
+      user.then((user) => {
+        var info = `Nombre y apellido: ${user.patient.firstName} ${user.patient.lastName}\n`;
+        info += `${user.patient.documentType.name}: ${user.patient.documentNumber}\n`;
+        info += `Fecha de nacimiento: ${moment(user.patient.birthday).format("DD/MM/YYYY")}\n`;
+        info += "\n\nSi quiere cambiar algun dato, debe comunicarse con la secretaría del Hospital.";
+        bot.editMessageText(info, message);
+      });
       break;
     case "desvincular":
-      user.then( (user) => {
+      user.then((user) => {
         bot.editMessageText(`Hasta luego ${user.patient.firstName} ${user.patient.lastName}`, message);
         user.remove();
       });
@@ -316,4 +300,3 @@ bot.on('webhook_error', (error) => {
 });
 
 module.exports = bot;
-
