@@ -1,9 +1,11 @@
-var repl = require('repl');
-var fs = require('fs');
-var path = require('path');
+const repl = require('repl');
+const mongoose = require('mongoose');
+const moment = require('moment-timezone');
+const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 
 const serverConfig = require('./config');
-const mongoose = require('mongoose');
 
 const capitalize = str => str.charAt(0).toUpperCase() + str.toLowerCase().slice(1);
 
@@ -42,6 +44,8 @@ mongoose.connect(serverConfig.mongoURL, err => {
 
   models.forEach(({ name, module }) => replServer.context[name] = module);
 
+  replServer.context.moment = moment;
+  replServer.context.axios = axios;
   replServer.context.epa = serverConfig.mongoURL;
   replServer.context.db = mongoose;
 });

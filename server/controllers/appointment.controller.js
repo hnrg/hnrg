@@ -7,14 +7,14 @@ const Appointment = require('../models/appointment');
  * Return an array with all the available times
  * @returns array
  */
-const timesArray = function(start = 0, end = 24, delta = 30) {
+const timesArray = function(date, start = 0, end = 24, delta = 30) {
   var times = [];
 
   for (let i = start; i < end; i++) {
     for (let j = 0; j < 60/delta; j++) {
       let k = j * delta;
 
-      times.push(moment()
+      times.push(moment(date)
         .hours(i)
         .minutes(k)
         .seconds(0)
@@ -25,19 +25,11 @@ const timesArray = function(start = 0, end = 24, delta = 30) {
   return times;
 }
 
-
-/**
- * Return an array with all the available times
- * @returns array
- */
-const stringTimesArray = () => timesArray().map(each => each.format("HH:mm:ss"));
-
-
 const totalTime = date => {
   return date.hours()*10000 + date.minutes()*100 + date.seconds();
 };
 
-const dateInArray = (date, times) => {
+const timeInArray = (date, times) => {
   return times.find(each => {
     return date.isSame(moment(each), 'hours')
         && date.isSame(moment(each), 'minutes')
@@ -59,24 +51,28 @@ exports.getAppointments = async function(req, res) {
   try {
     var date = moment(req.params.date);
 
-    const appointments = await Appointment.find({
-      date: {
-        $gte: moment().startOf('day').toDate(),
-        $lt: moment().add(1, 'days').toDate(),
-      },
-    }).exec();
+    if (date.isBefore(moment().startOf('day'))) {
+      return res.status(204).json({appointments: []});
+    }
 
-    const times = timesArray();
+    const times = timesArray(date);
     const currentTime = totalTime(moment());
 
-    var freeAppointments = times.filter(each => {
-      let eachTime = totalTime(each);
+    const appointments = await Appointment.find({
+      date: {
+        $gte: moment(date).startOf('day').toDate(),
+        $lt: moment(date).add(1, 'days').toDate(),
+      }
+    }, 'date').exec();
 
-      return (eachTime > currentTime || !date.isSame(moment(), 'day'))
-          && !dateInArray(mergeTime(date, each), appointments.map(e => e.date));
-    }).map(each => each.format("HH:mm:ss"));
+    const freeAppointments = times.filter(each => {
+      return (totalTime(each) > currentTime || !date.isSame(moment(), 'day'))
+          && !timeInArray(mergeTime(date, each), appointments);
+    });
 
-    res.status(200).json({appointments: freeAppointments});
+    res.status(200).json({
+      appointments: freeAppointments.map(each => each.format("HH:mm:ss")),
+    });
   } catch (e) {
     return res.status(500).send(e);
   }
@@ -90,14 +86,13 @@ exports.getAppointments = async function(req, res) {
  */
 exports.addAppointment = async function(req, res) {
   try {
-    var { document, date, time } = req.body.appointment || req.params;
-    console.log(document);
+    var {document, date, time} = req.body.appointment || req.params;
 
     if (!document || !date || !time) {
       return res.status(403).end();
     }
 
-    var newDate = moment(`${date} ${time}`);
+    const newDate = moment(`${date} ${time}`);
 
     if (!newDate.isValid()) {
       return res.status(403).end();
@@ -108,8 +103,8 @@ exports.addAppointment = async function(req, res) {
       date: newDate.toDate(),
     });
 
-    const saved = await newAppointment.save();
-    res.status(201).json({appointment: saved});
+    var {documentNumber, date} = await newAppointment.save();
+    res.status(201).json({appointment: {documentNumber, date}});
   } catch (e) {
     return res.status(500).send(e);
   }

@@ -77,7 +77,7 @@ if (!isTest) {
   // Testing does not require you to listen on a port
   app.listen(serverConfig.port, (error) => {
     if (!error) {
-      console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`);
+      console.log(`HNRG App is running on port: ${serverConfig.port}! Build something amazing!`);
     }
   });
 }
