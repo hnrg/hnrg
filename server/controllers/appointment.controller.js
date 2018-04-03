@@ -65,14 +65,12 @@ exports.getAppointments = async function(req, res) {
       }
     }, 'date').exec();
 
-    const freeAppointments = times.filter(each => {
+    const availables = times.filter(each => {
       return (totalTime(each) > currentTime || !date.isSame(moment(), 'day'))
           && !timeInArray(mergeTime(date, each), appointments);
-    });
+    }).map(each => each.format("HH:mm:ss"));
 
-    res.status(200).json({
-      appointments: freeAppointments.map(each => each.format("HH:mm:ss")),
-    });
+    res.status(200).json({availables});
   } catch (e) {
     return res.status(500).send(e);
   }
