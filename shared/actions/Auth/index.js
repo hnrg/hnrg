@@ -9,11 +9,6 @@ import {
   CLEAR_ERRORS
 } from './types';
 
-// server route
-const API_URL = 'http://localhost:8000/api';
-const AUTH_URL = 'http://localhost:8000/auth';
-const ROOT_URL = 'http://localhost:8080';
-
 export function errorHandler(error) {
   return {
     type: ERROR_RESPONSE,
@@ -54,7 +49,7 @@ export function loginUser({
   password
 }) {
   return function(dispatch) {
-    axios.post(`${AUTH_URL}/login`, {
+    axios.post('/auth/login', {
         email,
         password
       })
