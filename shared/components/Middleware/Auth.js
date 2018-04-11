@@ -1,32 +1,37 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 
 export default function(role, ComposedComponent) {
   class Authentication extends Component {
-    componentWillMount() {
+    constructor(props) {
+      super(props);
       const { cookies } = this.props;
+
       this.state = {
         cookieUser: cookies.get('user'),
       };
+    }
 
+    componentWillMount() {
       if (!this.props.authenticated) {
-        this.context.router.push('/login');
+        this.props.history.push('/login');
       }
 
       if (this.state.cookieUser) {
-        this.context.router.push('/dashboard');
+        this.props.history.push('/dashboard');
       }
     }
 
     componentWillUpdate(nextProps) {
       if (!nextProps.authenticated) {
-        this.context.router.push('/login');
+        this.props.history.push('/login');
       }
 
       if (this.state.cookieUser) {
-        this.context.router.push('/dashboard');
+        this.props.history.push('/dashboard');
       }
     }
 
@@ -35,15 +40,11 @@ export default function(role, ComposedComponent) {
     }
   }
 
-  Authentication.propTypes = {
-    router: PropTypes.object,
-  };
-
   function mapStateToProps(state) {
     return {
-      authenticated: state.auth.authenticated
+      authenticated: state.auth.authenticated,
     };
   }
 
-  return connect(mapStateToProps)(withCookies(Authentication));
+  return connect(mapStateToProps)(withCookies(withRouter(Authentication)));
 }

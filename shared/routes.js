@@ -1,4 +1,5 @@
 import React from 'react';
+import { CookiesProvider } from 'react-cookie';
 import {
   Switch,
   Route,
@@ -18,17 +19,19 @@ import LogoutPage from './containers/Auth/Logout';
 import RequireAuth from './components/Middleware/Auth';
 
 const Routes = () => (
-  <App>
-    <Switch>
-        <Route path="/dashboard" component={RequireAuth(1, /* DashboardPage*/ HomePage)} />
+  <CookiesProvider>
+    <App>
+      <Switch>
+          <Route path="/dashboard" component={RequireAuth(1, /* DashboardPage */ HomePage)} />
 
-        <Route exact path="/" component={HomePage} />
-        <Route path="/home" component={HomePage} />
-        <Route path="/login" /* component={LoginPage} */ />
-        <Route path="/logout" component={LogoutPage} />
-        <Redirect to="/not-found" component={NotFoundPage}/>
-    </Switch>
-  </App>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/home" component={HomePage} />
+          <Route path="/login" /* component={LoginPage} */ />
+          <Route path="/logout" component={LogoutPage} />
+          <Redirect to="/not-found" component={NotFoundPage}/>
+      </Switch>
+    </App>
+  </CookiesProvider>
 );
 
 export default Routes;

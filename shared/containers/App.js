@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-/* import * as Actions from '../actions/auth-actions'; */
+import * as Actions from '../actions/Auth';
+import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 
 import './App.css';
+import Home from './Home';
 
 class App extends Component {
   constructor(props, context) {
@@ -15,7 +17,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        { this.props.children }
+        {React.cloneElement(this.props.children, {...this.props})}
       </div>
     );
   }
@@ -26,4 +28,4 @@ App.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-export default connect()(App);
+export default connect()(withCookies(App));
