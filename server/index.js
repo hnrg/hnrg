@@ -4,6 +4,8 @@ const express = require('express');
 const moment = require('moment-timezone');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const mongoose = require('mongoose');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -20,6 +22,14 @@ moment.tz.setDefault(serverConfig.tz);
 
 // Initialize Express App
 const app = express();
+
+app.use(cookieParser());
+app.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true,
+  cookie: { httpOnly: true }
+}));
 
 // Set environment flags
 const isTest = serverConfig.nodeEnv === 'test';
@@ -60,16 +70,20 @@ mongoose.connect(isTest ? serverConfig.testMongoURL : serverConfig.mongoURL, (er
   dummyData();
 });
 
-// Apply body Parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// Apply body Parser and server public assets and routes
+app.use(bodyParser.json({ limit: '20mb' }));
+app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 
 // server public assets and routes
 app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
 app.use('/api', routes.appointments);
 app.use('/api', routes.telegram);
-/*app.use('/auth', routes.auth);*/
+
+app.use('/auth', routes.auth);
+
+/* app.use('/app', ); */
+/* app.use('/admin'); */
 
 app.get('*', SSR.default);
 

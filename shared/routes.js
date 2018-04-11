@@ -7,14 +7,26 @@ import {
 } from 'react-router-dom';
 
 import App from './containers/App';
-import HomeContainer from './containers/Home';
+import HomePage from './containers/Home';
+import NotFoundPage from './containers/NotFound';
+
+// auth pages
+// import LoginPage from './containers/Auth/Login';
+import LogoutPage from './containers/Auth/Logout';
+
+//high order components
+import RequireAuth from './components/Middleware/Auth';
 
 const Routes = () => (
   <App>
     <Switch>
-        <Route exact path="/" component={HomeContainer} />
-        <Route path="/home" component={HomeContainer} />
-        <Redirect to="/not-found" />
+        <Route path="/dashboard" component={RequireAuth(1, /* DashboardPage*/ HomePage)} />
+
+        <Route exact path="/" component={HomePage} />
+        <Route path="/home" component={HomePage} />
+        <Route path="/login" /* component={LoginPage} */ />
+        <Route path="/logout" component={LogoutPage} />
+        <Redirect to="/not-found" component={NotFoundPage}/>
     </Switch>
   </App>
 );

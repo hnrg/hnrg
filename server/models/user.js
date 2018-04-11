@@ -1,3 +1,5 @@
+"use strict"
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 
@@ -42,19 +44,23 @@ const userSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   roles: [{ type: Schema.Types.ObjectId, ref: 'Rol' }],
+}, {
+  timestamps: true
 });
 
 userSchema.pre('save', function(next) {
   const user = this;
 
   bcrypt.genSalt(10, function(err, salt) {
-    if(err) {
+    if (err) {
       return next(err);
     }
+
     bcrypt.hash(user.password, salt, null, function(err, hash) {
-      if(err) {
+      if (err) {
         return next(err);
       }
+
       user.password = hash;
       next();
     });
@@ -63,11 +69,11 @@ userSchema.pre('save', function(next) {
 
 userSchema.methods.comparePassword = function(candidatePassword, callback) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-    if(err) {
+    if (err) {
       return callback(err);
     }
     callback(null, isMatch);
   });
-}
+};
 
 module.exports = mongoose.model('User', userSchema);
