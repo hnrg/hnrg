@@ -64,7 +64,7 @@ export function loginUser({
           type: AUTH_USER
         });
 
-        window.location.href = ROOT_URL + "/dashboard";
+        window.location.href = "/dashboard";
       })
       .catch(response => dispatch(invalidLogin(response)));
   }
@@ -80,7 +80,7 @@ export function logoutUser(error) {
   });
 
   errorHandler(error);
-  window.location.href = ROOT_URL + "/login";
+  window.location.href = "/login";
 
   return ({
     type: UNAUTH_USER
