@@ -2252,6 +2252,10 @@ convert-source-map@^1.1.0, convert-source-map@^1.4.0, convert-source-map@^1.5.0:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.5.1.tgz#b8278097b9bc229365de5c62cf5fcaed8b5599e5"
 
+cookie-js@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/cookie-js/-/cookie-js-0.0.1.tgz#4397976bbfabe74fa0d091cb0aa46c3ce9b7d2ac"
+
 cookie-parser@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/cookie-parser/-/cookie-parser-1.4.3.tgz#0fe31fa19d000b95f4aadf1f53fdc2b8a203baa5"
@@ -4769,6 +4773,10 @@ jest@^22.4.1:
 js-base64@^2.1.9:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.3.tgz#2e545ec2b0f2957f41356510205214e98fad6582"
+
+js-cookie@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.0.tgz#1b2c279a6eece380a12168b92485265b35b1effb"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
@@ -7462,6 +7470,10 @@ reduce-function-call@^1.0.1, reduce-function-call@^1.0.2:
   resolved "https://registry.yarnpkg.com/reduce-function-call/-/reduce-function-call-1.0.2.tgz#5a200bf92e0e37751752fe45b0ab330fd4b6be99"
   dependencies:
     balanced-match "^0.4.2"
+
+redux-cookie@^0.5.9:
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/redux-cookie/-/redux-cookie-0.5.9.tgz#e3cc97cd16240252f0b43938358c26fb28015f64"
 
 redux-devtools-dock-monitor@^1.1.3:
   version "1.1.3"

@@ -10,7 +10,7 @@ function generateToken(user) {
   });
 }
 
-exports.login = function(req, res, next) {
+exports.login = function(req, res) {
   try {
     const token = generateToken(req.user);
 
@@ -18,6 +18,14 @@ exports.login = function(req, res, next) {
       token: `JWT ${token}`,
       user: req.user
     });
+  } catch (e) {
+    res.status(500).send(e);
+  }
+}
+
+exports.me = function(req, res) {
+  try {
+    return res.status(200).json({user: req.user});
   } catch (e) {
     res.status(500).send(e);
   }

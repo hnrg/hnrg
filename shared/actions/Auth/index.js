@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { reset } from 'redux-form';
-import { browserHistory } from 'react-router';
-import cookie from 'react-cookie';
+import { getCookie, setCookie, expireCookie } from 'redux-cookie';
 import {
   AUTH_USER,
   ERROR_RESPONSE,
@@ -44,43 +43,25 @@ export function invalidLogin(response) {
   }
 }
 
-export function loginUser({
-  email,
-  password
-}) {
+export function loginUser({email, password}) {
   return function(dispatch) {
     axios.post('/auth/login', {
         email,
         password
       })
       .then(response => {
-        cookie.save('token', response.data.token, {
-          path: '/'
-        });
-        cookie.save('user', response.data.user, {
-          path: '/'
-        });
-        dispatch({
-          type: AUTH_USER
-        });
-
-        window.location.href = "/dashboard";
+        setCookie('token', response.data.token, {path: '/'});
+        setCookie('user', response.data.user, {path: '/'});
+        dispatch({type: AUTH_USER});
       })
       .catch(response => dispatch(invalidLogin(response)));
   }
 }
 
-//logout user
 export function logoutUser(error) {
-  cookie.remove('token', {
-    path: '/'
-  });
-  cookie.remove('user', {
-    path: '/'
-  });
-
+  expireCookie('token', {path: '/'});
+  expireCookie('user', {path: '/'});
   errorHandler(error);
-  window.location.href = "/login";
 
   return ({
     type: UNAUTH_USER

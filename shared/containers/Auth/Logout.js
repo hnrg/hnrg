@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import * as actions from '../../actions/Auth';
 
-class LogoutPage extends Component {
+class LogoutContainer extends Component {
   componentWillMount() {
-      this.props.logoutUser();
+    var { logoutUser, history } = this.props;
+    logoutUser();
+    history.push('/');
   }
 
   render() {
     return (
-      <div className="page_body">
-        Sorry to see you go!
+      <div>
+        <h3>Bye!</h3>
       </div>
-    )
+    );
   }
 }
 
-export default connect(null, actions)(LogoutPage);
+LogoutContainer.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+}
+
+export default connect(null, actions)(LogoutContainer);

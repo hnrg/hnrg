@@ -12,4 +12,6 @@ const router = Router();
 
 router.route('/login').post(requireLogin, AuthController.login);
 
+router.route('/me').get(requireAuth, AuthController.me);
+
 module.exports = router;

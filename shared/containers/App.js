@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import * as Actions from '../actions/Auth';
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 
-import './App.css';
-import Home from './Home';
-
 class App extends Component {
   constructor(props, context) {
     super(props, context);
@@ -28,4 +25,4 @@ App.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-export default connect()(withCookies(App));
+export default withCookies(connect()(App));

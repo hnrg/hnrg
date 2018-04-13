@@ -46,5 +46,5 @@ export default function(role, ComposedComponent) {
     };
   }
 
-  return connect(mapStateToProps)(withCookies(withRouter(Authentication)));
+  return withCookies(withRouter(connect(mapStateToProps)(Authentication)));
 }

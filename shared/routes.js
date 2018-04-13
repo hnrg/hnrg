@@ -22,13 +22,14 @@ const Routes = () => (
   <CookiesProvider>
     <App>
       <Switch>
-          <Route path="/dashboard" component={RequireAuth(1, /* DashboardPage */ HomePage)} />
+        <Route path="/dashboard" component={RequireAuth(1, /* DashboardPage */ HomePage)} />
 
-          <Route exact path="/" component={HomePage} />
-          <Route path="/home" component={HomePage} />
-          <Route path="/login" /* component={LoginPage} */ />
-          <Route path="/logout" component={LogoutPage} />
-          <Redirect to="/not-found" component={NotFoundPage}/>
+        <Route exact path="/" component={HomePage} />
+        <Route path="/home" component={HomePage} />
+        <Route path="/login" /* component={LoginPage} */ />
+        <Route path="/logout" component={LogoutPage} />
+        <Route path="/not-found" component={NotFoundPage} />
+        <Redirect to="/not-found"/>
       </Switch>
     </App>
   </CookiesProvider>
