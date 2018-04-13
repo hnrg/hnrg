@@ -1,12 +1,51 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Header,
+  Icon,
+  Image,
+  List,
+  Menu,
+  Segment,
+  Visibility
+} from 'semantic-ui-react';
 
-const Footer = () => {
-  return (
-   <div className="footer">
-     <p>&copy; 2018 &middot; COD-Project &middot; Hospital de Niños Ricardo Gutierrez</p>
-     <p>We are on Github: <a href="https://github.com/COD-Project" target="_Blank">COD-Project</a></p>
-   </div>
- );
+class Footer extends Component {
+  render() {
+    return (<Segment inverted vertical style={{ padding: '5em 0em' }}>
+     <Container>
+       <Grid divided inverted stackable>
+         <Grid.Row>
+           <Grid.Column width={3}>
+             <Header inverted as='h4' content='About' />
+             <List link inverted>
+               <List.Item as='a'>Sitemap</List.Item>
+               <List.Item as='a'>Contact Us</List.Item>
+               <List.Item as='a'>Religious Ceremonies</List.Item>
+               <List.Item as='a'>Gazebo Plans</List.Item>
+             </List>
+           </Grid.Column>
+           <Grid.Column width={3}>
+             <Header inverted as='h4' content='Services' />
+             <List link inverted>
+               <List.Item as='a'>Banana Pre-Order</List.Item>
+               <List.Item as='a'>DNA FAQ</List.Item>
+               <List.Item as='a'>How To Access</List.Item>
+               <List.Item as='a'>Favorite X-Men</List.Item>
+             </List>
+           </Grid.Column>
+           <Grid.Column width={7}>
+             <Header as='h4' inverted>Footer Header</Header>
+             <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+           </Grid.Column>
+         </Grid.Row>
+       </Grid>
+     </Container>
+   </Segment>);
+  }
 }
 
 export default Footer;

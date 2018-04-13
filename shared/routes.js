@@ -7,6 +7,8 @@ import {
   Redirect,
 } from 'react-router-dom';
 
+/*import '../semantic-ui/dist/semantic.min.css';*/
+
 import App from './containers/App';
 import HomePage from './containers/Home';
 import NotFoundPage from './containers/NotFound';
