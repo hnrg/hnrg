@@ -7,7 +7,8 @@ const passport = require('passport'),
 
 
 const localOptions = {
-  usernameField: 'email' // Setting username field to email rather than username
+  usernameField: 'email', // Setting username field to email rather than username
+  passwordField: 'password',
 }
 
 
@@ -43,7 +44,7 @@ const jwtOptions = {
 
 
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
-  User.findById(payload._doc._id, function(err, user) {
+  User.findById(payload.id, function(err, user) {
     if (err) {
       return done(err, false);
     }
