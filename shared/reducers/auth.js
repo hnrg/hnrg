@@ -4,7 +4,7 @@ import {
   ERROR_RESPONSE,
   CLEAR_ERRORS,
   PROTECTED_TEST
-} from '../actions/Auth/types';
+} from '../constants';
 
 const INITIAL_STATE = {
   error: '',

@@ -7,7 +7,7 @@ import {
   UNAUTH_USER,
   RESET_PASSWORD_REQUEST,
   CLEAR_ERRORS
-} from './types';
+} from '../constants';
 
 export function errorHandler(error) {
   return {

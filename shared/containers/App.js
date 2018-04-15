@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 
-import authActions from '../actions/Auth';
+import actions from '../actions';
 import DevTools from '../components/DevTools';
 
 class App extends Component {
@@ -28,4 +28,4 @@ App.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-export default withCookies(connect(authActions)(App));
+export default withCookies(connect(actions)(App));

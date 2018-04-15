@@ -18,7 +18,7 @@ import NotFoundPage from './containers/NotFound';
 import LogoutPage from './containers/Auth/Logout';
 
 //high order components
-import RequireAuth from './components/Middleware/Auth';
+import RequireAuth from './containers/Middleware/Auth';
 
 const Routes = () => (
   <CookiesProvider>
