@@ -4,6 +4,8 @@ import {AppContainer} from 'react-hot-loader';
 import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 
+import 'semantic-ui-css/semantic.min.css';
+
 import store from '../shared/store';
 import App from '../shared/routes';
 
