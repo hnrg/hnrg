@@ -79,10 +79,8 @@ app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
 app.use('/api', routes.appointments);
 app.use('/api', routes.telegram);
-
+app.use('/app', routes.roles);
 app.use('/auth', routes.auth);
-
-/* app.use('/app', ); */
 /* app.use('/admin'); */
 
 app.get('*', SSR.default);

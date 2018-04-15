@@ -5,6 +5,7 @@ import {
   AUTH_USER,
   ERROR_RESPONSE,
   UNAUTH_USER,
+  RESET_PASSWORD_REQUEST,
   CLEAR_ERRORS
 } from './types';
 
@@ -55,7 +56,7 @@ export function loginUser({email, password}) {
         dispatch({type: AUTH_USER});
       })
       .catch(response => dispatch(invalidLogin(response)));
-  }
+  };
 }
 
 export function logoutUser(error) {
@@ -66,4 +67,17 @@ export function logoutUser(error) {
   return ({
     type: UNAUTH_USER
   });
+}
+
+export function resetPassword(token, {password}) {
+  return function(dispatch) {
+    axios.post(`/auth/reset-password/${token}`, {password})
+      .then(response => {
+        dispatch({
+          type: RESET_PASSWORD_REQUEST,
+          payload: response.data.message,
+        });
+      })
+      .catch(response => dispatch(errorHandler(response.data.error)));
+  };
 }

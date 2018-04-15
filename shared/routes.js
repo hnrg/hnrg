@@ -7,7 +7,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-/*import '../semantic-ui/dist/semantic.min.css';*/
+// import 'semantic-ui-css/semantic.min.css';
 
 import App from './containers/App';
 import HomePage from './containers/Home';
@@ -24,7 +24,7 @@ const Routes = () => (
   <CookiesProvider>
     <App>
       <Switch>
-        <Route path="/dashboard" component={RequireAuth(1, /* DashboardPage */ HomePage)} />
+        <Route path="/dashboard" component={RequireAuth(/* DashboardPage */ HomePage)} />
 
         <Route exact path="/" component={HomePage} />
         <Route path="/home" component={HomePage} />

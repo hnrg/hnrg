@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 
-export default function(role, ComposedComponent) {
+export default function(ComposedComponent) {
   class Authentication extends Component {
     constructor(props) {
       super(props);

@@ -20,11 +20,10 @@ class Navbar extends Component {
       }} vertical="vertical">
       <Container>
         <Menu inverted="inverted" pointing="pointing" secondary="secondary" size='large'>
-          <Menu.Item as='a' active="active">Inicio</Menu.Item>
-          <Menu.Item as='a'>Dashboard</Menu.Item>
+          <Menu.Item as='a' href="/" active="active">Inicio</Menu.Item>
+          <Menu.Item as='a' href="/dashboard">Dashboard</Menu.Item>
           <Menu.Item position='right'>
-            <Button as='a' inverted="inverted">Registrarse</Button>
-            <Button as='a' inverted="inverted" style={{
+            <Button as='a' href="/login" inverted="inverted" style={{
                 marginLeft: '0.5em'
               }}>Iniciar Sesión</Button>
           </Menu.Item>
