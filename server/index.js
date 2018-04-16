@@ -78,8 +78,9 @@ app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
 app.use('/api', routes.appointments);
+app.use('/api', routes.roles);
+app.use('/api', routes.permissions);
 app.use('/api', routes.telegram);
-app.use('/app', routes.roles);
 app.use('/auth', routes.auth);
 /* app.use('/admin'); */
 
