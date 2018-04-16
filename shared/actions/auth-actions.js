@@ -46,7 +46,7 @@ export function invalidLogin(response) {
 
 export function loginUser({email, password}) {
   return function(dispatch) {
-    axios.post('/auth/login', {
+    axios.post('/api/auth/login', {
         email,
         password
       })
