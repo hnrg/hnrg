@@ -4,6 +4,7 @@ const moment = require('moment-timezone');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const Cookies = require('js-cookie');
 
 const serverConfig = require('./config/server');
 
@@ -48,4 +49,5 @@ mongoose.connect(serverConfig.mongoURL, err => {
   replServer.context.axios = axios;
   replServer.context.epa = serverConfig.mongoURL;
   replServer.context.db = mongoose;
+  replServer.context.Cookies = Cookies;
 });

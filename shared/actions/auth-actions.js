@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { reset } from 'redux-form';
 import { getCookie, setCookie, expireCookie } from 'redux-cookie';
 import {
@@ -7,14 +8,14 @@ import {
   RESET_PASSWORD_REQUEST
 } from '../constants';
 
-import * from './app-actions.js';
+import * as actions from './app-actions.js';
 
 export function unauthError(response) {
   if (response.status === 401) {
     return logoutUser('Your session has expired. Please login again.');
   }
 
-  return errorHandler(response.data);
+  return actions.errorHandler(response.data);
 }
 
 export function invalidLogin(response) {
@@ -38,8 +39,8 @@ export function loginUser({email, password}) {
         password
       })
       .then(response => {
-        setCookie('token', response.data.token, {path: '/'});
-        setCookie('user', response.data.user, {path: '/'});
+        Cookies.set('token', response.data.token, {path: '/'});
+        Cookies.set('user', response.data.user, {path: '/'});
         dispatch({type: AUTH_USER});
       })
       .catch(response => dispatch(invalidLogin(response)));
@@ -47,9 +48,9 @@ export function loginUser({email, password}) {
 }
 
 export function logoutUser(error) {
-  expireCookie('token', {path: '/'});
-  expireCookie('user', {path: '/'});
-  errorHandler(error);
+  Cookies.remove('token', {path: '/'});
+  Cookies.remove('user', {path: '/'});
+  actions.errorHandler(error);
 
   return ({
     type: UNAUTH_USER
@@ -65,6 +66,6 @@ export function resetPassword(token, {password}) {
           payload: response.data.message,
         });
       })
-      .catch(response => dispatch(errorHandler(response.data.error)));
+      .catch(response => dispatch(actions.errorHandler(response.data.error)));
   };
 }

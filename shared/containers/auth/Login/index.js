@@ -13,8 +13,8 @@ class LoginContainer extends Component {
     this.handleChange = this.handleChange.bind(this);
 
     this.state = {
-      email: "",
-      password: "",
+      email: "admin@admin.com",
+      password: "admin",
       error: null
     };
   }
@@ -59,7 +59,6 @@ class LoginContainer extends Component {
                   icon='user'
                   iconPosition='left'
                   placeholder='E-mail address'
-                  value={this.state.email}
                   onChange={this.handleChange}
                 />
                 <Form.Input
@@ -68,7 +67,6 @@ class LoginContainer extends Component {
                   iconPosition='left'
                   placeholder='Password'
                   type='password'
-                  value={this.state.password}
                   onChange={this.handleChange}
                 />
 
@@ -83,4 +81,3 @@ class LoginContainer extends Component {
 }
 
 export default connect(null, actions)(LoginContainer);
-

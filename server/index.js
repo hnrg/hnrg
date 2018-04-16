@@ -82,6 +82,7 @@ app.use('/api', routes.roles);
 app.use('/api', routes.permissions);
 app.use('/api', routes.telegram);
 app.use('/api', routes.auth);
+app.use('/api', routes.users);
 
 app.get('*', SSR.default);
 

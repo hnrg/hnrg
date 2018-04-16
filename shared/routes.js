@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 import App from './containers/App';
+import DashboardPage from './containers/Dashboard';
 import HomePage from './containers/Home';
 import NotFoundPage from './containers/NotFound';
 
@@ -22,7 +23,7 @@ const Routes = () => (
   <CookiesProvider>
     <App>
       <Switch>
-        <Route path="/dashboard" /*component={RequireAuth(DashboardPage)}*/ component={DashboardPage} />
+        <Route path="/dashboard" component={RequireAuth(DashboardPage)} />
 
         <Route exact path="/" component={HomePage} />
         <Route path="/home" component={HomePage} />

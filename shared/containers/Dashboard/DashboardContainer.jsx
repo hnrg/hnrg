@@ -15,7 +15,7 @@ class DashboardContainer extends Component {
   render() {
     return (
       <div>
-        {this.state.user.email}
+        {this.state.user}
       </div>
     );
   }
