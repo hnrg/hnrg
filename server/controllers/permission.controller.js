@@ -8,7 +8,7 @@ const Permission = require('../models/permission');
  */
 exports.getPermissions = async function(req, res) {
   try {
-    const permissions = await Permission.find({}).populate('permissions').exec();
+    const permissions = await Permission.find({}).exec();
 
     res.status(200).send({permissions});
   } catch (e) {
