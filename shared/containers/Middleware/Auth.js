@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
+
+import * as actions from '../../actions';
 
 export default function(ComposedComponent) {
   class Authentication extends Component {
     constructor(props) {
       super(props);
-      const { cookies } = this.props;
+      const { cookies, fetchUser } = this.props;
+      fetchUser();
 
       this.state = {
-        cookieUser: cookies.get('user'),
+        cookieUser: cookies.get('connectedUser'),
       };
     }
 
@@ -46,5 +49,5 @@ export default function(ComposedComponent) {
     };
   }
 
-  return withCookies(withRouter(connect(mapStateToProps)(Authentication)));
+  return withCookies(withRouter(connect(mapStateToProps, actions)(Authentication)));
 }

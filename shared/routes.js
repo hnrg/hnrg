@@ -22,7 +22,7 @@ const Routes = () => (
   <CookiesProvider>
     <App>
       <Switch>
-        <Route path="/dashboard" component={RequireAuth(/* DashboardPage */ HomePage)} />
+        <Route path="/dashboard" /*component={RequireAuth(DashboardPage)}*/ component={DashboardPage} />
 
         <Route exact path="/" component={HomePage} />
         <Route path="/home" component={HomePage} />

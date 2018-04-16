@@ -3,24 +3,11 @@ import { reset } from 'redux-form';
 import { getCookie, setCookie, expireCookie } from 'redux-cookie';
 import {
   AUTH_USER,
-  ERROR_RESPONSE,
   UNAUTH_USER,
-  RESET_PASSWORD_REQUEST,
-  CLEAR_ERRORS
+  RESET_PASSWORD_REQUEST
 } from '../constants';
 
-export function errorHandler(error) {
-  return {
-    type: ERROR_RESPONSE,
-    payload: error
-  };
-}
-
-export function clearErrors() {
-  return {
-    type: CLEAR_ERRORS
-  };
-}
+import * from './app-actions.js';
 
 export function unauthError(response) {
   if (response.status === 401) {
@@ -46,7 +33,7 @@ export function invalidLogin(response) {
 
 export function loginUser({email, password}) {
   return function(dispatch) {
-    axios.post('/auth/login', {
+    axios.post('/api/auth/login', {
         email,
         password
       })
@@ -71,7 +58,7 @@ export function logoutUser(error) {
 
 export function resetPassword(token, {password}) {
   return function(dispatch) {
-    axios.post(`/auth/reset-password/${token}`, {password})
+    axios.post(`/api/auth/reset-password/${token}`, {password})
       .then(response => {
         dispatch({
           type: RESET_PASSWORD_REQUEST,
