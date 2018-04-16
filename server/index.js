@@ -12,7 +12,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
 // Local Imports
-const serverConfig = require('./config');
+const serverConfig = require('./config/server');
 const routes = require('./routes');
 const dummyData = require('./dummyData');
 const webpackConfig = require('../webpack.config.dev')[0];
@@ -25,7 +25,7 @@ const app = express();
 
 app.use(cookieParser());
 app.use(session({
-  secret: 'secret',
+  secret: 'config/secret',
   resave: true,
   saveUninitialized: true,
   cookie: { httpOnly: true }
