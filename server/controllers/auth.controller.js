@@ -5,7 +5,7 @@ const secret = require('../secret');
 const User = require('../models/user');
 
 function generateToken(user) {
-  return jwt.sign({user:user}, secret.secret, {
+  return jwt.sign({user:user.id}, secret.secret, {
     expiresIn: 10080 // in seconds
   });
 }

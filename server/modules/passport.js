@@ -43,8 +43,8 @@ const jwtOptions = {
 };
 
 
-const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
-  User.findById(payload.id, function(err, user) {
+const jwtLogin = new JwtStrategy(jwtOptions, function(jwt_payload, done) {
+  User.findById(jwt_payload.user, function(err, user) {
     if (err) {
       return done(err, false);
     }
