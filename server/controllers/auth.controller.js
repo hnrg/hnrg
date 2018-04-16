@@ -5,7 +5,7 @@ const secret = require('../secret');
 const User = require('../models/user');
 
 function generateToken(user) {
-  return jwt.sign({user:user.id}, secret.secret, {
+  return jwt.sign({user:user._id}, secret.secret, {
     expiresIn: 10080 // in seconds
   });
 }
@@ -16,17 +16,17 @@ exports.login = function(req, res) {
 
     return res.status(200).json({
       token: `JWT ${token}`,
-      user: req.user,
+      user: req.user._id,
     });
   } catch (e) {
     res.status(500).send(e);
   }
-}
+};
 
-exports.me = function(req, res) {
+exports.session = function(req, res) {
   try {
     return res.status(200).json({user: req.user});
   } catch (e) {
     res.status(500).send(e);
   }
-}
+};
