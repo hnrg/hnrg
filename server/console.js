@@ -5,7 +5,7 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 
-const serverConfig = require('./config');
+const serverConfig = require('./config/server');
 
 const capitalize = str => str.charAt(0).toUpperCase() + str.toLowerCase().slice(1);
 

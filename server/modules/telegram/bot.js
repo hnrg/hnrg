@@ -2,7 +2,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const moment = require('moment-timezone');
 
-const serverConfig = require('../../config');
+const serverConfig = require('../../config/server');
 const Appointment = require('../../models/appointment');
 const Patient = require('../../models/patient');
 const TelegramUser = require('../../models/telegram-user');

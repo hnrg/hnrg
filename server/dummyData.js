@@ -1,7 +1,7 @@
 const cuid = require('cuid');
 const moment = require('moment-timezone');
 
-const serverConfig = require('./config');
+const serverConfig = require('./config/server');
 const User = require('./models/user');
 const Appointment = require('./models/appointment');
 const Permission = require('./models/permission');
@@ -15,11 +15,7 @@ const dummyData = async function()
       return;
     }
 
-    const admin = new User({
-      username: 'admin',
-      email: 'admin@admin.com',
-      password: 'admin',
-    });
+    const admin = new User(serverConfig.admin);
 
     admin.save();
   });
