@@ -12,8 +12,8 @@ import HomePage from './containers/Home';
 import NotFoundPage from './containers/NotFound';
 
 // auth pages
-// import LoginPage from './containers/Auth/Login';
-import LogoutPage from './containers/Auth/Logout';
+import LoginPage from './containers/auth/Login';
+import LogoutPage from './containers/auth/Logout';
 
 //high order components
 import RequireAuth from './containers/Middleware/Auth';
@@ -26,7 +26,7 @@ const Routes = () => (
 
         <Route exact path="/" component={HomePage} />
         <Route path="/home" component={HomePage} />
-        <Route path="/login" /* component={LoginPage} */ />
+        <Route path="/login" component={LoginPage} />
         <Route path="/logout" component={LogoutPage} />
         <Route path="/not-found" component={NotFoundPage} />
         <Redirect to="/not-found"/>
