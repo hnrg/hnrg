@@ -11,11 +11,10 @@ export default function(ComposedComponent) {
   class Authentication extends Component {
     constructor(props) {
       super(props);
-      const { cookies, fetchUser } = this.props;
-      cookies.remove('connectedUser', {path:'/'})
+      const { fetchUser } = this.props;
       fetchUser();
       this.state = {
-        cookieUser: cookies.get('connectedUser', {path:'/'}),
+        cookieUser: Cookies.get('connectedUser', {path:'/'}),
       };
     }
 
@@ -23,22 +22,12 @@ export default function(ComposedComponent) {
       if (!this.props.authenticated) {
         this.props.history.push('/login');
       }
-      /*
-      if (this.state.cookieUser) {
-        this.props.history.push('/dashboard');
-      }
-      */
     }
 
     componentWillUpdate(nextProps) {
       if (!nextProps.authenticated) {
         this.props.history.push('/login');
       }
-      /*
-      if (this.state.cookieUser) {
-        this.props.history.push('/dashboard');
-      }
-      */
     }
 
     render() {

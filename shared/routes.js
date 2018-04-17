@@ -1,5 +1,6 @@
 import React from 'react';
 import { CookiesProvider } from 'react-cookie';
+import Cookies from 'js-cookie';
 import {
   Switch,
   Route,

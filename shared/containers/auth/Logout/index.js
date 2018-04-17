@@ -5,7 +5,6 @@ import * as actions from '../../../actions';
 
 class LogoutContainer extends Component {
   componentWillMount() {
-    console.log(this.props);
     var { logoutUser, history } = this.props;
     logoutUser();
     history.push('/');
