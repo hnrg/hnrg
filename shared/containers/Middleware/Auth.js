@@ -13,8 +13,10 @@ export default function(ComposedComponent) {
       super(props);
       const { fetchUser } = this.props;
       fetchUser();
+
+      const connectedUser = new Object(Cookies.getJSON('connectedUser'));
       this.state = {
-        cookieUser: Cookies.get('connectedUser', {path:'/'}),
+        connectedUser: connectedUser,
       };
     }
 
@@ -31,7 +33,7 @@ export default function(ComposedComponent) {
     }
 
     render() {
-      return <ComposedComponent { ...this.props } />
+      return <ComposedComponent { ...this.props } user={this.state.connectedUser} />
     }
   }
 

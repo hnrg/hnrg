@@ -8,10 +8,9 @@ import * as actions from '../../actions';
 class DashboardContainer extends Component {
   constructor(props) {
     super(props);
-    const connectedUser = new Object(Cookies.getJSON('connectedUser'));
 
     this.state = {
-      user: connectedUser,
+      user: this.props.user,
     };
   }
 
