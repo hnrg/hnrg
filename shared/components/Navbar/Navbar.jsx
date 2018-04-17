@@ -73,7 +73,7 @@ class Footer extends Component {
             background color.
           */
       }
-      <Container text="text" style={{
+      <Container text style={{
             marginTop: '2em'
           }}>
           <Header as='h1'>Hospital de Niños Ricargo Gutierrez</Header>
@@ -85,19 +85,19 @@ class Footer extends Component {
           */
       }
       <Visibility onBottomPassed={this.stickTopMenu} onBottomVisible={this.unStickTopMenu} once={false}>
-        <Menu borderless="borderless" fixed={menuFixed && 'top'} style={menuFixed
+        <Menu borderless fixed={menuFixed && "top"} style={menuFixed
             ? fixedMenuStyle
             : menuStyle}>
-          <Container text="text">
+          <Container text>
             <Menu.Item>
               <Image size='mini' src='/logo.png'/>
             </Menu.Item>
-            <Menu.Item header="header">HNRG</Menu.Item>
+            <Menu.Item header>HNRG</Menu.Item>
             <Menu.Item as='a'>Home</Menu.Item>
             <Menu.Item as='a'>Dashboard</Menu.Item>
 
             <Menu.Menu position='right'>
-              <Dropdown text='Dropdown' pointing="pointing" className='link item'>
+              <Dropdown text='Dropdown' className='link item'>
                 <Dropdown.Menu>
                   <Dropdown.Item>List Item</Dropdown.Item>
                   <Dropdown.Item>List Item</Dropdown.Item>

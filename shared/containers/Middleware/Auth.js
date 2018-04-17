@@ -11,25 +11,46 @@ export default function(ComposedComponent) {
   class Authentication extends Component {
     constructor(props) {
       super(props);
+
+      this.refreshUser = this.refreshUser.bind(this);
+
+      this.state = {
+        connectedUser: null,
+      };
+    }
+
+    refreshUser() {
       const { fetchUser } = this.props;
       fetchUser();
 
       const connectedUser = new Object(Cookies.getJSON('connectedUser'));
-      this.state = {
+      this.setState({
         connectedUser: connectedUser,
-      };
+      });
     }
 
     componentWillMount() {
       if (!this.props.authenticated) {
         this.props.history.push('/login');
+        return;
       }
+
+      this.refreshUser();
     }
 
     componentWillUpdate(nextProps) {
       if (!nextProps.authenticated) {
         this.props.history.push('/login');
+        return;
       }
+
+      const { fetchUser } = nextProps;
+      fetchUser();
+
+      const connectedUser = new Object(Cookies.getJSON('connectedUser'));
+      this.setState({
+        connectedUser: connectedUser,
+      });
     }
 
     render() {

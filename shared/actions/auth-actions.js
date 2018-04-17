@@ -5,7 +5,6 @@ import { getCookie, setCookie, expireCookie } from 'redux-cookie';
 import {
   AUTH_USER,
   UNAUTH_USER,
-  RESET_PASSWORD_REQUEST
 } from '../constants';
 
 import * as actions from './app-actions.js';
@@ -55,17 +54,4 @@ export function logoutUser(error) {
   return ({
     type: UNAUTH_USER
   });
-}
-
-export function resetPassword(token, {password}) {
-  return function(dispatch) {
-    axios.post(`/api/auth/reset-password/${token}`, {password})
-      .then(response => {
-        dispatch({
-          type: RESET_PASSWORD_REQUEST,
-          payload: response.data.message,
-        });
-      })
-      .catch(response => dispatch(actions.errorHandler(response.data.error)));
-  };
 }
