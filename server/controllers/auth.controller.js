@@ -22,11 +22,3 @@ exports.login = function(req, res) {
     res.status(500).send(e);
   }
 };
-
-exports.session = function(req, res) {
-  try {
-    return res.status(200).json({user: req.user});
-  } catch (e) {
-    res.status(500).send(e);
-  }
-};

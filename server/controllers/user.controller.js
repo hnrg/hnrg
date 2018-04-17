@@ -1,6 +1,8 @@
 const Permission = require('../models/permission');
 const User = require('../models/user');
 
+const permissionsCheck = require('../modules/permissions-check');
+
 /**
  * Get all users
  * @param req
@@ -9,10 +11,16 @@ const User = require('../models/user');
  */
 exports.getUsers = async function(req, res) {
   try {
+    permissionsCheck(req.user, 'usuario_index');
+
     const users = await User.find({}).populate('roles').exec();
 
     res.status(200).send({users});
   } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
     res.status(500).send(e);
   }
 };
@@ -25,7 +33,9 @@ exports.getUsers = async function(req, res) {
  */
 exports.getUser = async function(req, res, next) {
   try {
-    const user = await User.findById(req.params.id).exec();
+    permissionsCheck(req.user, 'usuario_show');
+
+    const user = await User.findById(req.params.id).populate('roles').exec();
 
     if (!user) {
       return res.sendStatus(404);
@@ -33,12 +43,18 @@ exports.getUser = async function(req, res, next) {
 
     res.status(200).json({user});
   } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
     return res.status(500).send(e);
   }
 };
 
 exports.addUser = async function(req, res) {
   try {
+    permissionsCheck(req.user, 'usuario_add');
+
     const user = req.body.user;
 
     const email = user.email;
@@ -97,6 +113,35 @@ exports.addUser = async function(req, res) {
       });
     });
   } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
+    return res.status(500).send(e);
+  }
+};
+
+exports.deleteUser = async function(req, res) {
+  try {
+    permissionsCheck(req.user, 'usuario_index');
+
+    const user = await User.findOne({id: req.params.id}).exec();
+
+    if (!user) {
+      return res.sendStatus(404);
+    }
+
+    await user.remove();
+    res.sendStatus(200);
+  } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
+    if (e.name === 'CastError') {
+      return res.sendStatus(400);
+    }
+
     return res.status(500).send(e);
   }
 };

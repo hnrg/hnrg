@@ -44,7 +44,14 @@ const jwtOptions = {
 
 
 const jwtLogin = new JwtStrategy(jwtOptions, function(jwt_payload, done) {
-  User.findById(jwt_payload.user, function(err, user) {
+  User.findById(jwt_payload.user).populate({
+    path: 'roles',
+    select: 'name permissions',
+    populate: {
+      path: 'permissions',
+      select: 'name',
+    },
+  }).exec(function(err, user) {
     if (err) {
       return done(err, false);
     }

@@ -1,6 +1,8 @@
 const Permission = require('../models/permission');
 const Rol = require('../models/rol');
 
+const permissionsCheck = require('../modules/permissions-check');
+
 /**
  * Get all roles
  * @param req
@@ -9,10 +11,16 @@ const Rol = require('../models/rol');
  */
 exports.getRoles = async function(req, res) {
   try {
+    permissionsCheck(req.user, 'roles_index');
+
     const roles = await Rol.find({}).populate('permissions').exec();
 
     res.status(200).send({roles});
   } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
     res.status(500).send(e);
   }
 };
@@ -25,6 +33,8 @@ exports.getRoles = async function(req, res) {
  */
 exports.addRol = async function(req, res) {
   try {
+    permissionsCheck(req.user, 'roles_add');
+
     const {rol} = req.body;
 
     if (!rol.name) {
@@ -45,6 +55,10 @@ exports.addRol = async function(req, res) {
 
     return res.status(200).send({rol: saved});
   } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
     res.status(500).send(e);
   }
 };
@@ -57,6 +71,8 @@ exports.addRol = async function(req, res) {
  */
 exports.getRol = async function(req, res) {
   try {
+    permissionsCheck(req.user, 'roles_show');
+
     const rol = await Rol.findOne({
       id: req.params.id
     }).populate('permissions').exec();
@@ -67,6 +83,10 @@ exports.getRol = async function(req, res) {
 
     res.status(200).json({rol});
   } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
     if (e.name === 'CastError') {
       return res.sendStatus(400);
     }
@@ -83,6 +103,8 @@ exports.getRol = async function(req, res) {
  */
 exports.deleteRol = async function(req, res) {
   try {
+    permissionsCheck(req.user, 'roles_delete');
+
     const rol = await Rol.findOne({id: req.params.id}).exec();
 
     if (!rol) {
@@ -92,6 +114,10 @@ exports.deleteRol = async function(req, res) {
     await rol.remove();
     res.sendStatus(200);
   } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
     if (e.name === 'CastError') {
       return res.sendStatus(400);
     }
@@ -102,8 +128,13 @@ exports.deleteRol = async function(req, res) {
 
 exports.deleteRolPermission = async function(req, res) {
   try {
+    permissionsCheck(req.user, 'roles_delete');
 
   } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
     res.status(500).send(e);
   }
 };
