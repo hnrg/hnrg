@@ -13,7 +13,7 @@ class LoginContainer extends Component {
     this.handleChange = this.handleChange.bind(this);
 
     this.state = {
-      email: "admin@admin.com",
+      email: "admin@hnrg.com",
       password: "admin",
       error: null
     };

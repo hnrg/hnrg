@@ -41,6 +41,7 @@ export function loginUser({email, password}) {
         Cookies.set('token', response.data.token, {path: '/'});
         Cookies.set('user', response.data.user, {path: '/'});
         dispatch({type: AUTH_USER});
+
       })
       .catch(response => dispatch(invalidLogin(response)));
   };
@@ -49,6 +50,7 @@ export function loginUser({email, password}) {
 export function logoutUser(error) {
   Cookies.remove('token', {path: '/'});
   Cookies.remove('user', {path: '/'});
+  Cookies.remove('connectedUser', {path: '/'});
   actions.errorHandler(error);
 
   return ({
