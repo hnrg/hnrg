@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import _ from 'lodash';
+import React, {Component} from 'react';
 import {
-  Button,
   Container,
   Divider,
+  Dropdown,
   Grid,
   Header,
   Icon,
@@ -11,26 +12,114 @@ import {
   Menu,
   Segment,
   Visibility
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
 
-class Navbar extends Component {
+import {
+  menuStyle,
+  fixedMenuStyle,
+  overlayStyle,
+  fixedOverlayStyle,
+  overlayMenuStyle,
+  fixedOverlayMenuStyle,
+} from './styles';
+
+class Footer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleOverlayRef = this.handleOverlayRef.bind(this);
+    this.stickOverlay = this.stickOverlay.bind(this);
+    this.stickTopMenu = this.stickTopMenu.bind(this);
+    this.unStickOverlay = this.unStickOverlay.bind(this);
+    this.unStickTopMenu = this.unStickTopMenu.bind(this);
+
+    this.state = {
+      menuFixed: false,
+      overlayFixed: false
+    };
+  }
+
+  handleOverlayRef(c) {
+    const {overlayRect} = this.state;
+
+    if (!overlayRect) {
+      this.setState({
+        overlayRect: _.pick(c.getBoundingClientRect(), 'height', 'width')
+      });
+    }
+  }
+
+  stickOverlay() {
+    return this.setState({overlayFixed: true});
+  }
+
+  stickTopMenu() {
+    return this.setState({menuFixed: true});
+  }
+
+  unStickOverlay() {
+    return this.setState({overlayFixed: false});
+  }
+
+  unStickTopMenu() {
+    return this.setState({menuFixed: false});
+  }
+
   render() {
-    return (<Segment inverted="inverted" textAlign='center' style={{
-        padding: '1em 0em'
-      }} vertical="vertical">
-      <Container>
-        <Menu inverted="inverted" pointing="pointing" secondary="secondary" size='large'>
-          <Menu.Item as='a' href="/" active="active">Inicio</Menu.Item>
-          <Menu.Item as='a' href="/dashboard">Dashboard</Menu.Item>
-          <Menu.Item position='right'>
-            <Button as='a' href="/login" inverted="inverted" style={{
-                marginLeft: '0.5em'
-              }}>Iniciar Sesión</Button>
-          </Menu.Item>
+    const {menuFixed, overlayFixed, overlayRect} = this.state;
+
+    return (<div>
+      {/* Heads up, style below isn't necessary for correct work of example, simply our docs defines other
+            background color.
+          */
+      }
+      <Container text="text" style={{
+            marginTop: '2em'
+          }}>
+          <Header as='h1'>Hospital de Niños Ricargo Gutierrez</Header>
+          <p>This example shows how to use lazy loaded images, a sticky menu, and a simple text container</p>
+        </Container>
+
+        {/* Attaching the top menu is a simple operation, we only switch `fixed` prop and add another style if it has
+            gone beyond the scope of visibility
+          */
+      }
+      <Visibility onBottomPassed={this.stickTopMenu} onBottomVisible={this.unStickTopMenu} once={false}>
+        <Menu borderless="borderless" fixed={menuFixed && 'top'} style={menuFixed
+            ? fixedMenuStyle
+            : menuStyle}>
+          <Container text="text">
+            <Menu.Item>
+              <Image size='mini' src='/logo.png'/>
+            </Menu.Item>
+            <Menu.Item header="header">HNRG</Menu.Item>
+            <Menu.Item as='a'>Home</Menu.Item>
+            <Menu.Item as='a'>Dashboard</Menu.Item>
+
+            <Menu.Menu position='right'>
+              <Dropdown text='Dropdown' pointing="pointing" className='link item'>
+                <Dropdown.Menu>
+                  <Dropdown.Item>List Item</Dropdown.Item>
+                  <Dropdown.Item>List Item</Dropdown.Item>
+                  <Dropdown.Divider/>
+                  <Dropdown.Header>Header Item</Dropdown.Header>
+                  <Dropdown.Item>
+                    <i className='dropdown icon'/>
+                    <span className='text'>Submenu</span>
+                    <Dropdown.Menu>
+                      <Dropdown.Item>List Item</Dropdown.Item>
+                      <Dropdown.Item>List Item</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown.Item>
+                  <Dropdown.Item>List Item</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Menu.Menu>
+          </Container>
         </Menu>
-      </Container>
-    </Segment>);
+      </Visibility>
+    </div>);
   }
 }
 
-export default Navbar;
+export default Footer;

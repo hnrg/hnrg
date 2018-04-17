@@ -9,7 +9,6 @@ class HomeContainer extends Component {
     return (
       <div>
         <Navbar />
-        <h3>Welcome!</h3>
         <Footer />
       </div>
     );
