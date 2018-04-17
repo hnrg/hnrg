@@ -25,7 +25,6 @@ exports.getUsers = async function(req, res) {
  */
 exports.getUser = async function(req, res) {
   try {
-    console.log(req.params);
     const user = await User.findById(req.params.id).exec();
 
     if (!user) {
