@@ -1,6 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const moment = require('moment-timezone');
+const _ = require('lodash');
 
 const serverConfig = require('../../config/server');
 const Appointment = require('../../models/appointment');
@@ -8,20 +9,6 @@ const Patient = require('../../models/patient');
 const TelegramUser = require('../../models/telegram-user');
 
 const url = serverConfig.url;
-
-Array.prototype.chunk = function(groupsize) {
-  var sets = [],
-    chunks,
-    i = 0;
-  chunks = this.length / groupsize;
-
-  while (i < chunks) {
-    sets[i] = this.splice(0, groupsize);
-    i++;
-  }
-
-  return sets;
-};
 
 const new_appointment_format = [
   "DD-MM-YYYY HH:mm",
@@ -109,7 +96,7 @@ bot.onText(/\/reservar\s*(\S*)\s*(\S*)\s*(\S*)/gi, (msg, match) => {
 
   axios.post(`${url}/api/turnos/`, {
     appointment: {
-      document: documentNumber,
+      documentNumber: documentNumber,
       date: date.format("YYYY-MM-DD"),
       time: date.format("HH:mm:ss")
     }
@@ -160,12 +147,22 @@ bot.onText(/\/perfil/gi, (msg, match) => {
     reply_markup: {
       inline_keyboard: [
         [
-          { text: "Mis turnos", callback_data: "turnos" },
-          { text: "Reservar turno", callback_data: "reservar" }
+          {
+            text: "Mis turnos",
+            callback_data: "turnos"
+          }, {
+            text: "Reservar turno",
+            callback_data: "reservar"
+          }
         ],
         [
-          { text: "Mi información", callback_data: "info" },
-          { text: "Salir", callback_data: "desvincular" }
+          {
+            text: "Mi información",
+            callback_data: "info"
+          }, {
+            text: "Salir",
+            callback_data: "desvincular"
+          }
         ]
       ]
     }
@@ -211,7 +208,7 @@ bot.onText(/^(\d{2}[-|\/]\d{2}[-|\/]\d{2,4})$/, (msg, match) => {
     bot.sendMessage(chatId, "Ingrese una fecha válida");
   }
   axios.get(`${url}/api/turnos/${date.format("YYYY-MM-DD")}`).then((response) => {
-    var appointments = response.data.appointments.chunk(4);
+    var appointments = _.chunk(response.data.appointments, 4);
     var opts = {
       reply_markup: {
         keyboard: appointments,
