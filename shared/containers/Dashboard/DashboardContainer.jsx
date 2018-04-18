@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import { connect } from 'react-redux';
 
@@ -14,10 +15,12 @@ class DashboardContainer extends Component {
   }
 
   render() {
-    return (
-      <Sidebar />
-    );
+    return (<div>{this.state.user.username}</div>);
   }
 }
+
+DashboardContainer.propTypes = {
+  user: PropTypes.object.isRequired,
+};
 
 export default connect()(DashboardContainer);

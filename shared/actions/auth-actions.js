@@ -5,6 +5,7 @@ import { getCookie, setCookie, expireCookie } from 'redux-cookie';
 import {
   AUTH_USER,
   UNAUTH_USER,
+  FETCH_USER,
 } from '../constants';
 
 import * as actions from './app-actions.js';
@@ -41,19 +42,40 @@ export function loginUser({email, password}) {
         Cookies.set('token', response.data.token, {path: '/'});
         Cookies.set('user', response.data.user, {path: '/'});
         dispatch({type: AUTH_USER});
+        global.window.location.replace('/dashboard');
 
       })
       .catch(response => dispatch(invalidLogin(response)));
   };
 }
 
-export function logoutUser(error) {
-  Cookies.remove('token', {path: '/'});
-  Cookies.remove('user', {path: '/'});
-  Cookies.remove('connectedUser', {path: '/'});
-  actions.errorHandler(error);
+export function fetchUser() {
+  return function(dispatch) {
+    const token = Cookies.get('token', {path:'/'});
+    axios.get('/api/auth/me', {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then(response => {
+        Cookies.set('connectedUser', response.data.user, {path:'/'});
+        dispatch({type: FETCH_USER});
+      })
+      .catch(response => dispatch(actions.errorHandler(response)));
+  };
+}
 
-  return ({
-    type: UNAUTH_USER
-  });
+export function logoutUser(error) {
+  return dispatch => {
+    Cookies.remove('token', {path: '/'});
+    Cookies.remove('user', {path: '/'});
+    Cookies.remove('connectedUser', {path: '/'});
+    actions.errorHandler(error);
+
+    dispatch({
+      type: UNAUTH_USER
+    });
+
+    global.window.location.replace('/login');
+  }
 }

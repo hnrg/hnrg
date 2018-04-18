@@ -22,3 +22,11 @@ exports.login = function(req, res) {
     res.status(500).send(e);
   }
 };
+
+exports.me = async function(req, res, next) {
+  try {
+    return res.status(200).json({user: req.user});
+  } catch (e) {
+    return res.status(500).send(e);
+  }
+};

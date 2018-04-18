@@ -1,9 +1,10 @@
 import {
   AUTH_USER,
+  FETCH_USER,
   UNAUTH_USER,
   ERROR_RESPONSE,
   CLEAR_ERRORS,
-  PROTECTED_TEST
+  PROTECTED_TEST,
 } from '../constants';
 
 const INITIAL_STATE = {
@@ -16,6 +17,8 @@ const INITIAL_STATE = {
 export default function (state = INITIAL_STATE, action) {
   switch(action.type) {
     case AUTH_USER:
+      return { ...state, error: '', message: '', authenticated: true };
+    case FETCH_USER:
       return { ...state, error: '', message: '', authenticated: true };
     case UNAUTH_USER:
       return { ...state, authenticated: false };

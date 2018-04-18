@@ -143,8 +143,6 @@ const dummyData = async function() {
     }
 
     await Rol.findOne({name: 'Administrador'}).exec(async (err, rol) => {
-      console.log(rol);
-
       const admin = new User({
         ...secret.admin,
         roles: [rol],
@@ -154,8 +152,6 @@ const dummyData = async function() {
     });
 
     await Rol.findOne({name: 'Pediatra'}).exec(async (err, rol) => {
-      console.log(rol);
-
       const pediatrician = new User({
         email: 'pediatra@hnrg.com',
         username: 'pediatra',
@@ -167,8 +163,6 @@ const dummyData = async function() {
     });
 
     await Rol.findOne({name: 'Recepcionista'}).exec(async (err, rol) => {
-      console.log(rol);
-
       const receptionist = new User({
         email: 'recepcionista@hnrg.com',
         username: 'recepcionista',

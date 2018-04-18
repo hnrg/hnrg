@@ -12,11 +12,16 @@ export default function(ComposedComponent) {
     constructor(props) {
       super(props);
 
-      this.refreshUser = this.refreshUser.bind(this);
+      const { fetchUser } = this.props;
+      fetchUser();
+
+      const connectedUser = new Object(Cookies.getJSON('connectedUser'));
 
       this.state = {
-        connectedUser: null,
+        connectedUser: connectedUser,
       };
+
+      this.refreshUser = this.refreshUser.bind(this);
     }
 
     refreshUser() {
@@ -24,6 +29,7 @@ export default function(ComposedComponent) {
       fetchUser();
 
       const connectedUser = new Object(Cookies.getJSON('connectedUser'));
+
       this.setState({
         connectedUser: connectedUser,
       });
@@ -31,8 +37,7 @@ export default function(ComposedComponent) {
 
     componentWillMount() {
       if (!this.props.authenticated) {
-        this.props.history.push('/login');
-        return;
+        return this.props.history.push('/login');
       }
 
       this.refreshUser();
@@ -40,17 +45,10 @@ export default function(ComposedComponent) {
 
     componentWillUpdate(nextProps) {
       if (!nextProps.authenticated) {
-        this.props.history.push('/login');
-        return;
+        return this.props.history.push('/login');
       }
 
-      const { fetchUser } = nextProps;
-      fetchUser();
-
-      const connectedUser = new Object(Cookies.getJSON('connectedUser'));
-      this.setState({
-        connectedUser: connectedUser,
-      });
+      this.refreshUser();
     }
 
     render() {
