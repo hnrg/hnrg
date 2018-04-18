@@ -66,7 +66,7 @@ export function fetchUser() {
 }
 
 export function logoutUser(error) {
-  return dispatch => {
+  return function(dispatch) {
     Cookies.remove('token', {path: '/'});
     Cookies.remove('user', {path: '/'});
     Cookies.remove('connectedUser', {path: '/'});
@@ -76,6 +76,6 @@ export function logoutUser(error) {
       type: UNAUTH_USER
     });
 
-    global.window.location.replace('/login');
-  }
+    global.window.location.replace('/');
+  };
 }
