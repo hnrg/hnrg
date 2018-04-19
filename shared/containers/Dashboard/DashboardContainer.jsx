@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Cookies from 'js-cookie';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 

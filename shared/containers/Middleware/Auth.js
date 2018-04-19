@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Cookies from 'js-cookie';
 import { withRouter } from "react-router-dom";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { CookiesProvider, withCookies } from 'react-cookie';
 
 import * as authActions from '../../actions/auth-actions';
 import * as globalActions from '../../actions/global-actions';
@@ -41,5 +39,5 @@ export default function(ComposedComponent) {
     };
   }
 
-  return withCookies(withRouter(connect(mapStateToProps, mapDispatchToProps)(Authentication)));
+  return withRouter(connect(mapStateToProps, mapDispatchToProps)(Authentication));
 }

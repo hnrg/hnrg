@@ -4,7 +4,6 @@ import TimerMixin from 'react-timer-mixin';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 
 import * as authActions from '../actions/auth-actions';
 import * as globalActions from '../actions/global-actions';
@@ -64,4 +63,4 @@ App.propTypes = {
 // Since we're using ES6 classes, have to define the TimerMixin
 reactMixin(App.prototype, TimerMixin);
 
-export default withCookies(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(App);
