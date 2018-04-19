@@ -6,11 +6,13 @@ export default {
   error: null,
   isValid: false,
   isFetching: false,
-  email: '',
-  emailHasError: false,
-  emailErrorMsg: '',
-  password: '',
-  passwordHasError: false,
-  passwordErrorMsg: '',
-  showPassword: false
+  fields: {
+    email: '',
+    emailHasError: false,
+    emailErrorMsg: '',
+    password: '',
+    passwordHasError: false,
+    passwordErrorMsg: '',
+    showPassword: false,
+  },
 };

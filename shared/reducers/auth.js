@@ -61,12 +61,16 @@ export default function(state = InitialState, action) {
        * Clear the form's error and all the fields
        */
     case LOGOUT:
+      var fields = state.fields;
       return {
         ...state,
         state: action.type,
         error: null,
-        email: '',
-        password: '',
+        fields: {
+          ...fields,
+          email: '',
+          password: '',
+        }
       };
 
       /**
@@ -140,6 +144,7 @@ export default function(state = InitialState, action) {
        */
     case SET_STATE:
       var auth = JSON.parse(action.payload).auth;
+      var {fields} = auth;
 
       return {
         ...state,
@@ -148,10 +153,13 @@ export default function(state = InitialState, action) {
         error: auth.error,
         isValid: auth.isValid,
         isFetching: auth.isFetching,
-        email: auth.email,
-        emailHasError: auth.emailHasError,
-        password: auth.password,
-        passwordHasError: auth.passwordHasError
+        fields: {
+          ...fields,
+          email: auth.email,
+          emailHasError: auth.emailHasError,
+          password: auth.password,
+          passwordHasError: auth.passwordHasError
+        }
       };
 
     case DELETE_TOKEN_REQUEST:

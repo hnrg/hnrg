@@ -11,17 +11,17 @@ export default function(state = InitialState) {
     case LOGOUT:
       return { ...state, isValid: true, };
     case LOGIN:
-      if (state.email !== '' &&
-          state.password !== '' &&
-          !state.emailHasError &&
-          !state.passwordHasError) {
+      if (state.fields.email !== '' &&
+          state.fields.password !== '' &&
+          !state.fields.emailHasError &&
+          !state.fields.passwordHasError) {
         return { ...state, isValid: true, };
       } else {
         return { ...state, isValid: false, };
       }
     case FORGOT_PASSWORD:
-      if (state.email !== '' &&
-        !state.emailHasError) {
+      if (state.fields.email !== '' &&
+        !state.fields.emailHasError) {
         return { ...state, isValid: true, };
       } else {
         return { ...state, isValid: false, };

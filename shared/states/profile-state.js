@@ -1,12 +1,18 @@
 export default {
+  originalProfile: {
+    username: null,
+    email: null,
+  },
   disabled: false,
   error: null,
   isValid: false,
   isFetching: false,
-  username: null,
-  usernameHasError: false,
-  usernameErrorMsg: '',
-  email: null,
-  emailHasError: false,
-  emailErrorMsg: ''
+  fields: {
+    username: null,
+    usernameHasError: false,
+    usernameErrorMsg: '',
+    email: null,
+    emailHasError: false,
+    emailErrorMsg: ''
+  }
 };

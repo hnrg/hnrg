@@ -44,8 +44,16 @@ export default function profileReducer(state = InitialState, action) {
     case GET_PROFILE_SUCCESS:
       nextProfileState = {
         ...state,
-        email: action.payload.email,
-        username: action.payload.username,
+        fields: {
+          ...state.fields,
+          email: action.payload.email,
+          username: action.payload.username,
+        },
+        originalProfile: {
+          ...state.originalProfile,
+          email: action.payload.email,
+          username: action.payload.username,
+        },
         isFetching: false,
         error: null,
       };
@@ -85,6 +93,7 @@ export default function profileReducer(state = InitialState, action) {
      */
     case SET_STATE:
       var profile = JSON.parse(action.payload).profile;
+      var {fields, originalProfile} = state;
 
       return {
         ...state,
@@ -92,10 +101,18 @@ export default function profileReducer(state = InitialState, action) {
         error: profile.error,
         isValid: profile.isValid,
         isFetching: profile.isFetching,
-        email: profile.email,
-        emailHasError: profile.emailHasError,
-        username: profile.username,
-        usernameHasError: profile.usernameHasError,
+        fields: {
+          ...fields,
+          email: profile.fields.email,
+          emailHasError: profile.fields.emailHasError,
+          username: profile.fields.username,
+          usernameHasError: profile.fields.usernameHasError,
+        },
+        originalProfile: {
+          ...originalProfile,
+          email: profile.originalProfile.email,
+          username: profile.originalProfile.username,
+        },
       };
   }
 

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../../../actions';
+
+import * as authActions from '../../../actions/auth-actions';
+import * as globalActions from '../../../actions/global-actions';
 
 class LogoutContainer extends Component {
   componentWillMount() {
@@ -19,7 +21,7 @@ class LogoutContainer extends Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     auth: {
       isFetching: state.auth.isFetching,
@@ -29,13 +31,13 @@ function mapStateToProps (state) {
       currentState: state.global.currentState,
       showState: state.global.showState
     }
-  }
+  };
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    actions: bindActionCreators({ ...actions }, dispatch)
-  }
+    actions: bindActionCreators({ ...authActions, ...globalActions }, dispatch)
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogoutContainer);

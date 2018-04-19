@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import reactMixin from 'react-mixin';
+import TimerMixin from 'react-timer-mixin';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 
-import * as actions from '../actions';
+import * as authActions from '../actions/auth-actions';
+import * as globalActions from '../actions/global-actions';
+
 import DevTools from '../components/DevTools';
 
 /**
@@ -19,7 +23,7 @@ function mapStateToProps(state) {
       currentState: state.global.currentState,
       showState: state.global.showState
     }
-  }
+  };
 }
 
 /**
@@ -27,8 +31,8 @@ function mapStateToProps(state) {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...actions }, dispatch)
-  }
+    actions: bindActionCreators({ ...authActions, ...globalActions }, dispatch)
+  };
 }
 
 class App extends Component {
@@ -37,7 +41,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
+    this.setTimeout(() => {
       this.props.actions.getSessionToken();
     },
     2500);
@@ -56,5 +60,8 @@ class App extends Component {
 App.propTypes = {
   children: PropTypes.object.isRequired,
 };
+
+// Since we're using ES6 classes, have to define the TimerMixin
+reactMixin(App.prototype, TimerMixin);
 
 export default withCookies(connect(mapStateToProps, mapDispatchToProps)(App));
