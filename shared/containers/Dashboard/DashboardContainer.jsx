@@ -8,19 +8,14 @@ import Sidebar from '../../components/dashboard/Sidebar';
 class DashboardContainer extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      user: this.props.user,
-    };
   }
 
   render() {
-    return (<div>{this.state.user.username}</div>);
+    return (<div></div>);
   }
 }
 
 DashboardContainer.propTypes = {
-  user: PropTypes.object.isRequired,
 };
 
 export default connect()(DashboardContainer);

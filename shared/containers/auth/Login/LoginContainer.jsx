@@ -23,8 +23,8 @@ class LoginContainer extends Component {
   handleSubmit(e) {
     e.preventDefault();
     var { email, password } = this.state;
-    var { history, loginUser } = this.props
-    loginUser({email, password});
+    var { history, login } = this.props
+    login({email, password});
     history.push('/dashboard');
   }
 

@@ -16,7 +16,6 @@ exports.login = function(req, res) {
 
     return res.status(200).json({
       token: `JWT ${token}`,
-      user: req.user._id,
     });
   } catch (e) {
     res.status(500).send(e);

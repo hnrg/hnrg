@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import { withRouter } from "react-router-dom";
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { CookiesProvider, withCookies } from 'react-cookie';
 
@@ -9,58 +10,40 @@ import * as actions from '../../actions';
 
 export default function(ComposedComponent) {
   class Authentication extends Component {
-    constructor(props) {
+    constructor (props) {
       super(props);
 
-      const { fetchUser } = this.props;
-      fetchUser();
-
-      const connectedUser = new Object(Cookies.getJSON('connectedUser'));
-
+      this.props.actions.getProfile(this.props.global.currentUser);
       this.state = {
-        connectedUser: connectedUser,
+        user: {
+          username: '',
+          email: ''
+        }
       };
-
-      this.refreshUser = this.refreshUser.bind(this);
-    }
-
-    refreshUser() {
-      const { fetchUser } = this.props;
-      fetchUser();
-
-      const connectedUser = new Object(Cookies.getJSON('connectedUser'));
-
-      this.setState({
-        connectedUser: connectedUser,
-      });
-    }
-
-    componentWillMount() {
-      if (!this.props.authenticated) {
-        return this.props.history.push('/login');
-      }
-
-      this.refreshUser();
-    }
-
-    componentWillUpdate(nextProps) {
-      if (!nextProps.authenticated) {
-        return this.props.history.push('/login');
-      }
-
-      this.refreshUser();
     }
 
     render() {
-      return <ComposedComponent { ...this.props } user={this.state.connectedUser} />
+      return <ComposedComponent { ...this.props } />
     }
   }
 
   function mapStateToProps(state) {
     return {
-      authenticated: state.auth.authenticated,
-    };
+      auth: state.auth,
+      profile: state.profile,
+      global: {
+        currentUser: state.global.currentUser,
+        currentState: state.global.currentState,
+        showState: state.global.showState
+      }
+    }
   }
 
-  return withCookies(withRouter(connect(mapStateToProps, actions)(Authentication)));
+  function mapDispatchToProps(dispatch) {
+    return {
+      actions: bindActionCreators({ ...actions }, dispatch)
+    }
+  }
+
+  return withCookies(withRouter(connect(mapStateToProps, mapDispatchToProps)(Authentication)));
 }
