@@ -1,0 +1,21 @@
+const {Router} = require('express');
+const passport = require('passport');
+
+const passportService = require('../modules/passport');
+const PatientController = require('../controllers/patient.controller');
+
+// Middleware to require login/auth
+const requireAuth = passport.authenticate('jwt', { session: false });
+const requireLogin = passport.authenticate('local', { session: false });
+
+const router = Router();
+
+router.route('/patients').get(requireAuth, PatientController.getPatients);
+
+router.route('/patients').post(requireAuth, PatientController.addPatient);
+
+router.route('/patients/:id').get(requireAuth, PatientController.getPatient);
+
+router.route('/patients/:id').delete(requireAuth, PatientController.deletePatient);
+
+module.exports = router;
