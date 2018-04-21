@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../../../actions';
+
+import * as authActions from '../../../actions/auth-actions';
+import * as globalActions from '../../../actions/global-actions';
 
 class LogoutContainer extends Component {
   componentWillMount() {
-    var { logoutUser, history } = this.props;
-    logoutUser();
-    history.push('/');
+    this.props.actions.logout();
+    this.props.history.push('/');
   }
 
   render() {
@@ -19,8 +21,23 @@ class LogoutContainer extends Component {
   }
 }
 
-LogoutContainer.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
+function mapStateToProps(state) {
+  return {
+    auth: {
+      isFetching: state.auth.isFetching,
+      isValid: state.auth.isValid
+    },
+    global: {
+      currentState: state.global.currentState,
+      showState: state.global.showState
+    }
+  };
 }
 
-export default connect(null, actions)(LogoutContainer);
+function mapDispatchToProps (dispatch) {
+  return {
+    actions: bindActionCreators({ ...authActions, ...globalActions }, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogoutContainer);

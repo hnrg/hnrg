@@ -1,3 +1,3 @@
-export * from './app-actions';
-export * from './user-actions';
+export * from './global-actions';
 export * from './auth-actions';
+export * from './profile-actions';

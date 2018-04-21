@@ -8,7 +8,7 @@ import { createCookieMiddleware } from 'redux-cookie';
 import thunk from 'redux-thunk';
 
 import reducers from './reducers';
-import { AUTH_USER } from './constants';
+import { LOGIN_SUCCESS } from './constants';
 import DevTools from './components/DevTools';
 
 const packages = [];
@@ -31,13 +31,5 @@ const store = createStore(
   ...enhancers,
   middleware,
 );
-
-//load cookie
-const token = Cookies.get('token');
-
-if (token) {
-  // Update application state. User has token and is probably authenticated
-  store.dispatch({ type: AUTH_USER });
-}
 
 export default store;
