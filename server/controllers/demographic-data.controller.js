@@ -32,7 +32,7 @@ exports.getDemographicsData = async function(req, res) {
  */
 exports.addDemographicData = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'control_salud_add');
+    permissionsCheck(req.user, 'control_salud_new');
 
     const {demographicData} = req.body;
 

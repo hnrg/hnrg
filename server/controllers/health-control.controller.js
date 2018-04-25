@@ -32,7 +32,7 @@ exports.getHealthControls = async function(req, res) {
  */
 exports.addHealthControl = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'control_salud_add');
+    permissionsCheck(req.user, 'control_salud_new');
 
     const {healthControl} = req.body;
 
