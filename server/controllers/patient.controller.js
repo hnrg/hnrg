@@ -38,13 +38,28 @@ exports.addPatient = async function(req, res) {
   try {
     permissionsCheck(req.user, 'pacientes_add');
 
-    if (!documentType || !documentNumber) {
+    var {documentType, documentNumber, firstName, lastName, birthday} = req.body.patient;
+
+    if (!documentType || !documentNumber || !firstName || !lastName || !birthday) {
       return res.status(403).end();
     }
 
-    const patient = await Patient.find()
+    await Patient.count({
+      documentType,
+      documentNumber,
+      firstName,
+      lastName,
+      birthday,
+    }).exec((err, count) => {
+      if (count > 0) {
+        return res.status(422);
+      }
 
-    res.status(201).json({patient});
+      const patient = new Patient(req.body.patient);
+      const saved = patient.save();
+
+      return res.status(201).json({patient: saved});
+    });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
