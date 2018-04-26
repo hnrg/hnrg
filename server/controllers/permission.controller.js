@@ -14,7 +14,7 @@ exports.getPermissions = async function(req, res) {
 
     const permissions = await Permission.find({}).exec();
 
-    res.status(200).send({permissions});
+    res.status(200).json({permissions});
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);

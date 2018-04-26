@@ -15,7 +15,7 @@ exports.getUsers = async function(req, res) {
 
     const users = await User.find({}).populate('roles').exec();
 
-    res.status(200).send({users});
+    res.status(200).json({users});
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
