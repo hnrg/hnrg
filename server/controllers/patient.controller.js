@@ -18,7 +18,7 @@ exports.getPatients = async function(req, res) {
     .populate('documentType')
     .exec();
 
-    res.status(200).send({patients});
+    res.status(200).json({patients});
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -38,9 +38,13 @@ exports.addPatient = async function(req, res) {
   try {
     permissionsCheck(req.user, 'pacientes_add');
 
-    /* TODO */
+    if (!documentType || !documentNumber) {
+      return res.status(403).end();
+    }
 
-    return res.status(200).send({patient: {}});
+    const patient = await Patient.find()
+
+    res.status(201).json({patient});
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -60,11 +64,11 @@ exports.getPatient = async function(req, res) {
   try {
     permissionsCheck(req.user, 'pacientes_show');
 
-    const patient = await Patients.findOne({id: req.params.id})
-    .populate('demographicData')
-    .populate('medicalInsurance')
-    .populate('documentType')
-    .exec();
+    const patient = await Patients.findById(req.params.id)
+      .populate('demographicData')
+      .populate('medicalInsurance')
+      .populate('documentType')
+      .exec();
 
     if (!patient) {
       return res.sendStatus(404);
@@ -94,7 +98,7 @@ exports.deletePatient = async function(req, res) {
   try {
     permissionsCheck(req.user, 'pacientes_delete');
 
-    /* TODO */
+    await Patient.findByIdAndUpdate(req.params.id, {deleted: true});
 
     res.sendStatus(200);
   } catch (e) {
