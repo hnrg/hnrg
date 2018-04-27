@@ -105,7 +105,7 @@ exports.getHealthControl = async function(req, res) {
  */
 exports.deleteHealthControl = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'control_salud_delete');
+    permissionsCheck(req.user, 'control_salud_destroy');
 
     const healthControl = await HealthControl.findOne({id: req.params.id}).exec();
 
