@@ -53,7 +53,7 @@ exports.getUser = async function(req, res, next) {
 
 exports.addUser = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'usuario_add');
+    permissionsCheck(req.user, 'usuario_new');
 
     const user = req.body.user;
 

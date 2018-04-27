@@ -34,7 +34,7 @@ exports.getRoles = async function(req, res) {
  */
 exports.addRol = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'rol_add');
+    permissionsCheck(req.user, 'rol_new');
 
     const {rol} = req.body;
 

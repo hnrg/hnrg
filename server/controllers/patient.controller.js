@@ -36,7 +36,7 @@ exports.getPatients = async function(req, res) {
  */
 exports.addPatient = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'paciente_add');
+    permissionsCheck(req.user, 'paciente_new');
 
     var {documentType, documentNumber, firstName, lastName, birthday} = req.body.patient;
 
