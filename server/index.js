@@ -79,7 +79,7 @@ app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
 app.use('/api', routes.appointments);
 app.use('/api', routes.roles);
-// app.use('/api', routes.patients);
+app.use('/api', routes.patients);
 app.use('/api', routes.permissions);
 app.use('/api', routes.telegram);
 app.use('/api', routes.auth);
