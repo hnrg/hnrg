@@ -12,11 +12,11 @@ const permissionsCheck = require('../modules/permissions-check');
  */
 exports.getRoles = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'roles_index');
+    permissionsCheck(req.user, 'rol_index');
 
     const roles = await Rol.find({}).populate('permissions').exec();
 
-    res.status(200).json({roles});
+    res.status(200).send({roles});
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -34,7 +34,7 @@ exports.getRoles = async function(req, res) {
  */
 exports.addRol = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'roles_add');
+    permissionsCheck(req.user, 'rol_add');
 
     const {rol} = req.body;
 
@@ -44,17 +44,17 @@ exports.addRol = async function(req, res) {
 
     await Permission.count({
       id: {
-        $in: rol.permissions.map(p => mongoose.Types.ObjectId(p)),
+        $in: rol.permissions,
       }
     }, (error, count) => {
-      if (count) {
+      if (count > 0) {
         return res.status(403);
       }
 
       const newRol = new Rol(rol);
       const saved = newRol.save();
 
-      return res.status(200).json({rol: saved});
+      return res.status(200).send({rol: saved});
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
@@ -73,7 +73,7 @@ exports.addRol = async function(req, res) {
  */
 exports.getRol = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'roles_show');
+    permissionsCheck(req.user, 'rol_show');
 
     const rol = await Rol.findById(req.params.id).populate('permissions').exec();
 
@@ -81,7 +81,7 @@ exports.getRol = async function(req, res) {
       return res.sendStatus(404);
     }
 
-    res.status(200).json({rol});
+    res.status(200).send({rol});
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -103,7 +103,7 @@ exports.getRol = async function(req, res) {
  */
 exports.deleteRol = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'roles_delete');
+    permissionsCheck(req.user, 'rol_delete');
 
     const rol = await Rol.findOne({id: req.params.id}).exec();
 
@@ -128,7 +128,7 @@ exports.deleteRol = async function(req, res) {
 
 exports.deleteRolPermission = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'roles_delete');
+    permissionsCheck(req.user, 'rol_delete');
 
   } catch (e) {
     if (e.name === 'NotAllowedError') {

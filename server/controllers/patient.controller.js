@@ -1,4 +1,4 @@
-const Patients = require('../models/patient');
+const Patient = require('../models/patient');
 
 const permissionsCheck = require('../modules/permissions-check');
 
@@ -10,15 +10,15 @@ const permissionsCheck = require('../modules/permissions-check');
  */
 exports.getPatients = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'pacientes_index');
+    permissionsCheck(req.user, 'paciente_index');
 
-    const patients = await Patients.find({})
-    .populate('demographicData')
-    .populate('medicalInsurance')
-    .populate('documentType')
-    .exec();
+    const patients = await Patient.find({})
+      .populate('demographicData')
+      .populate('medicalInsurance')
+      .populate('documentType')
+      .exec();
 
-    res.status(200).json({patients});
+    return res.status(200).json({patients});
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -36,7 +36,7 @@ exports.getPatients = async function(req, res) {
  */
 exports.addPatient = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'pacientes_add');
+    permissionsCheck(req.user, 'paciente_add');
 
     var {documentType, documentNumber, firstName, lastName, birthday} = req.body.patient;
 
@@ -77,9 +77,9 @@ exports.addPatient = async function(req, res) {
  */
 exports.getPatient = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'pacientes_show');
+    permissionsCheck(req.user, 'paciente_show');
 
-    const patient = await Patients.findById(req.params.id)
+    const patient = await Patient.findById(req.params.id)
       .populate('demographicData')
       .populate('medicalInsurance')
       .populate('documentType')
@@ -111,7 +111,7 @@ exports.getPatient = async function(req, res) {
  */
 exports.deletePatient = async function(req, res) {
   try {
-    permissionsCheck(req.user, 'pacientes_delete');
+    permissionsCheck(req.user, 'paciente_delete');
 
     await Patient.findByIdAndUpdate(req.params.id, {deleted: true});
 

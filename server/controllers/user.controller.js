@@ -15,7 +15,7 @@ exports.getUsers = async function(req, res) {
 
     const users = await User.find({}).populate('roles').exec();
 
-    res.status(200).json({users});
+    res.status(200).send({users});
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -41,7 +41,7 @@ exports.getUser = async function(req, res, next) {
       return res.sendStatus(404);
     }
 
-    res.status(200).json({user});
+    res.status(200).send({user});
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -108,7 +108,7 @@ exports.addUser = async function(req, res) {
             return next(err);
           }
 
-          res.status(201).json({user});
+          res.status(201).send({user});
         });
       });
     });
