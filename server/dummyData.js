@@ -9,7 +9,7 @@ const Rol = require('./models/rol');
 const User = require('./models/user');
 
 const dummyData = async function() {
-  await Permission.count().exec(async (err, count) => {
+  await Permission.count().exec((err, count) => {
     if (count > 0) {
       return;
     }
@@ -37,15 +37,15 @@ const dummyData = async function() {
       'usuario_update'
     ];
 
-    await Permission.create(permissions.map(permission => new Permission({name: permission})));
+    Permission.create(permissions.map(permission => new Permission({name: permission})));
   });
 
-  await Rol.count().exec(async (err, count) => {
+  await Rol.count().exec((err, count) => {
     if (count > 0) {
       return;
     }
 
-    await Permission.find().exec(async (err, permissions) => {
+    Permission.find().exec((err, permissions) => {
       if (!permissions) {
         return;
       }
@@ -115,43 +115,43 @@ const dummyData = async function() {
 
       const admin = new Rol({
         name: 'Administrador',
-        permissions: adminPermissions.map(p => p._id),
+        permissions: adminPermissions,
       });
 
       const receptionist = new Rol({
         name: 'Recepcionista',
-        permissions: receptionistPermissions.map(p => p._id),
+        permissions: receptionistPermissions,
       });
 
       const pediatrician = new Rol({
         name: 'Pediatra',
-        permissions: pediatricianPermissions.map(p => p._id),
+        permissions: pediatricianPermissions,
       });
 
       const su = new Rol({
         name: 'Su',
-        permissions: suPermissions.map(p => p._id),
+        permissions: suPermissions,
       });
 
-      await Rol.create([admin, receptionist, pediatrician, su]);
+      Rol.create([admin, receptionist, pediatrician, su]);
     });
   });
 
-  await User.count().exec(async (err, count) => {
+  await User.count().exec((err, count) => {
     if (count > 0) {
       return;
     }
 
-    await Rol.findOne({name: 'Administrador'}).exec(async (err, rol) => {
+    Rol.findOne({name: 'Administrador'}).exec((err, rol) => {
       const admin = new User({
         ...secret.admin,
         roles: [rol],
       });
 
-      await admin.save();
+      admin.save();
     });
 
-    await Rol.findOne({name: 'Pediatra'}).exec(async (err, rol) => {
+    Rol.findOne({name: 'Pediatra'}).exec((err, rol) => {
       const pediatrician = new User({
         email: 'pediatra@hnrg.com',
         username: 'pediatra',
@@ -159,10 +159,10 @@ const dummyData = async function() {
         roles: [rol],
       });
 
-      await pediatrician.save();
+      pediatrician.save();
     });
 
-    await Rol.findOne({name: 'Recepcionista'}).exec(async (err, rol) => {
+    Rol.findOne({name: 'Recepcionista'}).exec((err, rol) => {
       const receptionist = new User({
         email: 'recepcionista@hnrg.com',
         username: 'recepcionista',
@@ -170,7 +170,7 @@ const dummyData = async function() {
         roles: [rol],
       });
 
-      await receptionist.save();
+      receptionist.save();
     });
   });
 };
