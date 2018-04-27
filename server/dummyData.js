@@ -25,6 +25,7 @@ const dummyData = async function() {
       'paciente_new',
       'paciente_show',
       'paciente_update',
+      'permiso_index',
       'rol_destroy',
       'rol_index',
       'rol_new',
@@ -64,6 +65,7 @@ const dummyData = async function() {
         models.usuario_destroy,
         models.paciente_index,
         models.paciente_destroy,
+        models.permiso_index,
         models.rol_index,
         models.rol_show,
         models.rol_new,
@@ -91,26 +93,9 @@ const dummyData = async function() {
       ];
 
       const suPermissions = [
-        models.usuario_index,
-        models.usuario_show,
-        models.usuario_new,
-        models.usuario_update,
-        models.usuario_destroy,
-        models.paciente_index,
-        models.paciente_show,
-        models.paciente_new,
-        models.paciente_update,
-        models.paciente_destroy,
-        models.rol_index,
-        models.rol_show,
-        models.rol_new,
-        models.rol_update,
-        models.rol_destroy,
-        models.control_salud_index,
-        models.control_salud_show,
-        models.control_salud_new,
-        models.control_salud_update,
-        models.control_salud_destroy
+        ...adminPermissions,
+        ...receptionistPermissions,
+        ...pediatricianPermissions
       ];
 
       const admin = new Rol({
@@ -171,6 +156,17 @@ const dummyData = async function() {
       });
 
       receptionist.save();
+    });
+
+    Rol.findOne({name: 'Su'}).exec((err, rol) => {
+      const su = new User({
+        email: 'su@hnrg.com',
+        username: 'su',
+        password: 'su',
+        roles: [rol],
+      });
+
+      su.save();
     });
   });
 };
