@@ -14,6 +14,8 @@ router.route('/users').get(requireAuth, UserController.getUsers);
 
 router.route('/users/:id').get(requireAuth, UserController.getUser);
 
+router.route('/users/:id').post(requireAuth, UserController.updateUser);
+
 router.route('/users').post(requireAuth, UserController.addUser);
 
 module.exports = router;

@@ -134,8 +134,9 @@ exports.getPatientHealthControls = async function(req, res) {
     permissionsCheck(req.user, 'paciente_show');
 
     await Patient.findById(req.params.id).then((err, patient) => {
-      if (err) {
-        throw err;
+      if (err || patient == null) {
+        res.status(422).json({ error: 'No patient was found with that id.' });
+        return next(err);
       }
     });
 
@@ -153,7 +154,12 @@ exports.updatePatient = async function(req, res) {
     permissionsCheck(req.user, 'paciente_update');
 
     await Patient.findByIdAndUpdate(req.params.id, req.body.patient)
-      .then((err, patient) => {
+      .exec((err, patient) => {
+        if (err || patient == null) {
+          res.status(422).json({ error: 'No patient was found with that id.' });
+          return next(err);
+        }
+
         return res.status(201).json({patient});
       });
   } catch (e) {

@@ -145,3 +145,25 @@ exports.deleteUser = async function(req, res) {
     return res.status(500).send(e);
   }
 };
+
+exports.updateUser = async function(req, res, next) {
+  try {
+    permissionsCheck(req.user, 'usuario_update');
+
+    await User.findByIdAndUpdate(req.params.id, req.body.user)
+      .exec((err, user) => {
+        if (err || user == null) {
+          res.status(422).json({ error: 'No user was found with that id.' });
+          return next(err);
+        }
+
+        return res.status(201).json({user});
+      });
+  } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
+    return res.status(500).send(e);
+  }
+};
