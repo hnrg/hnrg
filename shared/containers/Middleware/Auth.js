@@ -12,8 +12,12 @@ export default function(ComposedComponent) {
   class Authentication extends Component {
     constructor(props) {
       super(props);
+    }
 
-      this.props.actions.getProfile(this.props.global.currentUser);
+    componentWillReceiveProps(props) {
+      if (props.profile.error) {
+        props.history.push('/login');
+      }
     }
 
     render() {

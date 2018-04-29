@@ -5,10 +5,8 @@ import Cookies from 'js-cookie';
 import _ from 'underscore';
 import { reset } from 'redux-form';
 
-import BackendFactory from '../lib/backend-factory';
-import {
-  authToken
-} from '../lib/auth-token';
+import {authRequest} from '../lib/request/auth-request';
+import {authToken} from '../lib/store/auth-token';
 
 import {
   SESSION_TOKEN_REQUEST,
@@ -107,9 +105,6 @@ export function logout() {
   return dispatch => {
     dispatch(logoutRequest());
     return authToken.getSessionToken()
-      .then((token) => {
-        return BackendFactory(token).logout();
-      })
       .then(() => {
         dispatch(loginState());
         dispatch(logoutSuccess());
@@ -259,7 +254,7 @@ export function loginFailure(error) {
 export function login({ email, password }) {
   return dispatch => {
     dispatch(loginRequest());
-    return BackendFactory().login({
+    return authRequest.login({
         email: email,
         password: password
       })

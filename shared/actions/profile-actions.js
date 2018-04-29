@@ -6,10 +6,8 @@ import {
   GET_PROFILE_FAILURE,
 } from '../constants';
 
- import BackendFactory from '../lib/backend-factory';
- import {
-   authToken
- } from '../lib/auth-token';
+import {profileRequest} from '../lib/request/profile-request';
+import {authToken} from '../lib/store/auth-token';
 
 /**
  * ## retreiving profile actions
@@ -45,7 +43,7 @@ export function getProfile(sessionToken) {
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
       .then((token) => {
-        return BackendFactory(token).getProfile();
+        return profileRequest.init(token).getProfile();
       })
       .then((json) => {
         dispatch(getProfileSuccess(json.user));

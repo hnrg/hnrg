@@ -32,14 +32,14 @@ export default function(state = InitialState, action) {
      * ### Save the sessionToken
      */
     case SET_SESSION_TOKEN:
-      return {...state, sessionToken: action.payload};
+      return {...state, currentUser: action.payload};
 
     /**
      * ### Save the payload in the store
      *
      * This payload is the ```currentUser``` object returned by
-     * the server.  It contains the ```sessionToken``` and the user's
-     * ```id``` which will be needed for some calls to the server
+     * the server.  It contains the ```sessionToken```
+     * which will be needed for some calls to the server
      */
     case LOGIN_SUCCESS:
     case GET_PROFILE_SUCCESS:
