@@ -1,23 +1,12 @@
 import axios from 'axios';
-import FakeBackend from './fake-backend';
 
-export default class Request extends FakeBackend {
-  initialize(token) {
+export default class ProfileRequest {
+  init(token = null) {
     this._sessionToken = _.isNull(token)
       ? null
       : token;
-  }
 
-  login({email, password}) {
-    return axios.post('/api/auth/login', {email, password}).then(response => {
-      if (response.status === 200 || response.status === 201) {
-        return response.data;
-      } else {
-        throw(response.data.error);
-      }
-    }).catch(error => {
-      throw error;
-    });
+    return this;
   }
 
   getProfile() {
@@ -38,4 +27,4 @@ export default class Request extends FakeBackend {
 }
 
 // The singleton variable
-export let request = new Request();
+export let profileRequest = new ProfileRequest();

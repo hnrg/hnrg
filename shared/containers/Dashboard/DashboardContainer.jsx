@@ -44,7 +44,7 @@ class DashboardContainer extends Component {
    * form fields.  Otherwise, we need to go fetch the fields
    */
   componentDidMount() {
-    if (this.props.profile.originalProfile.username === '' && this.props.profile.originalProfile.email === '') {
+    if (this.props.profile.originalProfile.username === null && this.props.profile.originalProfile.email === null) {
       this.props.actions.getProfile(this.props.global.currentUser);
     } else {
       this.setState({
