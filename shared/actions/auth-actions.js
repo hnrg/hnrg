@@ -35,7 +35,7 @@ import {
   RESET_PASSWORD_FAILURE,
 
   SET_STATE
-} from '../constants/auth.constants';
+} from '../constants';
 
 
 /**
