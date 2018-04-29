@@ -128,3 +128,39 @@ exports.deletePatient = async function(req, res) {
     return res.status(500).send(e);
   }
 };
+
+exports.getPatientHealthControls = async function(req, res) {
+  try {
+    permissionsCheck(req.user, 'paciente_show');
+
+    await Patient.findById(req.params.id).then((err, patient) => {
+      if (err) {
+        throw err;
+      }
+    });
+
+  } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
+    return res.status(500).send(e);
+  }
+};
+
+exports.updatePatient = async function(req, res) {
+  try {
+    permissionsCheck(req.user, 'paciente_update');
+
+    await Patient.findByIdAndUpdate(req.params.id, req.body.patient)
+      .then((err, patient) => {
+        return res.status(201).json({patient});
+      });
+  } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
+    return res.status(500).send(e);
+  }
+};
