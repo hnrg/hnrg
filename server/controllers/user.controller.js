@@ -125,7 +125,7 @@ exports.deleteUser = async function(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
-    const user = await User.findOne({id: req.params.id}).exec();
+    const user = await User.findById(req.params.id).exec();
 
     if (!user) {
       return res.sendStatus(404);

@@ -105,7 +105,7 @@ exports.deleteRol = async function(req, res) {
   try {
     permissionsCheck(req.user, 'rol_delete');
 
-    const rol = await Rol.findOne({id: req.params.id}).exec();
+    const rol = await Rol.findById(req.params.id).exec();
 
     if (!rol) {
       return res.sendStatus(404);

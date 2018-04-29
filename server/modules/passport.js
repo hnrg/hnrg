@@ -13,7 +13,7 @@ const localOptions = {
 
 
 const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
-  User.findOne({ email: email }, function(err, user) {
+  User.findOne({ email: email, active: true }, function(err, user) {
     if(err) {
       return done(err);
     }
@@ -44,7 +44,7 @@ const jwtOptions = {
 
 
 const jwtLogin = new JwtStrategy(jwtOptions, function(jwt_payload, done) {
-  User.findById(jwt_payload.user).populate({
+  User.findOne({ _id: jwt_payload.user, active: true }).populate({
     path: 'roles',
     select: 'name permissions',
     populate: {

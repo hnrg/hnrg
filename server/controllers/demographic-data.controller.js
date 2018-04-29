@@ -107,7 +107,7 @@ exports.deleteDemographicData = async function(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_delete');
 
-    const demographicData = await DemographicData.findOne({id: req.params.id}).exec();
+    const demographicData = await DemographicData.findById(req.params.id).exec();
 
     if (!demographicData) {
       return res.sendStatus(404);

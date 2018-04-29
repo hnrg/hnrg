@@ -107,7 +107,7 @@ exports.deleteHealthControl = async function(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_destroy');
 
-    const healthControl = await HealthControl.findOne({id: req.params.id}).exec();
+    const healthControl = await HealthControl.findById(req.params.id).exec();
 
     if (!healthControl) {
       return res.sendStatus(404);

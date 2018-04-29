@@ -116,7 +116,7 @@ exports.addAppointment = async function(req, res) {
  */
 exports.getAppointment = async function(req, res) {
   try {
-    const appointment = await Appointment.findOne({id: req.params.id}).exec();
+    const appointment = await Appointment.findById(req.params.id).exec();
     if (!appointment) {
       return res.sendStatus(404);
     }
@@ -137,7 +137,7 @@ exports.getAppointment = async function(req, res) {
  */
 exports.deleteAppointment = async function(req, res) {
   try {
-    const appointment = await Appointment.findOne({id: req.params.id}).exec();
+    const appointment = await Appointment.findById(req.params.id).exec();
     if (!appointment) {
       return res.sendStatus(404);
     }
