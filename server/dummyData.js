@@ -130,6 +130,7 @@ const dummyData = async function() {
     Rol.findOne({name: 'Administrador'}).exec((err, rol) => {
       const admin = new User({
         ...secret.admin,
+        active: true,
         roles: [rol],
       });
 
@@ -141,6 +142,7 @@ const dummyData = async function() {
         email: 'pediatra@hnrg.com',
         username: 'pediatra',
         password: 'pediatra',
+        active: true,
         roles: [rol],
       });
 
@@ -152,6 +154,7 @@ const dummyData = async function() {
         email: 'recepcionista@hnrg.com',
         username: 'recepcionista',
         password: 'recepcionista',
+        active: true,
         roles: [rol],
       });
 
@@ -163,6 +166,7 @@ const dummyData = async function() {
         email: 'su@hnrg.com',
         username: 'su',
         password: 'su',
+        active: true,
         roles: [rol],
       });
 
