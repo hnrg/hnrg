@@ -43,7 +43,7 @@ exports.addRol = async function(req, res) {
     }
 
     await Permission.count({
-      id: {
+      _id: {
         $in: rol.permissions,
       }
     }, (error, count) => {

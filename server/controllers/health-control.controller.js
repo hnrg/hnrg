@@ -42,7 +42,7 @@ exports.addHealthControl = async function(req, res) {
     }
 
     const badRequest = rol.permissions.find(permissionId => {
-      let permission = Permission.findOne({id: permissionId}).exec();
+      let permission = Permission.findById(permissionId).exec();
       return !permission;
     });
 
@@ -75,9 +75,9 @@ exports.getHealthControl = async function(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_show');
 
-    const healthControl = await HealthControl.findOne({
-      id: req.params.id
-    }).populate('patient user').exec();
+    const healthControl = await HealthControl.findById(req.params.id)
+      .populate('patient user')
+      .exec();
 
     if (!healthControl) {
       return res.sendStatus(404);
@@ -128,4 +128,3 @@ exports.deleteHealthControl = async function(req, res) {
     return res.status(500).send(e);
   }
 };
-
