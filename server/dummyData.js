@@ -2,8 +2,10 @@ const cuid = require('cuid');
 const moment = require('moment-timezone');
 
 const secret = require('./config/secret');
+const appConfig = require('./config/app');
 
 const Appointment = require('./models/appointment');
+const Configuration = require('./models/configuration');
 const Permission = require('./models/permission');
 const Rol = require('./models/rol');
 const User = require('./models/user');
@@ -171,6 +173,23 @@ const dummyData = async function() {
       });
 
       su.save();
+    });
+  });
+
+  await Configuration.count().exec((err, count) => {
+    if (count > 0) {
+      return;
+    }
+
+    User.findOne({
+      email: secret.admin.email
+    }).exec((err, user) => {
+      const config = new Configuration({
+        ...appConfig,
+        user: user,
+      });
+
+      config.save();
     });
   });
 };

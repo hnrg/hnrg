@@ -25,10 +25,10 @@ export function getProfileSuccess(user) {
   };
 }
 
-export function getProfileFailure(user) {
+export function getProfileFailure(error) {
   return {
     type: GET_PROFILE_FAILURE,
-    payload: user
+    payload: error
   };
 }
 
