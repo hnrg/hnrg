@@ -11,7 +11,7 @@ const router = Router();
 
 router.route('/configurations').post(requireAuth, ConfigurationController.getConfigurations);
 
-router.route('/configurations/current').get(requireAuth, ConfigurationController.getCurrentConfiguration);
+router.route('/configurations/current').get(ConfigurationController.getCurrentConfiguration);
 
 router.route('/configurations/:id').get(requireAuth, ConfigurationController.getConfiguration);
 
