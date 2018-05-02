@@ -42,7 +42,7 @@ exports.addDemographicData = async function(req, res) {
     }
 
     const badRequest = rol.permissions.find(permissionId => {
-      let permission = Permission.findOne({id: permissionId}).exec();
+      let permission = Permission.findById(permissionId).exec();
       return !permission;
     });
 
@@ -75,9 +75,9 @@ exports.getDemographicData = async function(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_show');
 
-    const demographicData = await DemographicData.findOne({
-      id: req.params.id
-    }).populate('apartmentType heatingType waterType').exec();
+    const demographicData = await DemographicData.findById(req.params.id)
+      .populate('apartmentType heatingType waterType')
+      .exec();
 
     if (!demographicData) {
       return res.sendStatus(404);
@@ -107,7 +107,7 @@ exports.deleteDemographicData = async function(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_delete');
 
-    const demographicData = await DemographicData.findOne({id: req.params.id}).exec();
+    const demographicData = await DemographicData.findById(req.params.id).exec();
 
     if (!demographicData) {
       return res.sendStatus(404);
@@ -128,4 +128,3 @@ exports.deleteDemographicData = async function(req, res) {
     return res.status(500).send(e);
   }
 };
-

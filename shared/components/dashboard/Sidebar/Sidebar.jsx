@@ -28,10 +28,17 @@ class SidebarLeftScaleDown extends Component {
 
   render() {
     const {visible} = this.state;
-    /*return (<div>
-      <Button onClick={this.toggleVisibility}>Toggle Visibility</Button>
-      <Sidebar.Pushable as={Segment}>
-        <Sidebar as={Menu} animation='scale down' width='thin' visible={visible} icon='labeled' vertical="vertical" inverted="inverted">
+    return (<div>
+      /*<Sidebar.Pushable as={Segment}>*/
+        <Sidebar
+          as={Menu}
+          animation='push'
+          width='thin'
+          visible={visible}
+          icon='labeled'
+          vertical
+          inverted
+        >
           <Menu.Item name='home'>
             <Icon name='home'/>
             Home
@@ -45,16 +52,11 @@ class SidebarLeftScaleDown extends Component {
             Channels
           </Menu.Item>
         </Sidebar>
-        <Sidebar.Pusher>
-          <Segment basic="basic">
-            <Header as='h3'>Application Content</Header>
-            <Image src='/assets/images/wireframe/paragraph.png'/>
-          </Segment>
-        </Sidebar.Pusher>
-      </Sidebar.Pushable>
-    </div>);*/
-
-    return (<div></div>);
+        /*<Sidebar.Pusher>*/
+          <Button onClick={this.toggleVisibility}>Toggle Visibility</Button>
+        /*</Sidebar.Pusher>
+      </Sidebar.Pushable>*/
+    </div>);
   }
 }
 

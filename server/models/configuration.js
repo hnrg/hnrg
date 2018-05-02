@@ -10,12 +10,10 @@ const configurationSchema = new Schema({
     email: { type: String, required: 'El campo `email` es requerido' },
     description: { type: String },
   },
-  appintments: {
-    range: {
-      from: { type: Date },
-      to: { type: Date },
-    },
+  appointments: {
+    from: { type: Date },
     delta: { type: Number },
+    ammount: { type: Number },
   },
   maintenance: { type: Boolean },
   user: { type: Schema.Types.ObjectId, ref: 'User' },

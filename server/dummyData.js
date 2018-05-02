@@ -2,8 +2,10 @@ const cuid = require('cuid');
 const moment = require('moment-timezone');
 
 const secret = require('./config/secret');
+const appConfig = require('./config/app');
 
 const Appointment = require('./models/appointment');
+const Configuration = require('./models/configuration');
 const Permission = require('./models/permission');
 const Rol = require('./models/rol');
 const User = require('./models/user');
@@ -130,6 +132,7 @@ const dummyData = async function() {
     Rol.findOne({name: 'Administrador'}).exec((err, rol) => {
       const admin = new User({
         ...secret.admin,
+        active: true,
         roles: [rol],
       });
 
@@ -141,6 +144,7 @@ const dummyData = async function() {
         email: 'pediatra@hnrg.com',
         username: 'pediatra',
         password: 'pediatra',
+        active: true,
         roles: [rol],
       });
 
@@ -152,6 +156,7 @@ const dummyData = async function() {
         email: 'recepcionista@hnrg.com',
         username: 'recepcionista',
         password: 'recepcionista',
+        active: true,
         roles: [rol],
       });
 
@@ -163,10 +168,28 @@ const dummyData = async function() {
         email: 'su@hnrg.com',
         username: 'su',
         password: 'su',
+        active: true,
         roles: [rol],
       });
 
       su.save();
+    });
+  });
+
+  await Configuration.count().exec((err, count) => {
+    if (count > 0) {
+      return;
+    }
+
+    User.findOne({
+      email: secret.admin.email
+    }).exec((err, user) => {
+      const config = new Configuration({
+        ...appConfig,
+        user: user,
+      });
+
+      config.save();
     });
   });
 };

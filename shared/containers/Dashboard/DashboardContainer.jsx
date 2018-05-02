@@ -57,7 +57,7 @@ class DashboardContainer extends Component {
   }
 
   render() {
-    return (<div>{this.state.user.username}</div>);
+    return (<div><Sidebar /></div>);
   }
 }
 

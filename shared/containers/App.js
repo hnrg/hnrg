@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as authActions from '../actions/auth-actions';
+import * as configurationActions from '../actions/configuration-actions';
 import * as globalActions from '../actions/global-actions';
 
 import DevTools from '../components/DevTools';
@@ -17,6 +18,9 @@ function mapStateToProps(state) {
   return {
     auth: {
       isFetching: state.auth.isFetching
+    },
+    configuration: {
+      currentConfiguration: state.configuration.currentConfiguration,
     },
     global: {
       currentState: state.global.currentState,
@@ -30,7 +34,11 @@ function mapStateToProps(state) {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...authActions, ...globalActions }, dispatch)
+    actions: bindActionCreators({
+      ...authActions,
+      ...configurationActions,
+      ...globalActions
+    }, dispatch)
   };
 }
 
@@ -42,6 +50,7 @@ class App extends Component {
   componentDidMount() {
     this.setTimeout(() => {
       this.props.actions.getSessionToken();
+      this.props.actions.getConfiguration();
     },
     2500);
   }

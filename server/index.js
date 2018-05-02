@@ -78,14 +78,15 @@ app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
 app.use('/api', routes.appointments);
-app.use('/api', routes.roles);
+app.use('/api', routes.auth);
+app.use('/api', routes.configurations);
+app.use('/api', routes.demographicData);
+app.use('/api', routes.healthControl);
 app.use('/api', routes.patients);
 app.use('/api', routes.permissions);
+app.use('/api', routes.roles);
 app.use('/api', routes.telegram);
-app.use('/api', routes.auth);
 app.use('/api', routes.users);
-app.use('/api', routes.healthControl);
-app.use('/api', routes.demographicData);
 
 app.get('*', SSR.default);
 
