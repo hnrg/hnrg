@@ -36,21 +36,9 @@ exports.addHealthControl = async function(req, res) {
 
     const {healthControl} = req.body;
 
-    /* check params
-    if (!healthControl fields) {
+    if (!healthControl.date || !healthControl.weight || !healthControl.pc || !healthControl.ppc || !healthControl.height || !healthControl.patient || !healthControl.user) {
       return res.status(403).end();
     }
-
-    const badRequest = rol.permissions.find(permissionId => {
-      let permission = Permission.findOne({id: permissionId}).exec();
-      return !permission;
-    });
-
-    if (badRequest) {
-      return res.status(403);
-    }
-
-    */
 
     const newHealthControl = new HealthControl(healthControl);
     const saved = await newHealthControl.save();
