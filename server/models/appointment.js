@@ -1,15 +1,16 @@
 const mongoose = require('mongoose');
+
 const Schema = mongoose.Schema;
 
 const appointmentSchema = new Schema({
   date: {
     type: Date,
     required: 'El campo `fecha` es requerido',
-    unique: true
+    unique: true,
   },
   documentNumber: {
     type: Number,
-    required: 'El campo `número de documento` es requerido'
+    required: 'El campo `número de documento` es requerido',
   },
   chatId: { type: Number },
 });

@@ -1,4 +1,4 @@
-'use strict'
+
 /**
  * ## Imports
  * The InitialState for auth
@@ -16,7 +16,7 @@ import {
 
   GET_STATE,
   SET_STATE,
-  SET_STORE
+  SET_STORE,
 } from '../constants';
 
 import InitialState from '../states/global-state';
@@ -26,13 +26,13 @@ import InitialState from '../states/global-state';
  * @param {Object} state - initialState
  * @param {Object} action - type and payload
  */
-export default function(state = InitialState, action) {
+export default function (state = InitialState, action) {
   switch (action.type) {
     /**
      * ### Save the sessionToken
      */
     case SET_SESSION_TOKEN:
-      return {...state, currentUser: action.payload};
+      return { ...state, currentUser: action.payload };
 
     /**
      * ### Save the payload in the store
@@ -43,10 +43,10 @@ export default function(state = InitialState, action) {
      */
     case LOGIN_SUCCESS:
     case GET_PROFILE_SUCCESS:
-      return {...state, currentUser: action.payload}
+      return { ...state, currentUser: action.payload };
 
     case SESSION_TOKEN_SUCCESS:
-      return {...state, currentUser: action.payload}
+      return { ...state, currentUser: action.payload };
 
     /**
      * ### Clear currentUser
@@ -56,7 +56,7 @@ export default function(state = InitialState, action) {
      *
      */
     case LOGOUT_SUCCESS:
-      return {...state, currentUser: null}
+      return { ...state, currentUser: null };
 
     /**
      * ### sets the payload into the store
@@ -66,7 +66,7 @@ export default function(state = InitialState, action) {
      *
      */
     case SET_STORE:
-      return {...state, store: action.payload}
+      return { ...state, store: action.payload };
 
     /**
      * ### Get the current state from the store
@@ -78,16 +78,16 @@ export default function(state = InitialState, action) {
      * when trying to convert to JSON, it will be recursive and fail
      */
     case GET_STATE: {
-      let _state = state.store.getState()
+      const _state = state.store.getState();
 
       if (action.payload) {
-        let newState = {};
-        newState.profile = _state.profile
+        const newState = {};
+        newState.profile = _state.profile;
 
-      // Make sure global doesn't have the previous currentState
+        // Make sure global doesn't have the previous currentState
         // let _noCurrentState =  _state.global.set('currentState',null);
         // let _noStore = _noCurrentState.set('store',null);
-        let _global = _state.global;
+        const _global = _state.global;
         newState.global = {
           ..._global,
           currentState: null,
@@ -99,9 +99,8 @@ export default function(state = InitialState, action) {
           showState: action.payload,
           currentUser: newState,
         };
-      } else {
-        return {...state, showState: action.payload};
       }
+      return { ...state, showState: action.payload };
     }
 
     /**
@@ -119,8 +118,7 @@ export default function(state = InitialState, action) {
         showState: false,
         currentUser: null,
       };
-
   }
 
-  return state
+  return state;
 }

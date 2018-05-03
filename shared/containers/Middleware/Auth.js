@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -8,7 +8,7 @@ import * as authActions from '../../actions/auth-actions';
 import * as globalActions from '../../actions/global-actions';
 import * as profileActions from '../../actions/profile-actions';
 
-export default function(ComposedComponent) {
+export default function (ComposedComponent) {
   class Authentication extends Component {
     constructor(props) {
       super(props);
@@ -21,7 +21,7 @@ export default function(ComposedComponent) {
     }
 
     render() {
-      return <ComposedComponent { ...this.props } />
+      return <ComposedComponent {...this.props} />;
     }
   }
 
@@ -32,14 +32,14 @@ export default function(ComposedComponent) {
       global: {
         currentUser: state.global.currentUser,
         currentState: state.global.currentState,
-        showState: state.global.showState
-      }
+        showState: state.global.showState,
+      },
     };
   }
 
   function mapDispatchToProps(dispatch) {
     return {
-      actions: bindActionCreators({ ...authActions, ...profileActions, ...globalActions }, dispatch)
+      actions: bindActionCreators({ ...authActions, ...profileActions, ...globalActions }, dispatch),
     };
   }
 

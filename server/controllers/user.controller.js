@@ -9,13 +9,13 @@ const permissionsCheck = require('../modules/permissions-check');
  * @param res
  * @returns void
  */
-exports.getUsers = async function(req, res) {
+exports.getUsers = async function (req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
     const users = await User.find({}).populate('roles').exec();
 
-    res.status(200).send({users});
+    res.status(200).send({ users });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -31,7 +31,7 @@ exports.getUsers = async function(req, res) {
  * @param res
  * @returns void
  */
-exports.getUser = async function(req, res, next) {
+exports.getUser = async function (req, res, next) {
   try {
     permissionsCheck(req.user, 'usuario_show');
 
@@ -41,7 +41,7 @@ exports.getUser = async function(req, res, next) {
       return res.sendStatus(404);
     }
 
-    res.status(200).send({user});
+    res.status(200).send({ user });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -51,7 +51,7 @@ exports.getUser = async function(req, res, next) {
   }
 };
 
-exports.addUser = async function(req, res) {
+exports.addUser = async function (req, res) {
   try {
     permissionsCheck(req.user, 'usuario_new');
 
@@ -64,51 +64,51 @@ exports.addUser = async function(req, res) {
     const password = user.password;
 
     if (!email) {
-      return res.status(422).send({error: 'You must enter an email address.'});
+      return res.status(422).send({ error: 'You must enter an email address.' });
     }
 
     if (!username) {
-      return res.status(422).send({error: 'You must enter a username'});
+      return res.status(422).send({ error: 'You must enter a username' });
     }
 
     if (!firstName || !lastName) {
-      return res.status(422).send({error: 'You must enter your full name.'});
+      return res.status(422).send({ error: 'You must enter your full name.' });
     }
 
     if (!password) {
-      return res.status(422).send({error: 'You must enter a password.'});
+      return res.status(422).send({ error: 'You must enter a password.' });
     }
 
     User.findOne({
-      email: email
-    }, function(err, existingUser) {
+      email,
+    }, (err, existingUser) => {
       if (err) {
         return next(err);
       }
 
       if (existingUser) {
-        return res.status(422).send({error: 'That email address is already in use.'});
+        return res.status(422).send({ error: 'That email address is already in use.' });
       }
 
       User.find({
-        username: username
-      }, function(err, existingUser) {
+        username,
+      }, (err, existingUser) => {
         if (err) {
           return next(err);
         }
 
         if (existingUser) {
-          return res.status(422).send({error: 'That username is already in use.'});
+          return res.status(422).send({ error: 'That username is already in use.' });
         }
 
         const newUser = new User(user);
 
-        newUser.save(function(err, user) {
+        newUser.save((err, user) => {
           if (err) {
             return next(err);
           }
 
-          res.status(201).send({user});
+          res.status(201).send({ user });
         });
       });
     });
@@ -121,7 +121,7 @@ exports.addUser = async function(req, res) {
   }
 };
 
-exports.deleteUser = async function(req, res) {
+exports.deleteUser = async function (req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
@@ -146,7 +146,7 @@ exports.deleteUser = async function(req, res) {
   }
 };
 
-exports.updateUser = async function(req, res, next) {
+exports.updateUser = async function (req, res, next) {
   try {
     permissionsCheck(req.user, 'usuario_update');
 
@@ -157,7 +157,7 @@ exports.updateUser = async function(req, res, next) {
           return next(err);
         }
 
-        return res.status(201).json({user});
+        return res.status(201).json({ user });
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {

@@ -8,7 +8,7 @@ import {
 
   LOGOUT_SUCCESS,
 
-  SET_STATE
+  SET_STATE,
 } from '../constants';
 
 /**
@@ -26,12 +26,12 @@ export default function profileReducer(state = InitialState, action) {
   let nextProfileState = null;
 
   switch (action.type) {
-      /**
+    /**
      * ### Request starts
      * set the form to fetching and clear any errors
      */
     case GET_PROFILE_REQUEST:
-      return {...state, isFetching: true, error: null, };
+      return { ...state, isFetching: true, error: null };
 
       /**
      * ### Request ends successfully
@@ -73,9 +73,9 @@ export default function profileReducer(state = InitialState, action) {
      */
     case LOGOUT_SUCCESS:
       nextProfileState = {
-          ...state,
-          email: '',
-          error: null,
+        ...state,
+        email: '',
+        error: null,
       };
 
       return formValidation(nextProfileState, action);
@@ -100,7 +100,7 @@ export default function profileReducer(state = InitialState, action) {
      */
     case SET_STATE:
       var profile = JSON.parse(action.payload).profile;
-      var {fields, originalProfile} = state;
+      var { fields, originalProfile } = state;
 
       return {
         ...state,

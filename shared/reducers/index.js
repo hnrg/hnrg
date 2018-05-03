@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
-//import reducers
+// import reducers
 import authReducer from './auth';
 import authFormReducer from './auth-form';
 import configurationReducer from './configuration';

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const Schema = mongoose.Schema;
 
 const Patient = require('./patient');
@@ -7,37 +8,37 @@ const User = require('./user');
 const healthControlSchema = new Schema({
   date: {
     type: Date,
-    required: 'El campo `fecha` es requerido'
+    required: 'El campo `fecha` es requerido',
   },
   weight: {
     type: Schema.Types.Decimal128,
-    required: 'El campo `peso` es requerido'
+    required: 'El campo `peso` es requerido',
   },
   pc: {
     type: Schema.Types.Decimal128,
-    required: 'El campo `pc` es requerido'
+    required: 'El campo `pc` es requerido',
   },
   ppc: {
     type: Schema.Types.Decimal128,
-    required: 'El campo `ppc` es requerido'
+    required: 'El campo `ppc` es requerido',
   },
   height: {
     type: Schema.Types.Decimal128,
-    require: 'El campo `talla` es requerido'
+    require: 'El campo `talla` es requerido',
   },
   completeVaccines: {
     type: Boolean,
-    default: false
+    default: false,
   },
   vaccinesObservations: { type: String },
   accordingMaturationContext: {
     type: Boolean,
-    default: false
+    default: false,
   },
   maturationObservations: { type: String },
   commonPhysicalExamination: {
     type: Boolean,
-    default: false
+    default: false,
   },
   physicalExaminationObservations: { type: String },
   feeding: { type: String },
@@ -45,16 +46,16 @@ const healthControlSchema = new Schema({
   patient: {
     type: Schema.Types.ObjectId,
     ref: 'Patient',
-    required: 'El campo `paciente` es requerido'
+    required: 'El campo `paciente` es requerido',
   },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: 'El campo `user` es requerido'
+    required: 'El campo `user` es requerido',
   },
   active: {
     type: Boolean,
-    default: true
+    default: true,
   },
 });
 

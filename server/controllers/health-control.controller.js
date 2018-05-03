@@ -8,13 +8,13 @@ const permissionsCheck = require('../modules/permissions-check');
  * @param res
  * @returns void
  */
-exports.getHealthControls = async function(req, res) {
+exports.getHealthControls = async function (req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_index');
 
     const healthControls = await HealthControl.find({}).populate('patient user').exec();
 
-    res.status(200).send({healthControls});
+    res.status(200).send({ healthControls });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -30,11 +30,11 @@ exports.getHealthControls = async function(req, res) {
  * @param res
  * @returns void
  */
-exports.addHealthControl = async function(req, res) {
+exports.addHealthControl = async function (req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_new');
 
-    const {healthControl} = req.body;
+    const { healthControl } = req.body;
 
     /* check params
     if (!healthControl fields) {
@@ -55,7 +55,7 @@ exports.addHealthControl = async function(req, res) {
     const newHealthControl = new HealthControl(healthControl);
     const saved = await newHealthControl.save();
 
-    return res.status(200).send({healthControl: saved});
+    return res.status(200).send({ healthControl: saved });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -71,7 +71,7 @@ exports.addHealthControl = async function(req, res) {
  * @param res
  * @returns void
  */
-exports.getHealthControl = async function(req, res) {
+exports.getHealthControl = async function (req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_show');
 
@@ -83,7 +83,7 @@ exports.getHealthControl = async function(req, res) {
       return res.sendStatus(404);
     }
 
-    res.status(200).json({healthControl});
+    res.status(200).json({ healthControl });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -103,7 +103,7 @@ exports.getHealthControl = async function(req, res) {
  * @param res
  * @returns void
  */
-exports.deleteHealthControl = async function(req, res) {
+exports.deleteHealthControl = async function (req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_destroy');
 

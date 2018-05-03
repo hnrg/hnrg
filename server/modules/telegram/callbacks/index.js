@@ -7,6 +7,6 @@ module.exports = {
   desvincular,
   info,
   reservar,
-  turnos
+  turnos,
 };
 

@@ -28,7 +28,7 @@ app.use(session({
   secret: 'config/secret',
   resave: true,
   saveUninitialized: true,
-  cookie: { httpOnly: true }
+  cookie: { httpOnly: true },
 }));
 
 // Set environment flags

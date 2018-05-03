@@ -8,13 +8,13 @@ const permissionsCheck = require('../modules/permissions-check');
  * @param res
  * @returns void
  */
-exports.getPermissions = async function(req, res) {
+exports.getPermissions = async function (req, res) {
   try {
     permissionsCheck(req.user, 'permiso_index');
 
     const permissions = await Permission.find({}).exec();
 
-    res.status(200).send({permissions});
+    res.status(200).send({ permissions });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);

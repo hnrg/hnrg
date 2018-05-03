@@ -1,4 +1,4 @@
-'use strict'
+
 
 import {
   GET_PROFILE_REQUEST,
@@ -6,29 +6,29 @@ import {
   GET_PROFILE_FAILURE,
 } from '../constants';
 
-import {profileRequest} from '../lib/request/profile-request';
-import {authToken} from '../lib/store/auth-token';
+import { profileRequest } from '../lib/request/profile-request';
+import { authToken } from '../lib/store/auth-token';
 
 /**
  * ## retreiving profile actions
  */
 export function getProfileRequest() {
   return {
-    type: GET_PROFILE_REQUEST
+    type: GET_PROFILE_REQUEST,
   };
 }
 
 export function getProfileSuccess(user) {
   return {
     type: GET_PROFILE_SUCCESS,
-    payload: user
+    payload: user,
   };
 }
 
 export function getProfileFailure(error) {
   return {
     type: GET_PROFILE_FAILURE,
-    payload: error
+    payload: error,
   };
 }
 
@@ -38,13 +38,11 @@ export function getProfileFailure(error) {
  * as in login, register, logout or reset password
  */
 export function getProfile(sessionToken) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(getProfileRequest());
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
-      .then((token) => {
-        return profileRequest.init(token).getProfile();
-      })
+      .then(token => profileRequest.init(token).getProfile())
       .then((json) => {
         dispatch(getProfileSuccess(json.user));
       })

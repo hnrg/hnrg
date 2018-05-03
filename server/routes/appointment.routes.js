@@ -1,4 +1,4 @@
-const {Router} = require('express');
+const { Router } = require('express');
 const AppointmentController = require('../controllers/appointment.controller');
 
 const router = Router();
@@ -13,7 +13,7 @@ router.route('/turnos/:date').get(AppointmentController.getAppointments);
 router.route('/turnos').post(AppointmentController.addAppointment);
 
 router.route('/turnos/:documentNumber/fecha/:date/hora/:time')
-        .get(AppointmentController.addAppointment);
+  .get(AppointmentController.addAppointment);
 
 // Delete a appointment by id
 router.route('/turnos/:id').delete(AppointmentController.deleteAppointment);

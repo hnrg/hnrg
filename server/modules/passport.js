@@ -1,49 +1,49 @@
 const passport = require('passport'),
-      User = require('../models/user'),
-      secret = require('../config/secret'),
-      JwtStrategy = require('passport-jwt').Strategy,
-      ExtractJwt = require('passport-jwt').ExtractJwt,
-      LocalStrategy = require('passport-local');
+  User = require('../models/user'),
+  secret = require('../config/secret'),
+  JwtStrategy = require('passport-jwt').Strategy,
+  ExtractJwt = require('passport-jwt').ExtractJwt,
+  LocalStrategy = require('passport-local');
 
 
 const localOptions = {
   usernameField: 'email', // Setting username field to email rather than username
   passwordField: 'password',
-}
+};
 
 
-const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
-  User.findOne({ email: email, active: true }, function(err, user) {
-    if(err) {
+const localLogin = new LocalStrategy(localOptions, ((email, password, done) => {
+  User.findOne({ email, active: true }, (err, user) => {
+    if (err) {
       return done(err);
     }
 
-    if(!user) {
+    if (!user) {
       return done(null, false, { error: 'No user exists with that email address' });
     }
 
-    user.comparePassword(password, function(err, isMatch) {
+    user.comparePassword(password, (err, isMatch) => {
       if (err) {
         return done(err);
       }
 
       if (!isMatch) {
-        return done(null, false, { error: "Invalid password" });
+        return done(null, false, { error: 'Invalid password' });
       }
 
       return done(null, user);
     });
   });
-});
+}));
 
 
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("jwt"),   // Telling Passport to check authorization headers for JWT
-  secretOrKey: secret.secret   // Telling Passport where to find the secret
+  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'), // Telling Passport to check authorization headers for JWT
+  secretOrKey: secret.secret, // Telling Passport where to find the secret
 };
 
 
-const jwtLogin = new JwtStrategy(jwtOptions, function(jwt_payload, done) {
+const jwtLogin = new JwtStrategy(jwtOptions, ((jwt_payload, done) => {
   User.findOne({ _id: jwt_payload.user, active: true }).populate({
     path: 'roles',
     select: 'name permissions',
@@ -51,7 +51,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(jwt_payload, done) {
       path: 'permissions',
       select: 'name',
     },
-  }).exec(function(err, user) {
+  }).exec((err, user) => {
     if (err) {
       return done(err, false);
     }
@@ -62,7 +62,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(jwt_payload, done) {
 
     return done(null, user);
   });
-});
+}));
 
 passport.use(jwtLogin);
 passport.use(localLogin);

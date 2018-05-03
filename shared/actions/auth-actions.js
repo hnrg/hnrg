@@ -1,12 +1,12 @@
-'use strict'
+
 
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import _ from 'underscore';
 import { reset } from 'redux-form';
 
-import {authRequest} from '../lib/request/auth-request';
-import {authToken} from '../lib/store/auth-token';
+import { authRequest } from '../lib/request/auth-request';
+import { authToken } from '../lib/store/auth-token';
 
 import {
   SESSION_TOKEN_REQUEST,
@@ -34,7 +34,7 @@ import {
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
 
-  SET_STATE
+  SET_STATE,
 } from '../constants';
 
 
@@ -46,19 +46,19 @@ import {
 
 export function logoutState() {
   return {
-    type: LOGOUT
+    type: LOGOUT,
   };
 }
 
 export function loginState() {
   return {
-    type: LOGIN
+    type: LOGIN,
   };
 }
 
 export function forgotPasswordState() {
   return {
-    type: FORGOT_PASSWORD
+    type: FORGOT_PASSWORD,
   };
 }
 
@@ -67,19 +67,19 @@ export function forgotPasswordState() {
  */
 export function logoutRequest() {
   return {
-    type: LOGOUT_REQUEST
+    type: LOGOUT_REQUEST,
   };
 }
 
 export function logoutSuccess() {
   return {
-    type: LOGOUT_SUCCESS
+    type: LOGOUT_SUCCESS,
   };
 }
 export function logoutFailure(error) {
   return {
     type: LOGOUT_FAILURE,
-    payload: error
+    payload: error,
   };
 }
 
@@ -102,7 +102,7 @@ export function logoutFailure(error) {
  * device and logged out there.
  */
 export function logout() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(logoutRequest());
     return authToken.getSessionToken()
       .then(() => {
@@ -125,8 +125,8 @@ export function onAuthFormFieldChange(field, value) {
   return {
     type: ON_AUTH_FORM_FIELD_CHANGE,
     payload: {
-      field: field,
-      value: value
+      field,
+      value,
     },
   };
 }
@@ -136,21 +136,21 @@ export function onAuthFormFieldChange(field, value) {
  */
 export function sessionTokenRequest() {
   return {
-    type: SESSION_TOKEN_REQUEST
+    type: SESSION_TOKEN_REQUEST,
   };
 }
 
 export function sessionTokenRequestSuccess(token) {
   return {
     type: SESSION_TOKEN_SUCCESS,
-    payload: token
+    payload: token,
   };
 }
 
 export function sessionTokenRequestFailure(error) {
   return {
     type: SESSION_TOKEN_FAILURE,
-    payload: _.isUndefined(error) ? null : error
+    payload: _.isUndefined(error) ? null : error,
   };
 }
 
@@ -159,12 +159,12 @@ export function sessionTokenRequestFailure(error) {
  */
 export function deleteTokenRequest() {
   return {
-    type: DELETE_TOKEN_REQUEST
+    type: DELETE_TOKEN_REQUEST,
   };
 }
 export function deleteTokenRequestSuccess() {
   return {
-    type: DELETE_TOKEN_SUCCESS
+    type: DELETE_TOKEN_SUCCESS,
   };
 }
 
@@ -174,7 +174,7 @@ export function deleteTokenRequestSuccess() {
  * Call the authToken deleteSessionToken
  */
 export function deleteSessionToken() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(deleteTokenRequest());
     return authToken.deleteSessionToken()
       .then(() => {
@@ -190,7 +190,7 @@ export function deleteSessionToken() {
  * Otherwise, the user will default to the login in screen.
  */
 export function getSessionToken() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(sessionTokenRequest());
     return authToken.getSessionToken()
       .then((token) => {
@@ -204,7 +204,7 @@ export function getSessionToken() {
       .catch((error) => {
         dispatch(sessionTokenRequestFailure(error));
         dispatch(loginState());
-      })
+      });
   };
 }
 
@@ -222,21 +222,21 @@ export function saveSessionToken(sessionToken) {
  */
 export function loginRequest() {
   return {
-    type: LOGIN_REQUEST
+    type: LOGIN_REQUEST,
   };
 }
 
 export function loginSuccess(sessionToken) {
   return {
     type: LOGIN_SUCCESS,
-    payload: sessionToken
+    payload: sessionToken,
   };
 }
 
 export function loginFailure(error) {
   return {
     type: LOGIN_FAILURE,
-    payload: error
+    payload: error,
   };
 }
 /**
@@ -252,23 +252,21 @@ export function loginFailure(error) {
  */
 
 export function login({ email, password }) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(loginRequest());
     return authRequest.login({
-        email: email,
-        password: password
-      })
-      .then(function(json) {
-        return saveSessionToken(json.token)
-          .then(function() {
-            dispatch(loginSuccess(json.token));
-            global.window.location.replace('/dashboard');
-            dispatch(logoutState());
-          })
-      })
+      email,
+      password,
+    })
+      .then(json => saveSessionToken(json.token)
+        .then(() => {
+          dispatch(loginSuccess(json.token));
+          global.window.location.replace('/dashboard');
+          dispatch(logoutState());
+        }))
       .catch((error) => {
         dispatch(loginFailure(error));
-      })
+      });
   };
 }
 
@@ -277,20 +275,20 @@ export function login({ email, password }) {
  */
 export function resetPasswordRequest() {
   return {
-    type: RESET_PASSWORD_REQUEST
+    type: RESET_PASSWORD_REQUEST,
   };
 }
 
 export function resetPasswordSuccess() {
   return {
-    type: RESET_PASSWORD_SUCCESS
+    type: RESET_PASSWORD_SUCCESS,
   };
 }
 
 export function resetPasswordFailure(error) {
   return {
     type: RESET_PASSWORD_FAILURE,
-    payload: error
+    payload: error,
   };
 }
 

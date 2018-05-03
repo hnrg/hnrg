@@ -8,13 +8,13 @@ const permissionsCheck = require('../modules/permissions-check');
  * @param res
  * @returns void
  */
-exports.getDemographicsData = async function(req, res) {
+exports.getDemographicsData = async function (req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_index');
 
     const demographicsData = await DemographicData.find({}).populate('apartmentType heatingType waterType').exec();
 
-    res.status(200).send({demographicsData});
+    res.status(200).send({ demographicsData });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -30,11 +30,11 @@ exports.getDemographicsData = async function(req, res) {
  * @param res
  * @returns void
  */
-exports.addDemographicData = async function(req, res) {
+exports.addDemographicData = async function (req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_new');
 
-    const {demographicData} = req.body;
+    const { demographicData } = req.body;
 
     /* check params
     if (!healthControl fields) {
@@ -55,7 +55,7 @@ exports.addDemographicData = async function(req, res) {
     const newDemographicData = new DemographicData(demographicData);
     const saved = await newDemographicData.save();
 
-    return res.status(200).send({demographicData: saved});
+    return res.status(200).send({ demographicData: saved });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -71,7 +71,7 @@ exports.addDemographicData = async function(req, res) {
  * @param res
  * @returns void
  */
-exports.getDemographicData = async function(req, res) {
+exports.getDemographicData = async function (req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_show');
 
@@ -83,7 +83,7 @@ exports.getDemographicData = async function(req, res) {
       return res.sendStatus(404);
     }
 
-    res.status(200).json({demographicData});
+    res.status(200).json({ demographicData });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -103,7 +103,7 @@ exports.getDemographicData = async function(req, res) {
  * @param res
  * @returns void
  */
-exports.deleteDemographicData = async function(req, res) {
+exports.deleteDemographicData = async function (req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_delete');
 

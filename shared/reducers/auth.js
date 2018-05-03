@@ -27,7 +27,7 @@ import {
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
 
-  SET_STATE
+  SET_STATE,
 } from '../constants';
 
 /**
@@ -35,9 +35,9 @@ import {
  * @param {Object} state - initialState
  * @param {Object} action - type and payload
  */
-export default function(state = InitialState, action) {
+export default function (state = InitialState, action) {
   switch (action.type) {
-      /**
+    /**
      * ### Requests start
      * set the form to fetching and clear any errors
      */
@@ -45,17 +45,17 @@ export default function(state = InitialState, action) {
     case LOGOUT_REQUEST:
     case LOGIN_REQUEST:
     case RESET_PASSWORD_REQUEST:
-      {
-        let nextState = {
-          ...state,
-          isFetching: true,
-          error: null,
-        };
+    {
+      const nextState = {
+        ...state,
+        isFetching: true,
+        error: null,
+      };
 
-        return nextState;
-      }
+      return nextState;
+    }
 
-      /**
+    /**
        * ### Logout state
        * The logged in user logs out
        * Clear the form's error and all the fields
@@ -70,7 +70,7 @@ export default function(state = InitialState, action) {
           ...fields,
           email: '',
           password: '',
-        }
+        },
       };
 
       /**
@@ -85,7 +85,7 @@ export default function(state = InitialState, action) {
       return formValidation({
         ...state,
         state: action.type,
-        error: null
+        error: null,
       });
 
       /**
@@ -97,19 +97,19 @@ export default function(state = InitialState, action) {
        * the formValidation
        */
     case ON_AUTH_FORM_FIELD_CHANGE:
-      {
-        const {field, value} = action.payload;
+    {
+      const { field, value } = action.payload;
 
-        let nextState = {
-          ...state,
-          error: null
-        };
+      const nextState = {
+        ...state,
+        error: null,
+      };
 
-        nextState[field] = value;
+      nextState[field] = value;
 
-        return formValidation(fieldValidation(nextState, action), action);
-      }
-      /**
+      return formValidation(fieldValidation(nextState, action), action);
+    }
+    /**
        * ### Requests end, good or bad
        * Set the fetching flag so the forms will be enabled
        */
@@ -120,7 +120,7 @@ export default function(state = InitialState, action) {
     case RESET_PASSWORD_SUCCESS:
       return {
         ...state,
-        isFetching: false
+        isFetching: false,
       };
 
       /**
@@ -134,7 +134,7 @@ export default function(state = InitialState, action) {
       return {
         ...state,
         isFetching: false,
-        error: action.payload
+        error: action.payload,
       };
 
       /**
@@ -144,7 +144,7 @@ export default function(state = InitialState, action) {
        */
     case SET_STATE:
       var auth = JSON.parse(action.payload).auth;
-      var {fields} = auth;
+      var { fields } = auth;
 
       return {
         ...state,
@@ -158,8 +158,8 @@ export default function(state = InitialState, action) {
           email: auth.email,
           emailHasError: auth.emailHasError,
           password: auth.password,
-          passwordHasError: auth.passwordHasError
-        }
+          passwordHasError: auth.passwordHasError,
+        },
       };
 
     case DELETE_TOKEN_REQUEST:

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const Schema = mongoose.Schema;
 
 const User = require('./user');
@@ -18,7 +19,7 @@ const configurationSchema = new Schema({
   maintenance: { type: Boolean },
   user: { type: Schema.Types.ObjectId, ref: 'User' },
 }, {
-  timestamps: true
+  timestamps: true,
 });
 
 module.exports = mongoose.model('Configuration', configurationSchema);

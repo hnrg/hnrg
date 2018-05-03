@@ -12,19 +12,18 @@ export default class ProfileRequest {
   getProfile() {
     return axios.get('/api/auth/me', {
       headers: {
-        Authorization: this._sessionToken
-      }
-    }).then(response => {
+        Authorization: this._sessionToken,
+      },
+    }).then((response) => {
       if (response.status === 200 || response.status === 201) {
         return response.data;
-      } else {
-        throw(response.data.error);
       }
-    }).catch(error => {
+      throw (response.data.error);
+    }).catch((error) => {
       throw error;
     });
   }
 }
 
 // The singleton variable
-export let profileRequest = new ProfileRequest();
+export const profileRequest = new ProfileRequest();

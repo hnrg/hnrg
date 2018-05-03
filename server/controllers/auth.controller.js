@@ -5,12 +5,12 @@ const secret = require('../config/secret');
 const User = require('../models/user');
 
 function generateToken(user) {
-  return jwt.sign({user:user._id}, secret.secret, {
-    expiresIn: 10080 // in seconds
+  return jwt.sign({ user: user._id }, secret.secret, {
+    expiresIn: 10080, // in seconds
   });
 }
 
-exports.login = function(req, res) {
+exports.login = function (req, res) {
   try {
     const token = generateToken(req.user);
 
@@ -22,9 +22,9 @@ exports.login = function(req, res) {
   }
 };
 
-exports.me = async function(req, res, next) {
+exports.me = async function (req, res, next) {
   try {
-    return res.status(200).json({user: req.user});
+    return res.status(200).json({ user: req.user });
   } catch (e) {
     return res.status(500).send(e);
   }

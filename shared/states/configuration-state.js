@@ -17,5 +17,5 @@ export default {
       ammount: null,
     },
     maintenance: false,
-  }
+  },
 };

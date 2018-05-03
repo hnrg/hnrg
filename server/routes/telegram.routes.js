@@ -1,4 +1,4 @@
-const {Router} = require('express');
+const { Router } = require('express');
 const TelegramController = require('../controllers/telegram.controller');
 
 const router = Router();

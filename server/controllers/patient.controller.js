@@ -8,7 +8,7 @@ const permissionsCheck = require('../modules/permissions-check');
  * @param res
  * @returns void
  */
-exports.getPatients = async function(req, res) {
+exports.getPatients = async function (req, res) {
   try {
     permissionsCheck(req.user, 'paciente_index');
 
@@ -18,7 +18,7 @@ exports.getPatients = async function(req, res) {
       .populate('documentType')
       .exec();
 
-    return res.status(200).json({patients});
+    return res.status(200).json({ patients });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -34,11 +34,13 @@ exports.getPatients = async function(req, res) {
  * @param res
  * @returns void
  */
-exports.addPatient = async function(req, res) {
+exports.addPatient = async function (req, res) {
   try {
     permissionsCheck(req.user, 'paciente_new');
 
-    var {documentType, documentNumber, firstName, lastName, birthday} = req.body.patient;
+    const {
+      documentType, documentNumber, firstName, lastName, birthday,
+    } = req.body.patient;
 
     if (!documentType || !documentNumber || !firstName || !lastName || !birthday) {
       return res.status(403).end();
@@ -58,7 +60,7 @@ exports.addPatient = async function(req, res) {
       const patient = new Patient(req.body.patient);
       const saved = patient.save();
 
-      return res.status(201).json({patient: saved});
+      return res.status(201).json({ patient: saved });
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
@@ -75,7 +77,7 @@ exports.addPatient = async function(req, res) {
  * @param res
  * @returns void
  */
-exports.getPatient = async function(req, res) {
+exports.getPatient = async function (req, res) {
   try {
     permissionsCheck(req.user, 'paciente_show');
 
@@ -89,7 +91,7 @@ exports.getPatient = async function(req, res) {
       return res.sendStatus(404);
     }
 
-    res.status(200).json({patient});
+    res.status(200).json({ patient });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -109,11 +111,11 @@ exports.getPatient = async function(req, res) {
  * @param res
  * @returns void
  */
-exports.deletePatient = async function(req, res) {
+exports.deletePatient = async function (req, res) {
   try {
     permissionsCheck(req.user, 'paciente_delete');
 
-    await Patient.findByIdAndUpdate(req.params.id, {deleted: true});
+    await Patient.findByIdAndUpdate(req.params.id, { deleted: true });
 
     res.sendStatus(200);
   } catch (e) {
@@ -129,7 +131,7 @@ exports.deletePatient = async function(req, res) {
   }
 };
 
-exports.getPatientHealthControls = async function(req, res) {
+exports.getPatientHealthControls = async function (req, res) {
   try {
     permissionsCheck(req.user, 'paciente_show');
 
@@ -139,7 +141,6 @@ exports.getPatientHealthControls = async function(req, res) {
         return next(err);
       }
     });
-
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -149,7 +150,7 @@ exports.getPatientHealthControls = async function(req, res) {
   }
 };
 
-exports.updatePatient = async function(req, res) {
+exports.updatePatient = async function (req, res) {
   try {
     permissionsCheck(req.user, 'paciente_update');
 
@@ -160,7 +161,7 @@ exports.updatePatient = async function(req, res) {
           return next(err);
         }
 
-        return res.status(201).json({patient});
+        return res.status(201).json({ patient });
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {

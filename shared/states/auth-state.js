@@ -1,4 +1,4 @@
-import {LOGIN} from '../constants';
+import { LOGIN } from '../constants';
 
 export default {
   state: LOGIN,

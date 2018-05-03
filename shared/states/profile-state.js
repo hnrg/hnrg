@@ -20,6 +20,6 @@ export default {
     usernameErrorMsg: '',
     email: null,
     emailHasError: false,
-    emailErrorMsg: ''
-  }
+    emailErrorMsg: '',
+  },
 };

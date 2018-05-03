@@ -1,4 +1,4 @@
-'use strict'
+
 
 import {
   GET_CONFIGURATION_REQUEST,
@@ -6,29 +6,29 @@ import {
   GET_CONFIGURATION_FAILURE,
 } from '../constants';
 
-import {configurationRequest} from '../lib/request/configuration-request';
-import {authToken} from '../lib/store/auth-token';
+import { configurationRequest } from '../lib/request/configuration-request';
+import { authToken } from '../lib/store/auth-token';
 
 /**
  * ## retreiving configuration actions
  */
 export function getConfigurationRequest() {
   return {
-    type: GET_CONFIGURATION_REQUEST
+    type: GET_CONFIGURATION_REQUEST,
   };
 }
 
 export function getConfigurationSuccess(configuration) {
   return {
     type: GET_CONFIGURATION_SUCCESS,
-    payload: configuration
+    payload: configuration,
   };
 }
 
 export function getConfigurationFailure(error) {
   return {
     type: GET_CONFIGURATION_FAILURE,
-    payload: error
+    payload: error,
   };
 }
 
@@ -38,7 +38,7 @@ export function getConfigurationFailure(error) {
  * as in login, register, logout or reset password
  */
 export function getConfiguration() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(getConfigurationRequest());
     return configurationRequest.getConfiguration()
       .then((json) => {

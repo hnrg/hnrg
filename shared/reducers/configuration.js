@@ -7,7 +7,7 @@ import {
 
   LOGOUT_SUCCESS,
 
-  SET_STATE
+  SET_STATE,
 } from '../constants';
 
 /**
@@ -22,7 +22,7 @@ import InitialState from '../states/configuration-state';
  * @param {Object} action - type and payload
  */
 export default function configurationReducer(state = InitialState, action) {
-  let nextProfileState = null;
+  const nextProfileState = null;
 
   switch (action.type) {
     /**
@@ -30,7 +30,7 @@ export default function configurationReducer(state = InitialState, action) {
      * set the form to fetching and clear any errors
      */
     case GET_CONFIGURATION_REQUEST:
-      return {...state, isFetching: true, error: null, };
+      return { ...state, isFetching: true, error: null };
 
     /**
      * ### Request ends successfully
@@ -63,9 +63,9 @@ export default function configurationReducer(state = InitialState, action) {
      */
     case LOGOUT_SUCCESS:
       return {
-          ...state,
-          email: '',
-          error: null,
+        ...state,
+        email: '',
+        error: null,
       };
 
     /**
@@ -88,7 +88,7 @@ export default function configurationReducer(state = InitialState, action) {
      */
     case SET_STATE:
       const configuration = JSON.parse(action.payload).configuration;
-      const {current} = state;
+      const { current } = state;
 
       return {
         ...state,
@@ -111,7 +111,7 @@ export default function configurationReducer(state = InitialState, action) {
             ammount: configuration.current.appointments.ammount,
           },
           maintenance: configuration.current.maintenance,
-        }
+        },
       };
   }
 

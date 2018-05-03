@@ -11,18 +11,17 @@ export default class ConfigurationRequest {
 
   getConfiguration() {
     return axios.get('/api/configurations/current')
-      .then(response => {
+      .then((response) => {
         if (response.status === 200 || response.status === 201) {
           return response.data;
-        } else {
-          throw(response.data.error);
         }
+        throw (response.data.error);
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   }
 }
 
 // The singleton variable
-export let configurationRequest = new ConfigurationRequest();
+export const configurationRequest = new ConfigurationRequest();

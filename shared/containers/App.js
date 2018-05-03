@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import reactMixin from 'react-mixin';
 import TimerMixin from 'react-timer-mixin';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -17,15 +17,15 @@ import DevTools from '../components/DevTools';
 function mapStateToProps(state) {
   return {
     auth: {
-      isFetching: state.auth.isFetching
+      isFetching: state.auth.isFetching,
     },
     configuration: {
       currentConfiguration: state.configuration.currentConfiguration,
     },
     global: {
       currentState: state.global.currentState,
-      showState: state.global.showState
-    }
+      showState: state.global.showState,
+    },
   };
 }
 
@@ -37,8 +37,8 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       ...authActions,
       ...configurationActions,
-      ...globalActions
-    }, dispatch)
+      ...globalActions,
+    }, dispatch),
   };
 }
 
@@ -48,18 +48,20 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setTimeout(() => {
-      this.props.actions.getSessionToken();
-      this.props.actions.getConfiguration();
-    },
-    2500);
+    this.setTimeout(
+      () => {
+        this.props.actions.getSessionToken();
+        this.props.actions.getConfiguration();
+      },
+      2500,
+    );
   }
 
   render() {
     return (
       <div>
-        {React.cloneElement(this.props.children, {...this.props})}
-        {process.env.NODE_ENV === "development" && <DevTools />}
+        {React.cloneElement(this.props.children, { ...this.props })}
+        {process.env.NODE_ENV === 'development' && <DevTools />}
       </div>
     );
   }

@@ -1,10 +1,10 @@
-module.exports = function(bot) {
+module.exports = function (bot) {
   bot.onText(/\/hora\s+(\d{2}:\d{2}?)$/, (msg, match) => {
     const chatId = msg.chat.id;
-    var opts = {
+    const opts = {
       reply_markup: {
-        remove_keyboard: true
-      }
+        remove_keyboard: true,
+      },
     };
 
     if (true) {

@@ -15,6 +15,6 @@ module.exports = {
   perfil,
   reservar,
   turnos_hoy,
-  turnos
+  turnos,
 };
 

@@ -10,7 +10,7 @@ const Permission = require('./models/permission');
 const Rol = require('./models/rol');
 const User = require('./models/user');
 
-const dummyData = async function() {
+const dummyData = async function () {
   await Permission.count().exec((err, count) => {
     if (count > 0) {
       return;
@@ -37,10 +37,10 @@ const dummyData = async function() {
       'usuario_index',
       'usuario_new',
       'usuario_show',
-      'usuario_update'
+      'usuario_update',
     ];
 
-    Permission.create(permissions.map(permission => new Permission({name: permission})));
+    Permission.create(permissions.map(permission => new Permission({ name: permission })));
   });
 
   await Rol.count().exec((err, count) => {
@@ -53,9 +53,9 @@ const dummyData = async function() {
         return;
       }
 
-      var models = {};
+      const models = {};
 
-      permissions.forEach(permission => {
+      permissions.forEach((permission) => {
         models[permission.name] = permission;
       });
 
@@ -73,14 +73,14 @@ const dummyData = async function() {
         models.rol_new,
         models.rol_update,
         models.rol_destroy,
-        models.control_salud_destroy
+        models.control_salud_destroy,
       ];
 
       const receptionistPermissions = [
         models.paciente_index,
         models.paciente_show,
         models.paciente_new,
-        models.paciente_update
+        models.paciente_update,
       ];
 
       const pediatricianPermissions = [
@@ -91,13 +91,13 @@ const dummyData = async function() {
         models.control_salud_index,
         models.control_salud_show,
         models.control_salud_new,
-        models.control_salud_update
+        models.control_salud_update,
       ];
 
       const suPermissions = [
         ...adminPermissions,
         ...receptionistPermissions,
-        ...pediatricianPermissions
+        ...pediatricianPermissions,
       ];
 
       const admin = new Rol({
@@ -129,7 +129,7 @@ const dummyData = async function() {
       return;
     }
 
-    Rol.findOne({name: 'Administrador'}).exec((err, rol) => {
+    Rol.findOne({ name: 'Administrador' }).exec((err, rol) => {
       const admin = new User({
         ...secret.admin,
         active: true,
@@ -139,7 +139,7 @@ const dummyData = async function() {
       admin.save();
     });
 
-    Rol.findOne({name: 'Pediatra'}).exec((err, rol) => {
+    Rol.findOne({ name: 'Pediatra' }).exec((err, rol) => {
       const pediatrician = new User({
         email: 'pediatra@hnrg.com',
         username: 'pediatra',
@@ -151,7 +151,7 @@ const dummyData = async function() {
       pediatrician.save();
     });
 
-    Rol.findOne({name: 'Recepcionista'}).exec((err, rol) => {
+    Rol.findOne({ name: 'Recepcionista' }).exec((err, rol) => {
       const receptionist = new User({
         email: 'recepcionista@hnrg.com',
         username: 'recepcionista',
@@ -163,7 +163,7 @@ const dummyData = async function() {
       receptionist.save();
     });
 
-    Rol.findOne({name: 'Su'}).exec((err, rol) => {
+    Rol.findOne({ name: 'Su' }).exec((err, rol) => {
       const su = new User({
         email: 'su@hnrg.com',
         username: 'su',
@@ -182,11 +182,11 @@ const dummyData = async function() {
     }
 
     User.findOne({
-      email: secret.admin.email
+      email: secret.admin.email,
     }).exec((err, user) => {
       const config = new Configuration({
         ...appConfig,
-        user: user,
+        user,
       });
 
       config.save();

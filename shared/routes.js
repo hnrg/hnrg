@@ -17,7 +17,7 @@ import NotFoundPage from './containers/NotFound';
 import LoginPage from './containers/auth/Login';
 import LogoutPage from './containers/auth/Logout';
 
-//high order components
+// high order components
 import RequireAuth from './containers/Middleware/Auth';
 
 const Routes = () => (
@@ -31,7 +31,7 @@ const Routes = () => (
         <Route path="/login" component={LoginPage} />
         <Route path="/logout" component={LogoutPage} />
         <Route path="/not-found" component={NotFoundPage} />
-        <Redirect to="/not-found"/>
+        <Redirect to="/not-found" />
       </Switch>
     </App>
   </CookiesProvider>

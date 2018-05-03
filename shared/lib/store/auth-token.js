@@ -2,14 +2,13 @@ import Cookies from 'js-cookie';
 import CONFIG from './config';
 
 export class AuthToken {
-
   /**
    * ## AuthToken
    *
    * set the key from the config
    */
   constructor() {
-    this.SESSION_TOKEN_KEY = CONFIG.SESSION_TOKEN_KEY
+    this.SESSION_TOKEN_KEY = CONFIG.SESSION_TOKEN_KEY;
   }
 
   /**
@@ -17,7 +16,7 @@ export class AuthToken {
    * Store the session key
    */
   storeSessionToken(sessionToken) {
-    Cookies.set(this.SESSION_TOKEN_KEY, sessionToken, {path: '/'});
+    Cookies.set(this.SESSION_TOKEN_KEY, sessionToken, { path: '/' });
     return Promise.resolve();
   }
 
@@ -31,9 +30,9 @@ export class AuthToken {
    */
   getSessionToken(sessionToken) {
     if (sessionToken) {
-      Cookies.set(this.SESSION_TOKEN_KEY, sessionToken, {path:'/'});
+      Cookies.set(this.SESSION_TOKEN_KEY, sessionToken, { path: '/' });
     }
-    return Promise.resolve(Cookies.get(this.SESSION_TOKEN_KEY, {path:'/'}));
+    return Promise.resolve(Cookies.get(this.SESSION_TOKEN_KEY, { path: '/' }));
   }
 
   /**
@@ -41,7 +40,7 @@ export class AuthToken {
    * Deleted during log out
    */
   deleteSessionToken() {
-    return Promise.resolve(Cookies.remove(this.SESSION_TOKEN_KEY, {path:'/'}));
+    return Promise.resolve(Cookies.remove(this.SESSION_TOKEN_KEY, { path: '/' }));
   }
 }
 

@@ -1,4 +1,4 @@
-"use strict"
+
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
@@ -16,8 +16,8 @@ const userSchema = new Schema({
     required: 'El campo `email` es requerido',
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      'Ingrese un email valido - ejemplo@dominio.com'
-    ]
+      'Ingrese un email valido - ejemplo@dominio.com',
+    ],
   },
   username: {
     type: String,
@@ -27,7 +27,7 @@ const userSchema = new Schema({
     required: 'El campo `nombre de usuario` es requerido',
     match: [
       /\w+/,
-      'Un nombre de usuario solo puede contener letras y guiones bajos'
+      'Un nombre de usuario solo puede contener letras y guiones bajos',
     ],
   },
   firstName: { type: String, trim: true },
@@ -37,24 +37,24 @@ const userSchema = new Schema({
     required: 'El campo `contraseña` es requerido',
     match: [
       /\S+/,
-      'Una contraseña no puede tener espacios blancos'
-    ]
+      'Una contraseña no puede tener espacios blancos',
+    ],
   },
   active: { type: Boolean, default: false },
   roles: [{ type: Schema.Types.ObjectId, ref: 'Rol' }],
 }, {
-  timestamps: true
+  timestamps: true,
 });
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
   const user = this;
 
-  bcrypt.genSalt(10, function(err, salt) {
+  bcrypt.genSalt(10, (err, salt) => {
     if (err) {
       return next(err);
     }
 
-    bcrypt.hash(user.password, salt, null, function(err, hash) {
+    bcrypt.hash(user.password, salt, null, (err, hash) => {
       if (err) {
         return next(err);
       }
@@ -65,8 +65,8 @@ userSchema.pre('save', function(next) {
   });
 });
 
-userSchema.methods.comparePassword = function(candidatePassword, callback) {
-  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+userSchema.methods.comparePassword = function (candidatePassword, callback) {
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     if (err) {
       return callback(err);
     }

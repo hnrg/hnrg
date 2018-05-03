@@ -1,4 +1,4 @@
-const {Router} = require('express');
+const { Router } = require('express');
 const passport = require('passport');
 
 const passportService = require('../modules/passport');

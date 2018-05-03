@@ -6,7 +6,7 @@
  * message is displayed to the user
  *
  */
-'use strict'
+
 
 /**
  * ## Imports
@@ -23,8 +23,8 @@ import _ from 'underscore';
  */
 const emailConstraints = {
   from: {
-    email: true
-  }
+    email: true,
+  },
 };
 
 /**
@@ -36,9 +36,9 @@ const usernameConstraints = {
   username: {
     format: {
       pattern: usernamePattern,
-      flags: 'i'
-    }
-  }
+      flags: 'i',
+    },
+  },
 };
 
 /**
@@ -50,9 +50,9 @@ const passwordConstraints = {
   password: {
     format: {
       pattern: passwordPattern,
-      flags: 'i'
-    }
-  }
+      flags: 'i',
+    },
+  },
 };
 
 /**
@@ -60,11 +60,11 @@ const passwordConstraints = {
  * @param {Object} state Redux state
  * @param {Object} action type & payload
  */
-export default function(state, action) {
+export default function (state, action) {
   const {
     field,
-    value
-  } = action.payload
+    value,
+  } = action.payload;
 
   switch (field) {
     /**
@@ -72,77 +72,80 @@ export default function(state, action) {
      * set the form field error
      */
     case ('username'):
-      {
-        let validUsername = _.isUndefined(validate({
-            username: value
-          },
-          usernameConstraints));
-          if (validUsername) {
-            return {
-              ...state,
-              usernameHasError: false,
-              usernameErrorMsg: '',
-            };
-          } else {
-            return {
-              ...state,
-              usernameHasError: true,
-              usernameErrorMsg: 'FieldValidation.valid_username',
-            };
-          }
+    {
+      const validUsername = _.isUndefined(validate(
+        {
+          username: value,
+        },
+        usernameConstraints,
+      ));
+      if (validUsername) {
+        return {
+          ...state,
+          usernameHasError: false,
+          usernameErrorMsg: '',
+        };
       }
+      return {
+        ...state,
+        usernameHasError: true,
+        usernameErrorMsg: 'FieldValidation.valid_username',
+      };
+    }
 
-      /**
+    /**
        * ### email validation
        * set the form field error
        */
     case ('email'):
-      {
-        let validEmail = _.isUndefined(validate({
-            from: value
-          },
-          emailConstraints));
-        if (validEmail) {
-          return {
-            ...state,
-            emailHasError: false,
-            emailErrorMsg: '',
-          };
-        } else {
-          return {
-            ...state,
-            emailHasError: true,
-            emailErrorMsg: 'FieldValidation.valid_email',
-          };
-        }
+    {
+      const validEmail = _.isUndefined(validate(
+        {
+          from: value,
+        },
+        emailConstraints,
+      ));
+      if (validEmail) {
+        return {
+          ...state,
+          emailHasError: false,
+          emailErrorMsg: '',
+        };
       }
+      return {
+        ...state,
+        emailHasError: true,
+        emailErrorMsg: 'FieldValidation.valid_email',
+      };
+    }
 
-      /**
+    /**
        * ### password validation
        * set the form field error
        */
     case ('password'):
-      {
-        let validPassword = _.isUndefined(validate({
-            password: value
-          },
-          passwordConstraints));
-        if (validPassword) {
-          return {
-            ...state,
-            passwordHasError: false,
-            passwordErrorMsg: '',
-          };
-        } else {
-          return {
-            ...state,
-            passwordHasError: true,
-            passwordErrorMsg: 'FieldValidation.valid_password',
-          };
-        }
+    {
+      const validPassword = _.isUndefined(validate(
+        {
+          password: value,
+        },
+        passwordConstraints,
+      ));
+      if (validPassword) {
+        return {
+          ...state,
+          passwordHasError: false,
+          passwordErrorMsg: '',
+        };
       }
+      return {
+        ...state,
+        passwordHasError: true,
+        passwordErrorMsg: 'FieldValidation.valid_password',
+      };
+    }
 
-      /**
+    /**
        * ### showPassword
        * toggle the display of the password
        */
@@ -151,7 +154,6 @@ export default function(state, action) {
         ...state,
         showPassword: value,
       };
-
   }
 
   return state;
