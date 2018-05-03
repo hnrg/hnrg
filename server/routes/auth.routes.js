@@ -10,8 +10,8 @@ const requireLogin = passport.authenticate('local', { session: false });
 
 const router = Router();
 
-router.route('/auth/login').post(requireLogin, AuthController.login);
+router.route('/auth/login').post(requireLogin, AuthController.loginAction);
 
-router.route('/auth/me').get(requireAuth, AuthController.me);
+router.route('/auth/me').get(requireAuth, AuthController.getProfileAction);
 
 module.exports = router;

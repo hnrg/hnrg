@@ -1,14 +1,12 @@
 const Configuration = require('../models/configuration');
 
-const permissionsCheck = require('../modules/permissions-check');
-
 /**
  * Get all configs
  * @param req
  * @param res
  * @returns void
  */
-exports.getConfigurations = async function (req, res) {
+exports.getConfigurations = async function getConfigurations(req, res) {
   try {
     const configurations = await Configuration.find({}).exec();
 
@@ -18,7 +16,7 @@ exports.getConfigurations = async function (req, res) {
   }
 };
 
-exports.getConfiguration = async function (req, res) {
+exports.getConfiguration = async function getConfiguration(req, res) {
   try {
     const configuration = await Configuration.findById(req.params.id).exec();
 
@@ -28,7 +26,7 @@ exports.getConfiguration = async function (req, res) {
   }
 };
 
-exports.getCurrentConfiguration = async function (req, res) {
+exports.getCurrentConfiguration = async function getCurrentConfiguration(req, res) {
   try {
     const configuration = await Configuration.findOne({}).exec();
 

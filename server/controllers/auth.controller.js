@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
 
 const secret = require('../config/secret');
-const User = require('../models/user');
 
 function generateToken(user) {
   return jwt.sign({ user: user._id }, secret.secret, {
@@ -10,7 +8,7 @@ function generateToken(user) {
   });
 }
 
-exports.login = function (req, res) {
+exports.loginAction = function loginAction(req, res) {
   try {
     const token = generateToken(req.user);
 
@@ -22,7 +20,7 @@ exports.login = function (req, res) {
   }
 };
 
-exports.me = async function (req, res, next) {
+exports.getProfileAction = async function getProfileAction(req, res) {
   try {
     return res.status(200).json({ user: req.user });
   } catch (e) {

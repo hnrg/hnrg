@@ -1,8 +1,7 @@
+const permissionsCheck = require('../modules/permissions-check');
+
 const Permission = require('../models/permission');
 const Rol = require('../models/rol');
-const mongoose = require('mongoose');
-
-const permissionsCheck = require('../modules/permissions-check');
 
 /**
  * Get all roles
@@ -10,7 +9,7 @@ const permissionsCheck = require('../modules/permissions-check');
  * @param res
  * @returns void
  */
-exports.getRoles = async function (req, res) {
+exports.getRoles = async function getRoles(req, res) {
   try {
     permissionsCheck(req.user, 'rol_index');
 
@@ -32,7 +31,7 @@ exports.getRoles = async function (req, res) {
  * @param res
  * @returns void
  */
-exports.addRol = async function (req, res) {
+exports.addRol = async function addRol(req, res) {
   try {
     permissionsCheck(req.user, 'rol_new');
 
@@ -71,7 +70,7 @@ exports.addRol = async function (req, res) {
  * @param res
  * @returns void
  */
-exports.getRol = async function (req, res) {
+exports.getRol = async function getRol(req, res) {
   try {
     permissionsCheck(req.user, 'rol_show');
 
@@ -101,7 +100,7 @@ exports.getRol = async function (req, res) {
  * @param res
  * @returns void
  */
-exports.deleteRol = async function (req, res) {
+exports.deleteRol = async function deleteRol(req, res) {
   try {
     permissionsCheck(req.user, 'rol_delete');
 
@@ -126,7 +125,7 @@ exports.deleteRol = async function (req, res) {
   }
 };
 
-exports.deleteRolPermission = async function (req, res) {
+exports.deleteRolPermission = async function deleteRolPermission(req, res) {
   try {
     permissionsCheck(req.user, 'rol_delete');
   } catch (e) {

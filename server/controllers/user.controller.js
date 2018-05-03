@@ -1,4 +1,3 @@
-const Permission = require('../models/permission');
 const User = require('../models/user');
 
 const permissionsCheck = require('../modules/permissions-check');
@@ -9,7 +8,7 @@ const permissionsCheck = require('../modules/permissions-check');
  * @param res
  * @returns void
  */
-exports.getUsers = async function (req, res) {
+exports.getUsers = async function getUsers(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
@@ -31,7 +30,7 @@ exports.getUsers = async function (req, res) {
  * @param res
  * @returns void
  */
-exports.getUser = async function (req, res, next) {
+exports.getUser = async function getUser(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_show');
 
@@ -51,17 +50,14 @@ exports.getUser = async function (req, res, next) {
   }
 };
 
-exports.addUser = async function (req, res) {
+exports.addUser = async function addUser(req, res, next) {
   try {
     permissionsCheck(req.user, 'usuario_new');
 
     const user = req.body.user;
-
-    const email = user.email;
-    const username = user.username;
-    const firstName = user.firstName;
-    const lastName = user.lastName;
-    const password = user.password;
+    const {
+      email, username, firstName, lastName, password,
+    } = user;
 
     if (!email) {
       return res.status(422).send({ error: 'You must enter an email address.' });
@@ -92,12 +88,12 @@ exports.addUser = async function (req, res) {
 
       User.find({
         username,
-      }, (err, existingUser) => {
+      }, (err, _existingUser) => {
         if (err) {
           return next(err);
         }
 
-        if (existingUser) {
+        if (_existingUser) {
           return res.status(422).send({ error: 'That username is already in use.' });
         }
 
@@ -121,7 +117,7 @@ exports.addUser = async function (req, res) {
   }
 };
 
-exports.deleteUser = async function (req, res) {
+exports.deleteUser = async function deleteUser(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
@@ -146,7 +142,7 @@ exports.deleteUser = async function (req, res) {
   }
 };
 
-exports.updateUser = async function (req, res, next) {
+exports.updateUser = async function updateUser(req, res, next) {
   try {
     permissionsCheck(req.user, 'usuario_update');
 

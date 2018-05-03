@@ -8,7 +8,7 @@ const permissionsCheck = require('../modules/permissions-check');
  * @param res
  * @returns void
  */
-exports.getPermissions = async function (req, res) {
+exports.getPermissions = async function getPermissions(req, res) {
   try {
     permissionsCheck(req.user, 'permiso_index');
 

@@ -1,5 +1,4 @@
 const moment = require('moment-timezone');
-const slug = require('limax');
 
 const Appointment = require('../models/appointment');
 
@@ -7,11 +6,11 @@ const Appointment = require('../models/appointment');
  * Return an array with all the available times
  * @returns array
  */
-const timesArray = function (date, start = 0, end = 24, delta = 30) {
+function timesArray(date, start = 0, end = 24, delta = 30) {
   const times = [];
 
-  for (let i = start; i < end; i++) {
-    for (let j = 0; j < 60 / delta; j++) {
+  for (let i = start; i < end; i += 1) {
+    for (let j = 0; j < 60 / delta; j += 1) {
       const k = j * delta;
 
       times.push(moment(date)
@@ -22,15 +21,18 @@ const timesArray = function (date, start = 0, end = 24, delta = 30) {
   }
 
   return times;
-};
+}
 
-const totalTime = date => date.hours() * 10000 + date.minutes() * 100 + date.seconds();
+const totalTime = date => ((date.hours() * 10000) + (date.minutes() * 100) + date.seconds());
 
 const timeInArray = (date, times) => times.find(each => date.isSame(moment(each), 'hours')
         && date.isSame(moment(each), 'minutes')
         && date.isSame(moment(each), 'seconds'));
 
-const mergeTime = (dest, src) => moment(dest).hours(src.hours()).minutes(src.minutes()).seconds(src.seconds());
+const mergeTime = (dest, src) => moment(dest)
+  .hours(src.hours())
+  .minutes(src.minutes())
+  .seconds(src.seconds());
 
 /**
  * Get all appointment
@@ -38,7 +40,7 @@ const mergeTime = (dest, src) => moment(dest).hours(src.hours()).minutes(src.min
  * @param res
  * @returns void
  */
-exports.getAppointments = async function (req, res) {
+exports.getAppointments = async function getAppointments(req, res) {
   try {
     const date = moment(req.params.date);
 
@@ -71,9 +73,9 @@ exports.getAppointments = async function (req, res) {
  * @param res
  * @returns void
  */
-exports.addAppointment = async function (req, res) {
+exports.addAppointment = async function addAppointment(req, res) {
   try {
-    var { documentNumber, date, time } = req.body.appointment || req.params;
+    const { documentNumber, date, time } = req.body.appointment || req.params;
 
     if (!documentNumber || !date || !time) {
       return res.status(403).end();
@@ -90,8 +92,13 @@ exports.addAppointment = async function (req, res) {
       date: newDate.toDate(),
     });
 
-    var { documentNumber, date } = await newAppointment.save();
-    res.status(201).json({ appointment: { documentNumber, date } });
+    const saved = await newAppointment.save();
+    res.status(201).json({
+      appointment: {
+        documentNumber: saved.documentNumber,
+        date: saved.date,
+      },
+    });
   } catch (e) {
     return res.status(500).send(e);
   }
@@ -103,7 +110,7 @@ exports.addAppointment = async function (req, res) {
  * @param res
  * @returns void
  */
-exports.getAppointment = async function (req, res) {
+exports.getAppointment = async function getAppointment(req, res) {
   try {
     const appointment = await Appointment.findById(req.params.id).exec();
     if (!appointment) {
@@ -124,7 +131,7 @@ exports.getAppointment = async function (req, res) {
  * @param res
  * @returns void
  */
-exports.deleteAppointment = async function (req, res) {
+exports.deleteAppointment = async function deleteAppointment(req, res) {
   try {
     const appointment = await Appointment.findById(req.params.id).exec();
     if (!appointment) {

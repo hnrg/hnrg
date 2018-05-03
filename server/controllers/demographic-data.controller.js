@@ -8,7 +8,7 @@ const permissionsCheck = require('../modules/permissions-check');
  * @param res
  * @returns void
  */
-exports.getDemographicsData = async function (req, res) {
+exports.getDemographicsData = async function getDemographicsData(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_index');
 
@@ -30,7 +30,7 @@ exports.getDemographicsData = async function (req, res) {
  * @param res
  * @returns void
  */
-exports.addDemographicData = async function (req, res) {
+exports.addDemographicData = async function addDemographicData(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_new');
 
@@ -71,7 +71,7 @@ exports.addDemographicData = async function (req, res) {
  * @param res
  * @returns void
  */
-exports.getDemographicData = async function (req, res) {
+exports.getDemographicData = async function getDemographicData(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_show');
 
@@ -103,7 +103,7 @@ exports.getDemographicData = async function (req, res) {
  * @param res
  * @returns void
  */
-exports.deleteDemographicData = async function (req, res) {
+exports.deleteDemographicData = async function deleteDemographicData(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_delete');
 

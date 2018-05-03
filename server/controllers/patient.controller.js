@@ -8,7 +8,7 @@ const permissionsCheck = require('../modules/permissions-check');
  * @param res
  * @returns void
  */
-exports.getPatients = async function (req, res) {
+exports.getPatients = async function getPatients(req, res) {
   try {
     permissionsCheck(req.user, 'paciente_index');
 
@@ -34,7 +34,7 @@ exports.getPatients = async function (req, res) {
  * @param res
  * @returns void
  */
-exports.addPatient = async function (req, res) {
+exports.addPatient = async function addPatient(req, res) {
   try {
     permissionsCheck(req.user, 'paciente_new');
 
@@ -77,7 +77,7 @@ exports.addPatient = async function (req, res) {
  * @param res
  * @returns void
  */
-exports.getPatient = async function (req, res) {
+exports.getPatient = async function getPatient(req, res) {
   try {
     permissionsCheck(req.user, 'paciente_show');
 
@@ -111,7 +111,7 @@ exports.getPatient = async function (req, res) {
  * @param res
  * @returns void
  */
-exports.deletePatient = async function (req, res) {
+exports.deletePatient = async function deletePatient(req, res) {
   try {
     permissionsCheck(req.user, 'paciente_delete');
 
@@ -131,7 +131,7 @@ exports.deletePatient = async function (req, res) {
   }
 };
 
-exports.getPatientHealthControls = async function (req, res) {
+exports.getPatientHealthControls = async function getPatientHealthControls(req, res, next) {
   try {
     permissionsCheck(req.user, 'paciente_show');
 
@@ -150,7 +150,7 @@ exports.getPatientHealthControls = async function (req, res) {
   }
 };
 
-exports.updatePatient = async function (req, res) {
+exports.updatePatient = async function updatePatient(req, res, next) {
   try {
     permissionsCheck(req.user, 'paciente_update');
 
