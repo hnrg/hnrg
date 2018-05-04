@@ -5,7 +5,7 @@ const server = require('../../server');
 const Seed = require('../../server/dummyData');
 const Appointment = require('../../server/models/appointment');
 
-const cleanAndSeedDb = async function () {
+const cleanAndSeedDb = async function cleanAndSeedDb() {
   await Appointment.remove({});
   await Seed();
 };
