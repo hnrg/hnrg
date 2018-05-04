@@ -46,19 +46,25 @@ exports.addPatient = async function addPatient(req, res) {
       return res.status(403).end();
     }
 
-    await Patient.count({
+    await Patient.findOne({
       documentType,
       documentNumber,
       firstName,
       lastName,
       birthday,
-    }).exec((err, count) => {
-      if (count > 0) {
-        return res.status(422);
+    }).exec((err, patient) => {
+      if (patient) {
+        if (patient.state)
+          return res.status(422);
+
+        patient.state = true;
+        const saved = patient.save();
+
+        return res.status(201).json({ patient: saved });
       }
 
-      const patient = new Patient(req.body.patient);
-      const saved = patient.save();
+      const newPatient = new Patient(req.body.patient);
+      const saved = newPatient.save();
 
       return res.status(201).json({ patient: saved });
     });
