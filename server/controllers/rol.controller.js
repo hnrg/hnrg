@@ -53,7 +53,7 @@ exports.addRol = async function addRol(req, res) {
       const newRol = new Rol(rol);
       const saved = newRol.save();
 
-      return res.status(200).send({ rol: saved });
+      return res.status(201).send({ rol: saved });
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
