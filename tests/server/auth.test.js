@@ -7,16 +7,16 @@ const Seed = require('../../server/dummyData');
 
 const expect = chai.expect;
 
-describe('Login Tests', function() {
-  describe('Successes', function() {
-    it('should return the token if valid', function(done) {
+describe('Login Tests', () => {
+  describe('Successes', () => {
+    it('should return the token if valid', (done) => {
       request(server)
         .post('/api/auth/login')
         .send({
           email: 'admin@hnrg.com',
-          password: 'admin'
+          password: 'admin',
         })
-        .end(function(err, res) {
+        .end((err, res) => {
           expect(res.body.token).to.be.an('string');
           expect(res.statusCode).to.be.equal(200);
           done();

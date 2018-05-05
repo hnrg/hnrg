@@ -54,8 +54,7 @@ exports.addPatient = async function addPatient(req, res) {
       birthday,
     }).exec((err, patient) => {
       if (patient) {
-        if (patient.state)
-          return res.status(422);
+        if (patient.state) { return res.status(422); }
 
         patient.state = true;
         const saved = patient.save();
