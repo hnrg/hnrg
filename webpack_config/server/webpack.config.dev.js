@@ -19,7 +19,7 @@ const serverConfig = {
   },
 
   output: {
-    path: path.resolve(__dirname, 'server'),
+    path: path.resolve(__dirname, '../../server'),
     publicPath: '/',
     filename: 'SSR.js',
     libraryTarget: 'commonjs2',
