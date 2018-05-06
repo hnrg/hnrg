@@ -12,8 +12,6 @@ const clientConfig = {
 
   devtool: 'eval-source-map',
 
-  resolve: {},
-
   entry: {
     app: [
       'babel-polyfill', 'react-hot-loader/patch', './app.jsx', 'webpack-hot-middleware/client',
