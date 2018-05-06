@@ -36,7 +36,13 @@ exports.addHealthControl = async function addHealthControl(req, res) {
 
     const { healthControl } = req.body;
 
-    if (!healthControl.date || !healthControl.weight || !healthControl.pc || !healthControl.ppc || !healthControl.height || !healthControl.patient || !healthControl.user) {
+    if (!healthControl.date ||
+        !healthControl.weight ||
+        !healthControl.pc ||
+        !healthControl.ppc ||
+        !healthControl.height ||
+        !healthControl.patient ||
+        !healthControl.user) {
       return res.status(403).end();
     }
 

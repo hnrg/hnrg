@@ -116,7 +116,6 @@ export default function (state = InitialState, action) {
         ...state,
         currentUser: global.currentUser,
         showState: false,
-        currentUser: null,
       };
   }
 

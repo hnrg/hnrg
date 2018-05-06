@@ -88,9 +88,9 @@ exports.addUser = async function addUser(req, res, next) {
 
       User.find({
         username,
-      }, (err, _existingUser) => {
-        if (err) {
-          return next(err);
+      }, (error, _existingUser) => {
+        if (error) {
+          return next(error);
         }
 
         if (_existingUser) {
@@ -99,12 +99,12 @@ exports.addUser = async function addUser(req, res, next) {
 
         const newUser = new User(user);
 
-        newUser.save((err, user) => {
-          if (err) {
-            return next(err);
+        newUser.save((userError, newUserData) => {
+          if (userError) {
+            return next(userError);
           }
 
-          res.status(201).send({ user });
+          res.status(201).send({ newUserData });
         });
       });
     });

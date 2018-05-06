@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 
 export default class ConfigurationRequest {
   init(token = null) {

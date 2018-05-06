@@ -33,7 +33,7 @@ describe('Roles APIs', () => {
 
   beforeEach(done => login(request, done));
 
-  test('Should load all available roles', done => {
+  test('Should load all available roles', (done) => {
     request(server)
       .get('/api/roles')
       .set('Authorization', token)
@@ -44,18 +44,18 @@ describe('Roles APIs', () => {
       });
   }, 5000);
 
-  test('Should add a new rol', done => {
+  test('Should add a new rol', (done) => {
     request(server)
       .post('/api/roles')
       .set('Authorization', token)
       .send({
         rol: {
-          name: '$$$RolTesting$$$'
-        }
+          name: '$$$RolTesting$$$',
+        },
       })
       .end((err, res) => {
         expect(res.statusCode).to.be.equal(201);
         done();
       });
-  })
+  });
 });
