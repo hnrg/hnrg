@@ -1,12 +1,18 @@
 const moment = require('moment-timezone');
 
-module.exports = function (bot, user) {
-  user.then((user) => {
-    let info = `Nombre y apellido: ${user.patient.firstName} ${user.patient.lastName}\n`;
-    info += `${user.patient.documentType.name}: ${user.patient.documentNumber}\n`;
-    info += `Fecha de nacimiento: ${moment(user.patient.birthday).format('DD/MM/YYYY')}\n`;
-    info += '\n\nSi quiere cambiar algun dato, debe comunicarse con la secretaría del Hospital.';
-    bot.editMessageText(info, message);
+module.exports = function info(bot, msg, user) {
+  const chatId = msg.from.id;
+  const message = {
+    chat_id: chatId,
+    message_id: msg.message.message_id,
+  };
+
+  user.then((userData) => {
+    let userInfo = `Nombre y apellido: ${userData.patient.firstName} ${userData.patient.lastName}\n`;
+    userInfo += `${userData.patient.documentType.name}: ${userData.patient.documentNumber}\n`;
+    userInfo += `Fecha de nacimiento: ${moment(userData.patient.birthday).format('DD/MM/YYYY')}\n`;
+    userInfo += '\n\nSi quiere cambiar algun dato, debe comunicarse con la secretaría del Hospital.';
+    bot.editMessageText(userInfo, message);
   });
 };
 

@@ -1,7 +1,13 @@
-module.exports = function (bot, user) {
-  user.then((user) => {
-    bot.editMessageText(`Hasta luego ${user.patient.firstName} ${user.patient.lastName}`, message);
-    user.remove();
+module.exports = function desvincular(bot, msg, user) {
+  const chatId = msg.from.id;
+  const message = {
+    chat_id: chatId,
+    message_id: msg.message.message_id,
+  };
+
+  user.then((userData) => {
+    bot.editMessageText(`Hasta luego ${userData.patient.firstName} ${userData.patient.lastName}`, message);
+    userData.remove();
   });
 };
 

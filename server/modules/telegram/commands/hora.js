@@ -1,4 +1,4 @@
-module.exports = function (bot) {
+module.exports = function hora(bot) {
   bot.onText(/\/hora\s+(\d{2}:\d{2}?)$/, (msg, match) => {
     const chatId = msg.chat.id;
     const opts = {

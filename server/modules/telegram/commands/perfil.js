@@ -1,8 +1,7 @@
-const Patient = require('../../../models/patient');
 const TelegramUser = require('../../../models/telegram-user');
 
-module.exports = function (bot) {
-  bot.onText(/\/perfil/gi, (msg, match) => {
+module.exports = function perfil(bot) {
+  bot.onText(/\/perfil/gi, (msg) => {
     const chatId = msg.chat.id;
     const opt = {
       reply_markup: {
@@ -36,10 +35,7 @@ module.exports = function (bot) {
       }
       bot.sendMessage(chatId, `Bienvenido ${user.patient.firstName} ${user.patient.lastName}\n¿Qué quieres hacer?`, opt);
     })
-      .catch((err) => {
-        console.log(err);
-        return bot.sendMessage(chatId, 'Hubo un error al recuperar tu perfil.\nDisculpe las molestias.\nInténtelo más tarde.');
-      });
+      .catch(() => bot.sendMessage(chatId, 'Hubo un error al recuperar tu perfil.\nDisculpe las molestias.\nInténtelo más tarde.'));
   });
 };
 

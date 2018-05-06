@@ -1,19 +1,7 @@
-const axios = require('axios');
-const moment = require('moment-timezone');
 const Patient = require('../../../models/patient');
+const TelegramUser = require('../../../models/telegram-user');
 
-const new_appointment_format = [
-  'DD-MM-YYYY HH:mm',
-  'DD/MM/YYYY HH:mm',
-  'DD-MM-YY HH:mm',
-  'DD/MM/YY HH:mm',
-  'YY-MM-DD HH:mm',
-  'YY/MM/DD HH:mm',
-  'YYYY-MM-DD HH:mm',
-  'YYYY/MM/DD HH:mm',
-];
-
-module.exports = function (bot) {
+module.exports = function ingresar(bot) {
   bot.onText(/\/ingresar\s*(\S*)/, (msg, match) => {
     const chatId = msg.chat.id;
     if (!match[1]) {
@@ -29,8 +17,8 @@ module.exports = function (bot) {
       }
       TelegramUser.findOne({
         chatId,
-      }, (err, user) => {
-        if (err) {
+      }, (error, user) => {
+        if (error) {
           return bot.sendMessage(chatId, 'Hubo un error al ingresar al sistema\nInténtelo más tarde.\nDisculpe las molestias.');
         }
 
@@ -38,7 +26,7 @@ module.exports = function (bot) {
           return new TelegramUser({ chatId, patient: patient.id }).save();
         }
 
-        if (user.patient.id != patient.id) {
+        if (user.patient.id !== patient.id) {
           user.patient = patient.id;
           user.save();
         }

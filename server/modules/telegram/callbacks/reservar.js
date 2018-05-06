@@ -1,5 +1,4 @@
-module.exports = function (bot) {
-  const callbackId = msg.id;
+module.exports = function reservar(bot, msg) {
   const chatId = msg.from.id;
   const message = {
     chat_id: chatId,

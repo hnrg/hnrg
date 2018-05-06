@@ -1,8 +1,23 @@
 const axios = require('axios');
 const _ = require('lodash');
 const moment = require('moment-timezone');
+const serverConfig = require('../../../config/server');
 
-module.exports = function (bot) {
+const url = serverConfig.url;
+
+const appointmentFormat = [
+  'DD-MM-YYYY',
+  'DD/MM/YYYY',
+  'DD-MM-YY',
+  'DD/MM/YY',
+  'YY-MM-DD',
+  'YY/MM/DD',
+  'YYYY-MM-DD',
+  'YYYY/MM/DD',
+];
+
+
+module.exports = function fecha(bot) {
   bot.onText(/\/fecha\s+(\d{2}[-|\/]\d{2}[-|\/]\d{2,4})$/, (msg, match) => {
     const chatId = msg.chat.id;
 
@@ -10,7 +25,7 @@ module.exports = function (bot) {
       return bot.sendMessage(chatId, "¡Sesión expirada!\nVuelva a su perfil, y seleccione 'Reservar turno' nuevamente");
     }
 
-    const date = moment(match[1], appointment_format);
+    const date = moment(match[1], appointmentFormat);
     if (!date.isValid()) {
       bot.sendMessage(chatId, 'Ingrese una fecha válida');
     }
@@ -24,7 +39,7 @@ module.exports = function (bot) {
         },
       };
       bot.sendMessage(chatId, 'Seleccione un turno', opts);
-    }).catch(err => bot.sendMessage(chatId, 'Hubo un error al recuperar los turnos.\nDisculpe las molestias.\nInténtelo más tarde.'));
+    }).catch(() => bot.sendMessage(chatId, 'Hubo un error al recuperar los turnos.\nDisculpe las molestias.\nInténtelo más tarde.'));
   });
 };
 

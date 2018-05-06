@@ -2,7 +2,6 @@ const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 
 const serverConfig = require('../../config/server');
-const Patient = require('../../models/patient');
 const TelegramUser = require('../../models/telegram-user');
 
 // Require all bot commands
@@ -61,16 +60,16 @@ bot.on('callback_query', (msg) => {
 
   switch (msg.data) {
     case 'turnos':
-      callbacks.turnos(bot, user);
+      callbacks.turnos(bot, msg, user);
       break;
     case 'reservar':
-      callbacks.reservar(bot);
+      callbacks.reservar(bot, msg);
       break;
     case 'info':
-      callbacks.info(bot);
+      callbacks.info(bot, msg);
       break;
     case 'desvincular':
-      callbacks.desvincular(bot);
+      callbacks.desvincular(bot, msg);
       break;
   }
   bot.answerCallbackQuery(callbackId);

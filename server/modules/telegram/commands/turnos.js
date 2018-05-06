@@ -1,6 +1,6 @@
 const moment = require('moment-timezone');
 
-const appointment_format = [
+const appointmentFormat = [
   'DD-MM-YYYY',
   'DD/MM/YYYY',
   'DD-MM-YY',
@@ -11,14 +11,14 @@ const appointment_format = [
   'YYYY/MM/DD',
 ];
 
-module.exports = function (bot, getAppointments) {
+module.exports = function turnos(bot, getAppointments) {
   bot.onText(/\/turnos\s*(\S+)/gi, (msg, match) => {
     const chatId = msg.chat.id;
-    const date = moment(match[1], appointment_format);
+    const date = moment(match[1], appointmentFormat);
 
     if (!date.isValid()) {
       let help = 'Fecha no válida\nFormatos válidos:\n';
-      help += `    ${appointment_format.join('\n    ').replace(/Y/g, 'A')}\n\n`;
+      help += `    ${appointmentFormat.join('\n    ').replace(/Y/g, 'A')}\n\n`;
       help += 'A: año - M: Mes - D: día';
 
       return bot.sendMessage(chatId, help);

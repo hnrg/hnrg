@@ -1,5 +1,5 @@
-module.exports = function (bot) {
-  bot.onText(/\/ayuda/gi, (msg, match) => {
+module.exports = function ayuda(bot) {
+  bot.onText(/\/ayuda/gi, (msg) => {
     const chatId = msg.chat.id;
     let help = 'Ayuda\n';
     help += '  -/ingresar documento\n';

@@ -4,7 +4,7 @@ const hora = require('./hora');
 const ingresar = require('./ingresar');
 const perfil = require('./perfil');
 const reservar = require('./reservar');
-const turnos_hoy = require('./turnos-hoy');
+const turnosHoy = require('./turnos-hoy');
 const turnos = require('./turnos');
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
   ingresar,
   perfil,
   reservar,
-  turnos_hoy,
+  turnosHoy,
   turnos,
 };
 

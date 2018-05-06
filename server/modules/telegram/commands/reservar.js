@@ -1,7 +1,22 @@
 const axios = require('axios');
 const moment = require('moment-timezone');
+const serverConfig = require('../../../config/server');
 
-module.exports = function (bot) {
+const url = serverConfig.url;
+
+const newAppointmentFormat = [
+  'DD-MM-YYYY HH:mm',
+  'DD/MM/YYYY HH:mm',
+  'DD-MM-YY HH:mm',
+  'DD/MM/YY HH:mm',
+  'YY-MM-DD HH:mm',
+  'YY/MM/DD HH:mm',
+  'YYYY-MM-DD HH:mm',
+  'YYYY/MM/DD HH:mm',
+];
+
+
+module.exports = function reservar(bot) {
   bot.onText(/\/reservar\s*(\S*)\s*(\S*)\s*(\S*)/gi, (msg, match) => {
     const chatId = msg.chat.id;
 
@@ -13,12 +28,12 @@ module.exports = function (bot) {
       return bot.sendMessage(chatId, 'No se especificó la hora del turno');
     }
 
-    const documentNumber = parseInt(match[1]);
+    const documentNumber = parseInt(match[1], 10);
     if (isNaN(documentNumber)) {
       return bot.sendMessage(chatId, 'Número de documento invalido');
     }
 
-    const date = moment(`${match[2]} ${match[3]}`, new_appointment_format);
+    const date = moment(`${match[2]} ${match[3]}`, newAppointmentFormat);
     if (!date.isValid()) {
       return bot.sendMessage(chatId, 'Fecha u hora inválida');
     }
@@ -29,12 +44,8 @@ module.exports = function (bot) {
         date: date.format('YYYY-MM-DD'),
         time: date.format('HH:mm:ss'),
       },
-    }).then((response) => {
-      bot.sendMessage(chatId, `Turno reservado para la fecha ${date.format('DD/MM/YYYY HH:mm')}\nPara el paciente ${documentNumber}`);
-    }).catch((error) => {
-      console.log(error);
-      return bot.sendMessage(chatId, 'Hubo un error reservar el turno.\nInténtelo más tarde.\nDisculpe las molestias.');
-    });
+    }).then(() => bot.sendMessage(chatId, `Turno reservado para la fecha ${date.format('DD/MM/YYYY HH:mm')}\nPara el paciente ${documentNumber}`))
+      .catch(() => bot.sendMessage(chatId, 'Hubo un error reservar el turno.\nInténtelo más tarde.\nDisculpe las molestias.'));
   });
 };
 
