@@ -12,7 +12,7 @@ const {
   ingresar,
   perfil,
   reservar,
-  turnos_hoy,
+  turnosHoy,
   turnos,
 } = require('./commands');
 
@@ -41,7 +41,7 @@ ayuda(bot);
 ingresar(bot);
 perfil(bot);
 reservar(bot);
-turnos_hoy(bot, getAppointments);
+turnosHoy(bot, getAppointments);
 turnos(bot, getAppointments);
 fecha(bot);
 hora(bot);
