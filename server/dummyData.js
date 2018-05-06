@@ -1,16 +1,12 @@
-const cuid = require('cuid');
-const moment = require('moment-timezone');
-
 const secret = require('./config/secret');
 const appConfig = require('./config/app');
 
-const Appointment = require('./models/appointment');
 const Configuration = require('./models/configuration');
 const Permission = require('./models/permission');
 const Rol = require('./models/rol');
 const User = require('./models/user');
 
-const dummyData = async function () {
+const dummyData = async function dummyData() {
   await Permission.count().exec((err, count) => {
     if (count > 0) {
       return;
@@ -43,12 +39,12 @@ const dummyData = async function () {
     Permission.create(permissions.map(permission => new Permission({ name: permission })));
   });
 
-  await Rol.count().exec((err, count) => {
+  await Rol.count().exec((error, count) => {
     if (count > 0) {
       return;
     }
 
-    Permission.find().exec((err, permissions) => {
+    Permission.find().exec((_error, permissions) => {
       if (!permissions) {
         return;
       }
@@ -124,12 +120,12 @@ const dummyData = async function () {
     });
   });
 
-  await User.count().exec((err, count) => {
+  await User.count().exec((error, count) => {
     if (count > 0) {
       return;
     }
 
-    Rol.findOne({ name: 'Administrador' }).exec((err, rol) => {
+    Rol.findOne({ name: 'Administrador' }).exec((_error, rol) => {
       const admin = new User({
         ...secret.admin,
         active: true,
@@ -139,7 +135,7 @@ const dummyData = async function () {
       admin.save();
     });
 
-    Rol.findOne({ name: 'Pediatra' }).exec((err, rol) => {
+    Rol.findOne({ name: 'Pediatra' }).exec((_error, rol) => {
       const pediatrician = new User({
         email: 'pediatra@hnrg.com',
         username: 'pediatra',
@@ -151,7 +147,7 @@ const dummyData = async function () {
       pediatrician.save();
     });
 
-    Rol.findOne({ name: 'Recepcionista' }).exec((err, rol) => {
+    Rol.findOne({ name: 'Recepcionista' }).exec((_error, rol) => {
       const receptionist = new User({
         email: 'recepcionista@hnrg.com',
         username: 'recepcionista',
@@ -163,7 +159,7 @@ const dummyData = async function () {
       receptionist.save();
     });
 
-    Rol.findOne({ name: 'Su' }).exec((err, rol) => {
+    Rol.findOne({ name: 'Su' }).exec((_error, rol) => {
       const su = new User({
         email: 'su@hnrg.com',
         username: 'su',
@@ -176,14 +172,14 @@ const dummyData = async function () {
     });
   });
 
-  await Configuration.count().exec((err, count) => {
+  await Configuration.count().exec((_error, count) => {
     if (count > 0) {
       return;
     }
 
     User.findOne({
       email: secret.admin.email,
-    }).exec((err, user) => {
+    }).exec((__error, user) => {
       const config = new Configuration({
         ...appConfig,
         user,

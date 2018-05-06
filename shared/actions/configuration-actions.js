@@ -1,5 +1,3 @@
-
-
 import {
   GET_CONFIGURATION_REQUEST,
   GET_CONFIGURATION_SUCCESS,
@@ -7,7 +5,6 @@ import {
 } from '../constants';
 
 import { configurationRequest } from '../lib/request/configuration-request';
-import { authToken } from '../lib/store/auth-token';
 
 /**
  * ## retreiving configuration actions

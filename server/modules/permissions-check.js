@@ -9,7 +9,7 @@ function NotAllowedError(message) {
 NotAllowedError.prototype = Object.create(Error.prototype);
 NotAllowedError.prototype.constructor = NotAllowedError;
 
-module.exports = function (user, permission) {
+module.exports = function permissionsCheck(user, permission) {
   const roles = Array.from(user.roles);
   let permissions = Array.from([]);
 

@@ -24,7 +24,8 @@ export default function (state = InitialState) {
         return { ...state, isValid: true };
       }
       return { ...state, isValid: false };
-  }
 
-  return state;
+    default:
+      return state;
+  }
 }

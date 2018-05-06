@@ -30,10 +30,11 @@ export default function profileReducer(state = InitialState, action) {
      * ### Request starts
      * set the form to fetching and clear any errors
      */
-    case GET_PROFILE_REQUEST:
+    case GET_PROFILE_REQUEST: {
       return { ...state, isFetching: true, error: null };
+    }
 
-      /**
+    /**
      * ### Request ends successfully
      *
      * the fetching is done, set the UI fields and the originalProfile
@@ -41,7 +42,7 @@ export default function profileReducer(state = InitialState, action) {
      * Validate the data to make sure it's all good and someone didn't
      * mung it up through some other mechanism
      */
-    case GET_PROFILE_SUCCESS:
+    case GET_PROFILE_SUCCESS: {
       nextProfileState = {
         ...state,
         fields: {
@@ -66,12 +67,13 @@ export default function profileReducer(state = InitialState, action) {
       };
 
       return formValidation(fieldValidation(nextProfileState, action), action);
+    }
 
-      /**
+    /**
      * User logged out, so reset form fields and original profile.
      *
      */
-    case LOGOUT_SUCCESS:
+    case LOGOUT_SUCCESS: {
       nextProfileState = {
         ...state,
         email: '',
@@ -79,28 +81,30 @@ export default function profileReducer(state = InitialState, action) {
       };
 
       return formValidation(nextProfileState, action);
+    }
 
-      /**
+    /**
      * ### Request fails
      * we're done fetching and the error needs to be displayed to the user
      */
-    case GET_PROFILE_FAILURE:
+    case GET_PROFILE_FAILURE: {
       return {
         ...state,
         isFetching: false,
         error: action.payload,
       };
+    }
 
-      /**
+    /**
      * ### set the state
      *
      * This is in support of Hot Loading - take the payload
      * and set the values into the state
      *
      */
-    case SET_STATE:
-      var profile = JSON.parse(action.payload).profile;
-      var { fields, originalProfile } = state;
+    case SET_STATE: {
+      const { profile } = JSON.parse(action.payload);
+      const { fields, originalProfile } = state;
 
       return {
         ...state,
@@ -128,7 +132,10 @@ export default function profileReducer(state = InitialState, action) {
           roles: profile.originalProfile.roles,
         },
       };
-  }
+    }
 
-  return state;
+    default: {
+      return state;
+    }
+  }
 }

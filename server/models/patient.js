@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const DemographicData = require('./demographic-data');
 const MedicalInsurance = require('./medical-insurance');

@@ -8,7 +8,6 @@ import { createCookieMiddleware } from 'redux-cookie';
 import thunk from 'redux-thunk';
 
 import reducers from './reducers';
-import { LOGIN_SUCCESS } from './constants';
 import DevTools from './components/DevTools';
 
 const packages = [];

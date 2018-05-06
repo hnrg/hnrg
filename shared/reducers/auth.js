@@ -60,8 +60,8 @@ export default function (state = InitialState, action) {
        * The logged in user logs out
        * Clear the form's error and all the fields
        */
-    case LOGOUT:
-      var fields = state.fields;
+    case LOGOUT: {
+      const { fields } = state;
       return {
         ...state,
         state: action.type,
@@ -72,8 +72,9 @@ export default function (state = InitialState, action) {
           password: '',
         },
       };
+    }
 
-      /**
+    /**
        * ### Loggin in state
        * The user isn't logged in, and needs to
        * login, register or reset password
@@ -82,13 +83,15 @@ export default function (state = InitialState, action) {
        */
     case LOGIN:
     case FORGOT_PASSWORD:
+    {
       return formValidation({
         ...state,
         state: action.type,
         error: null,
       });
+    }
 
-      /**
+    /**
        * ### Auth form field change
        *
        * Set the form's field with the value
@@ -142,9 +145,9 @@ export default function (state = InitialState, action) {
        *
        * Set all the field values from the payload
        */
-    case SET_STATE:
-      var auth = JSON.parse(action.payload).auth;
-      var { fields } = auth;
+    case SET_STATE: {
+      const { auth } = JSON.parse(action.payload);
+      const { authFields } = auth;
 
       return {
         ...state,
@@ -154,18 +157,20 @@ export default function (state = InitialState, action) {
         isValid: auth.isValid,
         isFetching: auth.isFetching,
         fields: {
-          ...fields,
+          ...authFields,
           email: auth.email,
           emailHasError: auth.emailHasError,
           password: auth.password,
           passwordHasError: auth.passwordHasError,
         },
       };
+    }
 
     case DELETE_TOKEN_REQUEST:
     case DELETE_TOKEN_SUCCESS:
       return state;
-  }
 
-  return state;
+    default:
+      return state;
+  }
 }

@@ -1,16 +1,13 @@
-const passport = require('passport'),
-  User = require('../models/user'),
-  secret = require('../config/secret'),
-  JwtStrategy = require('passport-jwt').Strategy,
-  ExtractJwt = require('passport-jwt').ExtractJwt,
-  LocalStrategy = require('passport-local');
-
+const passport = require('passport');
+const User = require('../models/user');
+const secret = require('../config/secret');
+const { Strategy, ExtractJwt } = require('passport-jwt');
+const LocalStrategy = require('passport-local');
 
 const localOptions = {
   usernameField: 'email', // Setting username field to email rather than username
   passwordField: 'password',
 };
-
 
 const localLogin = new LocalStrategy(localOptions, ((email, password, done) => {
   User.findOne({ email, active: true }, (err, user) => {
@@ -22,9 +19,9 @@ const localLogin = new LocalStrategy(localOptions, ((email, password, done) => {
       return done(null, false, { error: 'No user exists with that email address' });
     }
 
-    user.comparePassword(password, (err, isMatch) => {
-      if (err) {
-        return done(err);
+    user.comparePassword(password, (error, isMatch) => {
+      if (error) {
+        return done(error);
       }
 
       if (!isMatch) {
@@ -43,8 +40,8 @@ const jwtOptions = {
 };
 
 
-const jwtLogin = new JwtStrategy(jwtOptions, ((jwt_payload, done) => {
-  User.findOne({ _id: jwt_payload.user, active: true }).populate({
+const jwtLogin = new Strategy(jwtOptions, ((jwtPayload, done) => {
+  User.findOne({ _id: jwtPayload.user, active: true }).populate({
     path: 'roles',
     select: 'name permissions',
     populate: {
@@ -66,3 +63,5 @@ const jwtLogin = new JwtStrategy(jwtOptions, ((jwt_payload, done) => {
 
 passport.use(jwtLogin);
 passport.use(localLogin);
+
+module.exports = passport;

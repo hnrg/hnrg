@@ -1,7 +1,6 @@
 const { Router } = require('express');
-const passport = require('passport');
 
-const passportService = require('../modules/passport');
+const passport = require('../modules/passport');
 const ConfigurationController = require('../controllers/configuration.controller');
 
 // Middleware to require login/auth

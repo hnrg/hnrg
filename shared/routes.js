@@ -3,7 +3,6 @@ import { CookiesProvider } from 'react-cookie';
 import {
   Switch,
   Route,
-  IndexRoute,
   Redirect,
 } from 'react-router-dom';
 

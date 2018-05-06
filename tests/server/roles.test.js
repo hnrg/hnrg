@@ -1,15 +1,8 @@
 const request = require('supertest');
-const moment = require('moment-timezone');
-const chai = require('chai');
-const superagent = require('superagent');
-
-const agent = superagent.agent();
+const { expect } = require('chai');
 
 const { admin } = require('../../server/config/secret');
 const server = require('../../server');
-const Seed = require('../../server/dummyData');
-
-const expect = chai.expect;
 
 let token;
 
@@ -29,8 +22,6 @@ function login(request, done) {
 }
 
 describe('Roles APIs', () => {
-  let agent;
-
   beforeEach(done => login(request, done));
 
   test('Should load all available roles', (done) => {

@@ -56,8 +56,9 @@ exports.addPatient = async function addPatient(req, res) {
       if (patient) {
         if (patient.state) { return res.status(422); }
 
-        patient.state = true;
-        const saved = patient.save();
+        const updatedPatient = patient;
+        updatedPatient.state = true;
+        const saved = updatedPatient.save();
 
         return res.status(201).json({ patient: saved });
       }

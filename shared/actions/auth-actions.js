@@ -1,9 +1,4 @@
-
-
-import axios from 'axios';
-import Cookies from 'js-cookie';
 import _ from 'underscore';
-import { reset } from 'redux-form';
 
 import { authRequest } from '../lib/request/auth-request';
 import { authToken } from '../lib/store/auth-token';
@@ -33,8 +28,6 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
-
-  SET_STATE,
 } from '../constants';
 
 
@@ -83,40 +76,6 @@ export function logoutFailure(error) {
   };
 }
 
-/**
- * ## Login
- * After dispatching the logoutRequest, get the sessionToken
- *
- *
- * When the response is received and it's valid
- * change the state to login and finish the logout
- *
- * But if the call fails, like expired token or
- * no network connection, just send the failure
- *
- * And if you fail due to an invalid sessionToken, be sure
- * to delete it so the user can log in.
- *
- * How could there be an invalid sessionToken?  Maybe they
- * haven't used the app for a long time.  Or they used another
- * device and logged out there.
- */
-export function logout() {
-  return (dispatch) => {
-    dispatch(logoutRequest());
-    return authToken.getSessionToken()
-      .then(() => {
-        dispatch(loginState());
-        dispatch(logoutSuccess());
-        dispatch(deleteSessionToken());
-        global.window.location.replace('/');
-      })
-      .catch((error) => {
-        dispatch(loginState());
-        dispatch(logoutFailure(error));
-      });
-  };
-}
 /**
  * ## onAuthFormFieldChange
  * Set the payload so the reducer can work on it
@@ -239,6 +198,42 @@ export function loginFailure(error) {
     payload: error,
   };
 }
+
+/**
+ * ## Logout
+ * After dispatching the logoutRequest, get the sessionToken
+ *
+ *
+ * When the response is received and it's valid
+ * change the state to login and finish the logout
+ *
+ * But if the call fails, like expired token or
+ * no network connection, just send the failure
+ *
+ * And if you fail due to an invalid sessionToken, be sure
+ * to delete it so the user can log in.
+ *
+ * How could there be an invalid sessionToken?  Maybe they
+ * haven't used the app for a long time.  Or they used another
+ * device and logged out there.
+ */
+export function logout() {
+  return (dispatch) => {
+    dispatch(logoutRequest());
+    return authToken.getSessionToken()
+      .then(() => {
+        dispatch(loginState());
+        dispatch(logoutSuccess());
+        dispatch(deleteSessionToken());
+        global.window.location.replace('/');
+      })
+      .catch((error) => {
+        dispatch(loginState());
+        dispatch(logoutFailure(error));
+      });
+  };
+}
+
 /**
  * ## Login
  * @param {string} email - user's email

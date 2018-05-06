@@ -1,5 +1,3 @@
-import formValidation from './auth-form';
-
 import {
   GET_CONFIGURATION_REQUEST,
   GET_CONFIGURATION_SUCCESS,
@@ -22,8 +20,6 @@ import InitialState from '../states/configuration-state';
  * @param {Object} action - type and payload
  */
 export default function configurationReducer(state = InitialState, action) {
-  const nextProfileState = null;
-
   switch (action.type) {
     /**
      * ### Request starts
@@ -86,8 +82,8 @@ export default function configurationReducer(state = InitialState, action) {
      * and set the values into the state
      *
      */
-    case SET_STATE:
-      const configuration = JSON.parse(action.payload).configuration;
+    case SET_STATE: {
+      const { configuration } = JSON.parse(action.payload);
       const { current } = state;
 
       return {
@@ -113,7 +109,9 @@ export default function configurationReducer(state = InitialState, action) {
           maintenance: configuration.current.maintenance,
         },
       };
-  }
+    }
 
-  return state;
+    default:
+      return state;
+  }
 }

@@ -1,10 +1,3 @@
-
-/**
- * ## Imports
- * The InitialState for auth
- * fieldValidation for validating the fields
- * formValidation for setting the form's valid flag
- */
 import {
   SET_SESSION_TOKEN,
 
@@ -26,7 +19,7 @@ import InitialState from '../states/global-state';
  * @param {Object} state - initialState
  * @param {Object} action - type and payload
  */
-export default function (state = InitialState, action) {
+export default function globalReducer(state = InitialState, action) {
   switch (action.type) {
     /**
      * ### Save the sessionToken
@@ -50,9 +43,6 @@ export default function (state = InitialState, action) {
 
     /**
      * ### Clear currentUser
-     *
-     *
-     *
      *
      */
     case LOGOUT_SUCCESS:
@@ -109,15 +99,17 @@ export default function (state = InitialState, action) {
      * This is in support of Hot Loading
      *
      */
-    case SET_STATE:
-      var global = JSON.parse(action.payload).global;
+    case SET_STATE: {
+      const { global } = JSON.parse(action.payload);
 
       return {
         ...state,
         currentUser: global.currentUser,
         showState: false,
       };
-  }
+    }
 
-  return state;
+    default:
+      return state;
+  }
 }

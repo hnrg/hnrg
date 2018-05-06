@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const Rol = require('./rol');
 
@@ -15,7 +15,7 @@ const userSchema = new Schema({
     unique: true,
     required: 'El campo `email` es requerido',
     match: [
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/,
       'Ingrese un email valido - ejemplo@dominio.com',
     ],
   },

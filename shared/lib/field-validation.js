@@ -154,7 +154,8 @@ export default function (state, action) {
         ...state,
         showPassword: value,
       };
-  }
 
-  return state;
+    default:
+      return state;
+  }
 }

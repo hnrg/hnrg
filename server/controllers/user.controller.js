@@ -54,7 +54,7 @@ exports.addUser = async function addUser(req, res, next) {
   try {
     permissionsCheck(req.user, 'usuario_new');
 
-    const user = req.body.user;
+    const { user } = req.body;
     const {
       email, username, firstName, lastName, password,
     } = user;
