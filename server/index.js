@@ -15,7 +15,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const serverConfig = require('./config/server');
 const routes = require('./routes');
 const dummyData = require('./dummyData');
-const clientConfig = require('../webpack_config/client/webpack.config.dev');
+const clientConfig = require('../webpack/client/webpack.config.dev');
 const SSR = require('./SSR');
 
 moment.tz.setDefault(serverConfig.tz);
