@@ -15,7 +15,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const serverConfig = require('./config/server');
 const routes = require('./routes');
 const dummyData = require('./dummyData');
-const webpackConfig = require('../webpack.config.dev')[0];
+const clientConfig = require('../webpack/client/webpack.config.dev');
 const SSR = require('./SSR');
 
 moment.tz.setDefault(serverConfig.tz);
@@ -44,10 +44,10 @@ if (isDev) {
     headers: {
       'Access-Control-Allow-Origin': 'http://localhost',
     },
-    publicPath: webpackConfig.output.publicPath,
+    publicPath: clientConfig.output.publicPath,
   };
 
-  const compiler = webpack(webpackConfig);
+  const compiler = webpack(clientConfig);
   const webpackDevMiddlewareInstance = webpackDevMiddleware(compiler, middlewareOptions);
   app.use(webpackDevMiddlewareInstance);
   app.use(webpackHotMiddleware(compiler));
