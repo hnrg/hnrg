@@ -101,9 +101,27 @@ const dummyData = async function dummyData() {
         permissions: adminPermissions,
       });
 
+      admin.save((err, rol) => {
+        User.create({
+          ...secret.admin,
+          active: true,
+          roles: [rol],
+        });
+      });
+
       const receptionist = new Rol({
         name: 'Recepcionista',
         permissions: receptionistPermissions,
+      });
+
+      receptionist.save((err, rol) => {
+        User.create({
+          email: 'recepcionista@hnrg.com',
+          username: 'recepcionista',
+          password: 'recepcionista',
+          active: true,
+          roles: [rol],
+        });
       });
 
       const pediatrician = new Rol({
@@ -111,64 +129,30 @@ const dummyData = async function dummyData() {
         permissions: pediatricianPermissions,
       });
 
+      pediatrician.save((err, rol) => {
+        User.create({
+          email: 'pediatra@hnrg.com',
+          username: 'pediatra',
+          password: 'pediatra',
+          active: true,
+          roles: [rol],
+        });
+      });
+
       const su = new Rol({
         name: 'Su',
         permissions: suPermissions,
       });
 
-      Rol.create([admin, receptionist, pediatrician, su]);
-    });
-  });
-
-  await User.count().exec((error, count) => {
-    if (count > 0) {
-      return;
-    }
-
-    Rol.findOne({ name: 'Administrador' }).exec((_error, rol) => {
-      const admin = new User({
-        ...secret.admin,
-        active: true,
-        roles: [rol],
+      su.save((err, rol) => {
+        User.create({
+          email: 'su@hnrg.com',
+          username: 'su',
+          password: 'su',
+          active: true,
+          roles: [rol],
+        });
       });
-
-      admin.save();
-    });
-
-    Rol.findOne({ name: 'Pediatra' }).exec((_error, rol) => {
-      const pediatrician = new User({
-        email: 'pediatra@hnrg.com',
-        username: 'pediatra',
-        password: 'pediatra',
-        active: true,
-        roles: [rol],
-      });
-
-      pediatrician.save();
-    });
-
-    Rol.findOne({ name: 'Recepcionista' }).exec((_error, rol) => {
-      const receptionist = new User({
-        email: 'recepcionista@hnrg.com',
-        username: 'recepcionista',
-        password: 'recepcionista',
-        active: true,
-        roles: [rol],
-      });
-
-      receptionist.save();
-    });
-
-    Rol.findOne({ name: 'Su' }).exec((_error, rol) => {
-      const su = new User({
-        email: 'su@hnrg.com',
-        username: 'su',
-        password: 'su',
-        active: true,
-        roles: [rol],
-      });
-
-      su.save();
     });
   });
 
