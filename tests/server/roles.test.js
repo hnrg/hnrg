@@ -24,11 +24,11 @@ function login(done) {
 }
 
 describe('Roles APIs', () => {
-  beforeEach(async done => {
-    /*await User.remove({});
+  beforeEach(async (done) => {
+    /* await User.remove({});
     await Rol.remove({});
-    await Seed();*/
-    await login(done)
+    await Seed(); */
+    await login(done);
   });
 
   test('Should load all available roles', (done) => {

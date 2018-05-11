@@ -8,7 +8,7 @@ module.exports = function reservar(bot, msg, client) {
   client.get(chatId, (err, data) => {
     let chatMessage = 'Tendrá 5 minutos para completar la reserva.\n';
     chatMessage += 'Ingrese una fecha\n';
-    client.set(`${chatId}_turno`, `|documento#${data}|`, 'EX', 5*60);
+    client.set(`${chatId}_turno`, `|documento#${data}|`, 'EX', 5 * 60);
     bot.editMessageText(chatMessage, message);
   });
 };

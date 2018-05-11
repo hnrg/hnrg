@@ -32,7 +32,7 @@ module.exports = function reservar(bot, client) {
       if (!dateReg.test(data)) {
         return bot.sendMessage(chatId, 'No se especificó fecha del turno');
       }
-      if(!timeReg.test(data)) {
+      if (!timeReg.test(data)) {
         return bot.sendMessage(chatId, 'No se especificó hora del turno');
       }
 
@@ -46,7 +46,7 @@ module.exports = function reservar(bot, client) {
           time: date.format('HH:mm:ss'),
         },
       }).then(() => bot.sendMessage(chatId, `Turno reservado para la fecha ${date.format('DD/MM/YYYY HH:mm')}\nPara el paciente ${documentNumber}`))
-      .catch(() => bot.sendMessage(chatId, 'Hubo un error reservar el turno.\nInténtelo más tarde.\nDisculpe las molestias.'));
+        .catch(() => bot.sendMessage(chatId, 'Hubo un error reservar el turno.\nInténtelo más tarde.\nDisculpe las molestias.'));
     });
   });
 };

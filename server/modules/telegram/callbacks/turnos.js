@@ -1,7 +1,7 @@
 const Appointment = require('../../../models/appointment');
 const moment = require('moment-timezone');
 
-module.exports = function turnos(bot, msg, client){
+module.exports = function turnos(bot, msg, client) {
   const chatId = msg.from.id;
   const message = {
     chat_id: chatId,

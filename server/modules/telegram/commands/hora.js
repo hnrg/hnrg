@@ -2,7 +2,7 @@ const moment = require('moment-timezone');
 
 const appointmentFormat = [
   'HH:mm',
-  'HH:mm:ss'
+  'HH:mm:ss',
 ];
 
 module.exports = function hora(bot, client) {
