@@ -1,9 +1,0 @@
-{
-  "name": "hnrg",
-  "short_name": "hnrg",
-  "description": "",
-  "start_url": ".",
-  "display": "standalone",
-  "background_color": "#f7f7f7",
-  "theme_color": "#009688"
-}

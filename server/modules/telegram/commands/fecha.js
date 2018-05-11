@@ -17,29 +17,24 @@ const appointmentFormat = [
 ];
 
 
-module.exports = function fecha(bot) {
+module.exports = function fecha(bot, client) {
   bot.onText(/\/fecha\s+(\d{2}[-|\/]\d{2}[-|\/]\d{2,4})$/, (msg, match) => {
     const chatId = msg.chat.id;
 
-    if (true) {
-      return bot.sendMessage(chatId, "¡Sesión expirada!\nVuelva a su perfil, y seleccione 'Reservar turno' nuevamente");
-    }
-
-    const date = moment(match[1], appointmentFormat);
-    if (!date.isValid()) {
-      bot.sendMessage(chatId, 'Ingrese una fecha válida');
-    }
-    axios.get(`${url}/api/turnos/${date.format('YYYY-MM-DD')}`).then((response) => {
-      const appointments = _.chunk(response.data.appointments, 4);
-      const opts = {
-        reply_markup: {
-          keyboard: appointments,
-          resize_keyboard: true,
-          one_time_keyboard: true,
-        },
-      };
-      bot.sendMessage(chatId, 'Seleccione un turno', opts);
-    }).catch(() => bot.sendMessage(chatId, 'Hubo un error al recuperar los turnos.\nDisculpe las molestias.\nInténtelo más tarde.'));
+    client.get(`${chatId}_turno`, (err, data) => {
+      if (!data) {
+        return bot.sendMessage(chatId, "¡Sesión expirada!\nVuelva a su perfil, y seleccione 'Reservar turno' nuevamente");
+      }
+      if (data.match('fecha#')) {
+        return bot.sendMessage(chatId, 'Ya ingresó una fecha');
+      }
+      const date = moment(match[1], appointmentFormat);
+      if (!date.isValid()) {
+        return bot.sendMessage(chatId, 'Ingrese una fecha válida');
+      }
+      client.append(`${chatId}_turno`, `fecha#${date.format('YYYY-MM-DD')}|`);
+      bot.sendMessage(chatId, `Fecha: ${date.format('DD/MM/YYYY')}\nNo se olvide de confirmar enviando\n/confirmar`);
+    });
   });
 };
 

@@ -1,12 +1,13 @@
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
+const redis = require('redis');
 
 const serverConfig = require('../../config/server');
-const TelegramUser = require('../../models/telegram-user');
 
 // Require all bot commands
 const {
   ayuda,
+  confirmar,
   fecha,
   hora,
   ingresar,
@@ -19,7 +20,9 @@ const {
 // Require all bot's callbacks actions
 const callbacks = require('./callbacks');
 
-const url = serverConfig.url;
+const { url, redisUrl } = serverConfig;
+
+const client = redis.createClient(redisUrl);
 
 // Basic bot configurations
 const bot = new TelegramBot(serverConfig.telegram_token);
@@ -38,38 +41,32 @@ bot.setWebHook(`${url}/api/telegram/bot${serverConfig.telegram_token}`, { max_co
 
 // Set commands
 ayuda(bot);
-ingresar(bot);
-perfil(bot);
-reservar(bot);
+confirmar(bot, client);
+ingresar(bot, client);
+perfil(bot, client);
+reservar(bot, client);
 turnosHoy(bot, getAppointments);
 turnos(bot, getAppointments);
-fecha(bot);
-hora(bot);
+fecha(bot, client);
+hora(bot, client);
 
 
 bot.on('callback_query', (msg) => {
   const callbackId = msg.id;
   const chatId = msg.from.id;
 
-  user = TelegramUser.findOne({ chatId }).populate({
-    path: 'patient',
-    populate: {
-      path: 'documentType',
-    },
-  }).exec();
-
   switch (msg.data) {
     case 'turnos':
-      callbacks.turnos(bot, msg, user);
+      callbacks.turnos(bot, msg, client);
       break;
     case 'reservar':
-      callbacks.reservar(bot, msg);
+      callbacks.reservar(bot, msg, client);
       break;
     case 'info':
-      callbacks.info(bot, msg);
+      callbacks.info(bot, msg, client);
       break;
     case 'desvincular':
-      callbacks.desvincular(bot, msg);
+      callbacks.desvincular(bot, msg, client);
       break;
   }
   bot.answerCallbackQuery(callbackId);
