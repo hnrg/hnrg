@@ -7,6 +7,7 @@ const config = {
   mongoURL: process.env.MONGO_URL || 'mongodb://localhost:27017/hnrg',
   testMongoURL: process.env.MONGO_URL || 'mongodb://localhost:27017/hnrg-test',
   port: process.env.PORT || 8000,
+  redisUrl: process.env.REDIS_URL || 'redis://localhost:6379',
 };
 
 module.exports = config;
