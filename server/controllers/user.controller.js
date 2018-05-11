@@ -121,14 +121,15 @@ exports.deleteUser = async function deleteUser(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
-    const user = await User.findById(req.params.id).exec();
+    await Patient.findByIdAndUpdate(req.params.id, req.body.patient)
+      .exec((err, patient) => {
+        if (err || patient == null) {
+          res.status(422).json({ error: 'No patient was found with that id.' });
+          return next(err);
+        }
 
-    if (!user) {
-      return res.sendStatus(404);
-    }
-
-    await user.remove();
-    res.sendStatus(200);
+        return res.status(201).json({ patient });
+      });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);

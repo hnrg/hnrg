@@ -3,6 +3,9 @@ const { expect } = require('chai');
 
 const { admin } = require('../../server/config/secret');
 const server = require('../../server');
+const Seed = require('../../server/dummyData');
+const Rol = require('../../server/models/rol');
+const User = require('../../server/models/user');
 
 let token;
 
@@ -14,7 +17,6 @@ function login(request, done) {
       if (err) {
         throw err;
       }
-      expect(res.body.token).to.be.an('string');
       expect(res.statusCode).to.be.equal(200);
       token = res.body.token;
       done();
@@ -22,7 +24,12 @@ function login(request, done) {
 }
 
 describe('Roles APIs', () => {
-  beforeEach(done => login(request, done));
+  beforeEach(async done => {
+    await User.remove({});
+    await Rol.remove({});
+    await Seed();
+    login(request, done)
+  });
 
   test('Should load all available roles', (done) => {
     request(server)
