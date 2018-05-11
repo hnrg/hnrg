@@ -2,21 +2,21 @@ web:
   build: .
   dockerfile: Dockerfile-development
   links:
-   - db
+    - db
+    - redis
   ports:
-   - "8000:8000"
+    - "8000:8000"
   volumes:
-   - .:/usr/src/app/
+    - .:/usr/src/app/
   environment:
-   NODE_ENV: development
-   MONGO_URL: mongodb://db:27017/hnrg
-   TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
-   NTBA_FIX_319: "true"
-   URL: ${URL_BASE}
+    NODE_ENV: development
+    MONGO_URL: mongodb://db/hnrg
+    REDIS_URL: redis://redis
+    TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+    NTBA_FIX_319: "true"
+    URL: ${URL_BASE}
 db:
   image: mongo:latest
-  ports:
-   - "27017:27017"
 redis:
   image: redis:latest
 
