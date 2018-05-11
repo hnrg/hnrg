@@ -1,7 +1,8 @@
 const Patient = require('../../../models/patient');
-const TelegramUser = require('../../../models/telegram-user');
+const serverConfig = require('../../../config/server');
+const { telegramSessionTime } = serverConfig;
 
-module.exports = function ingresar(bot) {
+module.exports = function ingresar(bot, client) {
   bot.onText(/\/ingresar\s*(\S*)/, (msg, match) => {
     const chatId = msg.chat.id;
     if (!match[1]) {
@@ -15,22 +16,7 @@ module.exports = function ingresar(bot) {
       if (!patient) {
         return bot.sendMessage(chatId, 'Usted no es paciente del hospital');
       }
-      TelegramUser.findOne({
-        chatId,
-      }, (error, user) => {
-        if (error) {
-          return bot.sendMessage(chatId, 'Hubo un error al ingresar al sistema\nInténtelo más tarde.\nDisculpe las molestias.');
-        }
-
-        if (!user) {
-          return new TelegramUser({ chatId, patient: patient.id }).save();
-        }
-
-        if (user.patient.id !== patient.id) {
-          user.patient = patient.id;
-          user.save();
-        }
-      });
+      client.set(chatId, patient.documentNumber, 'EX', telegramSessionTime);
       bot.sendMessage(chatId, `Bienvenido ${patient.firstName} ${patient.lastName}`);
     });
   });
