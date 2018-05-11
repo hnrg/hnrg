@@ -17,7 +17,8 @@ web:
 db:
   image: mongo:latest
   ports:
-    - "27017:27017"
+    - 27017:27017
 redis:
   image: redis:latest
-
+  ports:
+    - 6379:6379
