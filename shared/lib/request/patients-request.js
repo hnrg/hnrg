@@ -10,7 +10,7 @@ export default class PatientsRequest {
     return this;
   }
 
-  getPatientss() {
+  getPatients() {
     return axios.get('/api/patients', {
       headers: {
         Authorization: this._sessionToken,
