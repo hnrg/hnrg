@@ -9,7 +9,7 @@ const User = require('../../server/models/user');
 
 let token;
 
-function login(request, done) {
+function login(done) {
   request(server)
     .post('/api/auth/login')
     .send(admin)
@@ -25,10 +25,10 @@ function login(request, done) {
 
 describe('Roles APIs', () => {
   beforeEach(async done => {
-    await User.remove({});
+    /*await User.remove({});
     await Rol.remove({});
-    await Seed();
-    login(request, done)
+    await Seed();*/
+    await login(done)
   });
 
   test('Should load all available roles', (done) => {
