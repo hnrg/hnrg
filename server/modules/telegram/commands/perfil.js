@@ -1,6 +1,4 @@
-const TelegramUser = require('../../../models/telegram-user');
-
-module.exports = function perfil(bot) {
+module.exports = function perfil(bot, client) {
   bot.onText(/\/perfil/gi, (msg) => {
     const chatId = msg.chat.id;
     const opt = {
@@ -27,15 +25,17 @@ module.exports = function perfil(bot) {
         ],
       },
     };
-    TelegramUser.findOne({ chatId }).populate('patient').exec().then((user) => {
-      if (!user || !user.patient) {
+    client.get(chatId, (err, data) => {
+      if (err) {
+        return bot.sendMessage(chatId, 'Hubo un error al recuperar tu perfil.\nDisculpe las molestias.\nInténtelo más tarde.');
+      }
+      if (!data) {
         let message = 'Si ya eres paciente del hospital, puedes ingresar mediante /ingresar + tu dni\n\n';
         message += 'Si eres nuevo, debes acercarte al hospital, o sacar un turno mediante /reservar\n\n';
         return bot.sendMessage(chatId, message);
       }
-      bot.sendMessage(chatId, `Bienvenido ${user.patient.firstName} ${user.patient.lastName}\n¿Qué quieres hacer?`, opt);
-    })
-      .catch(() => bot.sendMessage(chatId, 'Hubo un error al recuperar tu perfil.\nDisculpe las molestias.\nInténtelo más tarde.'));
+      bot.sendMessage(chatId, 'Bienvenido\n¿Qué quieres hacer?', opt);
+    });
   });
 };
 
