@@ -8,6 +8,7 @@ const config = {
   testMongoURL: process.env.MONGO_URL || 'mongodb://localhost:27017/hnrg-test',
   port: process.env.PORT || 8000,
   redisUrl: process.env.REDIS_URL || 'redis://localhost:6379',
+  telegramSessionTime: (parseInt(process.env.TELEGRAM_SESSION_TIME, 10) || 6) * 3600,
 };
 
 module.exports = config;
