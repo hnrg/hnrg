@@ -59,12 +59,12 @@ export function getHealthControlFailure(error) {
  * controls which form is displayed to the user
  * as in login, register, logout or reset password
  */
-export function getHealthControls(sessionToken) {
+export function getHealthControls(sessionToken, pageNumber) {
   return (dispatch) => {
     dispatch(getHealthControlsRequest());
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
-      .then(token => healthControlsRequest.init(token).getHealthControls())
+      .then(token => healthControlsRequest.init(token).getHealthControls(pageNumber))
       .then((json) => {
         dispatch(getHealthControlsSuccess(json.healthControls));
       })
