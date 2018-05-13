@@ -8,6 +8,8 @@ const Configuration = require('../models/configuration');
  */
 exports.getConfigurations = async function getConfigurations(req, res) {
   try {
+    permissionsCheck(req.user, 'configuracion_index');
+
     const configurations = await Configuration.find({}).exec();
 
     res.status(200).send({ configurations });
@@ -16,8 +18,42 @@ exports.getConfigurations = async function getConfigurations(req, res) {
   }
 };
 
+
+/**
+ * Save a configuration
+ * @param req
+ * @param res
+ * @returns void
+ */
+exports.addConfiguration = async function addConfiguration(req, res) {
+  try {
+    permissionsCheck(req.user, 'configuracion_new');
+
+    const { configuration } = req.body;
+
+    Configuration.findOne().exec((err, oldConfiguration) => {
+      const newConfiguration = new Configuration({
+        ...oldConfiguration,
+        ...configuration,
+      });
+
+      const saved = await newConfiguration.save();
+
+      return res.status(200).send({ configuration: saved });
+    });
+  } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
+    res.status(500).send(e);
+  }
+};
+
 exports.getConfiguration = async function getConfiguration(req, res) {
   try {
+    permissionsCheck(req.user, 'configuracion_show');
+
     const configuration = await Configuration.findById(req.params.id).exec();
 
     res.status(200).send({ configuration });
@@ -35,3 +71,4 @@ exports.getCurrentConfiguration = async function getCurrentConfiguration(req, re
     res.status(500).send(e);
   }
 };
+
