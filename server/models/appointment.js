@@ -12,7 +12,6 @@ const appointmentSchema = new Schema({
     type: Number,
     required: 'El campo `número de documento` es requerido',
   },
-  chatId: { type: Number },
 });
 
 module.exports = mongoose.model('Appointment', appointmentSchema);
