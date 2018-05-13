@@ -39,7 +39,7 @@ export default function rolesReducer(state = InitialState, action) {
     /**
      * ### Request ends successfully
      *
-     * the fetching is done, set the UI fields and the originalPatient
+     * the fetching is done, set the UI fields and the originalRoles
      *
      * Validate the data to make sure it's all good and someone didn't
      * mung it up through some other mechanism
