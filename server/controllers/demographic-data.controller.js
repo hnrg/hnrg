@@ -12,7 +12,15 @@ exports.getDemographicsData = async function getDemographicsData(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_index');
 
-    const demographicsData = await DemographicData.find({}).populate('apartmentType heatingType waterType').exec();
+    const { pageNumber, configuration } = req;
+    const { webPage } = configuration;
+    const { amountPerPage } = webPage;
+
+    const demographicsData = await DemographicData.find({})
+      .limit(amountPerPage)
+      .skip(amountPerPage*page)
+      .populate('apartmentType heatingType waterType')
+      .exec();
 
     res.status(200).send({ demographicsData });
   } catch (e) {

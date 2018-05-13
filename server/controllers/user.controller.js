@@ -12,7 +12,15 @@ exports.getUsers = async function getUsers(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
-    const users = await User.find({}).populate('roles').exec();
+    const { pageNumber, configuration } = req;
+    const { webPage } = configuration;
+    const { amountPerPage } = webPage;
+
+    const users = await User.find({})
+      .limit(amountPerPage)
+      .skip(amountPerPage*page)
+      .populate('roles')
+      .exec();
 
     res.status(200).send({ users });
   } catch (e) {
