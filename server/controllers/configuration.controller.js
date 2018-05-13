@@ -37,9 +37,9 @@ exports.addConfiguration = async function addConfiguration(req, res) {
         ...configuration,
       });
 
-      const saved = await newConfiguration.save();
-
-      return res.status(200).send({ configuration: saved });
+      newConfiguration.save((err, saved) => {
+        return res.status(200).send({ configuration: saved });
+      });
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
