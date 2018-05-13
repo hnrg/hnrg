@@ -109,15 +109,15 @@ exports.deleteHealthControl = async function deleteHealthControl(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_destroy');
 
-    const healthControl = await HealthControl.findById(req.params.id).exec();
+    await healthControl.findByIdAndUpdate(req.params.id, { active: false })
+      .exec((error, healthControl) => {
+        if (error || healthControl == null) {
+          res.status(422).json({ error: 'No healthControl found with that id' });
+          return next(error);
+        }
 
-    if (!healthControl) {
-      return res.sendStatus(404);
-    }
-
-    // Change to logical delete
-    await healthControl.remove();
-    res.sendStatus(200);
+        return res.status(200).end();
+      });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -130,3 +130,30 @@ exports.deleteHealthControl = async function deleteHealthControl(req, res) {
     return res.status(500).send(e);
   }
 };
+
+exports.updateHealthControl = async function updateHealthControl(req, res) {
+  try {
+    permissionsCheck(req.user, 'control_salud_update');
+
+    await healthControl.findByIdAndUpdate(req.params.id, req.body.healthControl)
+      .exec((error, healthControl) => {
+        if (error || healthControl == null) {
+          res.status(422).json({ error: 'No healthControl found with that id' });
+          return next(error);
+        }
+
+        return res.status(200).json({ healthControl });
+      });
+  } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
+    if (e.name === 'CastError') {
+      return res.sendStatus(400);
+    }
+
+    return res.status(500).send(e);
+  }
+};
+
