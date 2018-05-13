@@ -5,3 +5,4 @@ export * from './profile.constants';
 export * from './patients.constants';
 export * from './health-controls.constants';
 export * from './roles.constants';
+export * from './permissions.constants';
