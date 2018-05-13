@@ -84,12 +84,8 @@ exports.addAppointment = async function addAppointment(req, res) {
 
     const newDate = moment(`${date} ${time}`);
 
-    if (!newDate.isValid()) {
-      return res.status(400).end();
-    }
-
-    if (!timeInArray(newDate, timesArray(from, delta, ammount))) {
-      return res.status(400).end();
+    if (!(newDate.isValid() && timeInArray(newDate, timesArray(from, delta, ammount)))) {
+      return res.status(400).send({ error: 'Debe ingresar fecha y horario validos' });
     }
 
     await Appointment
@@ -100,7 +96,7 @@ exports.addAppointment = async function addAppointment(req, res) {
         }
 
         if (count > 0) {
-          return res.status(422).send({ error: 'El horario ingresado corresponde a un turno registrado.' });
+          return res.status(422).send({ error: 'El horario ingresado corresponde a un turno registrado' });
         }
         const newAppointment = new Appointment({
           documentNumber,
