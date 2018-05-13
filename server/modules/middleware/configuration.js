@@ -5,7 +5,7 @@ module.exports = async function configurationMiddleware(req, res, next) {
     await Configuration.findOne({})
       .exec((err, configuration) => {
         req.configuration = configuration;
-        req.pageNumber = req.params.pageNumber || 1;
+        req.pageNumber = req.query.pageNumber || 1;
         next();
       });
   } catch (e) {
