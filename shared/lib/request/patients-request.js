@@ -10,8 +10,12 @@ export default class PatientsRequest {
     return this;
   }
 
-  getPatients() {
-    return axios.get('/api/patients', {
+  getPatients(pageNumber = 1) {
+    return axios.get('/api/patients',
+    {
+      params: {
+        pageNumber: pageNumber
+      },
       headers: {
         Authorization: this._sessionToken,
       },

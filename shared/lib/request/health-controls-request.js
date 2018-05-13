@@ -10,8 +10,12 @@ export default class HealthControlsRequest {
     return this;
   }
 
-  getHealthControls() {
-    return axios.get('/api/healthcontrols', {
+  getHealthControls(pageNumber = 1) {
+    return axios.get('/api/healthcontrols',
+    {
+      params: {
+        pageNumber: pageNumber
+      },
       headers: {
         Authorization: this._sessionToken,
       },
