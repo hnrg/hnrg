@@ -6,10 +6,11 @@ const Appointment = require('../models/appointment');
  * Return an array with all the available times
  * @returns array
  */
-function timesArray(date, start = 0, end = 24, delta = 30) {
+function timesArray(date, from = 0, delta = 30, ammount = 48) {
   const times = [];
+  const end = from + ammount*delta/60;
 
-  for (let i = start; i < end; i += 1) {
+  for (let i = from; i < end; i += 1) {
     for (let j = 0; j < 60 / delta; j += 1) {
       const k = j * delta;
 
@@ -43,15 +44,16 @@ const mergeTime = (dest, src) => moment(dest)
 exports.getAppointments = async function getAppointments(req, res) {
   try {
     const date = moment(req.params.date);
+    const { appointments } = req.configuration;
 
     if (date.isBefore(moment().startOf('day'))) {
       return res.status(204).json({ appointments: [] });
     }
 
-    const times = timesArray(date);
+    const times = timesArray(date, ...appointments);
     const currentTime = totalTime(moment());
 
-    const appointments = await Appointment.find({
+    const availablesAppointments = await Appointment.find({
       date: {
         $gte: moment(date).startOf('day').toDate(),
         $lt: moment(date).add(1, 'days').toDate(),
@@ -59,7 +61,7 @@ exports.getAppointments = async function getAppointments(req, res) {
     }, 'date').exec();
 
     const availables = times.filter(each => (totalTime(each) > currentTime || !date.isSame(moment(), 'day'))
-          && !timeInArray(mergeTime(date, each), appointments)).map(each => each.format('HH:mm:ss'));
+          && !timeInArray(mergeTime(date, each), availablesAppointments)).map(each => each.format('HH:mm:ss'));
 
     res.status(200).json({ availables });
   } catch (e) {
