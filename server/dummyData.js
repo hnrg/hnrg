@@ -34,6 +34,11 @@ const dummyData = async function dummyData() {
       'usuario_new',
       'usuario_show',
       'usuario_update',
+      'configuracion_destroy',
+      'configuracion_index',
+      'configuracion_new',
+      'configuracion_show',
+      'configuracion_update',
     ];
 
     Permission.create(permissions.map(permission => new Permission({ name: permission })));
@@ -70,6 +75,11 @@ const dummyData = async function dummyData() {
         models.rol_update,
         models.rol_destroy,
         models.control_salud_destroy,
+        models.configuracion_destroy,
+        models.configuracion_index,
+        models.configuracion_new,
+        models.configuracion_show,
+        models.configuracion_update,
       ];
 
       const receptionistPermissions = [
