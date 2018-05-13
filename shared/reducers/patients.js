@@ -153,3 +153,4 @@ export default function patientsReducer(state = InitialState, action) {
     }
   }
 }
+

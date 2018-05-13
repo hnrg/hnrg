@@ -8,6 +8,7 @@ import configurationReducer from './configuration';
 import globalReducer from './global';
 import profileReducer from './profile';
 import patientsReducer from './patients';
+import healthControlsReducer from './health-controls';
 
 export default combineReducers({
   form: formReducer,
@@ -17,4 +18,5 @@ export default combineReducers({
   global: globalReducer,
   profile: profileReducer,
   patients: patientsReducer,
+  healthControls: healthControlsReducer,
 });
