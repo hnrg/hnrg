@@ -59,12 +59,12 @@ export function getPatientFailure(error) {
  * controls which form is displayed to the user
  * as in login, register, logout or reset password
  */
-export function getPatients(sessionToken) {
+export function getPatients(sessionToken, pageNumber) {
   return (dispatch) => {
     dispatch(getPatientsRequest());
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
-      .then(token => patientsRequest.init(token).getPatients())
+      .then(token => patientsRequest.init(token).getPatients(pageNumber))
       .then((json) => {
         dispatch(getPatientsSuccess(json.patients));
       })
