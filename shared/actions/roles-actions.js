@@ -59,12 +59,12 @@ export function getRolFailure(error) {
  * controls which form is displayed to the user
  * as in login, register, logout or reset password
  */
-export function getRoles(sessionToken) {
+export function getRoles(sessionToken, pageNumber) {
   return (dispatch) => {
     dispatch(getRolesRequest());
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
-      .then(token => rolesRequest.init(token).getRoles())
+      .then(token => rolesRequest.init(token).getRoles(pageNumber))
       .then((json) => {
         dispatch(getRolesSuccess(json.roles));
       })
@@ -93,4 +93,3 @@ export function getRol(sessionToken, rol) {
       });
   };
 }
-

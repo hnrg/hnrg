@@ -10,8 +10,11 @@ export default class PermissionsRequest {
     return this;
   }
 
-  getPermissions() {
+  getPermissions(pageNumber = 1) {
     return axios.get('/api/permissions', {
+      params: {
+        pageNumber,
+      },
       headers: {
         Authorization: this._sessionToken,
       },
@@ -28,4 +31,3 @@ export default class PermissionsRequest {
 
 // The singleton variable
 export const permissionsRequest = new PermissionsRequest();
-

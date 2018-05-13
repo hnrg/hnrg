@@ -13,7 +13,15 @@ exports.getRoles = async function getRoles(req, res) {
   try {
     permissionsCheck(req.user, 'rol_index');
 
-    const roles = await Rol.find({}).populate('permissions').exec();
+    const { pageNumber, configuration } = req;
+    const { webPage } = configuration;
+    const { amountPerPage } = webPage;
+
+    const roles = await Rol.find({})
+      .limit(amountPerPage)
+      .skip(amountPerPage*page)
+      .populate('permissions')
+      .exec();
 
     res.status(200).send({ roles });
   } catch (e) {
