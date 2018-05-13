@@ -10,6 +10,7 @@ import profileReducer from './profile';
 import patientsReducer from './patients';
 import healthControlsReducer from './health-controls';
 import rolesReducer from './roles';
+import permissionsReducer from './permissions';
 
 export default combineReducers({
   form: formReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
   patients: patientsReducer,
   healthControls: healthControlsReducer,
   roles: rolesReducer,
+  permissions: permissionsReducer,
 });
