@@ -79,6 +79,7 @@ exports.getHealthControl = async function getHealthControl(req, res) {
     permissionsCheck(req.user, 'control_salud_show');
 
     const healthControl = await HealthControl.findById(req.params.id)
+      .where('active').equals(true)
       .populate('patient user')
       .exec();
 

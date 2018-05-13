@@ -43,7 +43,10 @@ exports.getUser = async function getUser(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_show');
 
-    const user = await User.findById(req.params.id).populate('roles').exec();
+    const user = await User.findById(req.params.id)
+      .where('active').equals(true)
+      .populate('roles')
+      .exec();
 
     if (!user) {
       return res.sendStatus(404);
@@ -97,20 +100,20 @@ exports.addUser = async function addUser(req, res, next) {
 
       User.find({
         username,
-      }, (error, _existingUser) => {
-        if (error) {
-          return next(error);
+      }, ($err, $existingUser) => {
+        if ($err) {
+          return next($err);
         }
 
-        if (_existingUser) {
+        if ($existingUser) {
           return res.status(422).send({ error: 'That username is already in use.' });
         }
 
         const newUser = new User(user);
 
-        newUser.save((userError, newUserData) => {
-          if (userError) {
-            return next(userError);
+        newUser.save(($$err, newUserData) => {
+          if ($$err) {
+            return next($$err);
           }
 
           res.status(201).send({ newUserData });
