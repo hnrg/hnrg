@@ -43,3 +43,4 @@ export default class HealthControlsRequest {
 
 // The singleton variable
 export const healthControlsRequest = new HealthControlsRequest();
+

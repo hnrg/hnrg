@@ -28,3 +28,4 @@ export default class ProfileRequest {
 
 // The singleton variable
 export const profileRequest = new ProfileRequest();
+

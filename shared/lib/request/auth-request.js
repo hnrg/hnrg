@@ -15,3 +15,4 @@ export default class AuthRequest {
 
 // The singleton variable
 export const authRequest = new AuthRequest();
+

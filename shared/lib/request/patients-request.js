@@ -43,3 +43,4 @@ export default class PatientsRequest {
 
 // The singleton variable
 export const patientsRequest = new PatientsRequest();
+
