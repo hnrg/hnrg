@@ -10,8 +10,11 @@ export default class RolesRequest {
     return this;
   }
 
-  getRoles() {
+  getRoles(pageNumber = 1) {
     return axios.get('/api/roles', {
+      params: {
+        pageNumber,
+      },
       headers: {
         Authorization: this._sessionToken,
       },
@@ -43,4 +46,3 @@ export default class RolesRequest {
 
 // The singleton variable
 export const rolesRequest = new RolesRequest();
-
