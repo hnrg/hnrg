@@ -21,49 +21,27 @@ class Footer extends Component {
           vertical
         >
           <Container textAlign='center'>
-            <Grid columns={4} divided stackable inverted>
+            <Grid columns={2} divided stackable inverted>
               <Grid.Row>
-                <Grid.Column>
-                  <Header inverted as='h4' content='Group 1' />
-                  <List link inverted>
-                    <List.Item as='a'>Link One</List.Item>
-                    <List.Item as='a'>Link Two</List.Item>
-                    <List.Item as='a'>Link Three</List.Item>
-                    <List.Item as='a'>Link Four</List.Item>
-                  </List>
+                <Grid.Column computer={10} mobile={16}>
+                  <Header inverted as='h4' content='Descripción' />
                 </Grid.Column>
-                <Grid.Column>
-                  <Header inverted as='h4' content='Group 2' />
+                <Divider hidden />
+                <Grid.Column computer={6} mobile={16}>
+                  <Header inverted as='h4' content='Enlaces' />
                   <List link inverted>
-                    <List.Item as='a'>Link One</List.Item>
-                    <List.Item as='a'>Link Two</List.Item>
-                    <List.Item as='a'>Link Three</List.Item>
-                    <List.Item as='a'>Link Four</List.Item>
+                    <List.Item as='a'>Facebook</List.Item>
+                    <List.Item as='a'>Como llegar</List.Item>
+                    <List.Item as='a'>Llamar a teléfono</List.Item>
+                    <List.Item as='a'>Más información</List.Item>
                   </List>
-                </Grid.Column>
-                <Grid.Column>
-                  <Header inverted as='h4' content='Group 3' />
-                  <List link inverted>
-                    <List.Item as='a'>Link One</List.Item>
-                    <List.Item as='a'>Link Two</List.Item>
-                    <List.Item as='a'>Link Three</List.Item>
-                    <List.Item as='a'>Link Four</List.Item>
-                  </List>
-                </Grid.Column>
-                <Grid.Column>
-                  <Header inverted as='h4' content='Footer Header' />
-                  <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
             <Divider inverted section />
             <Image src='/logo.png' centered size='mini' />
-            <List horizontal inverted divided link>
-              <List.Item as='a' href='#'>Site Map</List.Item>
-              <List.Item as='a' href='#'>Contact Us</List.Item>
-              <List.Item as='a' href='#'>Terms and Conditions</List.Item>
-              <List.Item as='a' href='#'>Privacy Policy</List.Item>
-            </List>
+            <Divider inverted section />
+            © 2018 Copyright: Hospital de Niños Ricardo Gutierrez
           </Container>
         </Segment>);
   }
