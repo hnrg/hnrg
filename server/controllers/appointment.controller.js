@@ -20,9 +20,11 @@ function timesArray(date, from = 0, delta = 30, ammount = 48) {
 
 const totalTime = date => ((date.hours() * 10000) + (date.minutes() * 100) + date.seconds());
 
-const timeInArray = (date, times) => times.find(each => date.isSame(moment(each), 'hours')
+const timeInArray = (date, times) => {
+  return times.find(each => date.isSame(moment(each), 'hours')
         && date.isSame(moment(each), 'minutes')
         && date.isSame(moment(each), 'seconds'));
+}
 
 const mergeTime = (dest, src) => moment(dest)
   .hours(src.hours())
@@ -57,7 +59,7 @@ exports.getAppointments = async function getAppointments(req, res) {
     }, 'date').exec();
 
     const availables = times.filter(each => (totalTime(each) > currentTime || !date.isSame(moment(), 'day'))
-          && !timeInArray(mergeTime(date, each), availablesAppointments)).map(each => each.format('HH:mm:ss'));
+          && !timeInArray(mergeTime(date, each), availablesAppointments.map(e => e.date))).map(e => e.format('HH:mm:ss'));
 
     res.status(200).json({ availables });
   } catch (e) {
