@@ -175,6 +175,8 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
             next(err);
           }
 
+          /* TODO modificar utilizando req.params.type */
+
           res.status(200).json({ healthControls })
         });
     });
