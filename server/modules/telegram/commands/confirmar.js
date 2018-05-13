@@ -25,7 +25,6 @@ module.exports = function reservar(bot, client) {
       dateReg = /.*fecha#(\d{2,4}[-\/]\d{2}[-\/]\d{2}).*/i;
       timeReg = /.*hora#(\d{2}:\d{2}).*/i;
 
-      console.log(data.match(timeReg));
       if (!documentReg.test(data)) {
         return bot.sendMessage(chatId, 'No se especificó número de documento');
       }
@@ -45,8 +44,17 @@ module.exports = function reservar(bot, client) {
           date: date.format('YYYY-MM-DD'),
           time: date.format('HH:mm:ss'),
         },
-      }).then(() => bot.sendMessage(chatId, `Turno reservado para la fecha ${date.format('DD/MM/YYYY HH:mm')}\nPara el paciente ${documentNumber}`))
-        .catch(() => bot.sendMessage(chatId, 'Hubo un error reservar el turno.\nInténtelo más tarde.\nDisculpe las molestias.'));
+      }).then(() => {
+        client.del(`${chatId}_turno`);
+        bot.sendMessage(chatId, `Turno reservado para la fecha ${date.format('DD/MM/YYYY HH:mm')}\nPara el paciente ${documentNumber}`)
+      })
+      .catch((error) => {
+        client.del(`${chatId}_turno`);
+        if (error.response.status !== 400) {
+          return bot.sendMessage(chatId, 'Hubo un error reservar el turno.\nInténtelo más tarde.\nDisculpe las molestias.')
+        }
+        bot.sendMessage(chatId, error.response.data.error);
+      });
     });
   });
 };
