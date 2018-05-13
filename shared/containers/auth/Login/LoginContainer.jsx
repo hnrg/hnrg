@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-import * as actions from '../../../actions';
+import * as actions from '../../../actions/auth-actions';
 import './login.css';
 
 class LoginContainer extends Component {
