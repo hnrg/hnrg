@@ -8,17 +8,11 @@ const Appointment = require('../models/appointment');
  */
 function timesArray(date, from = 0, delta = 30, ammount = 48) {
   const times = [];
-  const end = from + ammount*delta/60;
 
-  for (let i = from; i < end; i += 1) {
-    for (let j = 0; j < 60 / delta; j += 1) {
-      const k = j * delta;
+  times.push(moment(date).hours(from).minutes(0).seconds(0));
 
-      times.push(moment(date)
-        .hours(i)
-        .minutes(k)
-        .seconds(0));
-    }
+  for (let i = 1; i < ammount; i++) {
+    times.push(moment(times[i-1]).add(delta, 'minutes'));
   }
 
   return times;
@@ -45,12 +39,14 @@ exports.getAppointments = async function getAppointments(req, res) {
   try {
     const date = moment(req.params.date);
     const { appointments } = req.configuration;
+    const { from, delta, ammount } = appointments;
+    console.log(appointments);
 
     if (date.isBefore(moment().startOf('day'))) {
-      return res.status(204).json({ appointments: [] });
+      return res.status(204).json({ availables: [] });
     }
 
-    const times = timesArray(date, ...appointments);
+    const times = timesArray(date, from, delta, ammount);
     const currentTime = totalTime(moment());
 
     const availablesAppointments = await Appointment.find({

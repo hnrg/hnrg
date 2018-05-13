@@ -12,7 +12,7 @@ const configurationSchema = new Schema({
     description: { type: String },
   },
   appointments: {
-    from: { type: Date },
+    from: { type: Number },
     delta: { type: Number },
     ammount: { type: Number },
   },
@@ -20,6 +20,16 @@ const configurationSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User' },
 }, {
   timestamps: true,
+});
+
+configurationSchema.pre('save', function(next) {
+  const { from, delta, ammount } = this.appointments;
+
+  if (from + ammount*delta/60 > 24) {
+    throw new Error("La cantidad de turnos es invalida.");
+  }
+
+  next();
 });
 
 module.exports = mongoose.model('Configuration', configurationSchema);

@@ -5,5 +5,10 @@ module.exports = {
     email: 'contact@hnrg.com',
     amountPerPage: 7,
   },
+  appointments: {
+    from: 8,
+    delta: 30,
+    ammount: 24,
+  },
   maintenance: false,
 };
