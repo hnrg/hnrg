@@ -2,6 +2,10 @@ import {
   GET_PATIENTS_REQUEST,
   GET_PATIENTS_SUCCESS,
   GET_PATIENTS_FAILURE,
+
+  GET_PATIENT_REQUEST,
+  GET_PATIENT_SUCCESS,
+  GET_PATIENT_FAILURE,
 } from '../constants';
 
 import { patientsRequest } from '../lib/request/patients-request';
@@ -30,6 +34,26 @@ export function getPatientsFailure(error) {
   };
 }
 
+export function getPatientRequest() {
+  return {
+    type: GET_PATIENT_REQUEST,
+  };
+}
+
+export function getPatientSuccess(patient) {
+  return {
+    type: GET_PATIENT_SUCCESS,
+    payload: patient,
+  };
+}
+
+export function getPatientFailure(error) {
+  return {
+    type: GET_PATIENT_FAILURE,
+    payload: error,
+  };
+}
+
 /**
  * ## State actions
  * controls which form is displayed to the user
@@ -49,3 +73,24 @@ export function getPatients(sessionToken) {
       });
   };
 }
+
+/**
+ * ## State actions
+ * controls which form is displayed to the user
+ * as in login, register, logout or reset password
+ */
+export function getPatient(sessionToken, patient) {
+  return (dispatch) => {
+    dispatch(getPatientRequest());
+    // store or get a sessionToken
+    return authToken.getSessionToken(sessionToken)
+      .then(token => patientsRequest.init(token).getPatient(patient))
+      .then((json) => {
+        dispatch(getPatientSuccess(json.patient));
+      })
+      .catch((error) => {
+        dispatch(getPatientFailure(error));
+      });
+  };
+}
+

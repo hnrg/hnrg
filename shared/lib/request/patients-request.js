@@ -24,6 +24,21 @@ export default class PatientsRequest {
       throw error;
     });
   }
+
+  getPatient(patient) {
+    return axios.get(`/api/patients/${patient}`, {
+      headers: {
+        Authorization: this._sessionToken,
+      },
+    }).then((response) => {
+      if (response.status === 200 || response.status === 201) {
+        return response.data;
+      }
+      throw (response.data.error);
+    }).catch((error) => {
+      throw error;
+    });
+  }
 }
 
 // The singleton variable
