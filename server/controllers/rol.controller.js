@@ -38,7 +38,7 @@ exports.addRol = async function addRol(req, res) {
     const { rol } = req.body;
 
     if (!rol.name) {
-      return res.status(403).end();
+      return res.status(400).end();
     }
 
     await Permission.count({

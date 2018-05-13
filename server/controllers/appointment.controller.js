@@ -42,7 +42,6 @@ exports.getAppointments = async function getAppointments(req, res) {
     const date = moment(req.params.date);
     const { appointments } = req.configuration;
     const { from, delta, ammount } = appointments;
-    console.log(appointments);
 
     if (date.isBefore(moment().startOf('day'))) {
       return res.status(204).json({ availables: [] });
@@ -76,29 +75,46 @@ exports.getAppointments = async function getAppointments(req, res) {
 exports.addAppointment = async function addAppointment(req, res) {
   try {
     const { documentNumber, date, time } = req.body.appointment || req.params;
+    const { appointments } = req.configuration;
+    const { from, delta, ammount } = appointments;
 
     if (!documentNumber || !date || !time) {
-      return res.status(403).end();
+      return res.status(400).end();
     }
 
     const newDate = moment(`${date} ${time}`);
 
     if (!newDate.isValid()) {
-      return res.status(403).end();
+      return res.status(400).end();
     }
 
-    const newAppointment = new Appointment({
-      documentNumber,
-      date: newDate.toDate(),
-    });
+    if (!timeInArray(newDate, timesArray(from, delta, ammount))) {
+      return res.status(400).end();
+    }
 
-    const saved = await newAppointment.save();
-    res.status(201).json({
-      appointment: {
-        documentNumber: saved.documentNumber,
-        date: saved.date,
-      },
-    });
+    await Appointment
+      .count({ date: newDate.toDate() })
+      .exec((err, count) => {
+        if (err) {
+          next(err);
+        }
+
+        if (count > 0) {
+          return res.status(422).send({ error: 'El horario ingresado corresponde a un turno registrado.' });
+        }
+        const newAppointment = new Appointment({
+          documentNumber,
+          date: newDate.toDate(),
+        });
+
+        const saved = newAppointment.save();
+        res.status(201).json({
+          appointment: {
+            documentNumber: saved.documentNumber,
+            date: saved.date,
+          },
+        });
+      });
   } catch (e) {
     return res.status(500).send(e);
   }

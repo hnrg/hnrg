@@ -43,7 +43,7 @@ exports.addPatient = async function addPatient(req, res) {
     } = req.body.patient;
 
     if (!documentType || !documentNumber || !firstName || !lastName || !birthday) {
-      return res.status(403).end();
+      return res.status(400).end();
     }
 
     await Patient.findOne({

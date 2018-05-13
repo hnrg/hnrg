@@ -38,7 +38,7 @@ exports.addDemographicData = async function addDemographicData(req, res) {
 
     /* check params
     if (!healthControl fields) {
-      return res.status(403).end();
+      return res.status(400).end();
     }
 
     const badRequest = rol.permissions.find(permissionId => {

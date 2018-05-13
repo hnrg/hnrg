@@ -43,7 +43,7 @@ exports.addHealthControl = async function addHealthControl(req, res) {
         !healthControl.height ||
         !healthControl.patient ||
         !healthControl.user) {
-      return res.status(403).end();
+      return res.status(400).end();
     }
 
     const newHealthControl = new HealthControl(healthControl);
