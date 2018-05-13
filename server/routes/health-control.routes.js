@@ -17,4 +17,6 @@ router.route('/healthcontrols/:id').get(requireAuth, configurationMiddleware, He
 
 router.route('/healthcontrols/:id').delete(requireAuth, configurationMiddleware, HealthControlController.deleteHealthControl);
 
+router.route('/healthcontrols/:id').post(requireAuth, configurationMiddleware, HealthControlController.updateHealthControl);
+
 module.exports = router;

@@ -15,6 +15,8 @@ router.route('/roles').post(requireAuth, configurationMiddleware, RolController.
 
 router.route('/roles/:id').get(requireAuth, configurationMiddleware, RolController.getRol);
 
+router.route('/roles/:id').post(requireAuth, configurationMiddleware, RolController.updateRol);
+
 router.route('/roles/:id').delete(requireAuth, configurationMiddleware, RolController.deleteRol);
 
 router.route('/roles/:id/:permission').delete(requireAuth, configurationMiddleware, RolController.deleteRolPermission);

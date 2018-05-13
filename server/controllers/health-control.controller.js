@@ -12,11 +12,12 @@ exports.getHealthControls = async function getHealthControls(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_index');
 
+    const active = req.query.active || true;
     const { pageNumber, configuration } = req;
     const { webpage } = configuration;
     const { amountPerPage } = webpage;
 
-    const healthControls = await HealthControl.find({})
+    const healthControls = await HealthControl.find({ active })
       .populate('patient user')
       .limit(amountPerPage)
       .skip(amountPerPage*pageNumber)
@@ -156,4 +157,3 @@ exports.updateHealthControl = async function updateHealthControl(req, res) {
     return res.status(500).send(e);
   }
 };
-

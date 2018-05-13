@@ -12,11 +12,12 @@ exports.getPatients = async function getPatients(req, res) {
   try {
     permissionsCheck(req.user, 'paciente_index');
 
+    const state = req.query.state || true;
     const { pageNumber, configuration } = req;
     const { webPage } = configuration;
     const { amountPerPage } = webPage;
 
-    const patients = await Patient.find({})
+    const patients = await Patient.find({ state })
       .limit(amountPerPage)
       .skip(amountPerPage*page)
       .populate('demographicData')
@@ -127,7 +128,15 @@ exports.deletePatient = async function deletePatient(req, res) {
   try {
     permissionsCheck(req.user, 'paciente_delete');
 
-    await Patient.findByIdAndUpdate(req.params.id, { deleted: true });
+    await Patient.findByIdAndUpdate(req.params.id, { deleted: true })
+    .exec((err, patient) => {
+      if (err || patient == null) {
+        res.status(422).json({ error: 'No patient was found with that id' });
+        return next(err);
+      }
+
+      return res.status(200).end();
+    });
 
     res.sendStatus(200);
   } catch (e) {
@@ -147,11 +156,26 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
   try {
     permissionsCheck(req.user, 'paciente_show');
 
+    const { pageNumber, configuration } = req;
+    const { webPage } = configuration;
+    const { amountPerPage } = webPage;
+
     await Patient.findById(req.params.id).then((err, patient) => {
       if (err || patient == null) {
         res.status(422).json({ error: 'No patient was found with that id.' });
         return next(err);
       }
+
+      HealthControl.find({ patient: patient._id })
+        .limit(amountPerPage)
+        .skip(amountPerPage*page)
+        .exec(($err, healthControls) => {
+          if (err || healthControls == null) {
+            next(err);
+          }
+
+          res.status(200).json({ healthControls })
+        });
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
@@ -173,7 +197,7 @@ exports.updatePatient = async function updatePatient(req, res, next) {
           return next(err);
         }
 
-        return res.status(201).json({ patient });
+        return res.status(200).json({ patient });
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {

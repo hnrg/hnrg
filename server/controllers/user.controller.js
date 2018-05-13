@@ -12,11 +12,12 @@ exports.getUsers = async function getUsers(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
+    const active = req.query.active || true;
     const { pageNumber, configuration } = req;
     const { webPage } = configuration;
     const { amountPerPage } = webPage;
 
-    const users = await User.find({})
+    const users = await User.find({ active })
       .limit(amountPerPage)
       .skip(amountPerPage*page)
       .populate('roles')
@@ -129,14 +130,14 @@ exports.deleteUser = async function deleteUser(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
-    await Patient.findByIdAndUpdate(req.params.id, req.body.patient)
-      .exec((err, patient) => {
-        if (err || patient == null) {
-          res.status(422).json({ error: 'No patient was found with that id.' });
+    await Patient.findByIdAndUpdate(req.params.id, { active: false })
+      .exec((err, user) => {
+        if (err || user == null) {
+          res.status(422).json({ error: 'No user was found with that id' });
           return next(err);
         }
 
-        return res.status(201).json({ patient });
+        return res.status(200).end();
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
@@ -162,7 +163,7 @@ exports.updateUser = async function updateUser(req, res, next) {
           return next(err);
         }
 
-        return res.status(201).json({ user });
+        return res.status(200).json({ user });
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
