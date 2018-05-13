@@ -85,7 +85,9 @@ exports.getRol = async function getRol(req, res) {
   try {
     permissionsCheck(req.user, 'rol_show');
 
-    const rol = await Rol.findById(req.params.id).populate('permissions').exec();
+    const rol = await Rol.findById(req.params.id)
+      .where('deleted').equals(false)
+      .populate('permissions').exec();
 
     if (!rol) {
       return res.sendStatus(404);

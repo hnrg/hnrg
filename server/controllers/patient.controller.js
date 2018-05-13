@@ -95,6 +95,7 @@ exports.getPatient = async function getPatient(req, res) {
     permissionsCheck(req.user, 'paciente_show');
 
     const patient = await Patient.findById(req.params.id)
+      .whare('state').equals(true)
       .populate('demographicData')
       .populate('medicalInsurance')
       .populate('documentType')
