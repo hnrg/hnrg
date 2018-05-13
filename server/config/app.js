@@ -8,7 +8,7 @@ module.exports = {
   appointments: {
     from: 8,
     delta: 30,
-    ammount: 24,
+    amount: 24,
   },
   maintenance: false,
 };

@@ -14,7 +14,7 @@ const configurationSchema = new Schema({
   appointments: {
     from: { type: Number },
     delta: { type: Number },
-    ammount: { type: Number },
+    amount: { type: Number },
   },
   maintenance: { type: Boolean },
   user: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -23,9 +23,9 @@ const configurationSchema = new Schema({
 });
 
 configurationSchema.pre('save', function(next) {
-  const { from, delta, ammount } = this.appointments;
+  const { from, delta, amount } = this.appointments;
 
-  if (from + ammount*delta/60 > 24) {
+  if (from + amount*delta/60 > 24) {
     throw new Error("La cantidad de turnos es invalida.");
   }
 

@@ -6,12 +6,12 @@ const Appointment = require('../models/appointment');
  * Return an array with all the available times
  * @returns array
  */
-function timesArray(date, from = 0, delta = 30, ammount = 48) {
+function timesArray(date, from = 0, delta = 30, amount = 48) {
   const times = [];
 
   times.push(moment(date).hours(from).minutes(0).seconds(0));
 
-  for (let i = 1; i < ammount; i++) {
+  for (let i = 1; i < amount; i++) {
     times.push(moment(times[i-1]).add(delta, 'minutes'));
   }
 
@@ -41,13 +41,13 @@ exports.getAppointments = async function getAppointments(req, res) {
   try {
     const date = moment(req.params.date);
     const { appointments } = req.configuration;
-    const { from, delta, ammount } = appointments;
+    const { from, delta, amount } = appointments;
 
     if (date.isBefore(moment().startOf('day'))) {
       return res.status(204).json({ availables: [] });
     }
 
-    const times = timesArray(date, from, delta, ammount);
+    const times = timesArray(date, from, delta, amount);
     const currentTime = totalTime(moment());
 
     const availablesAppointments = await Appointment.find({
@@ -76,7 +76,7 @@ exports.addAppointment = async function addAppointment(req, res) {
   try {
     const { documentNumber, date, time } = req.body.appointment || req.params;
     const { appointments } = req.configuration;
-    const { from, delta, ammount } = appointments;
+    const { from, delta, amount } = appointments;
 
     if (!documentNumber || !date || !time) {
       return res.status(400).end();
@@ -84,7 +84,7 @@ exports.addAppointment = async function addAppointment(req, res) {
 
     const newDate = moment(`${date} ${time}`);
 
-    if (!(newDate.isValid() && timeInArray(newDate, timesArray(from, delta, ammount)))) {
+    if (!(newDate.isValid() && timeInArray(newDate, timesArray(from, delta, amount)))) {
       return res.status(400).send({ error: 'Debe ingresar fecha y horario validos' });
     }
 
