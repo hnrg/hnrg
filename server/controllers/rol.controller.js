@@ -15,11 +15,12 @@ exports.getRoles = async function getRoles(req, res) {
   try {
     permissionsCheck(req.user, 'rol_index');
 
+    const deleted = req.query.deleted || false;
     const { pageNumber, configuration } = req;
     const { webPage } = configuration;
     const { amountPerPage } = webPage;
 
-    const roles = await Rol.find({})
+    const roles = await Rol.find({ deleted })
       .limit(amountPerPage)
       .skip(amountPerPage*page)
       .populate('permissions')

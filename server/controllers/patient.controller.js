@@ -12,11 +12,12 @@ exports.getPatients = async function getPatients(req, res) {
   try {
     permissionsCheck(req.user, 'paciente_index');
 
+    const state = req.query.state || true;
     const { pageNumber, configuration } = req;
     const { webPage } = configuration;
     const { amountPerPage } = webPage;
 
-    const patients = await Patient.find({})
+    const patients = await Patient.find({ state })
       .limit(amountPerPage)
       .skip(amountPerPage*page)
       .populate('demographicData')

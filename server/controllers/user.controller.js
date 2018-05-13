@@ -12,11 +12,12 @@ exports.getUsers = async function getUsers(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
+    const active = req.query.active || true;
     const { pageNumber, configuration } = req;
     const { webPage } = configuration;
     const { amountPerPage } = webPage;
 
-    const users = await User.find({})
+    const users = await User.find({ active })
       .limit(amountPerPage)
       .skip(amountPerPage*page)
       .populate('roles')
