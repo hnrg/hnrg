@@ -4,10 +4,10 @@ import {
   GET_PROFILE_REQUEST,
   GET_PROFILE_SUCCESS,
   GET_PROFILE_FAILURE,
-} from 'constants';
+} from 'reducers/constants';
 
-import { profileRequest } from 'reducers/lib//request/profile-request';
-import { authToken } from 'reducers/lib//store/auth-token';
+import { profileRequest } from 'reducers/lib/request/profile-request';
+import { authToken } from 'reducers/lib/store/auth-token';
 
 /**
  * ## retreiving profile actions

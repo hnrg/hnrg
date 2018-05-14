@@ -1,4 +1,4 @@
-import fieldValidation from 'reducers/lib//field-validation';
+import fieldValidation from 'reducers/lib/field-validation';
 import {
   GET_PATIENTS_REQUEST,
   GET_PATIENTS_SUCCESS,

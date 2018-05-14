@@ -6,17 +6,17 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import App from './containers/App';
-import DashboardPage from './containers/Dashboard';
-import HomePage from './containers/Home';
-import NotFoundPage from './containers/NotFound';
+import App from 'containers/App';
+import DashboardPage from 'containers/Dashboard';
+import HomePage from 'containers/Home';
+import NotFoundPage from 'containers/NotFound';
 
 // auth pages
-import LoginPage from './containers/auth/Login';
-import LogoutPage from './containers/auth/Logout';
+import LoginPage from 'containers/auth/Login';
+import LogoutPage from 'containers/auth/Logout';
 
 // high order components
-import RequireAuth from './containers/Middleware/Auth';
+import RequireAuth from 'containers/Middleware/Auth';
 
 const Routes = () => (
   <CookiesProvider>

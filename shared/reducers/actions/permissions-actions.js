@@ -2,10 +2,10 @@ import {
   GET_PERMISSIONS_REQUEST,
   GET_PERMISSIONS_SUCCESS,
   GET_PERMISSIONS_FAILURE,
-} from 'constants';
+} from 'reducers/constants';
 
-import { permissionsRequest } from 'reducers/lib//request/permissions-request';
-import { authToken } from 'reducers/lib//store/auth-token';
+import { permissionsRequest } from 'reducers/lib/request/permissions-request';
+import { authToken } from 'reducers/lib/store/auth-token';
 
 /**
  * ## retreiving profile actions

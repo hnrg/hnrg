@@ -1,4 +1,4 @@
-import { LOGIN } from 'constants';
+import { LOGIN } from 'reducers/constants';
 
 export default {
   state: LOGIN,

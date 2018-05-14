@@ -2,9 +2,9 @@ import {
   GET_CONFIGURATION_REQUEST,
   GET_CONFIGURATION_SUCCESS,
   GET_CONFIGURATION_FAILURE,
-} from 'constants';
+} from 'reducers/constants';
 
-import { configurationRequest } from 'reducers/lib//request/configuration-request';
+import { configurationRequest } from 'reducers/lib/request/configuration-request';
 
 /**
  * ## retreiving configuration actions
