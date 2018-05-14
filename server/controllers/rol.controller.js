@@ -22,7 +22,7 @@ exports.getRoles = async function getRoles(req, res) {
 
     const roles = await Rol.find({ deleted })
       .limit(amountPerPage)
-      .skip(amountPerPage * page)
+      .skip(amountPerPage*page)
       .populate('permissions')
       .exec();
 
@@ -87,8 +87,7 @@ exports.getRol = async function getRol(req, res) {
 
     const rol = await Rol.findById(req.params.id)
       .where('deleted').equals(false)
-      .populate('permissions')
-      .exec();
+      .populate('permissions').exec();
 
     if (!rol) {
       return res.sendStatus(404);
@@ -114,47 +113,49 @@ exports.getRol = async function getRol(req, res) {
  * @param res
  * @returns void
  */
-exports.deleteRol = async function deleteRol(req, res) {
-  try {
-    permissionsCheck(req.user, 'rol_delete');
+ exports.deleteRol = async function deleteRol(req, res) {
+   try {
+     permissionsCheck(req.user, 'rol_delete');
 
-    await Rol.findByIdAndUpdate(req.params.id, { deleted: true })
-      .exec((err, rol) => {
-        if (err || rol == null) {
-          res.status(422).json({ error: 'No rol was found with that id' });
-          return next(err);
-        }
+     await Rol.findByIdAndUpdate(req.params.id, { deleted: true })
+     .exec((err, rol) => {
+       if (err || rol == null) {
+         res.status(422).json({ error: 'No rol was found with that id' });
+         return next(err);
+       }
 
-        return res.status(200).end();
-      });
-  } catch (e) {
-    if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
-    }
+       return res.status(200).end();
+     });
+   } catch (e) {
+     if (e.name === 'NotAllowedError') {
+       return res.status(403).send(e);
+     }
 
-    if (e.name === 'CastError') {
-      return res.sendStatus(400);
-    }
+     if (e.name === 'CastError') {
+       return res.sendStatus(400);
+     }
 
-    return res.status(500).send(e);
-  }
-};
+     return res.status(500).send(e);
+   }
+ };
 
 exports.deleteRolPermission = async function deleteRolPermission(req, res) {
   try {
     permissionsCheck(req.user, 'rol_delete');
 
     await Rol.findById(req.params.id)
-      .exec((err, rol) => {
-        if (err || rol == null) {
-          res.status(422).json({ error: 'No rol was found with that id' });
-          return next(err);
-        }
+    .exec((err, rol) => {
+      if (err || rol == null) {
+        res.status(422).json({ error: 'No rol was found with that id' });
+        return next(err);
+      }
 
-        rol.permissions = _.remove(rol.permissions, permission => permission._id == req.permission);
-
-        return res.status(200).json({ rol });
+      rol.permissions = _.remove(rol.permissions, permission => {
+        return permission._id == req.permission;
       });
+
+      return res.status(200).json({ rol });
+    });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);

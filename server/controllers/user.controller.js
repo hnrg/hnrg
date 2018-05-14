@@ -19,7 +19,7 @@ exports.getUsers = async function getUsers(req, res) {
 
     const users = await User.find({ active })
       .limit(amountPerPage)
-      .skip(amountPerPage * page)
+      .skip(amountPerPage*page)
       .populate('roles')
       .exec();
 

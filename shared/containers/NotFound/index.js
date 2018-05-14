@@ -1,3 +1,3 @@
-import NotFoundContainer from './NotFoundContainer';
+import NotFoundContainer from './NotFoundContainer.jsx';
 
 export default NotFoundContainer;

@@ -19,7 +19,7 @@ exports.getPatients = async function getPatients(req, res) {
 
     const patients = await Patient.find({ state })
       .limit(amountPerPage)
-      .skip(amountPerPage * page)
+      .skip(amountPerPage*page)
       .populate('demographicData')
       .populate('medicalInsurance')
       .populate('documentType')
@@ -130,14 +130,14 @@ exports.deletePatient = async function deletePatient(req, res) {
     permissionsCheck(req.user, 'paciente_delete');
 
     await Patient.findByIdAndUpdate(req.params.id, { deleted: true })
-      .exec((err, patient) => {
-        if (err || patient == null) {
-          res.status(422).json({ error: 'No patient was found with that id' });
-          return next(err);
-        }
+    .exec((err, patient) => {
+      if (err || patient == null) {
+        res.status(422).json({ error: 'No patient was found with that id' });
+        return next(err);
+      }
 
-        return res.status(200).end();
-      });
+      return res.status(200).end();
+    });
 
     res.sendStatus(200);
   } catch (e) {
@@ -169,7 +169,7 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
 
       HealthControl.find({ patient: patient._id })
         .limit(amountPerPage)
-        .skip(amountPerPage * page)
+        .skip(amountPerPage*page)
         .exec(($err, healthControls) => {
           if (err || healthControls == null) {
             next(err);
@@ -177,7 +177,7 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
 
           /* TODO modificar utilizando req.params.type */
 
-          res.status(200).json({ healthControls });
+          res.status(200).json({ healthControls })
         });
     });
   } catch (e) {

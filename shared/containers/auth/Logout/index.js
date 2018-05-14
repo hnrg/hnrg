@@ -1,3 +1,3 @@
-import LogoutContainer from './LogoutContainer';
+import LogoutContainer from './LogoutContainer.jsx';
 
 export default LogoutContainer;

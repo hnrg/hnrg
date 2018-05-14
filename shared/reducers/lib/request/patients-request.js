@@ -11,17 +11,15 @@ export default class PatientsRequest {
   }
 
   getPatients(pageNumber = 1) {
-    return axios.get(
-      '/api/patients',
-      {
-        params: {
-          pageNumber,
-        },
-        headers: {
-          Authorization: this._sessionToken,
-        },
+    return axios.get('/api/patients',
+    {
+      params: {
+        pageNumber: pageNumber
       },
-    ).then((response) => {
+      headers: {
+        Authorization: this._sessionToken,
+      },
+    }).then((response) => {
       if (response.status === 200 || response.status === 201) {
         return response.data;
       }

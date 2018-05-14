@@ -1,3 +1,4 @@
+import fieldValidation from '../lib/field-validation';
 import {
   GET_PERMISSIONS_REQUEST,
   GET_PERMISSIONS_SUCCESS,
@@ -20,6 +21,8 @@ import InitialState from 'reducers/states/permissions-state';
  * @param {Object} action - type and payload
  */
 export default function permissionsReducer(state = InitialState, action) {
+  let nextPermissionState = null;
+
   switch (action.type) {
     /**
      * ### Request starts
@@ -51,7 +54,7 @@ export default function permissionsReducer(state = InitialState, action) {
      *
      */
     case LOGOUT_SUCCESS: {
-      return {
+      return nextPermissionState = {
         ...state,
         permissions: [],
         error: null,
@@ -76,11 +79,11 @@ export default function permissionsReducer(state = InitialState, action) {
 
       return {
         ...state,
-        disabled: permissions.disabled,
-        error: permissions.error,
-        isValid: permissions.isValid,
-        isFetching: permissions.isFetching,
-        permissions: permissions.permissions,
+        disabled: state.roles.disabled,
+        error: state.roles.error,
+        isValid: state.roles.isValid,
+        isFetching: state.roles.isFetching,
+        permissions: state.permissions.permissions,
       };
     }
 
@@ -89,3 +92,4 @@ export default function permissionsReducer(state = InitialState, action) {
     }
   }
 }
+
