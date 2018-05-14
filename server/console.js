@@ -14,9 +14,10 @@ const models = [];
 fs.readdirSync(normalizedPath).forEach((file) => {
   if (file.match(/\.js$/) !== null && file !== 'index.js') {
     const name = file.replace('.js', '');
+    const module = require(`./models/${name}`);
     models.push({
       name: _.camelCase(name),
-      module: require(`./models/${name}`),
+      module,
     });
   }
 });
@@ -31,7 +32,9 @@ mongoose.connect(serverConfig.mongoURL, (err) => {
     prompt: 'hdrg > ',
   });
 
-  models.forEach(({ name, module }) => replServer.context[name] = module);
+  models.forEach(({ name, module }) => {
+    replServer.context[name] = module;
+  });
 
   replServer.context.moment = moment;
   replServer.context.axios = axios;

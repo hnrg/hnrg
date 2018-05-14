@@ -48,8 +48,18 @@ const serverConfig = {
             },
           },
         ],
+      }, {
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        loaders: ['file-loader?hash=sha512&digest=hex&name=[hash].[ext]'],
       },
+      {
+        test: /\.(eot|png|svg|[ot]tf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'file-loader',
+      }
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
   },
 
   plugins: [

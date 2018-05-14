@@ -58,7 +58,7 @@ export default function patientsReducer(state = InitialState, action) {
      *
      */
     case LOGOUT_SUCCESS: {
-      return nextPatientState = {
+      return {
         ...state,
         patients: [],
         error: null,
@@ -140,11 +140,11 @@ export default function patientsReducer(state = InitialState, action) {
 
       return {
         ...state,
-        disabled: state.patients.disabled,
-        error: state.patients.error,
-        isValid: state.patients.isValid,
-        isFetching: state.patients.isFetching,
-        patients: state.patients.patients,
+        disabled: patients.disabled,
+        error: patients.error,
+        isValid: patients.isValid,
+        isFetching: patients.isFetching,
+        patients: patients.patients,
       };
     }
 
@@ -153,4 +153,3 @@ export default function patientsReducer(state = InitialState, action) {
     }
   }
 }
-

@@ -1,3 +1,3 @@
-import DashboardContainer from './DashboardContainer.jsx';
+import DashboardContainer from './DashboardContainer';
 
 export default DashboardContainer;

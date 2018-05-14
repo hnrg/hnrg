@@ -17,7 +17,7 @@ exports.getDemographicsData = async function getDemographicsData(req, res) {
 
     const demographicsData = await DemographicData.find({})
       .limit(amountPerPage)
-      .skip(amountPerPage*page)
+      .skip(amountPerPage * page)
       .populate('apartmentType heatingType waterType')
       .exec();
 

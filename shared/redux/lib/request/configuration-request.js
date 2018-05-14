@@ -26,4 +26,3 @@ export default class ConfigurationRequest {
 
 // The singleton variable
 export const configurationRequest = new ConfigurationRequest();
-

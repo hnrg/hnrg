@@ -58,7 +58,7 @@ export default function rolesReducer(state = InitialState, action) {
      *
      */
     case LOGOUT_SUCCESS: {
-      return nextRolState = {
+      return {
         ...state,
         roles: [],
         error: null,
@@ -123,11 +123,11 @@ export default function rolesReducer(state = InitialState, action) {
 
       return {
         ...state,
-        disabled: state.roles.disabled,
-        error: state.roles.error,
-        isValid: state.roles.isValid,
-        isFetching: state.roles.isFetching,
-        roles: state.roles.roles,
+        disabled: roles.disabled,
+        error: roles.error,
+        isValid: roles.isValid,
+        isFetching: roles.isFetching,
+        roles: roles.roles,
       };
     }
 
@@ -136,4 +136,3 @@ export default function rolesReducer(state = InitialState, action) {
     }
   }
 }
-

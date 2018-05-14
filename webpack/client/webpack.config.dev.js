@@ -58,7 +58,9 @@ const clientConfig = {
       },
     ],
   },
-
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
     new ExtractTextPlugin('css/app.css'),

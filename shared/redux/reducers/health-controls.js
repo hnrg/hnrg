@@ -58,7 +58,7 @@ export default function healthControlsReducer(state = InitialState, action) {
      *
      */
     case LOGOUT_SUCCESS: {
-      return nextHealthControlState = {
+      return {
         ...state,
         healthControls: [],
         error: null,
@@ -147,11 +147,11 @@ export default function healthControlsReducer(state = InitialState, action) {
 
       return {
         ...state,
-        disabled: state.healthControls.disabled,
-        error: state.healthControls.error,
-        isValid: state.healthControls.isValid,
-        isFetching: state.healthControls.isFetching,
-        healthControls: state.healthControls.healthControls,
+        disabled: healthControls.disabled,
+        error: healthControls.error,
+        isValid: healthControls.isValid,
+        isFetching: healthControls.isFetching,
+        healthControls: healthControls.healthControls,
       };
     }
 
@@ -160,4 +160,3 @@ export default function healthControlsReducer(state = InitialState, action) {
     }
   }
 }
-
