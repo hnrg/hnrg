@@ -17,7 +17,7 @@ class HomeContainer extends Component {
     return (
       <div>
         <Navbar />
-        { cards.map( card => <ContentCard {...card} />) }
+        { cards.map( (card, id) => <ContentCard key={id} {...card} />) }
         <Footer />
       </div>
     );
