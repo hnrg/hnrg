@@ -6,10 +6,10 @@ import {
   GET_PATIENT_REQUEST,
   GET_PATIENT_SUCCESS,
   GET_PATIENT_FAILURE,
-} from '../constants';
+} from 'constants';
 
-import { patientsRequest } from '../lib/request/patients-request';
-import { authToken } from '../lib/store/auth-token';
+import { patientsRequest } from 'reducers/lib//request/patients-request';
+import { authToken } from 'reducers/lib//store/auth-token';
 
 /**
  * ## retreiving profile actions

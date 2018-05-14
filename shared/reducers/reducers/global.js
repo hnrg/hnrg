@@ -10,9 +10,9 @@ import {
   GET_STATE,
   SET_STATE,
   SET_STORE,
-} from '../constants';
+} from 'reducers/constants';
 
-import InitialState from '../states/global-state';
+import InitialState from 'reducers/states/global-state';
 
 /**
  * ## globalReducer function

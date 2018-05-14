@@ -6,10 +6,10 @@ import {
   GET_ROL_REQUEST,
   GET_ROL_SUCCESS,
   GET_ROL_FAILURE,
-} from '../constants';
+} from 'constants';
 
-import { rolesRequest } from '../lib/request/roles-request';
-import { authToken } from '../lib/store/auth-token';
+import { rolesRequest } from 'reducers/lib//request/roles-request';
+import { authToken } from 'reducers/lib//store/auth-token';
 
 /**
  * ## retreiving profile actions

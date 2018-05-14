@@ -1,9 +1,9 @@
-import InitialState from '../states/auth-state';
+import InitialState from 'reducers/states/auth-state';
 import {
   LOGOUT,
   LOGIN,
   FORGOT_PASSWORD,
-} from '../constants';
+} from 'reducers/constants';
 
 export default function (state = InitialState) {
   switch (state.state) {

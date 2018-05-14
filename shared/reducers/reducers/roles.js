@@ -1,4 +1,4 @@
-import fieldValidation from '../lib/field-validation';
+import fieldValidation from 'reducers/lib//field-validation';
 import {
   GET_ROLES_REQUEST,
   GET_ROLES_SUCCESS,
@@ -11,13 +11,13 @@ import {
   LOGOUT_SUCCESS,
 
   SET_STATE,
-} from '../constants';
+} from 'reducers/constants';
 
 /**
  * ## Initial State
  *
  */
-import InitialState from '../states/roles-state';
+import InitialState from 'reducers/states/roles-state';
 
 /**
  * ## rolesReducer function

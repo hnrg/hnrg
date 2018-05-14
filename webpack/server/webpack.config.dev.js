@@ -56,10 +56,17 @@ const serverConfig = {
         test: /\.(eot|png|svg|[ot]tf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file-loader',
       }
-    ],
+    ]
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+    alias: {
+      static: path.resolve(__dirname, '../../static'),
+      components: path.resolve(__dirname, '../../shared/components'),
+      containers: path.resolve(__dirname, '../../shared/containers'),
+      helpers: path.resolve(__dirname, '../../shared/helpers'),
+      reducers: path.resolve(__dirname, '../../shared/reducers')
+    }
   },
 
   plugins: [

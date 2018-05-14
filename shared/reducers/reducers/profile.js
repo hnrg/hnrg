@@ -1,4 +1,4 @@
-import fieldValidation from '../lib/field-validation';
+import fieldValidation from 'reducers/lib//field-validation';
 import formValidation from './auth-form';
 
 import {
@@ -9,13 +9,13 @@ import {
   LOGOUT_SUCCESS,
 
   SET_STATE,
-} from '../constants';
+} from 'reducers/constants';
 
 /**
  * ## Initial State
  *
  */
-import InitialState from '../states/profile-state';
+import InitialState from 'reducers/states/profile-state';
 
 /**
  * ## profileReducer function

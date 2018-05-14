@@ -6,13 +6,13 @@ import {
   LOGOUT_SUCCESS,
 
   SET_STATE,
-} from '../constants';
+} from 'reducers/constants';
 
 /**
  * ## Initial State
  *
  */
-import InitialState from '../states/permissions-state';
+import InitialState from 'reducers/states/permissions-state';
 
 /**
  * ## permissionsReducer function

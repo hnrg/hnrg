@@ -4,9 +4,9 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as authActions from '../../redux/actions/auth-actions';
-import * as globalActions from '../../redux/actions/global-actions';
-import * as profileActions from '../../redux/actions/profile-actions';
+import * as authActions from 'reducers/actions/auth-actions';
+import * as globalActions from 'reducers/actions/global-actions';
+import * as profileActions from 'reducers/actions/profile-actions';
 
 export default function (ComposedComponent) {
   class Authentication extends Component {

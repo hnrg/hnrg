@@ -6,10 +6,10 @@ import {
   GET_HEALTH_CONTROLS_REQUEST,
   GET_HEALTH_CONTROLS_SUCCESS,
   GET_HEALTH_CONTROLS_FAILURE,
-} from '../constants';
+} from 'constants';
 
-import { healthControlsRequest } from '../lib/request/health-controls-request';
-import { authToken } from '../lib/store/auth-token';
+import { healthControlsRequest } from 'reducers/lib//request/health-controls-request';
+import { authToken } from 'reducers/lib//store/auth-token';
 
 /**
  * ## retreiving profile actions

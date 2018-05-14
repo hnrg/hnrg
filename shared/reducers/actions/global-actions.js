@@ -10,7 +10,7 @@ import {
   SET_STORE,
   SET_STATE,
   GET_STATE,
-} from '../constants';
+} from 'constants';
 
 /**
  * ## set the sessionToken

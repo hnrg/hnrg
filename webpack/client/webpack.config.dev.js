@@ -60,6 +60,13 @@ const clientConfig = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+    alias: {
+      static: path.resolve(__dirname, '../../static'),
+      components: path.resolve(__dirname, '../../shared/components'),
+      containers: path.resolve(__dirname, '../../shared/containers'),
+      helpers: path.resolve(__dirname, '../../shared/helpers'),
+      reducers: path.resolve(__dirname, '../../shared/reducers')
+    }
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),

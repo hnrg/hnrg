@@ -1,5 +1,5 @@
-import InitialState from '../states/auth-state';
-import fieldValidation from '../lib/field-validation';
+import InitialState from 'reducers/states/auth-state';
+import fieldValidation from 'reducers/lib//field-validation';
 import formValidation from './auth-form';
 import {
   SESSION_TOKEN_REQUEST,
@@ -28,7 +28,7 @@ import {
   RESET_PASSWORD_FAILURE,
 
   SET_STATE,
-} from '../constants';
+} from 'reducers/constants';
 
 /**
  * ## authReducer function

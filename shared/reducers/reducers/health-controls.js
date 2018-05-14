@@ -1,4 +1,4 @@
-import fieldValidation from '../lib/field-validation';
+import fieldValidation from 'reducers/lib//field-validation';
 import {
   GET_HEALTH_CONTROLS_REQUEST,
   GET_HEALTH_CONTROLS_SUCCESS,
@@ -11,13 +11,13 @@ import {
   LOGOUT_SUCCESS,
 
   SET_STATE,
-} from '../constants';
+} from 'reducers/constants';
 
 /**
  * ## Initial State
  *
  */
-import InitialState from '../states/health-controls-state';
+import InitialState from 'reducers/states/health-controls-state';
 
 /**
  * ## healthControlReducer function
