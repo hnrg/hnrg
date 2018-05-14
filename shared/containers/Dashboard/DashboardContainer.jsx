@@ -5,9 +5,9 @@ import {connect} from 'react-redux';
 
 import Sidebar from '../../components/dashboard/Sidebar';
 
-import * as authActions from '../../actions/auth-actions';
-import * as globalActions from '../../actions/global-actions';
-import * as profileActions from '../../actions/profile-actions';
+import * as authActions from '../../redux/actions/auth-actions';
+import * as globalActions from '../../redux/actions/global-actions';
+import * as profileActions from '../../redux/actions/profile-actions';
 
 class DashboardContainer extends Component {
   constructor(props) {

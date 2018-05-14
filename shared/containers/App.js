@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as authActions from '../actions/auth-actions';
-import * as configurationActions from '../actions/configuration-actions';
-import * as globalActions from '../actions/global-actions';
+import * as authActions from '../redux/actions/auth-actions';
+import * as configurationActions from '../redux/actions/configuration-actions';
+import * as globalActions from '../redux/actions/global-actions';
 
 import DevTools from '../components/DevTools';
 

@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 import { createCookieMiddleware } from 'redux-cookie';
 import thunk from 'redux-thunk';
 
-import reducers from './reducers';
+import reducers from './redux/reducers';
 import DevTools from './components/DevTools';
 
 const packages = [];
