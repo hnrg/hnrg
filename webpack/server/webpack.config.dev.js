@@ -49,7 +49,6 @@ const serverConfig = {
           },
         ],
       },
-<<<<<<< HEAD
       {
         test: /\.(eot|png|svg|[ot]tf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file-loader',
@@ -66,11 +65,6 @@ const serverConfig = {
       reducers: path.resolve(__dirname, '../../shared/reducers')
     }
   },
-=======
-    ],
-  },
->>>>>>> parent of 5b1c55d... Updated webpack rules
-
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
