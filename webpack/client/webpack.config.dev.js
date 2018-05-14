@@ -58,7 +58,6 @@ const clientConfig = {
       },
     ],
   },
-<<<<<<< HEAD
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
@@ -69,9 +68,6 @@ const clientConfig = {
       reducers: path.resolve(__dirname, '../../shared/reducers')
     }
   },
-=======
-
->>>>>>> parent of 5b1c55d... Updated webpack rules
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
     new ExtractTextPlugin('css/app.css'),
