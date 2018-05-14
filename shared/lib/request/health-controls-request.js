@@ -11,7 +11,7 @@ export default class HealthControlsRequest {
   }
 
   getHealthControls(pageNumber = 1) {
-    return axios.get('/api/healthcontrols',
+    return axios.get('/api/health-controls',
     {
       params: {
         pageNumber: pageNumber
@@ -30,7 +30,7 @@ export default class HealthControlsRequest {
   }
 
   getHealthControl(healthControl) {
-    return axios.get(`/api/healthcontrols/${healthControl}`, {
+    return axios.get(`/api/health-controls/${healthControl}`, {
       headers: {
         Authorization: this._sessionToken,
       },
@@ -47,4 +47,3 @@ export default class HealthControlsRequest {
 
 // The singleton variable
 export const healthControlsRequest = new HealthControlsRequest();
-

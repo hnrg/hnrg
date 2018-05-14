@@ -9,12 +9,10 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 
 const router = Router();
 
-router.route('/demographicdata').get(requireAuth, configurationMiddleware, DemographicDataController.getDemographicsData);
+router.route('/demographic-data').get(requireAuth, configurationMiddleware, DemographicDataController.getDemographicsData);
 
-router.route('/demographicdata').post(requireAuth, configurationMiddleware, DemographicDataController.addDemographicData);
+router.route('/demographic-data').post(requireAuth, configurationMiddleware, DemographicDataController.addDemographicData);
 
-router.route('/demographicdata/:id').get(requireAuth, configurationMiddleware, DemographicDataController.getDemographicData);
-
-router.route('/demographicdata/:id').delete(requireAuth, configurationMiddleware, DemographicDataController.deleteDemographicData);
+router.route('/demographic-data/:id').get(requireAuth, configurationMiddleware, DemographicDataController.getDemographicData);
 
 module.exports = router;

@@ -9,14 +9,14 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 
 const router = Router();
 
-router.route('/healthcontrols').get(requireAuth, configurationMiddleware, HealthControlController.getHealthControls);
+router.route('/health-controls').get(requireAuth, configurationMiddleware, HealthControlController.getHealthControls);
 
-router.route('/healthcontrols').post(requireAuth, configurationMiddleware, HealthControlController.addHealthControl);
+router.route('/health-controls').post(requireAuth, configurationMiddleware, HealthControlController.addHealthControl);
 
-router.route('/healthcontrols/:id').get(requireAuth, configurationMiddleware, HealthControlController.getHealthControl);
+router.route('/health-controls/:id').get(requireAuth, configurationMiddleware, HealthControlController.getHealthControl);
 
-router.route('/healthcontrols/:id').delete(requireAuth, configurationMiddleware, HealthControlController.deleteHealthControl);
+router.route('/health-controls/:id').delete(requireAuth, configurationMiddleware, HealthControlController.deleteHealthControl);
 
-router.route('/healthcontrols/:id').post(requireAuth, configurationMiddleware, HealthControlController.updateHealthControl);
+router.route('/health-controls/:id').post(requireAuth, configurationMiddleware, HealthControlController.updateHealthControl);
 
 module.exports = router;

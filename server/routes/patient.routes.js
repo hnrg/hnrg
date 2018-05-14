@@ -19,6 +19,6 @@ router.route('/patients/:id').get(requireAuth, configurationMiddleware, PatientC
 
 router.route('/patients/:id').delete(requireAuth, configurationMiddleware, PatientController.deletePatient);
 
-router.route('/patients/:id/healthcontrols/:type').get(requireAuth, configurationMiddleware, PatientController.getPatientHealthControls);
+router.route('/patients/:id/health-controls/:type').get(requireAuth, configurationMiddleware, PatientController.getPatientHealthControls);
 
 module.exports = router;

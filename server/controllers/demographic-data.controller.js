@@ -1,5 +1,4 @@
 const DemographicData = require('../models/demographic-data');
-
 const permissionsCheck = require('../modules/permissions-check');
 
 /**
@@ -92,38 +91,6 @@ exports.getDemographicData = async function getDemographicData(req, res) {
     }
 
     res.status(200).json({ demographicData });
-  } catch (e) {
-    if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
-    }
-
-    if (e.name === 'CastError') {
-      return res.sendStatus(400);
-    }
-
-    return res.status(500).send(e);
-  }
-};
-
-/**
- * Delete a demographic data by slug
- * @param req
- * @param res
- * @returns void
- */
-exports.deleteDemographicData = async function deleteDemographicData(req, res) {
-  try {
-    permissionsCheck(req.user, 'control_salud_delete');
-
-    const demographicData = await DemographicData.findById(req.params.id).exec();
-
-    if (!demographicData) {
-      return res.sendStatus(404);
-    }
-
-    // Change to logical delete
-    await demographicData.remove();
-    res.sendStatus(200);
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);

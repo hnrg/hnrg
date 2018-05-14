@@ -133,7 +133,7 @@ exports.deleteUser = async function deleteUser(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
-    await Patient.findByIdAndUpdate(req.params.id, { active: false })
+    await User.findByIdAndUpdate(req.params.id, { active: false })
       .exec((err, user) => {
         if (err || user == null) {
           res.status(422).json({ error: 'No user was found with that id' });
