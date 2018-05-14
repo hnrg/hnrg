@@ -77,7 +77,6 @@ class Footer extends Component {
             marginTop: '2em'
           }}>
           <Header as='h1'>Hospital de Niños Ricargo Gutierrez</Header>
-          <p>This example shows how to use lazy loaded images, a sticky menu, and a simple text container</p>
         </Container>
 
         {/* Attaching the top menu is a simple operation, we only switch `fixed` prop and add another style if it has
@@ -93,8 +92,7 @@ class Footer extends Component {
               <Image size='mini' src='/logo.png'/>
             </Menu.Item>
             <Menu.Item header>HNRG</Menu.Item>
-            <Menu.Item as='a'>Home</Menu.Item>
-            <Menu.Item as='a'>Dashboard</Menu.Item>
+            <Menu.Item as='a'>Inicio</Menu.Item>
 
             <Menu.Menu position='right'>
               <Dropdown text='Dropdown' className='link item'>
