@@ -76,3 +76,5 @@ compiled/
 SSR.js
 
 package-lock.json
+
+docs/build/

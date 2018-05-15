@@ -10,6 +10,7 @@ Welcome to CML's documentation!
    :maxdepth: 2
 
    intro.rst
+   roles.rst
 
 Indices and tables
 ==================
