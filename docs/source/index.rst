@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to CML's documentation!
-===============================
+Bienvenido a la documentación de HNRG's App!
+============================================
 
 .. toctree::
    :maxdepth: 2
@@ -12,7 +12,7 @@ Welcome to CML's documentation!
    intro.rst
    roles.rst
 
-Indices and tables
+Indices and tablas
 ==================
 
 * :ref:`genindex`
