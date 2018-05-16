@@ -94,18 +94,23 @@ exports.getPatient = async function getPatient(req, res) {
   try {
     permissionsCheck(req.user, 'paciente_show');
 
-    const patient = await Patient.findById(req.params.id)
+    await Patient.findById(req.params.id)
       .whare('state').equals(true)
       .populate('demographicData')
       .populate('medicalInsurance')
       .populate('documentType')
-      .exec();
+      .exec((err, patient) => {
+        if (err) {
+          res.sendStatus(422);
+          return next(err);
+        }
 
-    if (!patient) {
-      return res.sendStatus(404);
-    }
+        if (!patient) {
+          return res.sendStatus(404);
+        }
 
-    res.status(200).json({ patient });
+        res.status(200).json({ patient });
+      });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);

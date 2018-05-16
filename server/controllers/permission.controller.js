@@ -12,13 +12,7 @@ exports.getPermissions = async function getPermissions(req, res) {
   try {
     permissionsCheck(req.user, 'permiso_index');
 
-    const { pageNumber, configuration } = req;
-    const { webpage } = configuration;
-    const { amountPerPage } = webpage;
-
     const permissions = await Permission.find({})
-      .limit(amountPerPage)
-      .skip(amountPerPage*pageNumber)
       .exec();
 
     res.status(200).send({ permissions });
