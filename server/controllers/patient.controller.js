@@ -14,12 +14,12 @@ exports.getPatients = async function getPatients(req, res) {
 
     const state = req.query.state || true;
     const { pageNumber, configuration } = req;
-    const { webPage } = configuration;
-    const { amountPerPage } = webPage;
+    const { webpage } = configuration;
+    const { amountPerPage } = webpage;
 
     const patients = await Patient.find({ state })
       .limit(amountPerPage)
-      .skip(amountPerPage*page)
+      .skip(amountPerPage*pageNumber)
       .populate('demographicData')
       .populate('medicalInsurance')
       .populate('documentType')
@@ -158,8 +158,8 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
     permissionsCheck(req.user, 'paciente_show');
 
     const { pageNumber, configuration } = req;
-    const { webPage } = configuration;
-    const { amountPerPage } = webPage;
+    const { webpage } = configuration;
+    const { amountPerPage } = webpage;
 
     await Patient.findById(req.params.id).then((err, patient) => {
       if (err || patient == null) {
@@ -169,7 +169,7 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
 
       HealthControl.find({ patient: patient._id })
         .limit(amountPerPage)
-        .skip(amountPerPage*page)
+        .skip(amountPerPage*pageNumber)
         .exec(($err, healthControls) => {
           if (err || healthControls == null) {
             next(err);

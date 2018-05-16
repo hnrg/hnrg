@@ -64,7 +64,12 @@ const serverConfig = {
       components: path.resolve(__dirname, '../../shared/components'),
       containers: path.resolve(__dirname, '../../shared/containers'),
       helpers: path.resolve(__dirname, '../../shared/helpers'),
-      reducers: path.resolve(__dirname, '../../shared/reducers')
+      reducers: path.resolve(__dirname, '../../shared/reducers'),
+      config: path.resolve(__dirname, '../../server/config'),
+      controllers: path.resolve(__dirname, '../../server/controllers'),
+      models: path.resolve(__dirname, '../../server/models'),
+      modules: path.resolve(__dirname, '../../server/modules'),
+      routes: path.resolve(__dirname, '../../server/routes')
     }
   },
   plugins: [

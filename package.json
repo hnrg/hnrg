@@ -33,6 +33,7 @@
     "express-session": "^1.15.6",
     "file-loader": "^1.1.11",
     "fs": "0.0.1-security",
+    "helmet": "^3.12.0",
     "html-webpack-plugin": "^3.2.0",
     "img-loader": "^2.0.1",
     "immutable": "^3.8.2",

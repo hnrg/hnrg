@@ -12,8 +12,8 @@ exports.getDemographicsData = async function getDemographicsData(req, res) {
     permissionsCheck(req.user, 'paciente_index');
 
     const { pageNumber, configuration } = req;
-    const { webPage } = configuration;
-    const { amountPerPage } = webPage;
+    const { webpage } = configuration;
+    const { amountPerPage } = webpage;
 
     await Patient.find({ state: true})
       .where('demographicData').ne(null)
@@ -30,8 +30,6 @@ exports.getDemographicsData = async function getDemographicsData(req, res) {
 
         res.status(200).send({ demographicsData });
       });
-
-
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
