@@ -87,13 +87,18 @@ exports.getRol = async function getRol(req, res) {
 
     const rol = await Rol.findById(req.params.id)
       .where('deleted').equals(false)
-      .populate('permissions').exec();
+      .populate('permissions')
+      .exec((err, rol) => {
+        if (err) {
+          return next(err);
+        }
 
-    if (!rol) {
-      return res.sendStatus(404);
-    }
+        if (rol == null) {
+          return res.sendStatus(404);
+        }
 
-    res.status(200).send({ rol });
+        res.status(200).send({ rol });
+      });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);

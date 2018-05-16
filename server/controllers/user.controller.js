@@ -39,20 +39,24 @@ exports.getUsers = async function getUsers(req, res) {
  * @param res
  * @returns void
  */
-exports.getUser = async function getUser(req, res) {
+exports.getUser = async function getUser(req, res, next) {
   try {
     permissionsCheck(req.user, 'usuario_show');
 
     const user = await User.findById(req.params.id)
       .where('active').equals(true)
       .populate('roles')
-      .exec();
+      .exec((err, user) => {
+        if (err) {
+          return next(err);
+        }
 
-    if (!user) {
-      return res.sendStatus(404);
-    }
+        if (user == null) {
+          return res.sendStatus(404);
+        }
 
-    res.status(200).send({ user });
+        res.status(200).send({ user });
+      });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
