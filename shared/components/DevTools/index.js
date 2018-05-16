@@ -1,3 +1,3 @@
-import DevTools from './DevTools.jsx';
+import DevTools from './DevTools';
 
 export default DevTools;

@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import * as authActions from 'reducers/actions/auth-actions';
 import * as configurationActions from 'reducers/actions/configuration-actions';
 import * as globalActions from 'reducers/actions/global-actions';
+import * as rolesActions from 'reducers/actions/roles-actions';
 
 import DevTools from 'components/DevTools';
 
@@ -38,6 +39,7 @@ function mapDispatchToProps(dispatch) {
       ...authActions,
       ...configurationActions,
       ...globalActions,
+      ...rolesActions,
     }, dispatch),
   };
 }
@@ -52,6 +54,7 @@ class App extends Component {
       () => {
         this.props.actions.getSessionToken();
         this.props.actions.getConfiguration();
+        this.props.actions.getRoles();
       },
       2500,
     );

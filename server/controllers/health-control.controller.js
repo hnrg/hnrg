@@ -20,7 +20,7 @@ exports.getHealthControls = async function getHealthControls(req, res) {
     const healthControls = await HealthControl.find({ active })
       .populate('patient user')
       .limit(amountPerPage)
-      .skip(amountPerPage*pageNumber)
+      .skip(amountPerPage*pageNumberNumber)
       .exec();
 
     res.status(200).send({ healthControls });
