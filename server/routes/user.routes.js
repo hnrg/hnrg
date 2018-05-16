@@ -11,9 +11,9 @@ const router = Router();
 
 router.route('/users').get(requireAuth, configurationMiddleware, UserController.getUsers);
 
-router.route('/users/:id').get(requireAuth, configurationMiddleware, UserController.getUser);
+router.route('/users/:username').get(requireAuth, configurationMiddleware, UserController.getUser);
 
-router.route('/users/:id').post(requireAuth, configurationMiddleware, UserController.updateUser);
+router.route('/users/:username').post(requireAuth, configurationMiddleware, UserController.updateUser);
 
 router.route('/users').post(requireAuth, configurationMiddleware, UserController.addUser);
 
