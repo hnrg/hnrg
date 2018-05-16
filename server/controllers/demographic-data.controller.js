@@ -9,19 +9,29 @@ const permissionsCheck = require('../modules/permissions-check');
  */
 exports.getDemographicsData = async function getDemographicsData(req, res) {
   try {
-    permissionsCheck(req.user, 'control_salud_index');
+    permissionsCheck(req.user, 'paciente_index');
 
     const { pageNumber, configuration } = req;
     const { webPage } = configuration;
     const { amountPerPage } = webPage;
 
-    const demographicsData = await DemographicData.find({})
+    await Patient.find({ state: true})
+      .where('demographicData').ne(null)
       .limit(amountPerPage)
       .skip(amountPerPage*page)
-      .populate('apartmentType heatingType waterType')
-      .exec();
+      .populate('demographicData')
+      .select('demographicData')
+      .exec((err, patients) => {
+        if (err) {
+          return res.send(400).send(err);
+        }
 
-    res.status(200).send({ demographicsData });
+        const demographicsData = patients.map((data) => data.demographicsData );
+
+        res.status(200).send({ demographicsData });
+      });
+
+
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -39,25 +49,18 @@ exports.getDemographicsData = async function getDemographicsData(req, res) {
  */
 exports.addDemographicData = async function addDemographicData(req, res) {
   try {
-    permissionsCheck(req.user, 'control_salud_new');
+    permissionsCheck(req.user, 'paciente_new');
 
     const { demographicData } = req.body;
 
-    /* check params
-    if (!healthControl fields) {
+    if (!demographicData.refrigerator ||
+        !demographicData.electricity ||
+        !demographicData.pet ||
+        !demographicData.apartmentType ||
+        !demographicData.heatingType ||
+        !demographicData.waterType) {
       return res.status(400).end();
     }
-
-    const badRequest = rol.permissions.find(permissionId => {
-      let permission = Permission.findById(permissionId).exec();
-      return !permission;
-    });
-
-    if (badRequest) {
-      return res.status(403);
-    }
-
-    */
 
     const newDemographicData = new DemographicData(demographicData);
     const saved = await newDemographicData.save();
@@ -80,7 +83,7 @@ exports.addDemographicData = async function addDemographicData(req, res) {
  */
 exports.getDemographicData = async function getDemographicData(req, res) {
   try {
-    permissionsCheck(req.user, 'control_salud_show');
+    permissionsCheck(req.user, 'paciente_show');
 
     const demographicData = await DemographicData.findById(req.params.id)
       .populate('apartmentType heatingType waterType')
@@ -103,3 +106,26 @@ exports.getDemographicData = async function getDemographicData(req, res) {
     return res.status(500).send(e);
   }
 };
+
+exports.updateDemographicData = async function updateDemographicData(req, res, next) {
+  try {
+    permissionsCheck(req.user, 'paciente_update');
+
+    await DemographicData.findByIdAndUpdate(req.params.id, req.body.demographicData)
+      .exec((err, demographicData) => {
+        if (err || demographicData == null) {
+          res.status(422).json({ error: 'No demographic data was found with that id.' });
+          return next(err);
+        }
+
+        return res.status(200).json({ demographicData });
+      });
+  } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
+    return res.status(500).send(e);
+  }
+};
+
