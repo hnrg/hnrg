@@ -38,7 +38,6 @@ const patientSchema = new Schema({
       'Indique un sexo valido',
     ],
   },
-  state: { type: Boolean, default: true },
   demographicData: {
     type: Schema.Types.ObjectId,
     ref: 'DemographicData',

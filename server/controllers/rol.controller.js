@@ -115,7 +115,7 @@ exports.getRol = async function getRol(req, res) {
  */
  exports.deleteRol = async function deleteRol(req, res) {
    try {
-     permissionsCheck(req.user, 'rol_delete');
+     permissionsCheck(req.user, 'rol_destroy');
 
      await Rol.findByIdAndUpdate(req.params.id, { deleted: true })
      .exec((err, rol) => {
@@ -141,7 +141,7 @@ exports.getRol = async function getRol(req, res) {
 
 exports.deleteRolPermission = async function deleteRolPermission(req, res) {
   try {
-    permissionsCheck(req.user, 'rol_delete');
+    permissionsCheck(req.user, 'rol_destroy');
 
     await Rol.findById(req.params.id)
     .exec((err, rol) => {

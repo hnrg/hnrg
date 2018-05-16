@@ -12,12 +12,12 @@ exports.getPatients = async function getPatients(req, res) {
   try {
     permissionsCheck(req.user, 'paciente_index');
 
-    const state = req.query.state || true;
+    const deleted = req.query.deleted || false;
     const { pageNumber, configuration } = req;
     const { webpage } = configuration;
     const { amountPerPage } = webpage;
 
-    const patients = await Patient.find({ state })
+    const patients = await Patient.find({ deleted })
       .limit(amountPerPage)
       .skip(amountPerPage*pageNumber)
       .populate('demographicData')
@@ -41,7 +41,7 @@ exports.getPatients = async function getPatients(req, res) {
  * @param res
  * @returns void
  */
-exports.addPatient = async function addPatient(req, res) {
+exports.addPatient = async function addPatient(req, res, next) {
   try {
     permissionsCheck(req.user, 'paciente_new');
 
@@ -60,11 +60,18 @@ exports.addPatient = async function addPatient(req, res) {
       lastName,
       birthday,
     }).exec((err, patient) => {
+      if (err) {
+        res.sendStatus(422);
+        return next(err);
+      }
+
       if (patient) {
-        if (patient.state) { return res.status(422); }
+        if (!patient.deleted) {
+          return res.sendStatus(422);
+        }
 
         const updatedPatient = patient;
-        updatedPatient.state = true;
+        updatedPatient.deleted = false;
         const saved = updatedPatient.save();
 
         return res.status(201).json({ patient: saved });
@@ -90,12 +97,12 @@ exports.addPatient = async function addPatient(req, res) {
  * @param res
  * @returns void
  */
-exports.getPatient = async function getPatient(req, res) {
+exports.getPatient = async function getPatient(req, res, next) {
   try {
     permissionsCheck(req.user, 'paciente_show');
 
     await Patient.findById(req.params.id)
-      .whare('state').equals(true)
+      .whare('deleted').equals(false)
       .populate('demographicData')
       .populate('medicalInsurance')
       .populate('documentType')
@@ -132,19 +139,17 @@ exports.getPatient = async function getPatient(req, res) {
  */
 exports.deletePatient = async function deletePatient(req, res) {
   try {
-    permissionsCheck(req.user, 'paciente_delete');
+    permissionsCheck(req.user, 'paciente_destroy');
 
     await Patient.findByIdAndUpdate(req.params.id, { deleted: true })
-    .exec((err, patient) => {
-      if (err || patient == null) {
-        res.status(422).json({ error: 'No patient was found with that id' });
-        return next(err);
-      }
+      .exec((err, patient) => {
+        if (err || patient == null) {
+          res.status(422).json({ error: 'No patient was found with that id' });
+          return next(err);
+        }
 
-      return res.status(200).end();
-    });
-
-    res.sendStatus(200);
+        res.sendStatus(200);
+      });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
@@ -166,25 +171,27 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
     const { webpage } = configuration;
     const { amountPerPage } = webpage;
 
-    await Patient.findById(req.params.id).then((err, patient) => {
-      if (err || patient == null) {
-        res.status(422).json({ error: 'No patient was found with that id.' });
-        return next(err);
-      }
+    await Patient.findById(req.params.id)
+      .where('deleted').equals(false)
+      .exec((err, patient) => {
+        if (err || patient == null) {
+          res.status(422).json({ error: 'No patient was found with that id.' });
+          return next(err);
+        }
 
-      HealthControl.find({ patient: patient._id })
-        .limit(amountPerPage)
-        .skip(amountPerPage*pageNumber)
-        .exec(($err, healthControls) => {
-          if (err || healthControls == null) {
-            next(err);
-          }
+        HealthControl.find({ patient: patient._id, active: true })
+          .limit(amountPerPage)
+          .skip(amountPerPage*pageNumber)
+          .exec(($err, healthControls) => {
+            if (err || healthControls == null) {
+              next(err);
+            }
 
-          /* TODO modificar utilizando req.params.type */
+            /* TODO modificar utilizando req.params.type */
 
-          res.status(200).json({ healthControls })
-        });
-    });
+            res.status(200).json({ healthControls })
+          });
+      });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
