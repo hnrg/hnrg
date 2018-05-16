@@ -8,6 +8,7 @@ import {
 
 import App from 'containers/App';
 import DashboardPage from 'containers/Dashboard';
+import ProfilePage from 'containers/Profile';
 import HomePage from 'containers/Home';
 import NotFoundPage from 'containers/NotFound';
 
@@ -23,6 +24,7 @@ const Routes = () => (
     <App>
       <Switch>
         <Route path="/dashboard" component={RequireAuth(DashboardPage)} />
+        <Route path="/profile" component={RequireAuth(ProfilePage)} />
 
         <Route exact path="/" component={HomePage} />
         <Route path="/home" component={HomePage} />

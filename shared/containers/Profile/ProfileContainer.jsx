@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import Sidebar from 'components/dashboard/Sidebar';
-
 import * as authActions from 'reducers/actions/auth-actions';
 import * as globalActions from 'reducers/actions/global-actions';
 import * as profileActions from 'reducers/actions/profile-actions';
 
-class DashboardContainer extends Component {
+class ProfileContainer extends Component {
   constructor(props) {
     super(props);
 
@@ -57,7 +55,7 @@ class DashboardContainer extends Component {
   }
 
   render() {
-    return (<div><Sidebar /></div>);
+    return (<div></div>);
   }
 }
 
@@ -83,4 +81,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);

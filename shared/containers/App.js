@@ -38,7 +38,6 @@ function mapDispatchToProps(dispatch) {
       ...authActions,
       ...configurationActions,
       ...globalActions,
-      ...rolesActions,
     }, dispatch),
   };
 }
