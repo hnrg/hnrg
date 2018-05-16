@@ -85,7 +85,7 @@ exports.getRol = async function getRol(req, res) {
   try {
     permissionsCheck(req.user, 'rol_show');
 
-    const rol = await Rol.findById(req.params.id)
+    const rol = await Rol.findOne({ name: req.params.name })
       .where('deleted').equals(false)
       .populate('permissions')
       .exec((err, rol) => {
@@ -122,7 +122,7 @@ exports.getRol = async function getRol(req, res) {
    try {
      permissionsCheck(req.user, 'rol_destroy');
 
-     await Rol.findByIdAndUpdate(req.params.id, { deleted: true })
+     await Rol.findOneAndUpdate({ name: req.params.name }, { deleted: true })
      .exec((err, rol) => {
        if (err || rol == null) {
          res.status(422).json({ error: 'No rol was found with that id' });
@@ -174,7 +174,7 @@ exports.updateRol = async function updateRol(req, res, next) {
   try {
     permissionsCheck(req.user, 'rol_update');
 
-    await Rol.findByIdAndUpdate(req.params.id, req.body.rol)
+    await Rol.findOneAndUpdate({ name: req.params.name }, req.body.rol)
       .exec((err, rol) => {
         if (err || rol == null) {
           res.status(422).json({ error: 'No rol was found with that id.' });

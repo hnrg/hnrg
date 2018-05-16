@@ -107,12 +107,12 @@ exports.getPatient = async function getPatient(req, res, next) {
       .populate('medicalInsurance')
       .populate('documentType')
       .exec((err, patient) => {
-        if (err) {
-          return next(err);
-        }
-
         if (patient == null) {
           return res.status(404).end();
+        }
+
+        if (err) {
+          return next(err);
         }
 
         res.status(200).json({ patient });

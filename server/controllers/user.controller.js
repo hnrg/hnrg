@@ -43,7 +43,7 @@ exports.getUser = async function getUser(req, res, next) {
   try {
     permissionsCheck(req.user, 'usuario_show');
 
-    const user = await User.findById(req.params.id)
+    const user = await User.findOne({ username: req.params.username })
       .where('active').equals(true)
       .populate('roles')
       .exec((err, user) => {
@@ -137,7 +137,7 @@ exports.deleteUser = async function deleteUser(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
-    await User.findByIdAndUpdate(req.params.id, { active: false })
+    await User.findOneAndUpdate({ username: req.params.username }, { active: false })
       .exec((err, user) => {
         if (err || user == null) {
           res.status(422).json({ error: 'No user was found with that id' });
@@ -163,7 +163,7 @@ exports.updateUser = async function updateUser(req, res, next) {
   try {
     permissionsCheck(req.user, 'usuario_update');
 
-    await User.findByIdAndUpdate(req.params.id, req.body.user)
+    await User.findOneAndUpdate({ username: req.params.username }, req.body.user)
       .exec((err, user) => {
         if (err || user == null) {
           res.status(422).json({ error: 'No user was found with that id.' });
