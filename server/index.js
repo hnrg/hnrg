@@ -6,6 +6,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -13,6 +14,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 
 // Local Imports
 const serverConfig = require('./config/server');
+const { secret } = require('./config/secret');
 const routes = require('./routes');
 const dummyData = require('./dummyData');
 const clientConfig = require('../webpack/client/webpack.config.dev');
@@ -24,11 +26,15 @@ moment.tz.setDefault(serverConfig.tz);
 const app = express();
 
 app.use(cookieParser());
+app.use(helmet());
 app.use(session({
-  secret: 'config/secret',
+  secret: secret,
   resave: true,
   saveUninitialized: true,
-  cookie: { httpOnly: true },
+  cookie: {
+    secure: true,
+    httpOnly: true,
+  },
 }));
 
 // Set environment flags
