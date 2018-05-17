@@ -8,10 +8,22 @@ import store from '../shared/store';
 
 const render = html => `
     <!DOCTYPE html>
-    <html lang="en">
+    <html>
         <head>
-            <meta charset="UTF-8">
-            <title>Hospital de Niños Ricardo Gutierrez</title>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <meta http-equiv="X-UA-Compatible" content="ie=edge">
+          <meta name="theme-color" content="#62a8eb">
+          <meta name="keywords" content="Hospital Ricardo Gutiérrez">
+          <meta name="description" content="Plataforma web para el Hospital Gutiérrez">
+          <meta name="robots" content="index,follow">
+          <meta property="og:url" content="https://grupo5.proyecto2017.linti.unlp.edu.ar/"/>
+          <meta property="og:title" content="Hospital Dr. Ricardo Gutiérrez"/>
+          <meta property="og:site_name" content="Hospital Gutiérrez"/>
+          <meta property="og:description" content="Plataforma web para el Hospital Gutiérrez"/>
+          <meta property="og:image" content="https://grupo5.proyecto2017.linti.unlp.edu.ar/web/assets/images/icon.png"/>
+
+          <title>Hospital de Niños Ricardo Gutiérrez</title>
         </head>
         <body>
             <div id="app">${html}</div>
