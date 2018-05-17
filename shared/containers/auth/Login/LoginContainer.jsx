@@ -11,14 +11,16 @@ class LoginContainer extends Component {
     super(props, context);
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 
     this.state = {
       email: "",
       password: "",
       error: null
     };
+  }
+  handleChange(e, { name, value }) {
+    this.setState({ [name]: value });
   }
 
   handleSubmit(e) {
@@ -27,22 +29,6 @@ class LoginContainer extends Component {
     var { history, login } = this.props
     login({email, password});
     history.push('/dashboard');
-  }
-
-
-
-  handleEmailChange(event, data) {
-    this.setState({
-      email: data.value,
-      error: ""
-    });
-  }
-
-  handlePasswordChange(event, data) {
-    this.setState({
-      password: data.value,
-      error: ""
-    });
   }
 
   render() {
@@ -67,7 +53,9 @@ class LoginContainer extends Component {
                   icon='user'
                   iconPosition='left'
                   placeholder='E-mail address'
-                  onChange={this.handleEmailChange}
+                  name='email'
+                  value={this.state.email}
+                  onChange={this.handleChange}
                 />
                 <Form.Input
                   fluid
@@ -75,7 +63,9 @@ class LoginContainer extends Component {
                   iconPosition='left'
                   placeholder='Password'
                   type='password'
-                  onChange={this.handlePasswordChange}
+                  name='password'
+                  value={this.state.password}
+                  onChange={this.handleChange}
                 />
 
                 <Button color='teal' fluid size='large'>Login</Button>
