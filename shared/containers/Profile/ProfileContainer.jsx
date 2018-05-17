@@ -1,7 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Container, Grid, Menu, Segment } from 'semantic-ui-react';
+
+import Footer from 'components/Footer';
 
 import * as authActions from 'reducers/actions/auth-actions';
 import * as globalActions from 'reducers/actions/global-actions';
@@ -11,51 +14,73 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
 
+    var { originalProfile } = this.props.profile;
+
     this.state = {
-      user: {
-        username: '',
-        email: ''
-      }
+      activeItem: 'view-profile',
+      user: originalProfile
     };
+
+    this.handleItemClick = this.handleItemClick.bind(this);
   }
 
-  /**
-   * ### componentWillReceiveProps
-   *
-   * Since the Forms are looking at the state for the values of the
-   * fields, when we we need to set them
-   */
-  componentWillReceiveProps(props) {
+  handleItemClick(e, { name }) {
     this.setState({
-      user: {
-        username: props.profile.originalProfile.username,
-        email: props.profile.originalProfile.email
-      }
+      activeItem: name,
     });
   }
 
-  /**
-   * ### componentDidMount
-   *
-   * During Hot Loading, when the component mounts due the state
-   * immediately being in a "logged in" state, we need to just set the
-   * form fields.  Otherwise, we need to go fetch the fields
-   */
+  componentWillReceiveProps(props) {
+    var { originalProfile } = this.props.profile;
+
+    this.setState({
+      user: originalProfile,
+    });
+  }
+
   componentDidMount() {
-    if (this.props.profile.originalProfile.username === null && this.props.profile.originalProfile.email === null) {
+    var { originalProfile } = this.props.profile;
+
+    if (originalProfile.username === null && originalProfile.email === null) {
       this.props.actions.getProfile(this.props.global.currentUser);
     } else {
       this.setState({
-        user: {
-          username: this.props.profile.originalProfile.username,
-          email: this.props.profile.originalProfile.email
-        }
+        user: originalProfile,
       });
     }
   }
 
   render() {
-    return (<div></div>);
+    const { activeItem } = this.state;
+
+    return (
+      <div>
+        <Container>
+          <Grid>
+            <Grid.Column width={4}>
+              <Menu pointing secondary vertical>
+                <Menu.Item
+                  name='view-profile'
+                  active={activeItem === 'view-profile'}
+                  onClick={this.handleItemClick}
+                />
+                <Menu.Item
+                  name='edit-profile'
+                  active={activeItem === 'edit-profile'}
+                  onClick={this.handleItemClick}
+                />
+              </Menu>
+            </Grid.Column>
+            <Grid.Column stretched width={12}>
+              {activeItem === 'view-profile' ?
+              <p>This is an stretched grid column. This segment will always match the tab height</p>
+            : <p>This is an stretched grid column. This segment will always match the tab</p>}
+            </Grid.Column>
+          </Grid>
+        </Container>
+        <Footer />
+      </div>
+    );
   }
 }
 
