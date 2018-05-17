@@ -15,14 +15,14 @@ import * as profileActions from 'reducers/actions/profile-actions';
 
 import Footer from 'components/Footer';
 
-const panes = user => [
+const panes = ({ loading, connectedUser }) => [
   {
     menuItem: { key: 'user', icon: 'user', content: 'Ver perfil' },
-    render: () => <Tab.Pane>{user.email}</Tab.Pane>
+    render: () => <Tab.Pane loading={loading}>{connectedUser.email}</Tab.Pane>
   },
   {
     menuItem: 'Editar perfil',
-    render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>
+    render: () => <Tab.Pane loading={loading}>Tab 2 Content</Tab.Pane>
   },
 ];
 
@@ -33,6 +33,7 @@ class ProfileContainer extends Component {
     var { originalProfile } = this.props.profile;
 
     this.state = {
+      loading: true,
       connectedUser: originalProfile
     };
   }
@@ -41,6 +42,7 @@ class ProfileContainer extends Component {
     var { originalProfile } = this.props.profile;
 
     this.setState({
+      loading: (originalProfile.username === null && originalProfile.email === null),
       connectedUser: originalProfile,
     });
   }
@@ -50,20 +52,20 @@ class ProfileContainer extends Component {
 
     if (originalProfile.username === null && originalProfile.email === null) {
       this.props.actions.getProfile(this.props.global.currentUser);
-    } else {
-      this.setState({
-        connectedUser: originalProfile,
-      });
+      return;
     }
+
+    this.setState({
+      loading: false,
+      connectedUser: originalProfile,
+    });
   }
 
   render() {
-    const { connectedUser } = this.state;
-
     return (
       <div>
         <Container>
-          <Tab menu={{ secondary: true, pointing: true }} panes={panes(connectedUser)} />
+          <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state)} />
         </Container>
       </div>
     );
