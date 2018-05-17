@@ -14,11 +14,12 @@ import * as globalActions from 'reducers/actions/global-actions';
 import * as profileActions from 'reducers/actions/profile-actions';
 
 import Footer from 'components/Footer';
+import User from 'components/User';
 
 const panes = ({ loading, connectedUser }) => [
   {
     menuItem: { key: 'user', icon: 'user', content: 'Ver perfil' },
-    render: () => <Tab.Pane loading={loading}>{connectedUser.email}</Tab.Pane>
+    render: () => <Tab.Pane loading={loading} padded='very'><User user={connectedUser} /></Tab.Pane>
   },
   {
     menuItem: 'Editar perfil',
