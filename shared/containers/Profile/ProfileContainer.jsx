@@ -2,13 +2,29 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Container, Grid, Menu, Segment } from 'semantic-ui-react';
-
-import Footer from 'components/Footer';
+import {
+  Container,
+  Grid,
+  Segment,
+  Tab
+} from 'semantic-ui-react';
 
 import * as authActions from 'reducers/actions/auth-actions';
 import * as globalActions from 'reducers/actions/global-actions';
 import * as profileActions from 'reducers/actions/profile-actions';
+
+import Footer from 'components/Footer';
+
+const panes = user => [
+  {
+    menuItem: { key: 'user', icon: 'user', content: 'Ver perfil' },
+    render: () => <Tab.Pane>{user.email}</Tab.Pane>
+  },
+  {
+    menuItem: 'Editar perfil',
+    render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>
+  },
+];
 
 class ProfileContainer extends Component {
   constructor(props) {
@@ -17,24 +33,15 @@ class ProfileContainer extends Component {
     var { originalProfile } = this.props.profile;
 
     this.state = {
-      activeItem: 'view-profile',
-      user: originalProfile
+      connectedUser: originalProfile
     };
-
-    this.handleItemClick = this.handleItemClick.bind(this);
-  }
-
-  handleItemClick(e, { name }) {
-    this.setState({
-      activeItem: name,
-    });
   }
 
   componentWillReceiveProps(props) {
     var { originalProfile } = this.props.profile;
 
     this.setState({
-      user: originalProfile,
+      connectedUser: originalProfile,
     });
   }
 
@@ -45,40 +52,19 @@ class ProfileContainer extends Component {
       this.props.actions.getProfile(this.props.global.currentUser);
     } else {
       this.setState({
-        user: originalProfile,
+        connectedUser: originalProfile,
       });
     }
   }
 
   render() {
-    const { activeItem } = this.state;
+    const { connectedUser } = this.state;
 
     return (
       <div>
         <Container>
-          <Grid>
-            <Grid.Column width={4}>
-              <Menu pointing secondary vertical>
-                <Menu.Item
-                  name='view-profile'
-                  active={activeItem === 'view-profile'}
-                  onClick={this.handleItemClick}
-                />
-                <Menu.Item
-                  name='edit-profile'
-                  active={activeItem === 'edit-profile'}
-                  onClick={this.handleItemClick}
-                />
-              </Menu>
-            </Grid.Column>
-            <Grid.Column stretched width={12}>
-              {activeItem === 'view-profile' ?
-              <p>This is an stretched grid column. This segment will always match the tab height</p>
-            : <p>This is an stretched grid column. This segment will always match the tab</p>}
-            </Grid.Column>
-          </Grid>
+          <Tab menu={{ secondary: true, pointing: true }} panes={panes(connectedUser)} />
         </Container>
-        <Footer />
       </div>
     );
   }
