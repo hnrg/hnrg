@@ -18,14 +18,21 @@ import Footer from 'components/Footer';
 import UserShow from 'components/User/Show';
 import UserEdit from 'components/User/Edit';
 
-const panes = ({ loading, connectedUser, fields }) => [
+const panes = ({ loading, connectedUser, fields }, actions) => [
   {
     menuItem: { key: 'user', icon: 'user', content: 'Ver perfil' },
     render: () => <Tab.Pane loading={loading} padded='very'><UserShow user={connectedUser} /></Tab.Pane>
   },
   {
     menuItem: { key: 'edit', icon: 'edit', content: 'Editar perfil' },
-    render: () => <Tab.Pane loading={loading} padded='very'><UserEdit user={connectedUser} fields={fields} /></Tab.Pane>
+    render: () => (
+      <Tab.Pane loading={loading} padded='very'>
+        <UserEdit
+          user={connectedUser}
+          fields={fields}
+          onFormFieldChange={actions.onProfileFormFieldChange} />
+      </Tab.Pane>
+    ),
   },
 ];
 
@@ -68,11 +75,12 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    console.log(this.state);
+    const { actions } = this.props;
+
     return (
       <div>
         <Container>
-          <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state)} />
+          <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} />
         </Container>
       </div>
     );

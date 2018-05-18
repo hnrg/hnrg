@@ -8,33 +8,47 @@ class UserView extends Component {
   constructor(props) {
     super(props);
 
-    const { user, fields } = this.props;
-
     this.state = {
-      user,
-      fields,
+      fields: {
+        username: "",
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+      },
     };
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillReceiveProps(props) {
-    const { user, fields } = props;
+    const { fields } = props;
 
     this.setState({
-      user,
       fields,
     });
   }
 
   componentDidMount() {
-    const { user, fields } = this.props;
+    const { fields } = this.props;
+
+    this.setState({ fields });
+  }
+
+  handleChange(e, {name, value}) {
+    this.props.onFormFieldChange(name, value);
+    console.log(this.state);
 
     this.setState({
-      user,
-      fields
+      fields: {
+        ...this.state.fields,
+        [name]: value,
+      },
     });
   }
 
   render() {
+    console.log(this.state);
     const { fields } = this.state;
 
     return(
@@ -42,31 +56,41 @@ class UserView extends Component {
         <Form.Group>
           <Form.Input
             label='Nombre'
+            name='firstName'
             placeholder='Nombre'
             width={8}
-            value={fields.firstName || ""} />
+            onChange={this.handleChange}
+            value={fields.firstName} />
           <Form.Input
             label='Apellido'
+            name='lastName'
             placeholder='Apellido'
             width={8}
-            value={fields.lastName || ""} />
+            onChange={this.handleChange}
+            value={fields.lastName} />
         </Form.Group>
         <Form.Group>
           <Form.Input
             label='Nombre de Usuario'
+            name='username'
             placeholder='Nombre de Usuario'
             width={5}
+            onChange={this.handleChange}
             value={fields.username} />
           <Form.Input
             label='Email'
+            name='email'
             placeholder='Email'
             width={6}
+            onChange={this.handleChange}
             value={fields.email} />
           <Form.Input
             label='Contraseña'
+            name='password'
             placeholder='Contraseña'
             width={5}
-            value={fields.password || ""} />
+            onChange={this.handleChange}
+            value={fields.password} />
         </Form.Group>
       </Form>
     );

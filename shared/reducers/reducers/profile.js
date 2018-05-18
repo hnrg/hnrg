@@ -6,6 +6,8 @@ import {
   GET_PROFILE_SUCCESS,
   GET_PROFILE_FAILURE,
 
+  ON_PROFILE_FORM_FIELD_CHANGE,
+
   LOGOUT_SUCCESS,
 
   SET_STATE,
@@ -51,8 +53,9 @@ export default function profileReducer(state = InitialState, action) {
           username: action.payload.username,
           email: action.payload.email,
           username: action.payload.username,
-          firstName: action.payload.firstName,
-          lastName: action.payload.lastName,
+          firstName: action.payload.firstName || "",
+          lastName: action.payload.lastName || "",
+          password: "",
         },
         originalProfile: {
           ...state.originalProfile,
@@ -68,6 +71,21 @@ export default function profileReducer(state = InitialState, action) {
         },
         isFetching: false,
         error: null,
+      };
+
+      return formValidation(fieldValidation(nextProfileState, action), action);
+    }
+
+    case ON_PROFILE_FORM_FIELD_CHANGE: {
+      console.log(state);
+      const { field, value } = action.payload;
+
+      nextProfileState = {
+        ...state,
+        fields: {
+          ...state.fields,
+          [field]: value,
+        }
       };
 
       return formValidation(fieldValidation(nextProfileState, action), action);

@@ -1,8 +1,0 @@
-La visual debe utilizar Responsive para la definicion de los menus. Para esto,
-ver la definicion del grid.
-
-Definir el ver y editar perfil como dos componentes distintas.
-
-Definir sub-containers para las distintas pantallas.
-
-Al renderizar el Footer, debería enviarse una configuración con la cual mostrarse.

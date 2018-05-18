@@ -4,6 +4,8 @@ import {
   GET_PROFILE_REQUEST,
   GET_PROFILE_SUCCESS,
   GET_PROFILE_FAILURE,
+
+  ON_PROFILE_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
 import { profileRequest } from 'reducers/lib/request/profile-request';
@@ -50,4 +52,11 @@ export function getProfile(sessionToken) {
         dispatch(getProfileFailure(error));
       });
   };
+}
+
+export function onProfileFormFieldChange(field, value) {
+  return {
+    type: ON_PROFILE_FORM_FIELD_CHANGE,
+    payload: { field, value }
+  }
 }
