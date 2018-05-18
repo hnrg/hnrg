@@ -15,16 +15,17 @@ import * as globalActions from 'reducers/actions/global-actions';
 import * as profileActions from 'reducers/actions/profile-actions';
 
 import Footer from 'components/Footer';
-import User from 'components/User';
+import UserShow from 'components/User/Show';
+import UserEdit from 'components/User/Edit';
 
-const panes = ({ loading, connectedUser }) => [
+const panes = ({ loading, connectedUser, fields }) => [
   {
     menuItem: { key: 'user', icon: 'user', content: 'Ver perfil' },
-    render: () => <Tab.Pane loading={loading} padded='very'><User user={connectedUser} /></Tab.Pane>
+    render: () => <Tab.Pane loading={loading} padded='very'><UserShow user={connectedUser} /></Tab.Pane>
   },
   {
-    menuItem: 'Editar perfil',
-    render: () => <Tab.Pane loading={loading}>Tab 2 Content</Tab.Pane>
+    menuItem: { key: 'edit', icon: 'edit', content: 'Editar perfil' },
+    render: () => <Tab.Pane loading={loading} padded='very'><UserEdit user={connectedUser} fields={fields} /></Tab.Pane>
   },
 ];
 
@@ -32,25 +33,27 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
 
-    const { originalProfile } = this.props.profile;
+    const { originalProfile, fields } = this.props.profile;
 
     this.state = {
       loading: true,
       connectedUser: originalProfile,
+      fields: fields,
     };
   }
 
   componentWillReceiveProps(props) {
-    const { originalProfile } = props.profile;
+    const { originalProfile, fields } = props.profile;
 
     this.setState({
       loading: _.isEqual(originalProfile, this.state.currentUser),
       connectedUser: originalProfile,
+      fields: fields,
     });
   }
 
   componentDidMount() {
-    const { originalProfile } = this.props.profile;
+    const { originalProfile, fields } = this.props.profile;
 
     if (!_.isEqual(originalProfile, this.state.currentUser)) {
       this.props.actions.getProfile(this.props.global.currentUser);
@@ -60,6 +63,7 @@ class ProfileContainer extends Component {
     this.setState({
       loading: false,
       connectedUser: originalProfile,
+      fields: fields,
     });
   }
 

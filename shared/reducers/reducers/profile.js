@@ -49,6 +49,10 @@ export default function profileReducer(state = InitialState, action) {
           ...state.fields,
           email: action.payload.email,
           username: action.payload.username,
+          email: action.payload.email,
+          username: action.payload.username,
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName,
         },
         originalProfile: {
           ...state.originalProfile,
@@ -118,6 +122,12 @@ export default function profileReducer(state = InitialState, action) {
           emailHasError: profile.fields.emailHasError,
           username: profile.fields.username,
           usernameHasError: profile.fields.usernameHasError,
+          password: profile.fields.password,
+          passwordHasError: profile.fields.passwordHasError,
+          firstName: profile.fields.firstName,
+          firstNameHasError: profile.fields.firstNameHasError,
+          lastName: profile.fields.lastName,
+          lastNameHasError: profile.fields.lastNameHasError,
         },
         originalProfile: {
           ...originalProfile,
