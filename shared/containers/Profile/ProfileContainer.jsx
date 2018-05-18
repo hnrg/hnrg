@@ -32,31 +32,27 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
 
-    var { originalProfile } = this.props.profile;
+    const { originalProfile } = this.props.profile;
 
     this.state = {
       loading: true,
-      connectedUser: originalProfile
-    };
-  }
-
-  componentWillReceiveProps(nextProps, prevState) {
-    var { originalProfile } = nextProps.profile;
-
-    if (_.isEqual(originalProfile, prevState.currentUser)) {
-      return null;
-    }
-
-    return {
-      loading: (originalProfile.username === null && originalProfile.email === null),
       connectedUser: originalProfile,
     };
   }
 
-  componentDidMount() {
-    var { originalProfile } = this.props.profile;
+  componentWillReceiveProps(props) {
+    const { originalProfile } = props.profile;
 
-    if (originalProfile.username === null && originalProfile.email === null) {
+    this.setState({
+      loading: _.isEqual(originalProfile, this.state.currentUser),
+      connectedUser: originalProfile,
+    });
+  }
+
+  componentDidMount() {
+    const { originalProfile } = this.props.profile;
+
+    if (!_.isEqual(originalProfile, this.state.currentUser)) {
       this.props.actions.getProfile(this.props.global.currentUser);
       return;
     }
@@ -68,6 +64,7 @@ class ProfileContainer extends Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <Container>

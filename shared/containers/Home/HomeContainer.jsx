@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import {
+  Dimmer,
+  Loader,
+  Segment
+} from 'semantic-ui-react';
 
 import Navbar from 'components/Navbar';
 import Footer from 'components/Footer';
@@ -12,13 +18,14 @@ import * as authActions from 'reducers/actions/auth-actions';
 import * as configurationActions from 'reducers/actions/configuration-actions';
 import * as globalActions from 'reducers/actions/global-actions';
 
+
 function mapStateToProps(state) {
   return {
     auth: {
       isFetching: state.auth.isFetching,
     },
     configuration: {
-      currentConfiguration: state.configuration.currentConfiguration,
+      current: state.configuration.current,
     },
     global: {
       currentState: state.global.currentState,
@@ -45,41 +52,43 @@ class HomeContainer extends Component {
 
     this.state = {
       cards: cards,
-      currentConfiguration: null
+      currentConfiguration: this.props.configuration.current,
     };
   }
 
-  static getDerivatedStateFromProps(nextProps, prevState) {
-    if (_.isEqual(nextProps.configuration.currentConfiguration, prevState.currentConfiguration)) {
+  componentWillReceiveProps(props) {
+    if (_.isEqual(props.configuration.current, this.state.currentConfiguration)) {
       return null;
     }
 
-    return {
-      currentConfiguration: nextProps.configuration.currentConfiguration,
-    };
+    this.setState({
+      currentConfiguration: props.configuration.current,
+    });
   }
 
   componentDidMount() {
-    const { currentConfiguration } = this.props.configuration;
+    const { current } = this.props.configuration;
 
-    if (!_.isEqual(currentConfiguration, this.state.currentConfiguration)) {
+    if (!_.isEqual(current, this.state.currentConfiguration)) {
       this.props.actions.getConfiguration();
       return;
     }
 
     this.setState({
-      configuration: currentConfiguration,
+      currentConfiguration: current,
     });
   }
 
   render() {
     const { cards, currentConfiguration } = this.state;
+    console.log(currentConfiguration);
+    const { webpage } = currentConfiguration;
 
     return (
       <div>
         <Navbar />
-        { cards.map((card, id) => <ContentCard key={id} {...card} />) }
-        <Footer {...currentConfiguration.webpage} />
+        {cards.map((card, id) => <ContentCard key={id} {...card} />)}
+        <Footer {...webpage} />
       </div>
     );
   }
