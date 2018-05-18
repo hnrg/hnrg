@@ -13,8 +13,8 @@ import HomePage from 'containers/Home';
 import NotFoundPage from 'containers/NotFound';
 
 // auth pages
-import LoginPage from 'containers/auth/Login';
-import LogoutPage from 'containers/auth/Logout';
+import LoginPage from 'containers/Auth/Login';
+import LogoutPage from 'containers/Auth/Logout';
 
 // high order components
 import RequireAuth from 'containers/Middleware/Auth';

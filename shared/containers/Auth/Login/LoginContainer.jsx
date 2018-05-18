@@ -19,6 +19,7 @@ class LoginContainer extends Component {
       error: null
     };
   }
+
   handleChange(e, { name, value }) {
     this.setState({ [name]: value });
   }
