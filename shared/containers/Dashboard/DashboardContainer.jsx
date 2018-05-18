@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import Sidebar from 'components/dashboard/Sidebar';
+import Sidebar from 'components/Dashboard/Sidebar';
 
 import * as authActions from 'reducers/actions/auth-actions';
 import * as globalActions from 'reducers/actions/global-actions';
