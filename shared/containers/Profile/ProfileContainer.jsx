@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -39,13 +40,17 @@ class ProfileContainer extends Component {
     };
   }
 
-  componentWillReceiveProps(props) {
-    var { originalProfile } = this.props.profile;
+  componentWillReceiveProps(nextProps, prevState) {
+    var { originalProfile } = nextProps.profile;
 
-    this.setState({
+    if (_.isEqual(originalProfile, prevState.currentUser)) {
+      return null;
+    }
+
+    return {
       loading: (originalProfile.username === null && originalProfile.email === null),
       connectedUser: originalProfile,
-    });
+    };
   }
 
   componentDidMount() {
