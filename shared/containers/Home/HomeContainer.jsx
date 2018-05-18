@@ -50,7 +50,7 @@ class HomeContainer extends Component {
   }
 
   static getDerivatedStateFromProps(nextProps, prevState) {
-    if (!_.isEqual(nextProps.configuration.currentConfiguration, prevState.currentConfiguration)) {
+    if (_.isEqual(nextProps.configuration.currentConfiguration, prevState.currentConfiguration)) {
       return null;
     }
 
