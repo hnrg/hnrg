@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {
-  Form
+  Button,
+  Form,
+  Icon,
 } from 'semantic-ui-react';
 
-class UserView extends Component {
+class Edit extends Component {
   constructor(props) {
     super(props);
 
@@ -46,7 +48,6 @@ class UserView extends Component {
 
   handleChange(e, {name, value}) {
     this.props.onFormFieldChange(name, value);
-    console.log(this.state);
 
     this.setState({
       fields: {
@@ -72,11 +73,10 @@ class UserView extends Component {
   }
 
   render() {
-    console.log(this.state);
     const { fields } = this.state;
 
     return(
-      <Form>
+      <Form onSubmit={this.handleSubmit}>
         <Form.Group>
           <Form.Input
             label='Nombre'
@@ -116,9 +116,13 @@ class UserView extends Component {
             onChange={this.handleChange}
             value={fields.password} />
         </Form.Group>
+        <Button color='teal' fluid size='large'>
+          <Icon name='save' size='small' />
+          Guardar
+        </Button>
       </Form>
     );
   }
 }
 
-export default UserView;
+export default Edit;

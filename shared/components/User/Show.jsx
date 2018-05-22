@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-class UserView extends Component {
+class Show extends Component {
   constructor(props) {
     super(props);
 
@@ -35,4 +35,4 @@ class UserView extends Component {
   }
 }
 
-export default UserView;
+export default Show;
