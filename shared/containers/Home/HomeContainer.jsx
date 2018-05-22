@@ -1,12 +1,7 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import _ from 'lodash';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {
-  Dimmer,
-  Loader,
-  Segment
-} from 'semantic-ui-react';
 
 import Navbar from 'components/Navbar';
 import Footer from 'components/Footer';
@@ -85,7 +80,7 @@ class HomeContainer extends Component {
 
     return (
       <div>
-        <Navbar />
+        <Navbar {...webpage} />
         {cards.map((card, id) => <ContentCard key={id} {...card} />)}
         <Footer {...webpage} />
       </div>
