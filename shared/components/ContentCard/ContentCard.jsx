@@ -15,7 +15,7 @@ class ContentCard extends Component {
   }
   render() {
     return (
-        <Container textAlign='center'>
+      <Container textAlign='center'>
         <Segment>
           <Header as='h1'>{this.state.title}</Header>
           <Header as='h3' color={this.state.color}>{this.state.subtitle}</Header>
@@ -28,8 +28,8 @@ class ContentCard extends Component {
             </Item>
           </Item.Group>
         </Segment>
-        </Container>
-        );
+      </Container>
+    );
   }
 }
 
