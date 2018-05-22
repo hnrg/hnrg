@@ -1,10 +1,14 @@
 import fieldValidation from 'reducers/lib/field-validation';
-import formValidation from './auth-form';
+import formValidation from './profile-form';
 
 import {
   GET_PROFILE_REQUEST,
   GET_PROFILE_SUCCESS,
   GET_PROFILE_FAILURE,
+
+  PROFILE_UPDATE_REQUEST,
+  PROFILE_UPDATE_SUCCESS,
+  PROFILE_UPDATE_FAILURE,
 
   ON_PROFILE_FORM_FIELD_CHANGE,
 
@@ -32,8 +36,14 @@ export default function profileReducer(state = InitialState, action) {
      * ### Request starts
      * set the form to fetching and clear any errors
      */
-    case GET_PROFILE_REQUEST: {
+    case GET_PROFILE_REQUEST:
+    case PROFILE_UPDATE_REQUEST:
+    {
       return { ...state, isFetching: true, error: null };
+    }
+
+    case PROFILE_UPDATE_SUCCESS: {
+      return { ...state, isFetching: false, };
     }
 
     /**
@@ -109,7 +119,9 @@ export default function profileReducer(state = InitialState, action) {
      * ### Request fails
      * we're done fetching and the error needs to be displayed to the user
      */
-    case GET_PROFILE_FAILURE: {
+    case GET_PROFILE_FAILURE:
+    case PROFILE_UPDATE_FAILURE:
+    {
       return {
         ...state,
         isFetching: false,
