@@ -1,10 +1,16 @@
 import fieldValidation from 'reducers/lib/field-validation';
-import formValidation from './auth-form';
+import formValidation from './profile-form';
 
 import {
   GET_PROFILE_REQUEST,
   GET_PROFILE_SUCCESS,
   GET_PROFILE_FAILURE,
+
+  PROFILE_UPDATE_REQUEST,
+  PROFILE_UPDATE_SUCCESS,
+  PROFILE_UPDATE_FAILURE,
+
+  ON_PROFILE_FORM_FIELD_CHANGE,
 
   LOGOUT_SUCCESS,
 
@@ -30,8 +36,14 @@ export default function profileReducer(state = InitialState, action) {
      * ### Request starts
      * set the form to fetching and clear any errors
      */
-    case GET_PROFILE_REQUEST: {
+    case GET_PROFILE_REQUEST:
+    case PROFILE_UPDATE_REQUEST:
+    {
       return { ...state, isFetching: true, error: null };
+    }
+
+    case PROFILE_UPDATE_SUCCESS: {
+      return { ...state, isFetching: false, };
     }
 
     /**
@@ -49,6 +61,11 @@ export default function profileReducer(state = InitialState, action) {
           ...state.fields,
           email: action.payload.email,
           username: action.payload.username,
+          email: action.payload.email,
+          username: action.payload.username,
+          firstName: action.payload.firstName || "",
+          lastName: action.payload.lastName || "",
+          password: "",
         },
         originalProfile: {
           ...state.originalProfile,
@@ -64,6 +81,21 @@ export default function profileReducer(state = InitialState, action) {
         },
         isFetching: false,
         error: null,
+      };
+
+      return formValidation(fieldValidation(nextProfileState, action), action);
+    }
+
+    case ON_PROFILE_FORM_FIELD_CHANGE: {
+      console.log(state);
+      const { field, value } = action.payload;
+
+      nextProfileState = {
+        ...state,
+        fields: {
+          ...state.fields,
+          [field]: value,
+        }
       };
 
       return formValidation(fieldValidation(nextProfileState, action), action);
@@ -87,7 +119,9 @@ export default function profileReducer(state = InitialState, action) {
      * ### Request fails
      * we're done fetching and the error needs to be displayed to the user
      */
-    case GET_PROFILE_FAILURE: {
+    case GET_PROFILE_FAILURE:
+    case PROFILE_UPDATE_FAILURE:
+    {
       return {
         ...state,
         isFetching: false,
@@ -118,6 +152,12 @@ export default function profileReducer(state = InitialState, action) {
           emailHasError: profile.fields.emailHasError,
           username: profile.fields.username,
           usernameHasError: profile.fields.usernameHasError,
+          password: profile.fields.password,
+          passwordHasError: profile.fields.passwordHasError,
+          firstName: profile.fields.firstName,
+          firstNameHasError: profile.fields.firstNameHasError,
+          lastName: profile.fields.lastName,
+          lastNameHasError: profile.fields.lastNameHasError,
         },
         originalProfile: {
           ...originalProfile,

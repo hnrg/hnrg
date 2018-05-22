@@ -7,7 +7,6 @@
  *
  */
 
-
 /**
  * ## Imports
  *
@@ -23,8 +22,8 @@ import _ from 'underscore';
  */
 const emailConstraints = {
   from: {
-    email: true,
-  },
+    email: true
+  }
 };
 
 /**
@@ -36,9 +35,9 @@ const usernameConstraints = {
   username: {
     format: {
       pattern: usernamePattern,
-      flags: 'i',
-    },
-  },
+      flags: 'i'
+    }
+  }
 };
 
 /**
@@ -50,9 +49,9 @@ const passwordConstraints = {
   password: {
     format: {
       pattern: passwordPattern,
-      flags: 'i',
-    },
-  },
+      flags: 'i'
+    }
+  }
 };
 
 /**
@@ -60,99 +59,113 @@ const passwordConstraints = {
  * @param {Object} state Redux state
  * @param {Object} action type & payload
  */
-export default function (state, action) {
-  const {
-    field,
-    value,
-  } = action.payload;
+export default function(state, action) {
+  const {field, value} = action.payload;
+  console.log(state);
+  console.log(action);
 
   switch (field) {
-    /**
+      /**
      * ### username validation
      * set the form field error
      */
-    case ('username'):
-    {
-      const validUsername = _.isUndefined(validate(
-        {
-          username: value,
-        },
-        usernameConstraints,
-      ));
-      if (validUsername) {
+    case('username'):
+      {
+        const validUsername = _.isUndefined(validate({
+          username: value
+        }, usernameConstraints));
+
+        if (validUsername) {
+          return {
+            ...state,
+            fields: {
+              ...state.fields,
+              usernameHasError: false,
+              usernameErrorMsg: ''
+            }
+          };
+        }
+
         return {
           ...state,
-          usernameHasError: false,
-          usernameErrorMsg: '',
+          fields: {
+            ...state.fields,
+            usernameHasError: true,
+            usernameErrorMsg: 'El username tiene carácteres inválidos'
+          }
         };
       }
-      return {
-        ...state,
-        usernameHasError: true,
-        usernameErrorMsg: 'FieldValidation.valid_username',
-      };
-    }
 
-    /**
+      /**
        * ### email validation
        * set the form field error
        */
-    case ('email'):
-    {
-      const validEmail = _.isUndefined(validate(
-        {
-          from: value,
-        },
-        emailConstraints,
-      ));
-      if (validEmail) {
+    case('email'):
+      {
+        const validEmail = _.isUndefined(validate({
+          from: value
+        }, emailConstraints));
+
+        if (validEmail) {
+          return {
+            ...state,
+            fields: {
+              ...state.fields,
+              emailHasError: false,
+              emailErrorMsg: ''
+            }
+          };
+        }
+
         return {
           ...state,
-          emailHasError: false,
-          emailErrorMsg: '',
+          fields: {
+            ...state.fields,
+            emailHasError: true,
+            emailErrorMsg: 'El email debe ser de la forma `example@domain`'
+          }
         };
       }
-      return {
-        ...state,
-        emailHasError: true,
-        emailErrorMsg: 'FieldValidation.valid_email',
-      };
-    }
 
-    /**
+      /**
        * ### password validation
        * set the form field error
        */
-    case ('password'):
-    {
-      const validPassword = _.isUndefined(validate(
-        {
-          password: value,
-        },
-        passwordConstraints,
-      ));
-      if (validPassword) {
+    case('password'):
+      {
+        const validPassword = _.isUndefined(validate({
+          password: value
+        }, passwordConstraints));
+
+        if (validPassword) {
+          return {
+            ...state,
+            fields: {
+              ...state.fields,
+              passwordHasError: false,
+              passwordErrorMsg: ''
+            }
+          };
+        }
+
         return {
           ...state,
-          passwordHasError: false,
-          passwordErrorMsg: '',
+          fields: {
+            ...state.fields,
+            passwordHasError: true,
+            passwordErrorMsg: 'La contraseña tiene carácteres inválidos'
+          }
         };
       }
-      return {
-        ...state,
-        passwordHasError: true,
-        passwordErrorMsg: 'FieldValidation.valid_password',
-      };
-    }
 
-    /**
+      /**
        * ### showPassword
        * toggle the display of the password
        */
-    case ('showPassword'):
+    case('showPassword'):
       return {
         ...state,
-        showPassword: value,
+        showPassword: value
       };
 
     default:

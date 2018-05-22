@@ -15,6 +15,7 @@ import {
 
 class Footer extends Component {
   render() {
+    const {name, description } = this.props;
     return (<Segment
           inverted
           style={{ margin: '5em 0em 0em', padding: '5em 0em' }}
@@ -25,6 +26,7 @@ class Footer extends Component {
               <Grid.Row>
                 <Grid.Column computer={10} mobile={16}>
                   <Header inverted as='h4' content='Descripción' />
+                  {description}
                 </Grid.Column>
                 <Divider hidden />
                 <Grid.Column computer={6} mobile={16}>
@@ -41,7 +43,7 @@ class Footer extends Component {
             <Divider inverted section />
             <Image src='/logo.png' centered size='mini' />
             <Divider inverted section />
-            © 2018 Copyright: Hospital de Niños Ricardo Gutierrez
+            © 2018 Copyright: {name}
           </Container>
         </Segment>);
   }

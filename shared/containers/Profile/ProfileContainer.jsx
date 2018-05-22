@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -14,15 +15,25 @@ import * as globalActions from 'reducers/actions/global-actions';
 import * as profileActions from 'reducers/actions/profile-actions';
 
 import Footer from 'components/Footer';
+import UserShow from 'components/User/Show';
+import UserEdit from 'components/User/Edit';
 
-const panes = ({ loading, connectedUser }) => [
+const panes = ({ loading, connectedUser, fields }, actions) => [
   {
     menuItem: { key: 'user', icon: 'user', content: 'Ver perfil' },
-    render: () => <Tab.Pane loading={loading}>{connectedUser.email}</Tab.Pane>
+    render: () => <Tab.Pane loading={loading} padded='very'><UserShow user={connectedUser} /></Tab.Pane>
   },
   {
-    menuItem: 'Editar perfil',
-    render: () => <Tab.Pane loading={loading}>Tab 2 Content</Tab.Pane>
+    menuItem: { key: 'edit', icon: 'edit', content: 'Editar perfil' },
+    render: () => (
+      <Tab.Pane loading={loading} padded='very'>
+        <UserEdit
+          user={connectedUser}
+          fields={fields}
+          onFormFieldChange={actions.onProfileFormFieldChange}
+          updateUser={actions.updateProfile} />
+      </Tab.Pane>
+    ),
   },
 ];
 
@@ -30,27 +41,29 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
 
-    var { originalProfile } = this.props.profile;
+    const { originalProfile, fields } = this.props.profile;
 
     this.state = {
       loading: true,
-      connectedUser: originalProfile
+      connectedUser: originalProfile,
+      fields: fields,
     };
   }
 
   componentWillReceiveProps(props) {
-    var { originalProfile } = this.props.profile;
+    const { originalProfile, fields } = props.profile;
 
     this.setState({
-      loading: (originalProfile.username === null && originalProfile.email === null),
+      loading: _.isEqual(originalProfile, this.state.currentUser),
       connectedUser: originalProfile,
+      fields: fields,
     });
   }
 
   componentDidMount() {
-    var { originalProfile } = this.props.profile;
+    const { originalProfile, fields } = this.props.profile;
 
-    if (originalProfile.username === null && originalProfile.email === null) {
+    if (!_.isEqual(originalProfile, this.state.currentUser)) {
       this.props.actions.getProfile(this.props.global.currentUser);
       return;
     }
@@ -58,14 +71,17 @@ class ProfileContainer extends Component {
     this.setState({
       loading: false,
       connectedUser: originalProfile,
+      fields: fields,
     });
   }
 
   render() {
+    const { actions } = this.props;
+
     return (
       <div>
         <Container>
-          <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state)} />
+          <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} />
         </Container>
       </div>
     );
