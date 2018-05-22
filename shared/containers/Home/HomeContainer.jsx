@@ -81,7 +81,6 @@ class HomeContainer extends Component {
 
   render() {
     const { cards, currentConfiguration } = this.state;
-    console.log(currentConfiguration);
     const { webpage } = currentConfiguration;
 
     return (
