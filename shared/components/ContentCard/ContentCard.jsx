@@ -5,29 +5,57 @@ import {
   Header,
   Image,
   Segment,
-  Item
+  Item,
+  Icon,
+  Grid,
 } from 'semantic-ui-react';
+
+const LeftCard = props => (
+  <Grid.Row>
+    <Grid.Column computer={6} largeScreen={6} tablet={16} mobile={16}>
+      <Image src={props.img} style={{
+        padding: "0 0 20px 0"
+      }} />
+    </ Grid.Column>
+    <Grid.Column computer={10} largeScreen={10} tablet={16} mobile={16} textAlign="left">
+      <Header as='h3' color={props.color}>
+        <Icon name={props.icon} size='tiny'/>
+        {props.subtitle}
+      </Header>
+      <Header as='h1'>{props.title}</Header>
+      {props.text}
+    </ Grid.Column>
+  </ Grid.Row>
+);
+
+const RightCard = props => (
+  <Grid.Row>
+    <Grid.Column computer={10} largeScreen={10} tablet={16} mobile={16} textAlign="left">
+      <Header as='h3' color={props.color}>
+        <Icon name={props.icon} size='tiny'/>
+        {props.subtitle}
+      </Header>
+      <Header as='h1'>{props.title}</Header>
+      {props.text}
+    </ Grid.Column>
+    <Grid.Column computer={6} largeScreen={6} tablet={16} mobile={16}>
+      <Image src={props.img} />
+    </ Grid.Column>
+  </ Grid.Row>
+);
 
 class ContentCard extends Component {
   constructor(props) {
     super(props);
-    this.state = props;
   }
   render() {
+    const {left} = this.props;
     return (
       <Container textAlign='center'>
-        <Segment>
-          <Header as='h1'>{this.state.title}</Header>
-          <Header as='h3' color={this.state.color}>{this.state.subtitle}</Header>
-          <Item.Group>
-            <Item>
-              <Item.Image src='https://grupo5.proyecto2017.linti.unlp.edu.ar/web/assets/images/home/hospital.jpg' size='medium' />
-              <Item.Content verticalAlign='middle'>
-                <Item.Description>{this.state.text}</Item.Description>
-              </Item.Content>
-            </Item>
-          </Item.Group>
-        </Segment>
+        <Grid>
+          {left? <LeftCard {...this.props} /> : <RightCard {...this.props} /> }
+        </ Grid>
+        <Divider />
       </Container>
     );
   }
