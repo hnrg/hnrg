@@ -92,26 +92,10 @@ class Footer extends Component {
               <Image size='mini' src='/logo.png'/>
             </Menu.Item>
             <Menu.Item header>HNRG</Menu.Item>
-            <Menu.Item as='a'>Inicio</Menu.Item>
+            <Menu.Item as='a' href='/'>Inicio</Menu.Item>
 
             <Menu.Menu position='right'>
-              <Dropdown text='Dropdown' className='link item'>
-                <Dropdown.Menu>
-                  <Dropdown.Item>List Item</Dropdown.Item>
-                  <Dropdown.Item>List Item</Dropdown.Item>
-                  <Dropdown.Divider/>
-                  <Dropdown.Header>Header Item</Dropdown.Header>
-                  <Dropdown.Item>
-                    <i className='dropdown icon'/>
-                    <span className='text'>Submenu</span>
-                    <Dropdown.Menu>
-                      <Dropdown.Item>List Item</Dropdown.Item>
-                      <Dropdown.Item>List Item</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown.Item>
-                  <Dropdown.Item>List Item</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+              <Menu.Item as='a' href='/login'>Iniciar Sesión</Menu.Item>
             </Menu.Menu>
           </Container>
         </Menu>
