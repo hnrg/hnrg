@@ -11,6 +11,8 @@ const router = Router();
 
 router.route('/auth/login').post(requireLogin, AuthController.loginAction);
 
-router.route('/auth/me').get(requireAuth, AuthController.getProfileAction);
+router.route('/auth/me')
+  .get(requireAuth, AuthController.getProfileAction)
+  .post(requireAuth, AuthController.updateProfileAction);
 
 module.exports = router;
