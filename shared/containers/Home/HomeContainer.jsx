@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -81,11 +81,10 @@ class HomeContainer extends Component {
     return (
       <div>
         <Navbar {...webpage} />
-        {cards.map((card, id) => <ContentCard key={id} {...card} />)}
+        {cards.map((card, id) => <ContentCard key={id} {...card} left={(id%2) == 0} />)}
         <Footer {...webpage} />
       </div>
     );
   }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);
