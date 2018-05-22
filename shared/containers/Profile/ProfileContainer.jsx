@@ -30,7 +30,8 @@ const panes = ({ loading, connectedUser, fields }, actions) => [
         <UserEdit
           user={connectedUser}
           fields={fields}
-          onFormFieldChange={actions.onProfileFormFieldChange} />
+          onFormFieldChange={actions.onProfileFormFieldChange}
+          updateUser={actions.updateProfile} />
       </Tab.Pane>
     ),
   },

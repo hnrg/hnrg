@@ -9,6 +9,13 @@ class UserView extends Component {
     super(props);
 
     this.state = {
+      originalUser: {
+        username: "",
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+      },
       fields: {
         username: "",
         email: "",
@@ -19,20 +26,22 @@ class UserView extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillReceiveProps(props) {
-    const { fields } = props;
+    const { user, fields } = props;
 
     this.setState({
+      originalUser: user,
       fields,
     });
   }
 
   componentDidMount() {
-    const { fields } = this.props;
+    const { user, fields } = this.props;
 
-    this.setState({ fields });
+    this.setState({ originalUser: user, fields });
   }
 
   handleChange(e, {name, value}) {
@@ -45,6 +54,21 @@ class UserView extends Component {
         [name]: value,
       },
     });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    const { originalUser, fields } = this.state;
+
+    this.props.updateUser(
+      originalUser.username,
+      fields.username,
+      fields.email,
+      fields.firstName,
+      fields.lastName,
+      null
+    );
   }
 
   render() {
