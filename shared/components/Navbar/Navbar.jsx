@@ -13,6 +13,8 @@ import {
   fixedMenuStyle,
 } from './styles';
 
+import logo from 'static/icons/logo.png';
+
 class Navbar extends Component {
   constructor(props) {
     super(props);
@@ -49,7 +51,7 @@ class Navbar extends Component {
             : menuStyle}>
             <Container text>
               <Menu.Item>
-                <Image size='mini' src='/logo.png'/>
+                <Image size='mini' src={logo}/>
               </Menu.Item>
               <Menu.Item header>HNRG</Menu.Item>
               <Menu.Item as='a' href='/'>Inicio</Menu.Item>
