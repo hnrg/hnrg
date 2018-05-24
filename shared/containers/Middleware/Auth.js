@@ -8,12 +8,8 @@ import * as authActions from 'reducers/actions/auth-actions';
 import * as globalActions from 'reducers/actions/global-actions';
 import * as profileActions from 'reducers/actions/profile-actions';
 
-export default function (ComposedComponent) {
+export default function(ComposedComponent, permissions = null) {
   class Authentication extends Component {
-    constructor(props) {
-      super(props);
-    }
-
     componentWillReceiveProps(props) {
       if (props.profile.error) {
         props.history.push('/login');

@@ -13,7 +13,7 @@ import {
   fixedMenuStyle,
 } from './styles';
 
-import logo from 'static/icons/logo.png';
+import logo from 'static/icons/icon.png';
 
 class Navbar extends Component {
   constructor(props) {

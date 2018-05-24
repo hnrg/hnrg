@@ -5,8 +5,7 @@ import {connect} from 'react-redux';
 
 import Layout from 'components/Dashboard/Layout';
 
-import './styles.css';
-import './NavMenu.css';
+import styles from './styles.css';
 
 import * as authActions from 'reducers/actions/auth-actions';
 import * as globalActions from 'reducers/actions/global-actions';
@@ -40,13 +39,6 @@ class DashboardContainer extends Component {
     });
   }
 
-  /**
-   * ### componentDidMount
-   *
-   * During Hot Loading, when the component mounts due the state
-   * immediately being in a "logged in" state, we need to just set the
-   * form fields.  Otherwise, we need to go fetch the fields
-   */
   componentDidMount() {
     if (this.props.profile.originalProfile.username === null && this.props.profile.originalProfile.email === null) {
       this.props.actions.getProfile(this.props.global.currentUser);
@@ -69,7 +61,9 @@ class DashboardContainer extends Component {
   render() {
     return (
       <div>
-        <Layout toggleSideMenu={this.toggleSideMenu.bind(this)} smallMenu={this.state.smallMenu}/>
+        <Layout toggleSideMenu={this.toggleSideMenu.bind(this)} smallMenu={this.state.smallMenu}>
+
+        </Layout>
       </div>
     );
   }
