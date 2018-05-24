@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import Sidebar from 'components/Dashboard/Sidebar';
+import Layout from 'components/Dashboard/Layout';
+
+import './styles.css';
+import './NavMenu.css';
 
 import * as authActions from 'reducers/actions/auth-actions';
 import * as globalActions from 'reducers/actions/global-actions';
@@ -17,7 +20,8 @@ class DashboardContainer extends Component {
       user: {
         username: '',
         email: ''
-      }
+      },
+      smallMenu: false,
     };
   }
 
@@ -56,8 +60,18 @@ class DashboardContainer extends Component {
     }
   }
 
+  toggleSideMenu() {
+    this.setState({
+      smallMenu: !this.state.smallMenu,
+    });
+  }
+
   render() {
-    return (<div><Sidebar /></div>);
+    return (
+      <div>
+        <Layout toggleSideMenu={this.toggleSideMenu.bind(this)} smallMenu={this.state.smallMenu}/>
+      </div>
+    );
   }
 }
 
