@@ -1,11 +1,20 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
+import _ from 'lodash';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import Layout from 'components/Dashboard/Layout';
+import IndexPage from 'containers/Dashboard/Pages/Index';
+import SettingsPage from 'containers/Dashboard/Pages/Settings';
+import UsersPage from 'containers/Dashboard/Pages/Users';
 
-import styles from './styles.css';
+import './styles.css';
 
 import * as authActions from 'reducers/actions/auth-actions';
 import * as globalActions from 'reducers/actions/global-actions';
@@ -15,41 +24,33 @@ class DashboardContainer extends Component {
   constructor(props) {
     super(props);
 
+    const { originalProfile } = this.props.profile;
+
     this.state = {
-      user: {
-        username: '',
-        email: ''
-      },
+      connectedUser: originalProfile,
       smallMenu: false,
     };
   }
 
-  /**
-   * ### componentWillReceiveProps
-   *
-   * Since the Forms are looking at the state for the values of the
-   * fields, when we we need to set them
-   */
   componentWillReceiveProps(props) {
+    const { originalProfile } = props.profile;
+
     this.setState({
-      user: {
-        username: props.profile.originalProfile.username,
-        email: props.profile.originalProfile.email
-      }
+      connectedUser: originalProfile,
     });
   }
 
   componentDidMount() {
-    if (this.props.profile.originalProfile.username === null && this.props.profile.originalProfile.email === null) {
+    const { originalProfile } = this.props.profile;
+
+    if (!_.isEqual(originalProfile, this.state.currentUser)) {
       this.props.actions.getProfile(this.props.global.currentUser);
-    } else {
-      this.setState({
-        user: {
-          username: this.props.profile.originalProfile.username,
-          email: this.props.profile.originalProfile.email
-        }
-      });
+      return;
     }
+
+    this.setState({
+      connectedUser: originalProfile,
+    });
   }
 
   toggleSideMenu() {
@@ -59,10 +60,20 @@ class DashboardContainer extends Component {
   }
 
   render() {
+    const {match} = this.props;
+    const activeItem = this.props.location.pathname.split('/')[2] || 'dashboard';
+
     return (
       <div>
-        <Layout toggleSideMenu={this.toggleSideMenu.bind(this)} smallMenu={this.state.smallMenu}>
-
+        <Layout
+          toggleSideMenu={this.toggleSideMenu.bind(this)}
+          smallMenu={this.state.smallMenu}
+          activeItem={activeItem}>
+          <Switch>
+            <Route exact path={`${match.path}`} component={IndexPage} />
+            <Route path={`${match.path}/settings`} component={SettingsPage} />
+            <Route path={`${match.path}/users`} components={UsersPage} />
+          </Switch>
         </Layout>
       </div>
     );

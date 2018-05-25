@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom';
 import {
   Icon,
   Image,
@@ -13,7 +14,7 @@ class TopMenu extends Component {
   render() {
     return (
       <Menu fixed="top" className="top-menu">
-        <Menu.Item className="logo-space-menu-item">
+        <Menu.Item as={Link} to='/' className="logo-space-menu-item">
           <div className="display-inline logo-space">
             <Image src={logo} />
           </div>

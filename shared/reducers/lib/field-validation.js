@@ -61,8 +61,6 @@ const passwordConstraints = {
  */
 export default function(state, action) {
   const {field, value} = action.payload;
-  console.log(state);
-  console.log(action);
 
   switch (field) {
       /**
