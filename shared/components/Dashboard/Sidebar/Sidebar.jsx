@@ -1,5 +1,9 @@
 import React, {Component} from 'react'
-import {Menu} from 'semantic-ui-react'
+import {
+  Dropdown,
+  Icon,
+  Menu,
+} from 'semantic-ui-react'
 import {Link} from 'react-router-dom';
 import TextIcon from 'components/Dashboard/TextIcon';
 
@@ -8,14 +12,8 @@ class Sidebar extends Component {
     super(props);
 
     this.state = {
-      activeItem: 'dashboard',
+      activeItem: this.props.activeItem,
     };
-  }
-
-  handleItemClick(e, {name}) {
-    this.setState({
-      activeItem: name
-    });
   }
 
   changeSize() {
@@ -29,44 +27,31 @@ class Sidebar extends Component {
 
     return (
       <Menu fixed='left' borderless className={(this.props.smallMenu ? 'small-side' : '') + ' side'} vertical>
-        <Menu.Item as={Link} to={'/dashboard'} name='dashboard' active={activeItem === 'dashboard'}
-                   onClick={this.handleItemClick}>
+        <Menu.Item as={Link} to={'/dashboard'} name='dashboard' active={activeItem === 'dashboard'}>
           <TextIcon hideText={this.props.smallMenu} color='teal' name='home'>
               Dashboard
           </TextIcon>
         </Menu.Item>
 
-        <Menu.Item as={Link} to={'/dashboard/appointments'} name='appointments'
-                   active={activeItem === 'appointments'}
-                   onClick={this.handleItemClick}>
-          <TextIcon hideText={this.props.smallMenu} name='calendar'>
-            Appointments
+        <Menu.Item as={Link} to={'/dashboard/settings'} name='settings'
+                   active={activeItem === 'settings'}>
+          <TextIcon hideText={this.props.smallMenu} name='setting'>
+            Configuración
           </TextIcon>
         </Menu.Item>
 
-        <Menu.Item
-          as={Link} to={'/dashboard/userManagement'}
-          name='userManagement'
-          active={activeItem === 'userManagement'}
-          onClick={this.handleItemClick}
-          >
-          <TextIcon hideText={this.props.smallMenu} name='users'>
-            Patients
-          </TextIcon>
-        </Menu.Item>
-
-        <Menu.Item as={Link} to={'/dashboard/counter'} name='counter' active={activeItem === 'counter'}
-                   onClick={this.handleItemClick}>
-          <TextIcon hideText={this.props.smallMenu} name='time'>
-              Counter
-          </TextIcon>
-        </Menu.Item>
-
-        <Menu.Item as={Link} to={'/dashboard/layout'} name='layout' active={activeItem === 'layout'}
-                   onClick={this.handleItemClick}>
-          <TextIcon hideText={this.props.smallMenu} name='calendar'>
-            Layout
-          </TextIcon>
+        <Menu.Item active={activeItem === 'users'}>
+          <Dropdown trigger={<TextIcon hideText={this.props.smallMenu} name='users'>
+            Usuarios
+          </TextIcon>}>
+            <Dropdown.Menu>
+              <Dropdown.Item as={Link} to={'/dashboard/users'} name='users'>
+                <TextIcon hideText={false} name='list'>
+                  Ver listado
+                </TextIcon>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Menu.Item>
       </Menu>
     );

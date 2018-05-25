@@ -8,7 +8,7 @@ export default props => (
       <TopMenu toggleSideMenu={props.toggleSideMenu}/>
     </div>
     <div className='main-content'>
-      <SideMenu smallMenu={props.smallMenu}>
+      <SideMenu smallMenu={props.smallMenu} activeItem={props.activeItem}>
         {props.children}
       </SideMenu>
     </div>
