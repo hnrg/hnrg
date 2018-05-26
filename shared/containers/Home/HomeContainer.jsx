@@ -97,8 +97,8 @@ class HomeContainer extends Component {
         <Navbar {...webpage} isLoggedIn={isLoggedIn} />
         <Container textAlign='center'>
           {cards.map((card, id) => (
-            <div>
-              <ContentCard key={id} {...card} left={(id%2) == 0} />
+            <div key={id}>
+              <ContentCard {...card} left={(id%2) == 0} />
               <Divider />
             </div>
           ))}
