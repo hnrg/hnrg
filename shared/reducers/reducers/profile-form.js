@@ -12,7 +12,7 @@ export default function formValidation(state) {
      state.fields.email !== state.originalProfile.email ||
      state.fields.firstName !== state.originalProfile.firstName ||
      state.fields.lastName !== state.originalProfile.lastName)
-   );
+  );
 
   return {
     ...state,

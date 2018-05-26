@@ -25,7 +25,9 @@ export default class ProfileRequest {
     });
   }
 
-  updateProfile({username, email, firstName, lastName}) {
+  updateProfile({
+    username, email, firstName, lastName,
+  }) {
     return axios.post('/api/auth/me', {
       user: {
         username,

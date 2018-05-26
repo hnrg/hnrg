@@ -8,7 +8,7 @@ import * as authActions from 'reducers/actions/auth-actions';
 import * as globalActions from 'reducers/actions/global-actions';
 import * as profileActions from 'reducers/actions/profile-actions';
 
-export default function(ComposedComponent, permissions = null) {
+export default function (ComposedComponent, permissions = null) {
   class Authentication extends Component {
     componentWillReceiveProps(props) {
       if (props.profile.error) {

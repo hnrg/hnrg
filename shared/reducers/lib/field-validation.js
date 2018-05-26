@@ -22,8 +22,8 @@ import _ from 'underscore';
  */
 const emailConstraints = {
   from: {
-    email: true
-  }
+    email: true,
+  },
 };
 
 /**
@@ -35,9 +35,9 @@ const usernameConstraints = {
   username: {
     format: {
       pattern: usernamePattern,
-      flags: 'i'
-    }
-  }
+      flags: 'i',
+    },
+  },
 };
 
 /**
@@ -49,9 +49,9 @@ const passwordConstraints = {
   password: {
     format: {
       pattern: passwordPattern,
-      flags: 'i'
-    }
-  }
+      flags: 'i',
+    },
+  },
 };
 
 /**
@@ -59,111 +59,111 @@ const passwordConstraints = {
  * @param {Object} state Redux state
  * @param {Object} action type & payload
  */
-export default function(state, action) {
-  const {field, value} = action.payload;
+export default function (state, action) {
+  const { field, value } = action.payload;
 
   switch (field) {
-      /**
+    /**
      * ### username validation
      * set the form field error
      */
-    case('username'):
-      {
-        const validUsername = _.isUndefined(validate({
-          username: value
-        }, usernameConstraints));
+    case ('username'):
+    {
+      const validUsername = _.isUndefined(validate({
+        username: value,
+      }, usernameConstraints));
 
-        if (validUsername) {
-          return {
-            ...state,
-            fields: {
-              ...state.fields,
-              usernameHasError: false,
-              usernameErrorMsg: ''
-            }
-          };
-        }
-
+      if (validUsername) {
         return {
           ...state,
           fields: {
             ...state.fields,
-            usernameHasError: true,
-            usernameErrorMsg: 'El username tiene carácteres inválidos'
-          }
+            usernameHasError: false,
+            usernameErrorMsg: '',
+          },
         };
       }
 
-      /**
+      return {
+        ...state,
+        fields: {
+          ...state.fields,
+          usernameHasError: true,
+          usernameErrorMsg: 'El username tiene carácteres inválidos',
+        },
+      };
+    }
+
+    /**
        * ### email validation
        * set the form field error
        */
-    case('email'):
-      {
-        const validEmail = _.isUndefined(validate({
-          from: value
-        }, emailConstraints));
+    case ('email'):
+    {
+      const validEmail = _.isUndefined(validate({
+        from: value,
+      }, emailConstraints));
 
-        if (validEmail) {
-          return {
-            ...state,
-            fields: {
-              ...state.fields,
-              emailHasError: false,
-              emailErrorMsg: ''
-            }
-          };
-        }
-
+      if (validEmail) {
         return {
           ...state,
           fields: {
             ...state.fields,
-            emailHasError: true,
-            emailErrorMsg: 'El email debe ser de la forma `example@domain`'
-          }
+            emailHasError: false,
+            emailErrorMsg: '',
+          },
         };
       }
 
-      /**
+      return {
+        ...state,
+        fields: {
+          ...state.fields,
+          emailHasError: true,
+          emailErrorMsg: 'El email debe ser de la forma `example@domain`',
+        },
+      };
+    }
+
+    /**
        * ### password validation
        * set the form field error
        */
-    case('password'):
-      {
-        const validPassword = _.isUndefined(validate({
-          password: value
-        }, passwordConstraints));
+    case ('password'):
+    {
+      const validPassword = _.isUndefined(validate({
+        password: value,
+      }, passwordConstraints));
 
-        if (validPassword) {
-          return {
-            ...state,
-            fields: {
-              ...state.fields,
-              passwordHasError: false,
-              passwordErrorMsg: ''
-            }
-          };
-        }
-
+      if (validPassword) {
         return {
           ...state,
           fields: {
             ...state.fields,
-            passwordHasError: true,
-            passwordErrorMsg: 'La contraseña tiene carácteres inválidos'
-          }
+            passwordHasError: false,
+            passwordErrorMsg: '',
+          },
         };
       }
 
-      /**
+      return {
+        ...state,
+        fields: {
+          ...state.fields,
+          passwordHasError: true,
+          passwordErrorMsg: 'La contraseña tiene carácteres inválidos',
+        },
+      };
+    }
+
+    /**
        * ### showPassword
        * toggle the display of the password
        */
-    case('showPassword'):
+    case ('showPassword'):
       return {
         ...state,
-        showPassword: value
+        showPassword: value,
       };
 
     default:

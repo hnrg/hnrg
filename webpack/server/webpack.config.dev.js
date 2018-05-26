@@ -52,7 +52,7 @@ const serverConfig = {
         test: /\.(eot|png|jpg|svg|[ot]tf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file-loader',
       },
-    ]
+    ],
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -66,8 +66,8 @@ const serverConfig = {
       controllers: path.resolve(__dirname, '../../server/controllers'),
       models: path.resolve(__dirname, '../../server/models'),
       modules: path.resolve(__dirname, '../../server/modules'),
-      routes: path.resolve(__dirname, '../../server/routes')
-    }
+      routes: path.resolve(__dirname, '../../server/routes'),
+    },
   },
   plugins: [
     new webpack.DefinePlugin({

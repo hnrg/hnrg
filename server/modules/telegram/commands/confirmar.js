@@ -46,15 +46,15 @@ module.exports = function reservar(bot, client) {
         },
       }).then(() => {
         client.del(`${chatId}_turno`);
-        bot.sendMessage(chatId, `Turno reservado para la fecha ${date.format('DD/MM/YYYY HH:mm')}\nPara el paciente ${documentNumber}`)
+        bot.sendMessage(chatId, `Turno reservado para la fecha ${date.format('DD/MM/YYYY HH:mm')}\nPara el paciente ${documentNumber}`);
       })
-      .catch((error) => {
-        client.del(`${chatId}_turno`);
-        if (error.response.status !== 400) {
-          return bot.sendMessage(chatId, 'Hubo un error reservar el turno.\nInténtelo más tarde.\nDisculpe las molestias.')
-        }
-        bot.sendMessage(chatId, error.response.data.error);
-      });
+        .catch((error) => {
+          client.del(`${chatId}_turno`);
+          if (error.response.status !== 400) {
+            return bot.sendMessage(chatId, 'Hubo un error reservar el turno.\nInténtelo más tarde.\nDisculpe las molestias.');
+          }
+          bot.sendMessage(chatId, error.response.data.error);
+        });
     });
   });
 };

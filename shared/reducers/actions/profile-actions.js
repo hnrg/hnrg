@@ -59,26 +59,26 @@ export function getProfile(sessionToken) {
 export function onProfileFormFieldChange(field, value) {
   return {
     type: ON_PROFILE_FORM_FIELD_CHANGE,
-    payload: { field, value }
-  }
+    payload: { field, value },
+  };
 }
 
 export function profileUpdateRequest() {
   return {
-    type: PROFILE_UPDATE_REQUEST
+    type: PROFILE_UPDATE_REQUEST,
   };
 }
 
 export function profileUpdateSuccess() {
   return {
-    type: PROFILE_UPDATE_SUCCESS
+    type: PROFILE_UPDATE_SUCCESS,
   };
 }
 
 export function profileUpdateFailure(json) {
   return {
     type: PROFILE_UPDATE_FAILURE,
-    payload: json
+    payload: json,
   };
 }
 
@@ -93,18 +93,16 @@ export function profileUpdateFailure(json) {
  *
  */
 export function updateProfile(originalUsername, username, email, firstName, lastName, sessionToken) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(profileUpdateRequest());
     return authToken.getSessionToken(sessionToken)
-      .then(token => {
-        return profileRequest.init(token)
-          .updateProfile({
-            username,
-            email,
-            firstName,
-            lastName,
-          });
-      })
+      .then(token => profileRequest.init(token)
+        .updateProfile({
+          username,
+          email,
+          firstName,
+          lastName,
+        }))
       .then(() => {
         dispatch(profileUpdateSuccess());
         dispatch(getProfile());

@@ -19,7 +19,7 @@ exports.getPatients = async function getPatients(req, res) {
 
     const patients = await Patient.find({ deleted })
       .limit(amountPerPage)
-      .skip(amountPerPage*pageNumber)
+      .skip(amountPerPage * pageNumber)
       .populate('demographicData')
       .populate('medicalInsurance')
       .populate('documentType')
@@ -180,7 +180,7 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
 
         HealthControl.find({ patient: patient._id, active: true })
           .limit(amountPerPage)
-          .skip(amountPerPage*pageNumber)
+          .skip(amountPerPage * pageNumber)
           .exec(($err, healthControls) => {
             if (err || healthControls == null) {
               next(err);
@@ -188,7 +188,7 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
 
             /* TODO modificar utilizando req.params.type */
 
-            res.status(200).json({ healthControls })
+            res.status(200).json({ healthControls });
           });
       });
   } catch (e) {

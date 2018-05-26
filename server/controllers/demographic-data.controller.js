@@ -15,10 +15,10 @@ exports.getDemographicsData = async function getDemographicsData(req, res) {
     const { webpage } = configuration;
     const { amountPerPage } = webpage;
 
-    await Patient.find({ state: true})
+    await Patient.find({ state: true })
       .where('demographicData').ne(null)
       .limit(amountPerPage)
-      .skip(amountPerPage*page)
+      .skip(amountPerPage * page)
       .populate('demographicData')
       .select('demographicData')
       .exec((err, patients) => {
@@ -26,7 +26,7 @@ exports.getDemographicsData = async function getDemographicsData(req, res) {
           return res.send(400).send(err);
         }
 
-        const demographicsData = patients.map((data) => data.demographicsData );
+        const demographicsData = patients.map(data => data.demographicsData);
 
         res.status(200).send({ demographicsData });
       });

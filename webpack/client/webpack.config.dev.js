@@ -61,8 +61,8 @@ const clientConfig = {
       components: path.resolve(__dirname, '../../shared/components'),
       containers: path.resolve(__dirname, '../../shared/containers'),
       helpers: path.resolve(__dirname, '../../shared/helpers'),
-      reducers: path.resolve(__dirname, '../../shared/reducers')
-    }
+      reducers: path.resolve(__dirname, '../../shared/reducers'),
+    },
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
