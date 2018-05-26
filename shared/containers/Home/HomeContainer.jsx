@@ -53,11 +53,8 @@ class HomeContainer extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (_.isEqual(props.configuration.current, this.state.currentConfiguration)) {
-      return null;
-    }
-
-    if (_.isEqual(props.global, this.state.global)) {
+    if (_.isEqual(props.configuration.current, this.state.currentConfiguration)
+      && _.isEqual(props.global, this.state.global)) {
       return null;
     }
 
