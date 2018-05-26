@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Container, Divider } from 'semantic-ui-react';
 
 import Navbar from 'components/Navbar';
 import Footer from 'components/Footer';
@@ -19,13 +20,11 @@ function mapStateToProps(state) {
     auth: {
       isFetching: state.auth.isFetching,
     },
+    profile: state.profile,
     configuration: {
       current: state.configuration.current,
     },
-    global: {
-      currentState: state.global.currentState,
-      showState: state.global.showState,
-    },
+    global: state.global,
   };
 }
 
@@ -48,6 +47,8 @@ class HomeContainer extends Component {
     this.state = {
       cards: cards,
       currentConfiguration: this.props.configuration.current,
+      global: this.props.global,
+      isLoggedIn: false,
     };
   }
 
@@ -56,8 +57,14 @@ class HomeContainer extends Component {
       return null;
     }
 
+    if (_.isEqual(props.global, this.state.global)) {
+      return null;
+    }
+
     this.setState({
       currentConfiguration: props.configuration.current,
+      global: props.global,
+      isLoggedIn: !!props.global.currentUser,
     });
   }
 
@@ -69,19 +76,33 @@ class HomeContainer extends Component {
       return;
     }
 
+    if (!_.isEqual(this.props.global, this.state.global)) {
+      this.props.actions.getSessionToken();
+      return;
+    }
+
     this.setState({
       currentConfiguration: current,
+      global: this.props.global,
+      isLoggedIn: !!this.props.global.currentUser,
     });
   }
 
   render() {
-    const { cards, currentConfiguration } = this.state;
+    const { isLoggedIn, cards, currentConfiguration } = this.state;
     const { webpage } = currentConfiguration;
 
     return (
       <div>
-        <Navbar {...webpage} />
-        {cards.map((card, id) => <ContentCard key={id} {...card} left={(id%2) == 0} />)}
+        <Navbar {...webpage} isLoggedIn={isLoggedIn} />
+        <Container textAlign='center'>
+          {cards.map((card, id) => (
+            <div>
+              <ContentCard key={id} {...card} left={(id%2) == 0} />
+              <Divider />
+            </div>
+          ))}
+        </Container>
         <Footer {...webpage} />
       </div>
     );

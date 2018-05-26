@@ -51,12 +51,9 @@ class ContentCard extends Component {
   render() {
     const {left} = this.props;
     return (
-      <Container textAlign='center'>
-        <Grid>
-          {left? <LeftCard {...this.props} /> : <RightCard {...this.props} /> }
-        </ Grid>
-        <Divider />
-      </Container>
+      <Grid>
+        {left? <LeftCard {...this.props} /> : <RightCard {...this.props} /> }
+      </ Grid>
     );
   }
 }

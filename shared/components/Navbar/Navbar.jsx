@@ -38,7 +38,7 @@ class Navbar extends Component {
 
   render() {
     const {menuFixed, overlayFixed, overlayRect} = this.state;
-    const {name} = this.props;
+    const {isLoggedIn, name} = this.props;
 
     return (
       <div>
@@ -54,10 +54,13 @@ class Navbar extends Component {
                 <Image size='mini' src={logo}/>
               </Menu.Item>
               <Menu.Item header>HNRG</Menu.Item>
-              <Menu.Item as='a' href='/'>Inicio</Menu.Item>
+              {isLoggedIn && <Menu.Item as='a' href='/dashboard'>Dashboard</Menu.Item>}
 
               <Menu.Menu position='right'>
-                <Menu.Item as='a' href='/login'>Iniciar Sesión</Menu.Item>
+                {!isLoggedIn ?
+                  <Menu.Item as='a' href='/login'>Iniciar Sesión</Menu.Item> :
+                  <Menu.Item as='a' href='/profile'>Ver Perfil</Menu.Item>
+                }
               </Menu.Menu>
             </Container>
           </Menu>
