@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Cookies from 'js-cookie';
 import CONFIG from './config';
 
@@ -16,7 +17,7 @@ export class AuthToken {
    * Store the session key
    */
   storeSessionToken(sessionToken) {
-    Cookies.set(this.SESSION_TOKEN_KEY, sessionToken, { path: '/' });
+    _.isString(sessionToken) && Cookies.set(this.SESSION_TOKEN_KEY, sessionToken, { path: '/' });
     return Promise.resolve();
   }
 
@@ -29,7 +30,7 @@ export class AuthToken {
    * promise so, have to be careful.
    */
   getSessionToken(sessionToken) {
-    if (sessionToken) {
+    if (sessionToken && _.isString(sessionToken)) {
       Cookies.set(this.SESSION_TOKEN_KEY, sessionToken, { path: '/' });
     }
     return Promise.resolve(Cookies.get(this.SESSION_TOKEN_KEY, { path: '/' }));
