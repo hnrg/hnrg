@@ -12,7 +12,7 @@ export default function(ComposedComponent, permissions = null) {
   class Authentication extends Component {
     componentWillReceiveProps(props) {
       if (props.profile.error) {
-        props.history.push('/login');
+        props.history.push('/logout');
       }
     }
 

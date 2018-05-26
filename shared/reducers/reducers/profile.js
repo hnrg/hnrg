@@ -87,7 +87,6 @@ export default function profileReducer(state = InitialState, action) {
     }
 
     case ON_PROFILE_FORM_FIELD_CHANGE: {
-      console.log(state);
       const { field, value } = action.payload;
 
       nextProfileState = {

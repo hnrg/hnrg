@@ -225,7 +225,7 @@ export function logout() {
         dispatch(loginState());
         dispatch(logoutSuccess());
         dispatch(deleteSessionToken());
-        global.window.location.replace('/');
+        global.window.location.replace('/login');
       })
       .catch((error) => {
         dispatch(loginState());
