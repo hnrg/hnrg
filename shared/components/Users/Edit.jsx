@@ -11,20 +11,10 @@ class Edit extends Component {
     super(props);
 
     this.state = {
-      originalUser: {
-        username: "",
-        email: "",
-        password: "",
-        firstName: "",
-        lastName: "",
-      },
-      fields: {
-        username: "",
-        email: "",
-        password: "",
-        firstName: "",
-        lastName: "",
-      },
+      isValid: this.props.isValid,
+      isFetching: this.props.isFetching,
+      originalUser: this.props.user,
+      fields: this.props.fields,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -32,18 +22,25 @@ class Edit extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { user, fields } = props;
+    const { user, fields, isValid, isFetching } = props;
 
     this.setState({
       originalUser: user,
       fields,
+      isValid,
+      isFetching,
     });
   }
 
   componentDidMount() {
-    const { user, fields } = this.props;
+    const { user, fields, isValid, isFetching } = this.props;
 
-    this.setState({ originalUser: user, fields });
+    this.setState({
+      originalUser: user,
+      fields,
+      isValid,
+      isFetching,
+    });
   }
 
   handleChange(e, {name, value}) {
@@ -73,50 +70,57 @@ class Edit extends Component {
   }
 
   render() {
-    const { fields } = this.state;
+    const { fields, isValid, isFetching } = this.state;
 
     return(
       <Form onSubmit={this.handleSubmit}>
         <Form.Group>
           <Form.Input
-            label='Nombre'
+            label={fields.firstNameErrorMsg || 'Nombre'}
             name='firstName'
             placeholder='Nombre'
             width={8}
             onChange={this.handleChange}
-            value={fields.firstName} />
+            value={fields.firstName}
+            error={fields.firstNameHasError} />
           <Form.Input
-            label='Apellido'
+            label={fields.usernameErrorMsg || 'Apellido'}
             name='lastName'
             placeholder='Apellido'
             width={8}
             onChange={this.handleChange}
-            value={fields.lastName} />
+            value={fields.lastName}
+            error={fields.lastNameHasError} />
         </Form.Group>
         <Form.Group>
           <Form.Input
-            label='Nombre de Usuario'
+            label={fields.usernameErrorMsg || 'Nombre de Usuario'}
             name='username'
+            required
             placeholder='Nombre de Usuario'
             width={5}
             onChange={this.handleChange}
-            value={fields.username} />
+            value={fields.username}
+            error={fields.usernameHasError} />
           <Form.Input
-            label='Email'
+            label={fields.emailErrorMsg || 'Email'}
             name='email'
+            required
             placeholder='Email'
             width={6}
             onChange={this.handleChange}
-            value={fields.email} />
+            value={fields.email}
+            error={fields.emailHasError} />
           <Form.Input
-            label='Contraseña'
+            label={fields.passwordErrorMsg || 'Contraseña'}
             name='password'
             placeholder='Contraseña'
             width={5}
             onChange={this.handleChange}
-            value={fields.password} />
+            value={fields.password}
+            error={fields.passwordHasError} />
         </Form.Group>
-        <Button color='teal' fluid size='large'>
+        <Button disabled={isValid || isFetching} color='teal' fluid size='large'>
           <Icon name='save' size='small' />
           Guardar
         </Button>
