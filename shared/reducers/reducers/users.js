@@ -36,10 +36,28 @@ export default function usersReducer(state = InitialState, action) {
      * ### Request starts
      * set the form to fetching and clear any errors
      */
+    case GET_USERS_REQUEST:
     case GET_USER_REQUEST:
     case USER_UPDATE_REQUEST:
     {
       return { ...state, isFetching: true, error: null };
+    }
+
+    /**
+     * ### Request ends successfully
+     *
+     * the fetching is done, set the UI fields and the originalRoles
+     *
+     * Validate the data to make sure it's all good and someone didn't
+     * mung it up through some other mechanism
+     */
+    case GET_USERS_SUCCESS: {
+      return {
+        ...state,
+        users: action.payload,
+        isFetching: false,
+        error: null,
+      };
     }
 
     case USER_UPDATE_SUCCESS: {
@@ -118,6 +136,7 @@ export default function usersReducer(state = InitialState, action) {
      * ### Request fails
      * we're done fetching and the error needs to be displayed to the user
      */
+    case GET_USERS_FAILURE:
     case GET_USER_FAILURE:
     case USER_UPDATE_FAILURE:
     {
