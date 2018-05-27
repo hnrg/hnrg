@@ -2,6 +2,10 @@ import fieldValidation from 'reducers/lib/field-validation/users';
 import formValidation from './users-form';
 
 import {
+  GET_USERS_REQUEST,
+  GET_USERS_SUCCESS,
+  GET_USERS_FAILURE,
+
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
