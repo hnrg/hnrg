@@ -108,7 +108,7 @@ export default function (state = InitialState, action) {
         error: null,
       };
 
-      nextState[field] = value;
+      nextState.fields[field] = value;
 
       return formValidation(fieldValidation(nextState, action), action);
     }
@@ -147,7 +147,7 @@ export default function (state = InitialState, action) {
        */
     case SET_STATE: {
       const { auth } = JSON.parse(action.payload);
-      const { authFields } = auth;
+      const { fields } = auth;
 
       return {
         ...state,
@@ -157,7 +157,7 @@ export default function (state = InitialState, action) {
         isValid: auth.isValid,
         isFetching: auth.isFetching,
         fields: {
-          ...authFields,
+          ...fields,
           email: auth.email,
           emailHasError: auth.emailHasError,
           password: auth.password,

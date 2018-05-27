@@ -44,12 +44,13 @@ const usernameConstraints = {
  * ## password validation rule
  * read the message... ;)
  */
-const passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,12}$/;
+const passwordPattern = '(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z])';
 const passwordConstraints = {
   password: {
-    format: {
-      pattern: passwordPattern,
-      flags: 'i',
+    presence: true,
+    length: {
+      minimum: 2,
+      message: "must be at least 2 characters"
     },
   },
 };

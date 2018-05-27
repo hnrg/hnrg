@@ -120,7 +120,7 @@ class Edit extends Component {
             value={fields.password}
             error={fields.passwordHasError} />
         </Form.Group>
-        <Button disabled={isValid || isFetching} color='teal' fluid size='large'>
+        <Button disabled={!isValid || isFetching} color='teal' fluid size='large'>
           <Icon name='save' size='small' />
           Guardar
         </Button>
