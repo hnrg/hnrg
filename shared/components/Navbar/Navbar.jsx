@@ -2,7 +2,9 @@ import _ from 'lodash';
 import React, {Component} from 'react';
 import {
   Container,
+  Dropdown,
   Header,
+  Icon,
   Image,
   Menu,
   Visibility
@@ -59,7 +61,13 @@ class Navbar extends Component {
               <Menu.Menu position='right'>
                 {!isLoggedIn ?
                   <Menu.Item as='a' href='/login'>Iniciar Sesión</Menu.Item> :
-                  <Menu.Item as='a' href='/profile'>Ver Perfil</Menu.Item>
+                  <Dropdown trigger={<Icon name='user' />} pointing className='link item'>
+                    <Dropdown.Menu>
+                      <Dropdown.Item as='a' href='/profile'>Ver perfil</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item as='a' href='/logout'>Cerrar sesión</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 }
               </Menu.Menu>
             </Container>

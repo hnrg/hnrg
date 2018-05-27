@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom';
 import {
+  Dropdown,
   Icon,
   Image,
   Input,
@@ -20,30 +21,30 @@ class TopMenu extends Component {
           </div>
         </Menu.Item>
 
-        <Menu.Item
+        {this.props.toggleSideMenu && <Menu.Item
           className="no-border"
           onClick={this.props.toggleSideMenu}
         >
           <Icon name="bars" />
-        </Menu.Item>
+        </Menu.Item>}
 
-        <Menu.Item className="no-border drop-left-padding">
+        {/*<Menu.Item className="no-border drop-left-padding">
           <Input
             className="icon"
             icon="search"
             placeholder="Search..."
           />
-        </Menu.Item>
+        </Menu.Item>*/}
 
         <Menu.Menu position="right">
           <Menu.Item className="no-border" position="right">
-            <div className="display-inline">
-              <Image
-                circular
-                size={"mini"}
-                src="https://react.semantic-ui.com/assets/images/avatar/small/nan.jpg"
-              />
-            </div>
+            <Dropdown trigger={<Icon name='user' />} pointing className='link item'>
+              <Dropdown.Menu>
+                <Dropdown.Item as='a' href='/profile'>Ver perfil</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item as='a' href='/logout'>Cerrar sesión</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Menu.Item>
         </Menu.Menu>
       </Menu>

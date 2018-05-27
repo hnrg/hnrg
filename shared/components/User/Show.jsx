@@ -53,15 +53,15 @@ class Show extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column style={{padding: '0 0 15px 0'}} computer={5} largeScreen={5} tablet={16} mobile={16}>
-              <Header as='h5' content='Nombre de Usuario'/>
+              <Header as='h3' content='Nombre de Usuario'/>
               {user.username}
             </Grid.Column>
             <Grid.Column style={{padding: '0 0 15px 0'}} computer={6} largeScreen={6} tablet={16} mobile={16}>
-              <Header as='h5' content='Email'/>
+              <Header as='h3' content='Email'/>
               {user.email}
             </Grid.Column>
             <Grid.Column style={{padding: '0 0 15px 0'}} computer={5} largeScreen={5} tablet={16} mobile={16}>
-              <Header as='h5' content='Fecha de Ingreso'/>
+              <Header as='h3' content='Fecha de Ingreso'/>
               {moment(user.createdAt).format('LLLL')}
             </Grid.Column>
           </Grid.Row>

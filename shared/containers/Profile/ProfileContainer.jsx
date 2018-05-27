@@ -15,6 +15,7 @@ import * as globalActions from 'reducers/actions/global-actions';
 import * as profileActions from 'reducers/actions/profile-actions';
 
 import Footer from 'components/Footer';
+import TopMenu from 'components/TopMenu';
 import UserShow from 'components/User/Show';
 import UserEdit from 'components/User/Edit';
 
@@ -80,7 +81,8 @@ class ProfileContainer extends Component {
 
     return (
       <div>
-        <Container>
+        <TopMenu />
+        <Container style={{margin: '95px 0 0 0'}}>
           <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} />
         </Container>
       </div>
