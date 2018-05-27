@@ -40,18 +40,18 @@ class Sidebar extends Component {
           </TextIcon>
         </Menu.Item>
 
-        <Menu.Item active={activeItem === 'users'}>
-          <Dropdown trigger={<TextIcon hideText={this.props.smallMenu} name='users'>
+        <Menu.Item as={Link} to={'/dashboard/users'} name='users'
+                   active={activeItem === 'users'}>
+          <TextIcon hideText={this.props.smallMenu} name='users'>
             Usuarios
-          </TextIcon>}>
-            <Dropdown.Menu>
-              <Dropdown.Item as={Link} to={'/dashboard/users'} name='users'>
-                <TextIcon hideText={false} name='list'>
-                  Ver listado
-                </TextIcon>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          </TextIcon>
+        </Menu.Item>
+
+        <Menu.Item as={Link} to={'/dashboard/patients'} name='patients'
+                   active={activeItem === 'patients'}>
+          <TextIcon hideText={this.props.smallMenu} name='users'>
+            Pacientes
+          </TextIcon>
         </Menu.Item>
       </Menu>
     );
