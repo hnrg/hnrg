@@ -1,4 +1,4 @@
-import fieldValidation from '../lib/field-validation';
+
 import {
   GET_PERMISSIONS_REQUEST,
   GET_PERMISSIONS_SUCCESS,
@@ -92,4 +92,3 @@ export default function permissionsReducer(state = InitialState, action) {
     }
   }
 }
-

@@ -157,16 +157,6 @@ export default function (state, action) {
       };
     }
 
-    /**
-       * ### showPassword
-       * toggle the display of the password
-       */
-    case ('showPassword'):
-      return {
-        ...state,
-        showPassword: value,
-      };
-
     default:
       return state;
   }

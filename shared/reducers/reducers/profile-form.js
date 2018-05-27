@@ -2,8 +2,6 @@ export default function formValidation(state) {
   const isValid = (
     state.fields.username !== '' &&
     state.fields.email !== '' &&
-    state.fields.firstName !== '' &&
-    state.fields.lastName !== '' &&
     !state.fields.usernameHasError &&
     !state.fields.emailHasError &&
     !state.fields.firstNameHasError &&
