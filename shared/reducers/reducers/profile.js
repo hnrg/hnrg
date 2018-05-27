@@ -1,4 +1,4 @@
-import fieldValidation from 'reducers/lib/field-validation/auth';
+import fieldValidation from 'reducers/lib/field-validation/profile';
 import formValidation from './profile-form';
 
 import {

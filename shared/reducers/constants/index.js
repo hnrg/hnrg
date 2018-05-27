@@ -6,3 +6,4 @@ export * from './patients.constants';
 export * from './health-controls.constants';
 export * from './roles.constants';
 export * from './permissions.constants';
+export * from './users.constants';
