@@ -22,7 +22,7 @@ class Footer extends Component {
             <Grid columns={2} stackable inverted>
               <Grid.Row>
                 <Grid.Column computer={10} mobile={16}>
-                  <Header inverted as='h4' content='Descripción' />
+                  <Header inverted as='h4' content='Descripción' style={{margin: '0 0 10px 0'}} />
                   {description}
                 </Grid.Column>
                 <Divider hidden />

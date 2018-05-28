@@ -44,14 +44,14 @@ class Navbar extends Component {
 
     return (
       <div>
-        <Container text style={{marginTop: '2em'}}>
+        <Container textAlign='center' style={{marginTop: '2em'}}>
           <Header as='h1'>{name}</Header>
         </Container>
         <Visibility onBottomPassed={this.stickTopMenu} onBottomVisible={this.unStickTopMenu} once={false}>
           <Menu borderless fixed={menuFixed && "top"} style={menuFixed
             ? fixedMenuStyle
             : menuStyle}>
-            <Container text>
+            <Container>
               <Menu.Item>
                 <Image size='mini' src={logo}/>
               </Menu.Item>
