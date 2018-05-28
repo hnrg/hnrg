@@ -40,9 +40,9 @@ class TopMenu extends Component {
           <Menu.Item className="no-border" position="right">
             <Dropdown trigger={<Icon name='user' />} pointing className='link item'>
               <Dropdown.Menu>
-                <Dropdown.Item as='a' href='/profile'>Ver perfil</Dropdown.Item>
+                <Dropdown.Item as={Link} to='/profile'>Ver perfil</Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item as='a' href='/logout'>Cerrar sesión</Dropdown.Item>
+                <Dropdown.Item as={Link} to='/logout'>Cerrar sesión</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Menu.Item>

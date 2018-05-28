@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Header, Table } from 'semantic-ui-react';
+import { Button, Header, Table } from 'semantic-ui-react';
 
 const TableExamplePadded = (props) => (
   <Table padded>
@@ -21,7 +21,10 @@ const TableExamplePadded = (props) => (
           </Table.Cell>
           <Table.Cell>{user.email}</Table.Cell>
           <Table.Cell>{user.firstName} {user.lastName}</Table.Cell>
-          <Table.Cell></Table.Cell>
+          <Table.Cell>
+            <Button circular size='tiny' color='teal' as={Link} to={`/dashboard/users/${user.username}`} icon='user' title={`Ver ${user.username}`} />
+            <Button circular size='tiny' color='red' icon='remove user' title={`Eliminar ${user.username}`} />
+          </Table.Cell>
         </Table.Row>
       ))}
     </Table.Body>
