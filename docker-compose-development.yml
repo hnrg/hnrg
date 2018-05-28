@@ -19,6 +19,12 @@ db:
   image: mongo:latest
   ports:
   - 27017:27017
+mongo-express:
+  image: mongo-express
+  links:
+    - db:mongo
+  ports:
+    - 8081:8081
 redis:
   image: redis:latest
   ports:
