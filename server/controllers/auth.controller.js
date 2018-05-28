@@ -32,7 +32,7 @@ exports.getProfileAction = async function getProfileAction(req, res) {
 exports.updateProfileAction = async function updateProfileAction(req, res) {
   try {
     const { user } = req;
-    
+
     User.findByIdAndUpdate(user._id, req.body.user)
       .exec((err, updatedUser) => {
         if (err) {

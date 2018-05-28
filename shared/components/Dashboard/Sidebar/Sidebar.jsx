@@ -1,63 +1,74 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react'
 import {
-  Sidebar,
-  Segment,
-  Button,
-  Menu,
-  Image,
+  Dropdown,
   Icon,
-  Header
-} from 'semantic-ui-react';
+  Menu,
+} from 'semantic-ui-react'
+import {Link} from 'react-router-dom';
+import TextIcon from 'components/Dashboard/TextIcon';
 
-class SidebarLeftScaleDown extends Component {
+class Sidebar extends Component {
   constructor(props) {
     super(props);
 
-    this.toggleVisibility = this.toggleVisibility.bind(this);
-
     this.state = {
-      visible: false
+      activeItem: this.props.activeItem,
     };
   }
 
-  toggleVisibility() {
+  changeSize() {
     this.setState({
-      visible: !this.state.visible
+      smallSidebar: !this.props.smallMenu,
     });
   }
 
+  getMenu() {
+    const {activeItem} = this.state;
+
+    return (
+      <Menu fixed='left' borderless className={(this.props.smallMenu ? 'small-side' : '') + ' side'} vertical>
+        <Menu.Item as={Link} to={'/dashboard'} name='dashboard' active={activeItem === 'dashboard'}>
+          <TextIcon hideText={this.props.smallMenu} color='teal' name='home'>
+              Dashboard
+          </TextIcon>
+        </Menu.Item>
+
+        <Menu.Item as={Link} to={'/dashboard/settings'} name='settings'
+                   active={activeItem === 'settings'}>
+          <TextIcon hideText={this.props.smallMenu} name='setting'>
+            Configuración
+          </TextIcon>
+        </Menu.Item>
+
+        <Menu.Item as={Link} to={'/dashboard/users'} name='users'
+                   active={activeItem === 'users'}>
+          <TextIcon hideText={this.props.smallMenu} name='users'>
+            Usuarios
+          </TextIcon>
+        </Menu.Item>
+
+        <Menu.Item as={Link} to={'/dashboard/patients'} name='patients'
+                   active={activeItem === 'patients'}>
+          <TextIcon hideText={this.props.smallMenu} name='users'>
+            Pacientes
+          </TextIcon>
+        </Menu.Item>
+      </Menu>
+    );
+  }
+
   render() {
-    const {visible} = this.state;
-    return (<div>
-      /*<Sidebar.Pushable as={Segment}>*/
-        <Sidebar
-          as={Menu}
-          animation='push'
-          width='thin'
-          visible={visible}
-          icon='labeled'
-          vertical
-          inverted
-        >
-          <Menu.Item name='home'>
-            <Icon name='home'/>
-            Home
-          </Menu.Item>
-          <Menu.Item name='gamepad'>
-            <Icon name='gamepad'/>
-            Games
-          </Menu.Item>
-          <Menu.Item name='camera'>
-            <Icon name='camera'/>
-            Channels
-          </Menu.Item>
-        </Sidebar>
-        /*<Sidebar.Pusher>*/
-          <Button onClick={this.toggleVisibility}>Toggle Visibility</Button>
-        /*</Sidebar.Pusher>
-      </Sidebar.Pushable>*/
-    </div>);
+    return (
+      <div className='parent'>
+        <div className={(this.props.smallMenu ? 'small-side ' : '') + 'side'}>
+          {this.getMenu()}
+        </div>
+        <div className={(this.props.smallMenu ? 'small-content ' : '') + 'content'}>
+          {this.props.children}
+        </div>
+      </div>
+    );
   }
 }
 
-export default SidebarLeftScaleDown;
+export default Sidebar;

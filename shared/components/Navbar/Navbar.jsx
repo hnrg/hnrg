@@ -2,7 +2,9 @@ import _ from 'lodash';
 import React, {Component} from 'react';
 import {
   Container,
+  Dropdown,
   Header,
+  Icon,
   Image,
   Menu,
   Visibility
@@ -13,7 +15,7 @@ import {
   fixedMenuStyle,
 } from './styles';
 
-import logo from 'static/icons/logo.png';
+import logo from 'static/icons/icon.png';
 
 class Navbar extends Component {
   constructor(props) {
@@ -38,7 +40,7 @@ class Navbar extends Component {
 
   render() {
     const {menuFixed, overlayFixed, overlayRect} = this.state;
-    const {name} = this.props;
+    const {isLoggedIn, name} = this.props;
 
     return (
       <div>
@@ -54,10 +56,19 @@ class Navbar extends Component {
                 <Image size='mini' src={logo}/>
               </Menu.Item>
               <Menu.Item header>HNRG</Menu.Item>
-              <Menu.Item as='a' href='/'>Inicio</Menu.Item>
+              {isLoggedIn && <Menu.Item as='a' href='/dashboard'>Dashboard</Menu.Item>}
 
               <Menu.Menu position='right'>
-                <Menu.Item as='a' href='/login'>Iniciar Sesión</Menu.Item>
+                {!isLoggedIn ?
+                  <Menu.Item as='a' href='/login'>Iniciar Sesión</Menu.Item> :
+                  <Dropdown trigger={<Icon name='user' />} pointing className='link item'>
+                    <Dropdown.Menu>
+                      <Dropdown.Item as='a' href='/profile'>Ver perfil</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item as='a' href='/logout'>Cerrar sesión</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                }
               </Menu.Menu>
             </Container>
           </Menu>

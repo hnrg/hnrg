@@ -12,7 +12,7 @@ function timesArray(date, from = 0, delta = 30, amount = 48) {
   times.push(moment(date).hours(from).minutes(0).seconds(0));
 
   for (let i = 1; i < amount; i++) {
-    times.push(moment(times[i-1]).add(delta, 'minutes'));
+    times.push(moment(times[i - 1]).add(delta, 'minutes'));
   }
 
   return times;
@@ -20,11 +20,9 @@ function timesArray(date, from = 0, delta = 30, amount = 48) {
 
 const totalTime = date => ((date.hours() * 10000) + (date.minutes() * 100) + date.seconds());
 
-const timeInArray = (date, times) => {
-  return times.find(each => date.isSame(moment(each), 'hours')
+const timeInArray = (date, times) => times.find(each => date.isSame(moment(each), 'hours')
         && date.isSame(moment(each), 'minutes')
         && date.isSame(moment(each), 'seconds'));
-}
 
 const mergeTime = (dest, src) => moment(dest)
   .hours(src.hours())

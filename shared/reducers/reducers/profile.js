@@ -1,4 +1,4 @@
-import fieldValidation from 'reducers/lib/field-validation';
+import fieldValidation from 'reducers/lib/field-validation/profile';
 import formValidation from './profile-form';
 
 import {
@@ -43,7 +43,7 @@ export default function profileReducer(state = InitialState, action) {
     }
 
     case PROFILE_UPDATE_SUCCESS: {
-      return { ...state, isFetching: false, };
+      return { ...state, isFetching: false };
     }
 
     /**
@@ -63,9 +63,9 @@ export default function profileReducer(state = InitialState, action) {
           username: action.payload.username,
           email: action.payload.email,
           username: action.payload.username,
-          firstName: action.payload.firstName || "",
-          lastName: action.payload.lastName || "",
-          password: "",
+          firstName: action.payload.firstName || '',
+          lastName: action.payload.lastName || '',
+          password: '',
         },
         originalProfile: {
           ...state.originalProfile,
@@ -87,7 +87,6 @@ export default function profileReducer(state = InitialState, action) {
     }
 
     case ON_PROFILE_FORM_FIELD_CHANGE: {
-      console.log(state);
       const { field, value } = action.payload;
 
       nextProfileState = {
@@ -95,7 +94,7 @@ export default function profileReducer(state = InitialState, action) {
         fields: {
           ...state.fields,
           [field]: value,
-        }
+        },
       };
 
       return formValidation(fieldValidation(nextProfileState, action), action);

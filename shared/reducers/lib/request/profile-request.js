@@ -25,7 +25,9 @@ export default class ProfileRequest {
     });
   }
 
-  updateProfile({username, email, firstName, lastName}) {
+  updateProfile({
+    username, email, firstName, lastName,
+  }) {
     return axios.post('/api/auth/me', {
       user: {
         username,
@@ -38,7 +40,6 @@ export default class ProfileRequest {
         Authorization: this._sessionToken,
       },
     }).then((response) => {
-      console.log(response);
       if (response.status === 200 || response.status === 201) {
         return response.data;
       }

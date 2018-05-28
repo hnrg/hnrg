@@ -49,7 +49,7 @@ const clientConfig = {
         loaders: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(eot|png|svg|[ot]tf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        test: /\.(eot|png|jpg|svg|[ot]tf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file-loader',
       },
     ],
@@ -61,8 +61,8 @@ const clientConfig = {
       components: path.resolve(__dirname, '../../shared/components'),
       containers: path.resolve(__dirname, '../../shared/containers'),
       helpers: path.resolve(__dirname, '../../shared/helpers'),
-      reducers: path.resolve(__dirname, '../../shared/reducers')
-    }
+      reducers: path.resolve(__dirname, '../../shared/reducers'),
+    },
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),

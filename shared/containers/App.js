@@ -11,6 +11,8 @@ import * as globalActions from 'reducers/actions/global-actions';
 
 import DevTools from 'components/DevTools';
 
+import './styles.css';
+
 /**
  *  Save that state
  */

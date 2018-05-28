@@ -19,7 +19,7 @@ class Footer extends Component {
           vertical
         >
           <Container textAlign='center'>
-            <Grid columns={2} divided stackable inverted>
+            <Grid columns={2} stackable inverted>
               <Grid.Row>
                 <Grid.Column computer={10} mobile={16}>
                   <Header inverted as='h4' content='Descripción' />

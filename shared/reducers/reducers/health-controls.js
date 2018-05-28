@@ -1,4 +1,4 @@
-import fieldValidation from 'reducers/lib/field-validation';
+
 import {
   GET_HEALTH_CONTROLS_REQUEST,
   GET_HEALTH_CONTROLS_SUCCESS,

@@ -17,14 +17,14 @@ import LoginPage from 'containers/Auth/Login';
 import LogoutPage from 'containers/Auth/Logout';
 
 // high order components
-import RequireAuth from 'containers/Middleware/Auth';
+import requireAuth from 'containers/Middleware/Auth';
 
 const Routes = () => (
   <CookiesProvider>
     <App>
       <Switch>
-        <Route path="/dashboard" component={RequireAuth(DashboardPage)} />
-        <Route path="/profile" component={RequireAuth(ProfilePage)} />
+        <Route path="/dashboard" component={requireAuth(DashboardPage)} />
+        <Route path="/profile" component={requireAuth(ProfilePage)} />
 
         <Route exact path="/" component={HomePage} />
         <Route path="/home" component={HomePage} />

@@ -28,7 +28,7 @@ const app = express();
 app.use(cookieParser());
 app.use(helmet());
 app.use(session({
-  secret: secret,
+  secret,
   resave: true,
   saveUninitialized: true,
   cookie: {

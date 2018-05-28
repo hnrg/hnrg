@@ -1,38 +1,74 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as actions from 'reducers/actions/auth-actions';
+import * as authActions from 'reducers/actions/auth-actions';
 import './login.css';
 
 class LoginContainer extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    const { fields, isFetching, isValid } = this.props.auth;
 
     this.state = {
-      email: "",
-      password: "",
-      error: null
+      fields: {
+        ...fields,
+        email: "",
+        password: "",
+      },
+      isValid,
+      isFetching,
     };
   }
 
+  componentWillReceiveProps(props) {
+    const { fields, isFetching, isValid } = props.auth;
+
+    this.setState({
+      fields,
+      isValid,
+      isFetching,
+    });
+  }
+
+  componentDidMount() {
+    const { fields, isFetching, isValid } = this.props.auth;
+
+    this.setState({
+      fields,
+      isValid,
+      isFetching,
+    });
+  }
+
   handleChange(e, { name, value }) {
-    this.setState({ [name]: value });
+    this.props.actions.onAuthFormFieldChange(name, value);
+
+    this.setState({
+      fields: {
+        ...this.state.fields,
+        [name]: value,
+      }
+    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    var { email, password } = this.state;
-    var { history, login } = this.props
-    login({email, password});
-    history.push('/dashboard');
+    const { fields, isValid, isFetching } = this.props.auth;
+
+    if (!isValid || isFetching) {
+      return;
+    }
+
+    this.props.actions.login(fields);
   }
 
   render() {
+    const { fields, isValid, isFetching } = this.state;
+
     return(
       <div className='login-form'>
         <Grid
@@ -41,35 +77,44 @@ class LoginContainer extends Component {
           verticalAlign='middle'
         >
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as='h2' color='teal' textAlign='center'>
+            <Header as='h2' color='blue' textAlign='center'>
               {' '}Iniciar Sesión
             </Header>
             <Form
               size='large'
-              onSubmit={this.handleSubmit}
+              onSubmit={this.handleSubmit.bind(this)}
             >
               <Segment stacked>
                 <Form.Input
                   fluid
                   icon='user'
                   iconPosition='left'
-                  placeholder='E-mail address'
+                  placeholder='Email'
                   name='email'
-                  value={this.state.email}
-                  onChange={this.handleChange}
+                  value={fields.email}
+                  error={fields.emailHasError}
+                  onChange={this.handleChange.bind(this)}
                 />
                 <Form.Input
                   fluid
                   icon='lock'
                   iconPosition='left'
-                  placeholder='Password'
+                  placeholder='Contraseña'
                   type='password'
                   name='password'
-                  value={this.state.password}
-                  onChange={this.handleChange}
+                  value={fields.password}
+                  error={fields.passwordHasError}
+                  onChange={this.handleChange.bind(this)}
                 />
 
-                <Button color='teal' fluid size='large'>Login</Button>
+                <Button
+                  disabled={!isValid || isFetching}
+                  color='blue'
+                  fluid
+                  size='large'
+                >
+                  Login
+                </Button>
               </Segment>
             </Form>
           </Grid.Column>
@@ -79,4 +124,18 @@ class LoginContainer extends Component {
   }
 }
 
-export default connect(null, actions)(LoginContainer);
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      ...authActions,
+    }, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

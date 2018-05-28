@@ -15,21 +15,24 @@ import * as globalActions from 'reducers/actions/global-actions';
 import * as profileActions from 'reducers/actions/profile-actions';
 
 import Footer from 'components/Footer';
-import UserShow from 'components/User/Show';
-import UserEdit from 'components/User/Edit';
+import TopMenu from 'components/TopMenu';
+import UserShow from 'components/Users/Show';
+import UserEdit from 'components/Users/Edit';
 
-const panes = ({ loading, connectedUser, fields }, actions) => [
+const panes = ({ loading, originalProfile, fields, isValid, isFetching }, actions) => [
   {
     menuItem: { key: 'user', icon: 'user', content: 'Ver perfil' },
-    render: () => <Tab.Pane loading={loading} padded='very'><UserShow user={connectedUser} /></Tab.Pane>
+    render: () => <Tab.Pane loading={loading} padded='very'><UserShow user={originalProfile} /></Tab.Pane>
   },
   {
     menuItem: { key: 'edit', icon: 'edit', content: 'Editar perfil' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
         <UserEdit
-          user={connectedUser}
+          user={originalProfile}
           fields={fields}
+          isValid={isValid}
+          isFetching={isFetching}
           onFormFieldChange={actions.onProfileFormFieldChange}
           updateUser={actions.updateProfile} />
       </Tab.Pane>
@@ -41,27 +44,31 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
 
-    const { originalProfile, fields } = this.props.profile;
+    const { originalProfile, fields, isFetching, isValid } = this.props.profile;
 
     this.state = {
       loading: true,
-      connectedUser: originalProfile,
-      fields: fields,
+      originalProfile,
+      fields,
+      isValid,
+      isFetching,
     };
   }
 
   componentWillReceiveProps(props) {
-    const { originalProfile, fields } = props.profile;
+    const { originalProfile, fields, isFetching, isValid } = props.profile;
 
     this.setState({
       loading: _.isEqual(originalProfile, this.state.currentUser),
-      connectedUser: originalProfile,
-      fields: fields,
+      originalProfile,
+      fields,
+      isValid,
+      isFetching,
     });
   }
 
   componentDidMount() {
-    const { originalProfile, fields } = this.props.profile;
+    const { originalProfile, fields, isFetching, isValid } = this.props.profile;
 
     if (!_.isEqual(originalProfile, this.state.currentUser)) {
       this.props.actions.getProfile(this.props.global.currentUser);
@@ -70,8 +77,10 @@ class ProfileContainer extends Component {
 
     this.setState({
       loading: false,
-      connectedUser: originalProfile,
-      fields: fields,
+      originalProfile,
+      fields,
+      isValid,
+      isFetching,
     });
   }
 
@@ -80,7 +89,8 @@ class ProfileContainer extends Component {
 
     return (
       <div>
-        <Container>
+        <TopMenu />
+        <Container style={{margin: '95px 0 0 0'}}>
           <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} />
         </Container>
       </div>

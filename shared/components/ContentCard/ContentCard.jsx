@@ -18,11 +18,11 @@ const LeftCard = props => (
       }} />
     </ Grid.Column>
     <Grid.Column computer={10} largeScreen={10} tablet={16} mobile={16} textAlign="left">
-      <Header as='h3' color={props.color}>
+      <Header as='h5' color={props.color}>
         <Icon name={props.icon} size='tiny'/>
         {props.subtitle}
       </Header>
-      <Header as='h1'>{props.title}</Header>
+      <Header as='h2' style={{margin: '0 0 10px 0'}}>{props.title}</Header>
       {props.text}
     </ Grid.Column>
   </ Grid.Row>
@@ -31,11 +31,11 @@ const LeftCard = props => (
 const RightCard = props => (
   <Grid.Row>
     <Grid.Column computer={10} largeScreen={10} tablet={16} mobile={16} textAlign="left">
-      <Header as='h3' color={props.color}>
+      <Header as='h5' color={props.color}>
         <Icon name={props.icon} size='tiny'/>
         {props.subtitle}
       </Header>
-      <Header as='h1'>{props.title}</Header>
+      <Header as='h2' style={{margin: '0 0 10px 0'}}>{props.title}</Header>
       {props.text}
     </ Grid.Column>
     <Grid.Column computer={6} largeScreen={6} tablet={16} mobile={16}>
@@ -51,12 +51,9 @@ class ContentCard extends Component {
   render() {
     const {left} = this.props;
     return (
-      <Container textAlign='center'>
-        <Grid>
-          {left? <LeftCard {...this.props} /> : <RightCard {...this.props} /> }
-        </ Grid>
-        <Divider />
-      </Container>
+      <Grid>
+        {left? <LeftCard {...this.props} /> : <RightCard {...this.props} /> }
+      </ Grid>
     );
   }
 }

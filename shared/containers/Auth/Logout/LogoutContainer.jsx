@@ -9,7 +9,7 @@ import * as globalActions from 'reducers/actions/global-actions';
 class LogoutContainer extends Component {
   componentWillMount() {
     this.props.actions.logout();
-    this.props.history.push('/');
+    this.props.history.push('/login');
   }
 
   render() {
