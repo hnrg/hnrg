@@ -10,7 +10,7 @@ export default class RolesRequest {
     return this;
   }
 
-  getRoles(pageNumber = 1) {
+  getRoles(pageNumber = 0) {
     return axios.get('/api/roles', {
       params: {
         pageNumber,

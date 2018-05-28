@@ -10,7 +10,7 @@ export default class PermissionsRequest {
     return this;
   }
 
-  getPermissions(pageNumber = 1) {
+  getPermissions(pageNumber = 0) {
     return axios.get('/api/permissions', {
       params: {
         pageNumber,

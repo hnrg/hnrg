@@ -17,7 +17,7 @@ export default {
     user: null,
     active: null,
   },
-  healthControls: [],
+  healthControls: null,
   disabled: false,
   error: null,
   isValid: false,

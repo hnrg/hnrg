@@ -10,7 +10,7 @@ export default class UsersRequest {
     return this;
   }
 
-  getUsers(pageNumber = 1) {
+  getUsers(pageNumber = 0) {
     return axios.get('/api/users', {
       params: {
         pageNumber,

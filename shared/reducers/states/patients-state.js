@@ -14,7 +14,7 @@ export default {
     documentNumber: null,
     deleted: null,
   },
-  patients: [],
+  patients: null,
   disabled: false,
   error: null,
   isValid: false,

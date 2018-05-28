@@ -10,7 +10,7 @@ export default class PatientsRequest {
     return this;
   }
 
-  getPatients(pageNumber = 1) {
+  getPatients(pageNumber = 0) {
     return axios.get(
       '/api/patients',
       {

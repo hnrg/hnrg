@@ -4,7 +4,7 @@ export default {
     name: '',
     permissions: null,
   },
-  roles: [],
+  roles: null,
   disabled: false,
   error: null,
   isValid: false,

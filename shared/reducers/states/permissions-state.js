@@ -1,5 +1,5 @@
 export default {
-  permissions: [],
+  permissions: null,
   disabled: false,
   error: null,
   isValid: false,

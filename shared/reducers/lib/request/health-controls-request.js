@@ -10,7 +10,7 @@ export default class HealthControlsRequest {
     return this;
   }
 
-  getHealthControls(pageNumber = 1) {
+  getHealthControls(pageNumber = 0) {
     return axios.get(
       '/api/health-controls',
       {
