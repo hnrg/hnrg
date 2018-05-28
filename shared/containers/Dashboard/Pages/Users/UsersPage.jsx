@@ -16,6 +16,7 @@ import Footer from 'components/Footer';
 import TopMenu from 'components/TopMenu';
 import UserShow from 'components/Users/Show';
 import UserEdit from 'components/Users/Edit';
+import UsersList from 'components/Users/List';
 
 const panes = ({ loading, originalUser, fields, isValid, isFetching }, actions) => [
   {
@@ -42,10 +43,11 @@ class UsersContainer extends Component {
   constructor(props) {
     super(props);
 
-    const { originalUser, fields, isFetching, isValid } = this.props.users;
-    console.log(this.props);
+    const { originalUser, fields, isFetching, isValid, users } = this.props.users;
+
     this.state = {
       loading: true,
+      users,
       originalUser,
       fields,
       isValid,
@@ -54,23 +56,28 @@ class UsersContainer extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { originalUser, fields, isFetching, isValid } = props.users;
+    const { originalUser, fields, isFetching, isValid, users } = props.users;
 
-    console.log(props);
     this.setState({
       loading: fields.username === '',
       originalUser,
       fields,
       isValid,
       isFetching,
+      users,
     });
   }
 
   componentDidMount() {
-    const { originalUser, fields, isFetching, isValid } = this.props.users;
+    const { originalUser, fields, isFetching, isValid, users } = this.props.users;
 
-    if (this.props.match.params.username && fields.username === '') {
+    if (this.props.match.params.username && originalUser.username === '') {
       this.props.actions.getUser(this.props.match.params.username);
+      return;
+    }
+
+    if (!this.props.match.params.username && this.state.users === null) {
+      this.props.actions.getUsers();
       return;
     }
 
@@ -80,17 +87,20 @@ class UsersContainer extends Component {
       fields,
       isValid,
       isFetching,
+      users
     });
   }
 
   render() {
     const { actions } = this.props;
-    console.log(this.state);
-    console.log(this.props);
 
     return (
       <div>
-        <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} />
+        {
+          this.props.match.params.username ?
+          <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} /> :
+          <UsersList users={this.state.users} />
+        }
       </div>
     );
   }
