@@ -87,7 +87,6 @@ export default function usersReducer(state = InitialState, action) {
           username: action.payload.username,
           firstName: action.payload.firstName || '',
           lastName: action.payload.lastName || '',
-          password: '',
         },
         originalUser: {
           ...state.originalUser,
@@ -95,7 +94,6 @@ export default function usersReducer(state = InitialState, action) {
           username: action.payload.username,
           firstName: action.payload.firstName,
           lastName: action.payload.lastName,
-          password: action.payload.password,
           active: action.payload.active,
           createdAt: action.payload.createdAt,
           updatedAt: action.payload.updatedAt,

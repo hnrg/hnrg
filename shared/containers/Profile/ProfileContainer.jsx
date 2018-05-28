@@ -59,7 +59,7 @@ class ProfileContainer extends Component {
     const { originalProfile, fields, isFetching, isValid } = props.profile;
 
     this.setState({
-      loading: _.isEqual(originalProfile, this.state.currentUser),
+      loading: this.props.profile.fields.username === '',
       originalProfile,
       fields,
       isValid,
@@ -70,7 +70,7 @@ class ProfileContainer extends Component {
   componentDidMount() {
     const { originalProfile, fields, isFetching, isValid } = this.props.profile;
 
-    if (!_.isEqual(originalProfile, this.state.currentUser)) {
+    if (this.props.profile.fields.username === '') {
       this.props.actions.getProfile(this.props.global.currentUser);
       return;
     }

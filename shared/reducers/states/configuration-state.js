@@ -6,16 +6,16 @@ export default {
   configurations: null,
   current: {
     webpage: {
-      name: null,
+      name: '',
       amountPerPage: null,
-      email: null,
-      description: null,
+      email: '',
+      description: '',
     },
     appointments: {
       from: null,
       delta: null,
       ammount: null,
     },
-    maintenance: false,
+    maintenance: null,
   },
 };

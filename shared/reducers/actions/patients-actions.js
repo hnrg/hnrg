@@ -59,7 +59,7 @@ export function getPatientFailure(error) {
  * controls which form is displayed to the user
  * as in login, register, logout or reset password
  */
-export function getPatients(sessionToken, pageNumber) {
+export function getPatients(pageNumber, sessionToken) {
   return (dispatch) => {
     dispatch(getPatientsRequest());
     // store or get a sessionToken

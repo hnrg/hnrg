@@ -59,7 +59,7 @@ export function getRolFailure(error) {
  * controls which form is displayed to the user
  * as in login, register, logout or reset password
  */
-export function getRoles(sessionToken, pageNumber) {
+export function getRoles(pageNumber, sessionToken) {
   return (dispatch) => {
     dispatch(getRolesRequest());
     // store or get a sessionToken

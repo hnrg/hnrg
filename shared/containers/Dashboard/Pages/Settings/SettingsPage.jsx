@@ -6,7 +6,7 @@ import {
 
 const Home = props => (
   <Segment>
-    <h1>React Admin Dashboard</h1>
+    <h1>React Admin Dashboard - Settings</h1>
   </Segment>
 );
 

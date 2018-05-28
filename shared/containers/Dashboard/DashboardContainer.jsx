@@ -62,6 +62,7 @@ class DashboardContainer extends Component {
   render() {
     const {match} = this.props;
     const activeItem = this.props.location.pathname.split('/')[2] || 'dashboard';
+    console.log(match.path);
 
     return (
       <div>
@@ -72,7 +73,7 @@ class DashboardContainer extends Component {
           <Switch>
             <Route exact path={`${match.path}`} component={IndexPage} />
             <Route path={`${match.path}/settings`} component={SettingsPage} />
-            <Route path={`${match.path}/users`} components={UsersPage} />
+            <Route path={`${match.path}/users/:username?`} component={UsersPage} />
           </Switch>
         </Layout>
       </div>

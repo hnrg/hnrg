@@ -36,7 +36,7 @@ export function getPermissionsFailure(error) {
  * controls which form is displayed to the user
  * as in login, register, logout or reset password
  */
-export function getPermissions(sessionToken, pageNumber) {
+export function getPermissions(pageNumber, sessionToken) {
   return (dispatch) => {
     dispatch(getPermissionsRequest());
     // store or get a sessionToken

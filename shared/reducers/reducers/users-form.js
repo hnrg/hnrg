@@ -6,10 +6,10 @@ export default function formValidation(state) {
     !state.fields.emailHasError &&
     !state.fields.firstNameHasError &&
     !state.fields.lastNameHasError &&
-    (state.fields.username !== state.originalProfile.username ||
-     state.fields.email !== state.originalProfile.email ||
-     state.fields.firstName !== state.originalProfile.firstName ||
-     state.fields.lastName !== state.originalProfile.lastName)
+    (state.fields.username !== state.originalUser.username ||
+     state.fields.email !== state.originalUser.email ||
+     state.fields.firstName !== state.originalUser.firstName ||
+     state.fields.lastName !== state.originalUser.lastName)
   );
 
   return {

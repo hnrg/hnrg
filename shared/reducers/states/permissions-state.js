@@ -5,4 +5,3 @@ export default {
   isValid: false,
   isFetching: false,
 };
-

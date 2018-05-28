@@ -1,7 +1,7 @@
 export default {
   originalRol: {
     id: null,
-    name: null,
+    name: '',
     permissions: null,
   },
   roles: [],
@@ -10,7 +10,7 @@ export default {
   isValid: false,
   isFetching: false,
   fields: {
-    name: null,
+    name: '',
     nameHasError: false,
     nameErrorMsg: '',
     permissions: null,
@@ -18,4 +18,3 @@ export default {
     permissionsNameErrorMsg: '',
   },
 };
-

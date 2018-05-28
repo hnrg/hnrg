@@ -14,7 +14,7 @@ import {
   ON_USER_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
-import { userRequest } from 'reducers/lib/request/user-request';
+import { usersRequest } from 'reducers/lib/request/users-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
 export function getUsersRequest() {
@@ -37,7 +37,7 @@ export function getUsersFailure(error) {
   };
 }
 
-export function getUsers(sessionToken, pageNumber) {
+export function getUsers(pageNumber, sessionToken) {
   return (dispatch) => {
     dispatch(getUsersRequest());
     // store or get a sessionToken
@@ -85,7 +85,7 @@ export function getUser(username, sessionToken) {
     dispatch(getUserRequest());
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
-      .then(token => userRequest.init(token).getUser(username))
+      .then(token => usersRequest.init(token).getUser(username))
       .then((json) => {
         dispatch(getUserSuccess(json.user));
       })
@@ -135,7 +135,7 @@ export function updateUser(originalUsername, username, email, firstName, lastNam
   return (dispatch) => {
     dispatch(userUpdateRequest());
     return authToken.getSessionToken(sessionToken)
-      .then(token => userRequest.init(token)
+      .then(token => usersRequest.init(token)
         .updateUser(originalUsername, {
           username,
           email,
