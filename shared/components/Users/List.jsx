@@ -2,14 +2,25 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Divider, Form, Header, Segment, Table } from 'semantic-ui-react';
 
+const options = [
+  { key: 'active', value: true, icon: 'check', text: 'Activos' },
+  { key: 'inactive', value: false, icon: 'lock', text: 'Inactivos' },
+];
+
 const UsersList = (props) => (
   <Segment>
     <Header as='h2' content='Listado de Usuarios' />
-    <Form onSubmit={props.handleSubmit}>
-      <Form.Group>
-        <Form.Input placeholder='Nombre de usuario' name='name' value={''} onChange={props.onFormFieldChange} />
-        <Form.Input placeholder='Email' name='email' value={''} onChange={props.onFormFieldChange} />
-        <Form.Button color='blue' icon='search' content='Buscar' />
+    <Form>
+      <Form.Group widths='equals'>
+        <Form.Select
+          placeholder='Estado'
+          name='active'
+          onChange={props.onSearchFieldChange}
+          options={options} />
+        <Form.Input
+          name='username'
+          onChange={props.onSearchFieldChange}
+          placeholder='Nombre de usuario' />
       </Form.Group>
     </Form>
     <Table padded>

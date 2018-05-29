@@ -47,6 +47,9 @@ class UsersContainer extends Component {
 
     this.state = {
       loading: true,
+      pageNumber: 0,
+      username: '',
+      active: true,
       users,
       originalUser,
       fields,
@@ -77,7 +80,9 @@ class UsersContainer extends Component {
     }
 
     if (!this.props.match.params.username && this.state.users === null) {
-      this.props.actions.getUsers();
+      const { pageNumber, username, active } = this.state;
+
+      this.props.actions.getUsers(pageNumber, username, active);
       return;
     }
 
@@ -91,6 +96,20 @@ class UsersContainer extends Component {
     });
   }
 
+  onSearchFieldChange(e, {name, value}) {
+    const prevState = {
+      ...this.state,
+      [name]: value,
+    };
+    const { pageNumber, username, active } = prevState;
+
+    this.props.actions.getUsers(pageNumber, username, active);
+
+    this.setState({
+      [name]: value,
+    });
+  }
+
   render() {
     const { actions } = this.props;
 
@@ -99,7 +118,9 @@ class UsersContainer extends Component {
         {
           this.props.match.params.username ?
           <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} /> :
-          <UsersList users={this.state.users} />
+          <UsersList
+            users={this.state.users}
+            onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
         }
       </div>
     );

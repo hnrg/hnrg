@@ -42,6 +42,9 @@ class Show extends Component {
   render() {
     const { user } = this.state;
 
+    const createdAt = moment(user.createdAt);
+    createdAt.locale('es');
+
     return(
       <center>
         <Header as='h2' icon>
@@ -63,7 +66,7 @@ class Show extends Component {
             </Grid.Column>
             <Grid.Column style={{padding: '0 0 15px 0'}} computer={5} largeScreen={5} tablet={16} mobile={16}>
               <Header as='h4' content='Fecha de Ingreso'/>
-              {moment(user.createdAt).format('LLLL')}
+              {createdAt.format('LLLL')}
             </Grid.Column>
           </Grid.Row>
         </Grid>

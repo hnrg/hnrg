@@ -62,7 +62,6 @@ class DashboardContainer extends Component {
   render() {
     const {match} = this.props;
     const activeItem = this.props.location.pathname.split('/')[2] || 'dashboard';
-    console.log(match.path);
 
     return (
       <div>
