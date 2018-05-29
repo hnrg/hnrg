@@ -17,13 +17,38 @@ exports.getHealthControls = async function getHealthControls(req, res) {
     const { webpage } = configuration;
     const { amountPerPage } = webpage;
 
-    const healthControls = await HealthControl.find({ active })
-      .populate('patient user')
-      .limit(amountPerPage)
-      .skip(amountPerPage * pageNumberNumber)
-      .exec();
+    await HealthControl.count({ active })
+      .exec((err, totalCount) => {
+        if (err) {
+          next(err);
+          return;
+        }
 
-    res.status(200).send({ healthControls });
+        if (!totalCount) {
+          return res.status(200).send({
+            "total_count": 0,
+            count: 0,
+            healthControls: [],
+          });
+        }
+
+        const healthControls = HealthControl.find({ active })
+          .limit(amountPerPage)
+          .skip(amountPerPage * pageNumber)
+          .populate('patient user')
+          .exec(($err, healthControls) => {
+            if ($err) {
+              next($err);
+              return;
+            }
+
+            res.status(200).send({
+              "total_count": totalCount,
+              count: healthControls.length,
+              healthControls,
+            });
+          });
+      });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
