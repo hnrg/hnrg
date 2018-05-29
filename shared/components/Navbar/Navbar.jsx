@@ -49,7 +49,7 @@ class Navbar extends Component {
           <Header as='h1'>{name}</Header>
         </Container>
         <Visibility onBottomPassed={this.stickTopMenu} onBottomVisible={this.unStickTopMenu} once={false}>
-          <Menu borderless fixed={menuFixed && "top"} style={menuFixed
+          <Menu borderless fixed={menuFixed ? "top" : undefined} style={menuFixed
             ? fixedMenuStyle
             : menuStyle}>
             <Container>
