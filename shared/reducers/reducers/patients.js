@@ -47,7 +47,9 @@ export default function patientsReducer(state = InitialState, action) {
     case GET_PATIENTS_SUCCESS: {
       return {
         ...state,
-        patients: action.payload,
+        totalCount: action.payload.totalCount,
+        count: action.payload.count,
+        patients: action.payload.patients,
         isFetching: false,
         error: null,
       };
@@ -140,11 +142,15 @@ export default function patientsReducer(state = InitialState, action) {
 
       return {
         ...state,
-        disabled: state.patients.disabled,
-        error: state.patients.error,
-        isValid: state.patients.isValid,
-        isFetching: state.patients.isFetching,
-        patients: state.patients.patients,
+        disabled: patients.disabled,
+        error: patients.error,
+        isValid: patients.isValid,
+        isFetching: patients.isFetching,
+        patients: patients.patients,
+        totalCount: patients.totalCount,
+        count: patients.count,
+        originalPatient: patients.originalPatient,
+        fields: patients.fields,
       };
     }
 
@@ -153,4 +159,3 @@ export default function patientsReducer(state = InitialState, action) {
     }
   }
 }
-

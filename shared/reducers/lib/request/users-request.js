@@ -10,17 +10,25 @@ export default class UsersRequest {
     return this;
   }
 
-  getUsers(pageNumber = 0) {
+  getUsers(pageNumber = 0, username = '', active = true) {
     return axios.get('/api/users', {
       params: {
         pageNumber,
+        username: username.trim(),
+        active,
       },
       headers: {
         Authorization: this._sessionToken,
       },
     }).then((response) => {
       if (response.status === 200 || response.status === 201) {
-        return response.data;
+        const data = response.data;
+        
+        return {
+          users: data.users,
+          count: data.count,
+          totalCount: data['total_count'],
+        };
       }
       throw (response.data.error);
     }).catch((error) => {

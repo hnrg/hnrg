@@ -20,10 +20,10 @@ export function getRolesRequest() {
   };
 }
 
-export function getRolesSuccess(roles) {
+export function getRolesSuccess(data) {
   return {
     type: GET_ROLES_SUCCESS,
-    payload: roles,
+    payload: data,
   };
 }
 
@@ -65,8 +65,8 @@ export function getRoles(pageNumber, sessionToken) {
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
       .then(token => rolesRequest.init(token).getRoles(pageNumber))
-      .then((json) => {
-        dispatch(getRolesSuccess(json.roles));
+      .then((data) => {
+        dispatch(getRolesSuccess(data));
       })
       .catch((error) => {
         dispatch(getRolesFailure(error));
@@ -85,8 +85,8 @@ export function getRol(sessionToken, rol) {
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
       .then(token => rolesRequest.init(token).getRol(rol))
-      .then((json) => {
-        dispatch(getRolSuccess(json.rol));
+      .then((data) => {
+        dispatch(getRolSuccess(data.rol));
       })
       .catch((error) => {
         dispatch(getRolFailure(error));

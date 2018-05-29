@@ -42,8 +42,8 @@ export function getPermissions(pageNumber, sessionToken) {
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
       .then(token => permissionsRequest.init(token).getPermissions(pageNumber))
-      .then((json) => {
-        dispatch(getPermissionsSuccess(json.permissions));
+      .then((data) => {
+        dispatch(getPermissionsSuccess(data.permissions));
       })
       .catch((error) => {
         dispatch(getPermissionsFailure(error));

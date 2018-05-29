@@ -14,6 +14,8 @@ export default {
     documentNumber: null,
     deleted: null,
   },
+  totalCount: null,
+  count: null,
   patients: null,
   disabled: false,
   error: null,

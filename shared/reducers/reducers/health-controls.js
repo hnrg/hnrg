@@ -47,7 +47,9 @@ export default function healthControlsReducer(state = InitialState, action) {
     case GET_HEALTH_CONTROLS_SUCCESS: {
       return {
         ...state,
-        healthControls: action.payload,
+        totalCount: action.payload.totalCount,
+        count: action.payload.count,
+        healthControls: action.payload.healthControls,
         isFetching: false,
         error: null,
       };
@@ -147,11 +149,15 @@ export default function healthControlsReducer(state = InitialState, action) {
 
       return {
         ...state,
-        disabled: state.healthControls.disabled,
-        error: state.healthControls.error,
-        isValid: state.healthControls.isValid,
-        isFetching: state.healthControls.isFetching,
-        healthControls: state.healthControls.healthControls,
+        disabled: healthControls.disabled,
+        error: healthControls.error,
+        isValid: healthControls.isValid,
+        isFetching: healthControls.isFetching,
+        healthControls: healthControls.healthControls,
+        totalCount: healthControls.totalCount,
+        count: healthControls.count,
+        originalHealthControl: healthControls.originalHealthControl,
+        fields: healthControls.fields,
       };
     }
 
@@ -160,4 +166,3 @@ export default function healthControlsReducer(state = InitialState, action) {
     }
   }
 }
-

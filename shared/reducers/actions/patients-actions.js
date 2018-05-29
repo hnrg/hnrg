@@ -20,10 +20,10 @@ export function getPatientsRequest() {
   };
 }
 
-export function getPatientsSuccess(patients) {
+export function getPatientsSuccess(data) {
   return {
     type: GET_PATIENTS_SUCCESS,
-    payload: patients,
+    payload: data,
   };
 }
 
@@ -65,8 +65,8 @@ export function getPatients(pageNumber, sessionToken) {
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
       .then(token => patientsRequest.init(token).getPatients(pageNumber))
-      .then((json) => {
-        dispatch(getPatientsSuccess(json.patients));
+      .then((data) => {
+        dispatch(getPatientsSuccess(data));
       })
       .catch((error) => {
         dispatch(getPatientsFailure(error));
@@ -85,12 +85,11 @@ export function getPatient(sessionToken, patient) {
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
       .then(token => patientsRequest.init(token).getPatient(patient))
-      .then((json) => {
-        dispatch(getPatientSuccess(json.patient));
+      .then((data) => {
+        dispatch(getPatientSuccess(data.patient));
       })
       .catch((error) => {
         dispatch(getPatientFailure(error));
       });
   };
 }
-

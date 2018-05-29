@@ -47,8 +47,8 @@ export function getProfile(sessionToken) {
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
       .then(token => profileRequest.init(token).getProfile())
-      .then((json) => {
-        dispatch(getProfileSuccess(json.user));
+      .then((data) => {
+        dispatch(getProfileSuccess(data.user));
       })
       .catch((error) => {
         dispatch(getProfileFailure(error));
@@ -75,10 +75,10 @@ export function profileUpdateSuccess() {
   };
 }
 
-export function profileUpdateFailure(json) {
+export function profileUpdateFailure(data) {
   return {
     type: PROFILE_UPDATE_FAILURE,
-    payload: json,
+    payload: data,
   };
 }
 

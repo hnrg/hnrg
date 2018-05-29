@@ -23,10 +23,10 @@ export function getUsersRequest() {
   };
 }
 
-export function getUsersSuccess(users) {
+export function getUsersSuccess(data) {
   return {
     type: GET_USERS_SUCCESS,
-    payload: users,
+    payload: data,
   };
 }
 
@@ -37,14 +37,14 @@ export function getUsersFailure(error) {
   };
 }
 
-export function getUsers(pageNumber, sessionToken) {
+export function getUsers(pageNumber, username, active, sessionToken) {
   return (dispatch) => {
     dispatch(getUsersRequest());
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
-      .then(token => usersRequest.init(token).getUsers(pageNumber))
-      .then((json) => {
-        dispatch(getUsersSuccess(json.users));
+      .then(token => usersRequest.init(token).getUsers(pageNumber, username, active))
+      .then((data) => {
+        dispatch(getUsersSuccess(data));
       })
       .catch((error) => {
         dispatch(getUsersFailure(error));
@@ -86,8 +86,8 @@ export function getUser(username, sessionToken) {
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
       .then(token => usersRequest.init(token).getUser(username))
-      .then((json) => {
-        dispatch(getUserSuccess(json.user));
+      .then((data) => {
+        dispatch(getUserSuccess(data.user));
       })
       .catch((error) => {
         dispatch(getUserFailure(error));
@@ -114,10 +114,10 @@ export function userUpdateSuccess() {
   };
 }
 
-export function userUpdateFailure(json) {
+export function userUpdateFailure(data) {
   return {
     type: USER_UPDATE_FAILURE,
-    payload: json,
+    payload: data,
   };
 }
 

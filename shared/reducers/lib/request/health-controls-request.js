@@ -23,7 +23,13 @@ export default class HealthControlsRequest {
       },
     ).then((response) => {
       if (response.status === 200 || response.status === 201) {
-        return response.data;
+        const data = response.data;
+
+        return {
+          healthControls: data.healthControls,
+          count: data.count,
+          totalCount: data['total_count'],
+        };
       }
       throw (response.data.error);
     }).catch((error) => {

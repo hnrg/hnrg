@@ -253,9 +253,9 @@ export function login({ email, password }) {
       email,
       password,
     })
-      .then(json => saveSessionToken(json.token)
+      .then(data => saveSessionToken(data.token)
         .then(() => {
-          dispatch(loginSuccess(json.token));
+          dispatch(loginSuccess(data.token));
           global.window.location.replace('/dashboard');
           dispatch(logoutState());
         }))

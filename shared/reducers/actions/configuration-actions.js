@@ -38,8 +38,8 @@ export function getConfiguration() {
   return (dispatch) => {
     dispatch(getConfigurationRequest());
     return configurationRequest.getConfiguration()
-      .then((json) => {
-        dispatch(getConfigurationSuccess(json.configuration));
+      .then((data) => {
+        dispatch(getConfigurationSuccess(data.configuration));
       })
       .catch((error) => {
         dispatch(getConfigurationFailure(error));

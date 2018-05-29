@@ -20,10 +20,10 @@ export function getHealthControlsRequest() {
   };
 }
 
-export function getHealthControlsSuccess(healthControls) {
+export function getHealthControlsSuccess(data) {
   return {
     type: GET_HEALTH_CONTROLS_SUCCESS,
-    payload: healthControls,
+    payload: data,
   };
 }
 
@@ -65,8 +65,8 @@ export function getHealthControls(pageNumber, sessionToken) {
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
       .then(token => healthControlsRequest.init(token).getHealthControls(pageNumber))
-      .then((json) => {
-        dispatch(getHealthControlsSuccess(json.healthControls));
+      .then((data) => {
+        dispatch(getHealthControlsSuccess(data));
       })
       .catch((error) => {
         dispatch(getHealthControlsFailure(error));
@@ -85,12 +85,11 @@ export function getHealthControl(sessionToken, healthControl) {
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
       .then(token => healthControlsRequest.init(token).getHealthControl(healthControl))
-      .then((json) => {
-        dispatch(getHealthControlSuccess(json.healthControl));
+      .then((data) => {
+        dispatch(getHealthControlSuccess(data.healthControl));
       })
       .catch((error) => {
         dispatch(getHealthControlFailure(error));
       });
   };
 }
-

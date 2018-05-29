@@ -20,7 +20,13 @@ export default class RolesRequest {
       },
     }).then((response) => {
       if (response.status === 200 || response.status === 201) {
-        return response.data;
+        const data = response.data;
+
+        return {
+          roles: data.roles,
+          count: data.count,
+          totalCount: data['total_count'],
+        };
       }
       throw (response.data.error);
     }).catch((error) => {

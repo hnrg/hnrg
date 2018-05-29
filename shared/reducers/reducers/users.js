@@ -58,7 +58,9 @@ export default function usersReducer(state = InitialState, action) {
     case GET_USERS_SUCCESS: {
       return {
         ...state,
-        users: action.payload,
+        users: action.payload.users,
+        count: action.payload.count,
+        totalCount: action.payload.totalCount,
         isFetching: false,
         error: null,
       };
@@ -162,6 +164,8 @@ export default function usersReducer(state = InitialState, action) {
 
       return {
         ...state,
+        count: users.count,
+        totalCount: users.totalCount,
         users: users.users,
         disabled: users.disabled,
         error: users.error,

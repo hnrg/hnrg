@@ -17,6 +17,8 @@ export default {
     user: null,
     active: null,
   },
+  totalCount: null,
+  count: null,
   healthControls: null,
   disabled: false,
   error: null,

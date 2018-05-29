@@ -47,7 +47,9 @@ export default function rolesReducer(state = InitialState, action) {
     case GET_ROLES_SUCCESS: {
       return {
         ...state,
-        roles: action.payload,
+        totalCount: action.payload.totalCount,
+        count: action.payload.count,
+        roles: action.payload.roles,
         isFetching: false,
         error: null,
       };
@@ -123,11 +125,15 @@ export default function rolesReducer(state = InitialState, action) {
 
       return {
         ...state,
-        disabled: state.roles.disabled,
-        error: state.roles.error,
-        isValid: state.roles.isValid,
-        isFetching: state.roles.isFetching,
-        roles: state.roles.roles,
+        disabled: roles.disabled,
+        error: roles.error,
+        isValid: roles.isValid,
+        isFetching: roles.isFetching,
+        originalRol: roles.originalRol,
+        fields: roles.fields,
+        totalCount: roles.totalCount,
+        count: roles.count,
+        roles: roles.roles,
       };
     }
 

@@ -4,6 +4,8 @@ export default {
     name: '',
     permissions: null,
   },
+  totalCount: null,
+  count: null,
   roles: null,
   disabled: false,
   error: null,

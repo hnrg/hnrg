@@ -9,6 +9,8 @@ export default {
     updatedAt: null,
     roles: null,
   },
+  totalCount: null,
+  count: null,
   users: null,
   disabled: false,
   error: null,

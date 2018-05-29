@@ -23,7 +23,13 @@ export default class PatientsRequest {
       },
     ).then((response) => {
       if (response.status === 200 || response.status === 201) {
-        return response.data;
+        const data = response.data;
+
+        return {
+          patients: data.patients,
+          count: data.count,
+          totalCount: data['total_count'],
+        };
       }
       throw (response.data.error);
     }).catch((error) => {
@@ -49,4 +55,3 @@ export default class PatientsRequest {
 
 // The singleton variable
 export const patientsRequest = new PatientsRequest();
-

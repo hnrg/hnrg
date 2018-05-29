@@ -79,11 +79,11 @@ export default function permissionsReducer(state = InitialState, action) {
 
       return {
         ...state,
-        disabled: state.roles.disabled,
-        error: state.roles.error,
-        isValid: state.roles.isValid,
-        isFetching: state.roles.isFetching,
-        permissions: state.permissions.permissions,
+        disabled: permissions.disabled,
+        error: permissions.error,
+        isValid: permissions.isValid,
+        isFetching: permissions.isFetching,
+        permissions: permissions.permissions,
       };
     }
 
