@@ -8,22 +8,48 @@ const permissionsCheck = require('../modules/permissions-check');
  * @param res
  * @returns void
  */
-exports.getUsers = async function getUsers(req, res) {
+exports.getUsers = async function getUsers(req, res, next) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
     const active = req.query.active || true;
+    const username = new RegExp(req.query.username || '', 'i');
     const { pageNumber, configuration } = req;
     const { webpage } = configuration;
     const { amountPerPage } = webpage;
 
-    const users = await User.find({ active })
-      .limit(amountPerPage)
-      .skip(amountPerPage * pageNumber)
-      .populate('roles')
-      .exec();
+    await User.count({ active, username })
+      .exec((err, totalCount) => {
+        if (err) {
+          next(err);
+          return;
+        }
 
-    res.status(200).send({ users });
+        if (!totalCount) {
+          return res.status(200).send({
+            "total_count": 0,
+            count: 0,
+            users: [],
+          });
+        }
+
+        const users = User.find({ active, username })
+          .limit(amountPerPage)
+          .skip(amountPerPage * pageNumber)
+          .populate('roles')
+          .exec(($err, users) => {
+            if ($err) {
+              next($err);
+              return;
+            }
+
+            res.status(200).send({
+              "total_count": totalCount,
+              count: users.length,
+              users,
+            });
+          });
+      });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);

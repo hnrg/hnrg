@@ -16,17 +16,43 @@ exports.getRoles = async function getRoles(req, res) {
     permissionsCheck(req.user, 'rol_index');
 
     const deleted = req.query.deleted || false;
+    const name = new RegExp(req.query.name || '', 'i');
     const { pageNumber, configuration } = req;
     const { webpage } = configuration;
     const { amountPerPage } = webpage;
 
-    const roles = await Rol.find({ deleted })
-      .limit(amountPerPage)
-      .skip(amountPerPage * pageNumber)
-      .populate('permissions')
-      .exec();
+    await Rol.count({ deleted, name })
+      .exec((err, totalCount) => {
+        if (err) {
+          next(err);
+          return;
+        }
 
-    res.status(200).send({ roles });
+        if (!totalCount) {
+          return res.status(200).send({
+            "total_count": 0,
+            count: 0,
+            roles: [],
+          });
+        }
+
+        const roles = Rol.find({ deleted, name })
+          .limit(amountPerPage)
+          .skip(amountPerPage * pageNumber)
+          .populate('permissions')
+          .exec(($err, roles) => {
+            if ($err) {
+              next($err);
+              return;
+            }
+
+            res.status(200).send({
+              "total_count": totalCount,
+              count: roles.length,
+              roles,
+            });
+          });
+      });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);

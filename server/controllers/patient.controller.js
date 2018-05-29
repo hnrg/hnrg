@@ -17,15 +17,40 @@ exports.getPatients = async function getPatients(req, res) {
     const { webpage } = configuration;
     const { amountPerPage } = webpage;
 
-    const patients = await Patient.find({ deleted })
-      .limit(amountPerPage)
-      .skip(amountPerPage * pageNumber)
-      .populate('demographicData')
-      .populate('medicalInsurance')
-      .populate('documentType')
-      .exec();
+    await Patient.count({ deleted })
+      .exec((err, totalCount) => {
+        if (err) {
+          next(err);
+          return;
+        }
 
-    return res.status(200).json({ patients });
+        if (!totalCount) {
+          return res.status(200).send({
+            "total_count": 0,
+            count: 0,
+            patients: [],
+          });
+        }
+
+        const patients = Patient.find({ deleted })
+          .limit(amountPerPage)
+          .skip(amountPerPage * pageNumber)
+          .populate('demographicData')
+          .populate('medicalInsurance')
+          .populate('documentType')
+          .exec(($err, patients) => {
+            if ($err) {
+              next($err);
+              return;
+            }
+
+            res.status(200).send({
+              "total_count": totalCount,
+              count: patients.length,
+              patients,
+            });
+          });
+      });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
