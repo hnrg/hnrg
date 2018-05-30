@@ -47,12 +47,8 @@
 }
 
 .content {
-    position: absolute;
-    right: 0;
     transition: all 0.3s;
-    padding: 10px;
     width: calc(100% - 14em);
-    margin-top: 55px;
 }
 
 .small-content {

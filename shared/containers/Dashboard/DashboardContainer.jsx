@@ -43,7 +43,7 @@ class DashboardContainer extends Component {
   componentDidMount() {
     const { originalProfile } = this.props.profile;
 
-    if (!_.isEqual(originalProfile, this.state.currentUser)) {
+    if (originalProfile.username === '') {
       this.props.actions.getProfile(this.props.global.currentUser);
       return;
     }

@@ -63,7 +63,12 @@ class Sidebar extends Component {
         <div className={(this.props.smallMenu ? 'small-side ' : '') + 'side'}>
           {this.getMenu()}
         </div>
-        <div className={(this.props.smallMenu ? 'small-content ' : '') + 'content'}>
+        <div style={{
+          margin: '55px 0 0 0',
+          position: 'absolute',
+          right: 0,
+          padding: '10px',
+        }} className={(this.props.smallMenu ? 'small-content ' : '') + 'content'}>
           {this.props.children}
         </div>
       </div>

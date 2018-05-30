@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as authActions from 'reducers/actions/auth-actions';
-import './login.css';
+
+import './styles.css';
 
 class LoginContainer extends Component {
   constructor(props, context) {

@@ -143,7 +143,7 @@ class UsersContainer extends Component {
   }
 
   render() {
-    const { actions } = this.props;
+    const { actions, match } = this.props;
 
     return (
       <div>
@@ -151,6 +151,7 @@ class UsersContainer extends Component {
           this.props.match.params.username ?
           <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} /> :
           <UsersList
+            url={match.url}
             users={this.state.users}
             pageNumber={this.state.pageNumber}
             totalCount={this.state.totalCount}
