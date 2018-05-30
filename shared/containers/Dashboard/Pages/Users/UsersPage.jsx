@@ -43,7 +43,15 @@ class UsersContainer extends Component {
   constructor(props) {
     super(props);
 
-    const { originalUser, fields, isFetching, isValid, users } = this.props.users;
+    const {
+      originalUser,
+      fields,
+      isFetching,
+      isValid,
+      users,
+      totalCount,
+      count,
+    } = this.props.users;
 
     this.state = {
       loading: true,
@@ -51,6 +59,8 @@ class UsersContainer extends Component {
       username: '',
       active: true,
       users,
+      totalCount,
+      count,
       originalUser,
       fields,
       isValid,
@@ -59,7 +69,15 @@ class UsersContainer extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { originalUser, fields, isFetching, isValid, users } = props.users;
+    const {
+      originalUser,
+      fields,
+      isFetching,
+      isValid,
+      users,
+      totalCount,
+      count,
+    } = props.users;
 
     this.setState({
       loading: fields.username === '',
@@ -68,11 +86,21 @@ class UsersContainer extends Component {
       isValid,
       isFetching,
       users,
+      totalCount,
+      count,
     });
   }
 
   componentDidMount() {
-    const { originalUser, fields, isFetching, isValid, users } = this.props.users;
+    const {
+      originalUser,
+      fields,
+      isFetching,
+      isValid,
+      users,
+      totalCount,
+      count,
+    } = this.props.users;
 
     if (this.props.match.params.username && originalUser.username === '') {
       this.props.actions.getUser(this.props.match.params.username);
@@ -92,13 +120,16 @@ class UsersContainer extends Component {
       fields,
       isValid,
       isFetching,
-      users
+      users,
+      totalCount,
+      count,
     });
   }
 
   onSearchFieldChange(e, {name, value}) {
     const prevState = {
       ...this.state,
+      pageNumber: 0,
       [name]: value,
     };
     const { pageNumber, username, active } = prevState;
@@ -106,6 +137,7 @@ class UsersContainer extends Component {
     this.props.actions.getUsers(pageNumber, username, active);
 
     this.setState({
+      pageNumber: 0,
       [name]: value,
     });
   }
@@ -120,6 +152,9 @@ class UsersContainer extends Component {
           <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} /> :
           <UsersList
             users={this.state.users}
+            pageNumber={this.state.pageNumber}
+            totalCount={this.state.totalCount}
+            count={this.state.count}
             onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
         }
       </div>
