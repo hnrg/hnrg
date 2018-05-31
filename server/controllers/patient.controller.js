@@ -26,7 +26,7 @@ exports.getPatients = async function getPatients(req, res) {
 
         if (!totalCount) {
           return res.status(200).send({
-            "total_count": 0,
+            total_count: 0,
             count: 0,
             patients: [],
           });
@@ -45,7 +45,7 @@ exports.getPatients = async function getPatients(req, res) {
             }
 
             res.status(200).send({
-              "total_count": totalCount,
+              total_count: totalCount,
               count: patients.length,
               patients,
             });

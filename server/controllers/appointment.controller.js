@@ -11,7 +11,7 @@ function timesArray(date, from = 0, delta = 30, amount = 48) {
 
   times.push(moment(date).hours(from).minutes(0).seconds(0));
 
-  for (let i = 1; i < amount; i++) {
+  for (let i = 1; i < amount; i += 1) {
     times.push(moment(times[i - 1]).add(delta, 'minutes'));
   }
 
@@ -70,7 +70,7 @@ exports.getAppointments = async function getAppointments(req, res) {
  * @param res
  * @returns void
  */
-exports.addAppointment = async function addAppointment(req, res) {
+exports.addAppointment = async function addAppointment(req, res, next) {
   try {
     const { documentNumber, date, time } = req.body.appointment || req.params;
     const { appointments } = req.configuration;

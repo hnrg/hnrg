@@ -27,7 +27,7 @@ exports.getUsers = async function getUsers(req, res, next) {
 
         if (!totalCount) {
           return res.status(200).send({
-            "total_count": 0,
+            total_count: 0,
             count: 0,
             users: [],
           });
@@ -44,7 +44,7 @@ exports.getUsers = async function getUsers(req, res, next) {
             }
 
             res.status(200).send({
-              "total_count": totalCount,
+              total_count: totalCount,
               count: users.length,
               users,
             });

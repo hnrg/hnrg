@@ -1,5 +1,7 @@
-const DemographicData = require('../models/demographic-data');
 const permissionsCheck = require('../modules/permissions-check');
+
+const DemographicData = require('../models/demographic-data');
+const Patient = require('../models/patient');
 
 /**
  * Get all demographics data
@@ -18,7 +20,7 @@ exports.getDemographicsData = async function getDemographicsData(req, res) {
     await Patient.find({ state: true })
       .where('demographicData').ne(null)
       .limit(amountPerPage)
-      .skip(amountPerPage * page)
+      .skip(amountPerPage * pageNumber)
       .populate('demographicData')
       .select('demographicData')
       .exec((err, patients) => {
@@ -126,4 +128,3 @@ exports.updateDemographicData = async function updateDemographicData(req, res, n
     return res.status(500).send(e);
   }
 };
-

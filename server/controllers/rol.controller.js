@@ -30,7 +30,7 @@ exports.getRoles = async function getRoles(req, res) {
 
         if (!totalCount) {
           return res.status(200).send({
-            "total_count": 0,
+            total_count: 0,
             count: 0,
             roles: [],
           });
@@ -47,7 +47,7 @@ exports.getRoles = async function getRoles(req, res) {
             }
 
             res.status(200).send({
-              "total_count": totalCount,
+              total_count: totalCount,
               count: roles.length,
               roles,
             });

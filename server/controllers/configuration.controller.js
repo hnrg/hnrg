@@ -1,3 +1,4 @@
+const permissionsCheck = require('../modules/permissions-check');
 const Configuration = require('../models/configuration');
 
 /**
@@ -37,7 +38,7 @@ exports.addConfiguration = async function addConfiguration(req, res) {
         ...configuration,
       });
 
-      newConfiguration.save((err, saved) => res.status(200).send({ configuration: saved }));
+      newConfiguration.save(($err, saved) => res.status(200).send({ configuration: saved }));
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
@@ -69,4 +70,3 @@ exports.getCurrentConfiguration = async function getCurrentConfiguration(req, re
     res.status(500).send(e);
   }
 };
-
