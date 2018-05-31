@@ -10,10 +10,12 @@ export default class RolesRequest {
     return this;
   }
 
-  getRoles(pageNumber = 0) {
+  getRoles(pageNumber = 0, name = '', deleted = false) {
     return axios.get('/api/roles', {
       params: {
         pageNumber,
+        name: name.trim(),
+        deleted,
       },
       headers: {
         Authorization: this._sessionToken,
@@ -34,8 +36,29 @@ export default class RolesRequest {
     });
   }
 
-  getRol(rol) {
-    return axios.get(`/api/roles/${rol}`, {
+  getRol(rolname) {
+    return axios.get(`/api/roles/${rolname}`, {
+      headers: {
+        Authorization: this._sessionToken,
+      },
+    }).then((response) => {
+      if (response.status === 200 || response.status === 201) {
+        return response.data;
+      }
+      throw (response.data.error);
+    }).catch((error) => {
+      throw error;
+    });
+  }
+
+  updateRol(originalRolname, {
+    name,
+  }) {
+    return axios.post(`/api/roles/${originalRolname}`, {
+      rol: {
+        name,
+      },
+    }, {
       headers: {
         Authorization: this._sessionToken,
       },

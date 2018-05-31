@@ -1,3 +1,5 @@
+import fieldValidation from 'reducers/lib/field-validation/roles';
+import formValidation from './roles-form';
 
 import {
   GET_ROLES_REQUEST,
@@ -7,6 +9,12 @@ import {
   GET_ROL_REQUEST,
   GET_ROL_SUCCESS,
   GET_ROL_FAILURE,
+
+  ROL_UPDATE_REQUEST,
+  ROL_UPDATE_SUCCESS,
+  ROL_UPDATE_FAILURE,
+
+  ON_ROL_FORM_FIELD_CHANGE,
 
   LOGOUT_SUCCESS,
 
@@ -32,14 +40,17 @@ export default function rolesReducer(state = InitialState, action) {
      * ### Request starts
      * set the form to fetching and clear any errors
      */
-    case GET_ROLES_REQUEST: {
+    case GET_ROLES_REQUEST:
+    case GET_ROL_REQUEST:
+    case ROL_UPDATE_REQUEST:
+    {
       return { ...state, isFetching: true, error: null };
     }
 
     /**
      * ### Request ends successfully
      *
-     * the fetching is done, set the UI fields and the originalRoles
+     * the fetching is done, set the UI fields and the originalRol
      *
      * Validate the data to make sure it's all good and someone didn't
      * mung it up through some other mechanism
@@ -55,8 +66,12 @@ export default function rolesReducer(state = InitialState, action) {
       };
     }
 
+    case ROL_UPDATE_SUCCESS: {
+      return { ...state, isFetching: false };
+    }
+
     /**
-     * User logged out, so reset form fields and original rol.
+     * Rol logged out, so reset form fields and original rol.
      *
      */
     case LOGOUT_SUCCESS: {
@@ -71,19 +86,15 @@ export default function rolesReducer(state = InitialState, action) {
      * ### Request fails
      * we're done fetching and the error needs to be displayed to the user
      */
-    case GET_ROLES_FAILURE: {
+    case GET_ROLES_FAILURE:
+    case GET_ROL_FAILURE:
+    case ROL_UPDATE_FAILURE:
+    {
       return {
         ...state,
         isFetching: false,
         error: action.payload,
       };
-    }
-
-    /**
-     * ### Request starts
-     */
-    case GET_ROL_REQUEST: {
-      return { ...state, isFetching: true, error: null };
     }
 
     case GET_ROL_SUCCESS: {
@@ -93,8 +104,8 @@ export default function rolesReducer(state = InitialState, action) {
           ...state.fields,
           name: action.payload.name,
         },
-        originalRoles: {
-          ...state.originalRoles,
+        originalRol: {
+          ...state.originalRol,
           name: action.payload.name,
           permissions: action.payload.permissions,
         },
@@ -105,12 +116,18 @@ export default function rolesReducer(state = InitialState, action) {
       return fieldValidation(nextRolState, action);
     }
 
-    case GET_ROL_FAILURE: {
-      return {
+    case ON_ROL_FORM_FIELD_CHANGE: {
+      const { field, value } = action.payload;
+
+      nextRolState = {
         ...state,
-        isFetching: false,
-        error: action.payload,
+        fields: {
+          ...state.fields,
+          [field]: value,
+        },
       };
+
+      return formValidation(fieldValidation(nextRolState, action), action);
     }
 
     /**
