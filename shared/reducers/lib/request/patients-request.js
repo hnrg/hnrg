@@ -28,7 +28,7 @@ export default class PatientsRequest {
         return {
           patients: data.patients,
           count: data.count,
-          totalCount: data['total_count'],
+          totalCount: data.total_count,
         };
       }
       throw (response.data.error);

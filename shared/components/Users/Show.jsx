@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import moment from 'moment-timezone';
 import {
   Button,
@@ -45,28 +46,14 @@ class Show extends Component {
     const { user } = this.state;
 
     return(
-      <List divided relaxed>
-        <List.Item>
-          <List.Icon name='github' size='large' verticalAlign='middle' />
-          <List.Content>
-            <List.Header as='a'>Semantic-Org/Semantic-UI</List.Header>
-            <List.Description as='a'>Updated 10 mins ago</List.Description>
-          </List.Content>
-        </List.Item>
-        <List.Item>
-          <List.Icon name='github' size='large' verticalAlign='middle' />
-          <List.Content>
-            <List.Header as='a'>Semantic-Org/Semantic-UI-Docs</List.Header>
-            <List.Description as='a'>Updated 22 mins ago</List.Description>
-          </List.Content>
-        </List.Item>
-        <List.Item>
-          <List.Icon name='github' size='large' verticalAlign='middle' />
-          <List.Content>
-            <List.Header as='a'>Semantic-Org/Semantic-UI-Meteor</List.Header>
-            <List.Description as='a'>Updated 34 mins ago</List.Description>
-          </List.Content>
-        </List.Item>
+      <List horizontal relaxed selection verticalAlign='middle'>
+        {user.roles && user.roles.map((rol, id) => (
+          <List.Item key={id}>
+            <List.Content>
+              <List.Header as={Link} to={`/dashboard/roles/${rol.name}`}>{rol.name} - {rol.permissions.length}</List.Header>
+            </List.Content>
+          </List.Item>
+        ))}
       </List>
     );
   }

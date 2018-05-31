@@ -25,7 +25,7 @@ export default class RolesRequest {
         return {
           roles: data.roles,
           count: data.count,
-          totalCount: data['total_count'],
+          totalCount: data.total_count,
         };
       }
       throw (response.data.error);

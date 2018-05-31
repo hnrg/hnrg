@@ -28,7 +28,7 @@ export default class HealthControlsRequest {
         return {
           healthControls: data.healthControls,
           count: data.count,
-          totalCount: data['total_count'],
+          totalCount: data.total_count,
         };
       }
       throw (response.data.error);

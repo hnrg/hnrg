@@ -26,7 +26,7 @@ class Sidebar extends Component {
     const {activeItem} = this.state;
 
     return (
-      <Menu fixed='left' borderless className={(this.props.smallMenu ? 'small-side' : '') + ' side'} vertical>
+      <Menu fixed='left' borderless className={'dashboard side' + (this.props.smallMenu ? ' small-side ' : '')} vertical>
         <Menu.Item as={Link} to={'/dashboard'} name='dashboard' active={activeItem === 'dashboard'}>
           <TextIcon hideText={this.props.smallMenu} color='teal' name='home'>
               Dashboard
@@ -59,16 +59,11 @@ class Sidebar extends Component {
 
   render() {
     return (
-      <div className='parent'>
-        <div className={(this.props.smallMenu ? 'small-side ' : '') + 'side'}>
+      <div className='dashboard parent'>
+        <div className={'dashboard side' + (this.props.smallMenu ? ' small-side ' : '')}>
           {this.getMenu()}
         </div>
-        <div style={{
-          margin: '55px 0 0 0',
-          position: 'absolute',
-          right: 0,
-          padding: '10px',
-        }} className={(this.props.smallMenu ? 'small-content ' : '') + 'content'}>
+        <div className={'dashboard content' + (this.props.smallMenu ? ' small-content ' : '')}>
           {this.props.children}
         </div>
       </div>

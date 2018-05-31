@@ -14,21 +14,21 @@ import logo from 'static/icons/logo.png';
 class TopMenu extends Component {
   render() {
     return (
-      <Menu fixed="top" className="top-menu">
-        <Menu.Item as={Link} to='/' className="logo-space-menu-item">
-          <div className="display-inline logo-space">
+      <Menu fixed="top" className="dashboard top-menu">
+        <Menu.Item as={Link} to='/' className="dashboard logo-space-menu-item">
+          <div className="dashboard display-inline logo-space">
             <Image src={logo} />
           </div>
         </Menu.Item>
 
         {this.props.toggleSideMenu && <Menu.Item
-          className="no-border"
+          className="dashboard no-border"
           onClick={this.props.toggleSideMenu}
         >
           <Icon name="bars" />
         </Menu.Item>}
 
-        {/*<Menu.Item className="no-border drop-left-padding">
+        {/*<Menu.Item className="dashboard no-border drop-left-padding">
           <Input
             className="icon"
             icon="search"
@@ -37,8 +37,8 @@ class TopMenu extends Component {
         </Menu.Item>*/}
 
         <Menu.Menu position="right">
-          <Menu.Item className="no-border" position="right">
-            <Dropdown trigger={<Icon name='user' />} pointing className='link item'>
+          <Menu.Item className="dashboard no-border" position="right">
+            <Dropdown trigger={<Icon name='user' />} pointing className='dashboard link item'>
               <Dropdown.Menu>
                 <Dropdown.Item as={Link} to='/profile'>Ver perfil</Dropdown.Item>
                 <Dropdown.Divider />

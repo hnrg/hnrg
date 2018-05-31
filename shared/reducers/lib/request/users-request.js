@@ -23,11 +23,11 @@ export default class UsersRequest {
     }).then((response) => {
       if (response.status === 200 || response.status === 201) {
         const data = response.data;
-        
+
         return {
           users: data.users,
           count: data.count,
-          totalCount: data['total_count'],
+          totalCount: data.total_count,
         };
       }
       throw (response.data.error);
