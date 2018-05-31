@@ -53,6 +53,13 @@ class Sidebar extends Component {
             Pacientes
           </TextIcon>
         </Menu.Item>
+
+        <Menu.Item as={Link} to={'/dashboard/roles'} name='roles'
+                   active={activeItem === 'roles'}>
+          <TextIcon hideText={this.props.smallMenu} name='certificate'>
+            Roles
+          </TextIcon>
+        </Menu.Item>
       </Menu>
     );
   }

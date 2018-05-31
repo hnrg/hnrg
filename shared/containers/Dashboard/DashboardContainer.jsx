@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 
 import Layout from 'components/Dashboard/Layout';
 import IndexPage from 'containers/Dashboard/Pages/Index';
+import RolesPage from 'containers/Dashboard/Pages/Roles';
 import SettingsPage from 'containers/Dashboard/Pages/Settings';
 import UsersPage from 'containers/Dashboard/Pages/Users';
 
@@ -73,6 +74,7 @@ class DashboardContainer extends Component {
             <Route exact path={`${match.path}`} component={IndexPage} />
             <Route path={`${match.path}/settings`} component={SettingsPage} />
             <Route path={`${match.path}/users/:username?`} component={UsersPage} />
+            <Route path={`${match.path}/roles/:name?`} component={RolesPage} />
           </Switch>
         </Layout>
       </div>
