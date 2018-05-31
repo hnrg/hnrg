@@ -36,7 +36,7 @@ exports.getRoles = async function getRoles(req, res) {
           });
         }
 
-        const roles = Rol.find({ deleted, name })
+        Rol.find({ deleted, name })
           .limit(amountPerPage)
           .skip(amountPerPage * pageNumber)
           .populate('permissions')

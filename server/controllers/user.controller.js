@@ -33,7 +33,7 @@ exports.getUsers = async function getUsers(req, res, next) {
           });
         }
 
-        const users = User.find({ active, username })
+        User.find({ active, username })
           .limit(amountPerPage)
           .skip(amountPerPage * pageNumber)
           .populate('roles')
