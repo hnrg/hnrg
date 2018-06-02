@@ -9,6 +9,7 @@ import {
   Header,
   Icon,
   Image,
+  Label,
   List,
   Modal,
 } from 'semantic-ui-react';
@@ -46,11 +47,14 @@ class Show extends Component {
     const { user } = this.state;
 
     return(
-      <List horizontal relaxed selection verticalAlign='middle'>
+      <List divided verticalAlign='middle'>
         {user.roles && user.roles.map((rol, id) => (
           <List.Item key={id}>
+            <List.Content floated='right'>
+              <Label color='blue' as={Link} to={`/dashboard/roles/${rol.name}`}>Ver {rol.name}</Label>
+            </List.Content>
             <List.Content>
-              <List.Header as={Link} to={`/dashboard/roles/${rol.name}`}>{rol.name} - {rol.permissions.length}</List.Header>
+              <List.Header>{rol.name} - {rol.permissions.length}</List.Header>
             </List.Content>
           </List.Item>
         ))}

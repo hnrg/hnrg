@@ -6,6 +6,7 @@ import {
   Divider,
   Form,
   Header,
+  Label,
   Pagination,
   Segment,
   Table,
@@ -39,7 +40,7 @@ const UsersList = (props) => {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Nombre</Table.HeaderCell>
-            <Table.HeaderCell>Permisos</Table.HeaderCell>
+            <Table.HeaderCell>Cantidad de Permisos</Table.HeaderCell>
             <Table.HeaderCell>Opciones</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -50,7 +51,11 @@ const UsersList = (props) => {
               <Table.Cell>
                 <Header as='h5' content={<Link to={`${props.url}/${rol.name}`}>{rol.name}</Link>} />
               </Table.Cell>
-              <Table.Cell>{rol.permissions.length}</Table.Cell>
+              <Table.Cell>
+                <Label circular color='blue'>
+                  {rol.permissions.length}
+                </Label>
+              </Table.Cell>
               <Table.Cell>
                 <Button circular size='tiny' color='teal' as={Link} to={`${props.url}/${rol.name}`} icon='edit' title={`Ver ${rol.name}`} />
                 <Button circular size='tiny' color='red' icon='remove' title={`Eliminar ${rol.name}`} />
