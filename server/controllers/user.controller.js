@@ -8,7 +8,7 @@ const permissionsCheck = require('../modules/permissions-check');
  * @param res
  * @returns void
  */
-exports.getUsers = async function getUsers(req, res, next) {
+exports.getUsers = async function getUsers(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
@@ -21,8 +21,7 @@ exports.getUsers = async function getUsers(req, res, next) {
     await User.count({ active, username })
       .exec((err, totalCount) => {
         if (err) {
-          next(err);
-          return;
+          throw (err);
         }
 
         if (!totalCount) {
@@ -39,8 +38,7 @@ exports.getUsers = async function getUsers(req, res, next) {
           .populate('roles')
           .exec(($err, users) => {
             if ($err) {
-              next($err);
-              return;
+              throw ($err);
             }
 
             res.status(200).send({
@@ -65,7 +63,7 @@ exports.getUsers = async function getUsers(req, res, next) {
  * @param res
  * @returns void
  */
-exports.getUser = async function getUser(req, res, next) {
+exports.getUser = async function getUser(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_show');
 
@@ -74,7 +72,7 @@ exports.getUser = async function getUser(req, res, next) {
       .populate('roles')
       .exec((err, user) => {
         if (err) {
-          return next(err);
+          throw (err);
         }
 
         if (user == null) {
@@ -92,7 +90,7 @@ exports.getUser = async function getUser(req, res, next) {
   }
 };
 
-exports.addUser = async function addUser(req, res, next) {
+exports.addUser = async function addUser(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_new');
 
@@ -121,7 +119,7 @@ exports.addUser = async function addUser(req, res, next) {
       email,
     }, (err, existingUser) => {
       if (err) {
-        return next(err);
+        throw (err);
       }
 
       if (existingUser) {
@@ -132,7 +130,7 @@ exports.addUser = async function addUser(req, res, next) {
         username,
       }, ($err, $existingUser) => {
         if ($err) {
-          return next($err);
+          throw ($err);
         }
 
         if ($existingUser) {
@@ -146,7 +144,7 @@ exports.addUser = async function addUser(req, res, next) {
 
         newUser.save(($$err, newUserData) => {
           if ($$err) {
-            return next($$err);
+            throw ($$err);
           }
 
           res.status(201).send({ newUserData });
@@ -170,7 +168,7 @@ exports.deleteUser = async function deleteUser(req, res) {
       .exec((err, user) => {
         if (err || user == null) {
           res.status(422).json({ error: 'No user was found with that id' });
-          return next(err);
+          throw (err);
         }
 
         return res.status(200).end();
@@ -188,7 +186,7 @@ exports.deleteUser = async function deleteUser(req, res) {
   }
 };
 
-exports.updateUser = async function updateUser(req, res, next) {
+exports.updateUser = async function updateUser(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_update');
 
@@ -196,7 +194,7 @@ exports.updateUser = async function updateUser(req, res, next) {
       .exec((err, user) => {
         if (err || user == null) {
           res.status(422).json({ error: 'No user was found with that id.' });
-          return next(err);
+          throw (err);
         }
 
         return res.status(200).json({ user });

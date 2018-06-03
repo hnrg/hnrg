@@ -20,8 +20,7 @@ exports.getHealthControls = async function getHealthControls(req, res) {
     await HealthControl.count({ active })
       .exec((err, totalCount) => {
         if (err) {
-          next(err);
-          return;
+          throw (err);
         }
 
         if (!totalCount) {
@@ -38,8 +37,7 @@ exports.getHealthControls = async function getHealthControls(req, res) {
           .populate('patient user')
           .exec(($err, healthControls) => {
             if ($err) {
-              next($err);
-              return;
+              throw ($err);
             }
 
             res.status(200).send({
@@ -140,7 +138,7 @@ exports.deleteHealthControl = async function deleteHealthControl(req, res) {
       .exec((error, healthControl) => {
         if (error || healthControl == null) {
           res.status(422).json({ error: 'No healthControl found with that id' });
-          return next(error);
+          throw (error);
         }
 
         return res.status(200).end();
@@ -166,7 +164,7 @@ exports.updateHealthControl = async function updateHealthControl(req, res) {
       .exec((error, healthControl) => {
         if (error || healthControl == null) {
           res.status(422).json({ error: 'No healthControl found with that id' });
-          return next(error);
+          throw (error);
         }
 
         return res.status(200).json({ healthControl });
