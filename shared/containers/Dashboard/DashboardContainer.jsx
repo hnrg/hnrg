@@ -10,10 +10,10 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import Layout from 'components/Dashboard/Layout';
-import IndexPage from 'containers/Dashboard/Pages/Index';
-import RolesPage from 'containers/Dashboard/Pages/Roles';
-import SettingsPage from 'containers/Dashboard/Pages/Settings';
-import UsersPage from 'containers/Dashboard/Pages/Users';
+import RolesPage from 'containers/Roles';
+import SettingsPage from 'containers/Settings';
+import StatisticsPage from 'containers/Statistics';
+import UsersPage from 'containers/Users';
 
 import './styles.css';
 
@@ -71,7 +71,7 @@ class DashboardContainer extends Component {
           smallMenu={this.state.smallMenu}
           activeItem={activeItem}>
           <Switch>
-            <Route exact path={`${match.path}`} component={IndexPage} />
+            <Route exact path={`${match.path}`} component={StatisticsPage} />
             <Route path={`${match.path}/settings`} component={SettingsPage} />
             <Route path={`${match.path}/users/:username?`} component={UsersPage} />
             <Route path={`${match.path}/roles/:name?`} component={RolesPage} />

@@ -4,10 +4,10 @@ import {
   Segment,
 } from "semantic-ui-react";
 
-const Home = props => (
+const Statistics = props => (
   <Segment>
     <h1>React Admin Dashboard</h1>
   </Segment>
 );
 
-export default connect()(Home);
+export default connect()(Statistics);
