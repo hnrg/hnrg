@@ -7,6 +7,10 @@ import {
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
 
+  USER_ADD_REQUEST,
+  USER_ADD_SUCCESS,
+  USER_ADD_FAILURE,
+
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAILURE,
@@ -148,6 +152,57 @@ export function updateUser(originalUsername, username, email, firstName, lastNam
       })
       .catch((error) => {
         dispatch(userUpdateFailure(error));
+      });
+  };
+}
+
+export function userAddRequest() {
+  return {
+    type: USER_ADD_REQUEST,
+  };
+}
+
+export function userAddSuccess() {
+  return {
+    type: USER_ADD_SUCCESS,
+  };
+}
+
+export function userAddFailure(data) {
+  return {
+    type: USER_ADD_FAILURE,
+    payload: data,
+  };
+}
+
+/**
+ * ## addUser
+ *
+ * The sessionToken is provided when Hot Loading.
+ *
+ * With the sessionToken, the server is called with the data to add
+ * If successful, get the user so that the screen is addd with
+ * the data as now persisted on the serverx
+ *
+ */
+export function addUser(username, email, password, firstName, lastName, sessionToken) {
+  return (dispatch) => {
+    dispatch(userAddRequest());
+    return authToken.getSessionToken(sessionToken)
+      .then(token => usersRequest.init(token)
+        .addUser({
+          username,
+          email,
+          password,
+          firstName,
+          lastName,
+        }))
+      .then(() => {
+        dispatch(userAddSuccess());
+        dispatch(getUser(username));
+      })
+      .catch((error) => {
+        dispatch(userAddFailure(error));
       });
   };
 }

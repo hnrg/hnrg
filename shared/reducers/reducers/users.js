@@ -10,6 +10,10 @@ import {
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
 
+  USER_ADD_REQUEST,
+  USER_ADD_SUCCESS,
+  USER_ADD_FAILURE,
+
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAILURE,
@@ -42,6 +46,7 @@ export default function usersReducer(state = InitialState, action) {
      */
     case GET_USERS_REQUEST:
     case GET_USER_REQUEST:
+    case USER_ADD_REQUEST:
     case USER_UPDATE_REQUEST:
     {
       return { ...state, isFetching: true, error: null };
@@ -66,7 +71,9 @@ export default function usersReducer(state = InitialState, action) {
       };
     }
 
-    case USER_UPDATE_SUCCESS: {
+    case USER_ADD_SUCCESS:
+    case USER_UPDATE_SUCCESS:
+    {
       return { ...state, isFetching: false };
     }
 
@@ -142,6 +149,7 @@ export default function usersReducer(state = InitialState, action) {
      */
     case GET_USERS_FAILURE:
     case GET_USER_FAILURE:
+    case USER_ADD_FAILURE:
     case USER_UPDATE_FAILURE:
     {
       return {

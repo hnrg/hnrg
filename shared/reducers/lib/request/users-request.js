@@ -52,12 +52,13 @@ export default class UsersRequest {
   }
 
   addUser({
-    username, email, firstName, lastName,
+    username, email, password, firstName, lastName,
   }) {
     return axios.post('/api/users', {
       user: {
         username,
         email,
+        password,
         firstName,
         lastName,
       },
