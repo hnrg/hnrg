@@ -102,7 +102,7 @@ class RolesContainer extends Component {
       count,
     } = this.props.roles;
 
-    if (this.props.match.params.name && originalRol.name === '') {
+    if (this.props.match.params.name && (originalRol.name === '' || this.props.match.params.name !== originalRol.name)) {
       this.props.actions.getRol(this.props.match.params.name);
       return;
     }
