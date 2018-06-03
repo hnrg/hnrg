@@ -128,7 +128,7 @@ exports.addUser = async function addUser(req, res, next) {
         return res.status(422).send({ error: 'That email address is already in use.' });
       }
 
-      User.find({
+      User.findOne({
         username,
       }, ($err, $existingUser) => {
         if ($err) {
@@ -139,7 +139,10 @@ exports.addUser = async function addUser(req, res, next) {
           return res.status(422).send({ error: 'That username is already in use.' });
         }
 
-        const newUser = new User(user);
+        const newUser = new User({
+          ...user,
+          active: true,
+        });
 
         newUser.save(($$err, newUserData) => {
           if ($$err) {
