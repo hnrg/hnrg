@@ -2,6 +2,7 @@ export default {
   originalUser: {
     username: '',
     email: '',
+    password: '',
     firstName: '',
     lastName: '',
     active: null,
@@ -23,6 +24,9 @@ export default {
     email: '',
     emailHasError: false,
     emailErrorMsg: '',
+    password: '',
+    passwordHasError: false,
+    passwordErrorMsg: '',
     firstName: '',
     firstNameHasError: false,
     firstNameErrorMsg: '',

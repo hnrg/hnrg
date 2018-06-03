@@ -15,6 +15,7 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAILURE,
 
+  ON_USER_FORM_CLEAR,
   ON_USER_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
@@ -96,6 +97,12 @@ export function getUser(username, sessionToken) {
       .catch((error) => {
         dispatch(getUserFailure(error));
       });
+  };
+}
+
+export function onUserFormClear() {
+  return {
+    type: ON_USER_FORM_CLEAR,
   };
 }
 

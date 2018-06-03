@@ -11,6 +11,8 @@ class Add extends Component {
   constructor(props) {
     super(props);
 
+    this.props.onMount();
+
     this.state = {
       isValid: this.props.isValid,
       isFetching: this.props.isFetching,

@@ -172,6 +172,7 @@ class UsersContainer extends Component {
         fields={fields}
         isValid={isValid}
         isFetching={isFetching}
+        onMount={actions.onUserFormClear}
         onFormFieldChange={actions.onUserFormFieldChange}
         addUser={actions.addUser} />
     );

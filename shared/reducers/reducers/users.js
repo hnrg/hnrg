@@ -18,6 +18,7 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAILURE,
 
+  ON_USER_FORM_CLEAR,
   ON_USER_FORM_FIELD_CHANGE,
 
   LOGOUT_SUCCESS,
@@ -91,8 +92,7 @@ export default function usersReducer(state = InitialState, action) {
         fields: {
           ...state.fields,
           email: action.payload.email,
-          username: action.payload.username,
-          email: action.payload.email,
+          password: action.payload.password,
           username: action.payload.username,
           firstName: action.payload.firstName || '',
           lastName: action.payload.lastName || '',
@@ -100,6 +100,7 @@ export default function usersReducer(state = InitialState, action) {
         originalUser: {
           ...state.originalUser,
           email: action.payload.email,
+          password: action.payload.password,
           username: action.payload.username,
           firstName: action.payload.firstName,
           lastName: action.payload.lastName,
@@ -113,6 +114,29 @@ export default function usersReducer(state = InitialState, action) {
       };
 
       return formValidation(fieldValidation(nextUserState, action), action);
+    }
+
+    case ON_USER_FORM_CLEAR: {
+      return {
+        ...state,
+        fields: {
+          username: '',
+          usernameHasError: false,
+          usernameErrorMsg: '',
+          email: '',
+          emailHasError: false,
+          emailErrorMsg: '',
+          password: '',
+          passwordHasError: false,
+          passwordErrorMsg: '',
+          firstName: '',
+          firstNameHasError: false,
+          firstNameErrorMsg: '',
+          lastName: '',
+          lastNameHasError: false,
+          lastNameErrorMsg: '',
+        },
+      };
     }
 
     case ON_USER_FORM_FIELD_CHANGE: {
@@ -183,6 +207,8 @@ export default function usersReducer(state = InitialState, action) {
           ...fields,
           email: users.fields.email,
           emailHasError: users.fields.emailHasError,
+          password: users.fields.password,
+          passwordHasError: users.fields.passwordHasError,
           username: users.fields.username,
           usernameHasError: users.fields.usernameHasError,
           firstName: users.fields.firstName,
@@ -193,6 +219,7 @@ export default function usersReducer(state = InitialState, action) {
         originalUser: {
           ...originalUser,
           email: users.originalUser.email,
+          password: users.originalUser.password,
           username: users.originalUser.username,
           firstName: users.originalUser.firstName,
           lastName: users.originalUser.lastName,
