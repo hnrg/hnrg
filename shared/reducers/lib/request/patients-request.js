@@ -10,12 +10,16 @@ export default class PatientsRequest {
     return this;
   }
 
-  getPatients(pageNumber = 0) {
+  getPatients(pageNumber = 0, firstName = '', lastName = '', documentType = null, documentNumber = null) {
     return axios.get(
       '/api/patients',
       {
         params: {
           pageNumber,
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          documentType,
+          documentNumber,
         },
         headers: {
           Authorization: this._sessionToken,

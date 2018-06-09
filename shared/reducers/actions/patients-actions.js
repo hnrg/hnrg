@@ -59,12 +59,12 @@ export function getPatientFailure(error) {
  * controls which form is displayed to the user
  * as in login, register, logout or reset password
  */
-export function getPatients(pageNumber, sessionToken) {
+export function getPatients(pageNumber, firtsName, lastName, documentType, documentNumber, sessionToken) {
   return (dispatch) => {
     dispatch(getPatientsRequest());
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
-      .then(token => patientsRequest.init(token).getPatients(pageNumber))
+      .then(token => patientsRequest.init(token).getPatients(pageNumber, firtsName, lastName, documentType, documentNumber))
       .then((data) => {
         dispatch(getPatientsSuccess(data));
       })
@@ -93,3 +93,4 @@ export function getPatient(sessionToken, patient) {
       });
   };
 }
+

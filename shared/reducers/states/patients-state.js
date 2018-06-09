@@ -1,6 +1,6 @@
 export default {
   originalPatient: {
-    id: null,
+    id: '',
     firstName: '',
     lastName: '',
     address: '',
