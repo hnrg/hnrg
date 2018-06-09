@@ -15,11 +15,7 @@ class LoginContainer extends Component {
     const { fields, isFetching, isValid } = this.props.auth;
 
     this.state = {
-      fields: {
-        ...fields,
-        email: "",
-        password: "",
-      },
+      fields,
       isValid,
       isFetching,
     };
@@ -85,8 +81,9 @@ class LoginContainer extends Component {
               size='large'
               onSubmit={this.handleSubmit.bind(this)}
             >
-              <Segment stacked>
+              <Segment stacked textAlign='left'>
                 <Form.Input
+                  label={fields.emailErrorMsg}
                   fluid
                   icon='user'
                   iconPosition='left'
@@ -97,6 +94,7 @@ class LoginContainer extends Component {
                   onChange={this.handleChange.bind(this)}
                 />
                 <Form.Input
+                  label={fields.passwordErrorMsg}
                   fluid
                   icon='lock'
                   iconPosition='left'
