@@ -107,10 +107,6 @@ exports.addUser = async function addUser(req, res) {
       return res.status(422).send({ error: 'You must enter a username' });
     }
 
-    if (!firstName || !lastName) {
-      return res.status(422).send({ error: 'You must enter your full name.' });
-    }
-
     if (!password) {
       return res.status(422).send({ error: 'You must enter a password.' });
     }
@@ -142,12 +138,12 @@ exports.addUser = async function addUser(req, res) {
           active: true,
         });
 
-        newUser.save(($$err, newUserData) => {
+        newUser.save(($$err, saved) => {
           if ($$err) {
             throw ($$err);
           }
 
-          res.status(201).send({ newUserData });
+          res.status(201).send({ user: saved });
         });
       });
     });

@@ -206,7 +206,6 @@ export function addUser(username, email, password, firstName, lastName, sessionT
         }))
       .then(() => {
         dispatch(userAddSuccess());
-        dispatch(getUser(username));
       })
       .catch((error) => {
         dispatch(userAddFailure(error));

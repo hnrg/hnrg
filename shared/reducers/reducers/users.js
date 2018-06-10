@@ -92,7 +92,7 @@ export default function usersReducer(state = InitialState, action) {
         fields: {
           ...state.fields,
           email: action.payload.email,
-          password: action.payload.password,
+          password: '',
           username: action.payload.username,
           firstName: action.payload.firstName || '',
           lastName: action.payload.lastName || '',
