@@ -4,6 +4,7 @@ import {
   Button,
   Form,
   Icon,
+  Message,
   Segment,
 } from 'semantic-ui-react';
 
@@ -17,6 +18,7 @@ class Add extends Component {
       isValid: this.props.isValid,
       isFetching: this.props.isFetching,
       fields: this.props.fields,
+      error: this.props.error,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -24,22 +26,24 @@ class Add extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { fields, isValid, isFetching } = props;
+    const { fields, isValid, isFetching, error } = props;
 
     this.setState({
       fields,
       isValid,
       isFetching,
+      error,
     });
   }
 
   componentDidMount() {
-    const { fields, isValid, isFetching } = this.props;
+    const { fields, isValid, isFetching, error } = this.props;
 
     this.setState({
       fields,
       isValid,
       isFetching,
+      error,
     });
   }
 
@@ -70,10 +74,15 @@ class Add extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching } = this.state;
+    const { fields, isValid, isFetching, error } = this.state;
+    console.log(error);
 
     return(
       <Segment padded>
+        {error && <Message negative>
+          <Message.Header>Existen errores</Message.Header>
+          <p>{error}</p>
+        </Message>}
         <Form onSubmit={this.handleSubmit}>
           <Form.Group>
             <Form.Input
@@ -85,7 +94,7 @@ class Add extends Component {
               value={fields.firstName}
               error={fields.firstNameHasError} />
             <Form.Input
-              label={fields.usernameErrorMsg || 'Apellido'}
+              label={fields.lastNameErrorMsg || 'Apellido'}
               name='lastName'
               placeholder='Apellido'
               width={8}

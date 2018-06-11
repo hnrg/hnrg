@@ -46,7 +46,7 @@ export function getPermissions(pageNumber, sessionToken) {
         dispatch(getPermissionsSuccess(data.permissions));
       })
       .catch((error) => {
-        dispatch(getPermissionsFailure(error));
+        dispatch(getPermissionsFailure(error.response.data.error));
       });
   };
 }

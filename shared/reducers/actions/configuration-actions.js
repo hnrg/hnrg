@@ -42,7 +42,7 @@ export function getConfiguration() {
         dispatch(getConfigurationSuccess(data.configuration));
       })
       .catch((error) => {
-        dispatch(getConfigurationFailure(error));
+        dispatch(getConfigurationFailure(error.response.data.error));
       });
   };
 }

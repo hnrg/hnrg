@@ -52,7 +52,7 @@ export function getUsers(pageNumber, username, active, sessionToken) {
         dispatch(getUsersSuccess(data));
       })
       .catch((error) => {
-        dispatch(getUsersFailure(error));
+        dispatch(getUsersFailure(error.response.data.error));
       });
   };
 }
@@ -95,7 +95,7 @@ export function getUser(username, sessionToken) {
         dispatch(getUserSuccess(data.user));
       })
       .catch((error) => {
-        dispatch(getUserFailure(error));
+        dispatch(getUserFailure(error.response.data.error));
       });
   };
 }
@@ -158,7 +158,7 @@ export function updateUser(originalUsername, username, email, firstName, lastNam
         dispatch(getUser(username));
       })
       .catch((error) => {
-        dispatch(userUpdateFailure(error));
+        dispatch(userUpdateFailure(error.response.data.error));
       });
   };
 }
@@ -208,7 +208,7 @@ export function addUser(username, email, password, firstName, lastName, sessionT
         dispatch(userAddSuccess());
       })
       .catch((error) => {
-        dispatch(userAddFailure(error));
+        dispatch(userAddFailure(error.response.data.error));
       });
   };
 }

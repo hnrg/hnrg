@@ -75,7 +75,7 @@ export function getRoles(pageNumber, name, deleted, sessionToken) {
         dispatch(getRolesSuccess(data));
       })
       .catch((error) => {
-        dispatch(getRolesFailure(error));
+        dispatch(getRolesFailure(error.response.data.error));
       });
   };
 }
@@ -90,7 +90,7 @@ export function getRol(rolname, sessionToken) {
         dispatch(getRolSuccess(data.rol));
       })
       .catch((error) => {
-        dispatch(getRolFailure(error));
+        dispatch(getRolFailure(error.response.data.error));
       });
   };
 }
@@ -144,7 +144,7 @@ export function updateRol(originalRolname, name, sessionToken) {
         dispatch(getRol(name));
       })
       .catch((error) => {
-        dispatch(rolUpdateFailure(error));
+        dispatch(rolUpdateFailure(error.response.data.error));
       });
   };
 }
