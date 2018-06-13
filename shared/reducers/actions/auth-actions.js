@@ -260,7 +260,7 @@ export function login({ email, password }) {
           dispatch(logoutState());
         }))
       .catch((error) => {
-        dispatch(loginFailure(error.response.data.error));
+        dispatch(loginFailure(error.response.data));
       });
   };
 }
