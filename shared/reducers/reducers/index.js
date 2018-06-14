@@ -4,6 +4,7 @@ import { reducer as formReducer } from 'redux-form';
 // import reducers
 import authReducer from './auth';
 import configurationReducer from './configuration';
+import documentTypesReducer from './document-types';
 import globalReducer from './global';
 import profileReducer from './profile';
 import patientsReducer from './patients';
@@ -16,6 +17,7 @@ export default combineReducers({
   form: formReducer,
   auth: authReducer,
   configuration: configurationReducer,
+  documentTypes: documentTypesReducer,
   global: globalReducer,
   profile: profileReducer,
   patients: patientsReducer,

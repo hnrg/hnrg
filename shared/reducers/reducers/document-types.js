@@ -16,11 +16,11 @@ import {
 import InitialState from 'reducers/states/document-types-state';
 
 /**
- * ## document-typesReducer function
+ * ## documentTypesReducer function
  * @param {Object} state - initialState
  * @param {Object} action - type and payload
  */
-export default function document-typesReducer(state = InitialState, action) {
+export default function documentTypesReducer(state = InitialState, action) {
   let nextPermissionState = null;
 
   switch (action.type) {
@@ -43,7 +43,7 @@ export default function document-typesReducer(state = InitialState, action) {
     case GET_DOCUMENT_TYPES_SUCCESS: {
       return {
         ...state,
-        document-types: action.payload,
+        documentTypes: action.payload,
         isFetching: false,
         error: null,
       };
@@ -56,7 +56,7 @@ export default function document-typesReducer(state = InitialState, action) {
     case LOGOUT_SUCCESS: {
       return nextPermissionState = {
         ...state,
-        document-types: [],
+        documentTypes: [],
         error: null,
       };
     }
@@ -75,15 +75,14 @@ export default function document-typesReducer(state = InitialState, action) {
 
 
     case SET_STATE: {
-      const { document-types } = JSON.parse(action.payload);
+      const { documentTypes } = JSON.parse(action.payload);
 
       return {
         ...state,
-        disabled: document-types.disabled,
-        error: document-types.error,
-        isValid: document-types.isValid,
-        isFetching: document-types.isFetching,
-        document-types: document-types.document-types,
+        error: documentTypes.error,
+        isValid: documentTypes.isValid,
+        isFetching: documentTypes.isFetching,
+        documentTypes: documentTypes.documentTypes,
       };
     }
 

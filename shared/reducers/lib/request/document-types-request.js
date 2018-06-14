@@ -11,10 +11,7 @@ export default class DocumentTypesRequest {
   }
 
   getDocumentTypes() {
-    return axios.get('/api/documentTypes', {
-      params: {
-        pageNumber,
-      },
+    return axios.get('/api/document-types', {
       headers: {
         Authorization: this._sessionToken,
       },
