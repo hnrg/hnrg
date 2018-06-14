@@ -8,20 +8,36 @@ const permissionsCheck = require('../modules/permissions-check');
  * @param res
  * @returns void
  */
-exports.getPatients = async function getPatients(req, res) {
+exports.getPatients = async function getPatients(req, res, next) {
   try {
     permissionsCheck(req.user, 'paciente_index');
 
     const deleted = req.query.deleted || false;
+    const firstName = new RegExp(req.query.firstName || '', 'i');
+    const lastName = new RegExp(req.query.lastName || '', 'i');
+    const documentNumber = req.query.documentNumber || 0;
+    const documentType = req.query.documentType;
     const { pageNumber, configuration } = req;
     const { webpage } = configuration;
     const { amountPerPage } = webpage;
 
-    await Patient.count({ deleted })
+    var where = {
+      deleted,
+      firstName,
+      lastName,
+      documentNumber: {
+        $gte: documentNumber
+      }
+    };
+
+    if (documentType) {
+      where.documentType = documentType;
+    }
+
+    await Patient.count(where)
       .exec((err, totalCount) => {
         if (err) {
-          next(err);
-          return;
+          throw next(err);
         }
 
         if (!totalCount) {
@@ -32,7 +48,7 @@ exports.getPatients = async function getPatients(req, res) {
           });
         }
 
-        const patients = Patient.find({ deleted })
+        const patients = Patient.find(where)
           .limit(amountPerPage)
           .skip(amountPerPage * pageNumber)
           .populate('demographicData')
@@ -40,8 +56,7 @@ exports.getPatients = async function getPatients(req, res) {
           .populate('documentType')
           .exec(($err, patients) => {
             if ($err) {
-              next($err);
-              return;
+              throw next($err);
             }
 
             res.status(200).send({
@@ -87,7 +102,7 @@ exports.addPatient = async function addPatient(req, res, next) {
     }).exec((err, patient) => {
       if (err) {
         res.sendStatus(422);
-        return next(err);
+        throw next(err);
       }
 
       if (patient) {
@@ -137,7 +152,7 @@ exports.getPatient = async function getPatient(req, res, next) {
         }
 
         if (err) {
-          return next(err);
+          throw next(err);
         }
 
         res.status(200).json({ patient });
@@ -169,7 +184,7 @@ exports.deletePatient = async function deletePatient(req, res) {
       .exec((err, patient) => {
         if (err || patient == null) {
           res.status(422).json({ error: 'No patient was found with that id' });
-          return next(err);
+          throw next(err);
         }
 
         res.sendStatus(200);
@@ -200,7 +215,7 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
       .exec((err, patient) => {
         if (err || patient == null) {
           res.status(422).json({ error: 'No patient was found with that id.' });
-          return next(err);
+          throw next(err);
         }
 
         HealthControl.find({ patient: patient._id, active: true })
@@ -233,7 +248,7 @@ exports.updatePatient = async function updatePatient(req, res, next) {
       .exec((err, patient) => {
         if (err || patient == null) {
           res.status(422).json({ error: 'No patient was found with that id.' });
-          return next(err);
+          throw next(err);
         }
 
         return res.status(200).json({ patient });
