@@ -49,7 +49,7 @@ class Sidebar extends Component {
 
         <Menu.Item as={Link} to={'/dashboard/patients'} name='patients'
                    active={activeItem === 'patients'}>
-          <TextIcon hideText={this.props.smallMenu} name='users'>
+          <TextIcon hideText={this.props.smallMenu} name='heartbeat'>
             Pacientes
           </TextIcon>
         </Menu.Item>
