@@ -2,6 +2,7 @@ const appointments = require('./appointment.routes');
 const auth = require('./auth.routes');
 const configurations = require('./configuration.routes');
 const demographicData = require('./demographic-data.routes');
+const documentTypes = require('./document-types.routes');
 const healthControl = require('./health-control.routes');
 const patients = require('./patient.routes');
 const permissions = require('./permission.routes');
@@ -14,6 +15,7 @@ module.exports = {
   auth,
   configurations,
   demographicData,
+  documentTypes,
   healthControl,
   patients,
   permissions,
