@@ -14,6 +14,7 @@ import RolesPage from 'containers/Roles';
 import SettingsPage from 'containers/Settings';
 import StatisticsPage from 'containers/Statistics';
 import UsersPage from 'containers/Users';
+import PatientsPage from 'containers/Patients';
 
 import './styles.css';
 
@@ -74,6 +75,7 @@ class DashboardContainer extends Component {
             <Route exact path={`${match.path}`} component={StatisticsPage} />
             <Route path={`${match.path}/settings`} component={SettingsPage} />
             <Route path={`${match.path}/users/:username?`} component={UsersPage} />
+            <Route path={`${match.path}/patients/:id?`} component={PatientsPage} />
             <Route path={`${match.path}/roles/:name?`} component={RolesPage} />
           </Switch>
         </Layout>

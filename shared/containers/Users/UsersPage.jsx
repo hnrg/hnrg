@@ -102,7 +102,7 @@ class UsersContainer extends Component {
       count,
     } = this.props.users;
 
-    if (this.props.match.params.username && originalUser.username === '') {
+    if (this.props.match.params.username && (originalUser.username === '' || this.props.match.params.username !== originalUser.username)) {
       this.props.actions.getUser(this.props.match.params.username);
       return;
     }
