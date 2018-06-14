@@ -69,7 +69,7 @@ export function getPatients(pageNumber, firtsName, lastName, documentType, docum
         dispatch(getPatientsSuccess(data));
       })
       .catch((error) => {
-        dispatch(getPatientsFailure(error));
+        dispatch(getPatientsFailure(error.response.data.error));
       });
   };
 }
@@ -89,7 +89,7 @@ export function getPatient(sessionToken, patient) {
         dispatch(getPatientSuccess(data.patient));
       })
       .catch((error) => {
-        dispatch(getPatientFailure(error));
+        dispatch(getPatientFailure(error.response.data.error));
       });
   };
 }

@@ -161,7 +161,7 @@ export function getSessionToken() {
         }
       })
       .catch((error) => {
-        dispatch(sessionTokenRequestFailure(error));
+        dispatch(sessionTokenRequestFailure(error.response.data.error));
         dispatch(loginState());
       });
   };
@@ -229,7 +229,7 @@ export function logout() {
       })
       .catch((error) => {
         dispatch(loginState());
-        dispatch(logoutFailure(error));
+        dispatch(logoutFailure(error.response.data.error));
       });
   };
 }
@@ -260,7 +260,7 @@ export function login({ email, password }) {
           dispatch(logoutState());
         }))
       .catch((error) => {
-        dispatch(loginFailure(error));
+        dispatch(loginFailure(error.response.data));
       });
   };
 }

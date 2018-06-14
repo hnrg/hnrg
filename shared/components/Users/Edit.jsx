@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Button,
   Form,
+  Message,
   Icon,
 } from 'semantic-ui-react';
 
@@ -15,6 +16,7 @@ class Edit extends Component {
       isFetching: this.props.isFetching,
       originalUser: this.props.user,
       fields: this.props.fields,
+      error: this.props.error,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -22,24 +24,26 @@ class Edit extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { user, fields, isValid, isFetching } = props;
+    const { user, fields, isValid, isFetching, error } = props;
 
     this.setState({
       originalUser: user,
       fields,
       isValid,
       isFetching,
+      error,
     });
   }
 
   componentDidMount() {
-    const { user, fields, isValid, isFetching } = this.props;
+    const { user, fields, isValid, isFetching, error, } = this.props;
 
     this.setState({
       originalUser: user,
       fields,
       isValid,
       isFetching,
+      error,
     });
   }
 
@@ -70,10 +74,14 @@ class Edit extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching } = this.state;
+    const { fields, isValid, isFetching, error } = this.state;
 
     return(
       <Form onSubmit={this.handleSubmit}>
+        {error && <Message negative>
+          <Message.Header>Existen errores</Message.Header>
+          <p>{error}</p>
+        </Message>}
         <Form.Group>
           <Form.Input
             label={fields.firstNameErrorMsg || 'Nombre'}

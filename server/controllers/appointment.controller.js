@@ -70,7 +70,7 @@ exports.getAppointments = async function getAppointments(req, res) {
  * @param res
  * @returns void
  */
-exports.addAppointment = async function addAppointment(req, res, next) {
+exports.addAppointment = async function addAppointment(req, res) {
   try {
     const { documentNumber, date, time } = req.body.appointment || req.params;
     const { appointments } = req.configuration;
@@ -90,7 +90,7 @@ exports.addAppointment = async function addAppointment(req, res, next) {
       .count({ date: newDate.toDate() })
       .exec((err, count) => {
         if (err) {
-          next(err);
+          throw (err);
         }
 
         if (count > 0) {

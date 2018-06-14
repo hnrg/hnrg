@@ -107,7 +107,7 @@ exports.getDemographicData = async function getDemographicData(req, res) {
   }
 };
 
-exports.updateDemographicData = async function updateDemographicData(req, res, next) {
+exports.updateDemographicData = async function updateDemographicData(req, res) {
   try {
     permissionsCheck(req.user, 'paciente_update');
 
@@ -115,7 +115,7 @@ exports.updateDemographicData = async function updateDemographicData(req, res, n
       .exec((err, demographicData) => {
         if (err || demographicData == null) {
           res.status(422).json({ error: 'No demographic data was found with that id.' });
-          return next(err);
+          return;
         }
 
         return res.status(200).json({ demographicData });

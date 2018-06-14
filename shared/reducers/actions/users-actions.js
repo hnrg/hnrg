@@ -7,10 +7,15 @@ import {
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
 
+  USER_ADD_REQUEST,
+  USER_ADD_SUCCESS,
+  USER_ADD_FAILURE,
+
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAILURE,
 
+  ON_USER_FORM_CLEAR,
   ON_USER_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
@@ -47,7 +52,7 @@ export function getUsers(pageNumber, username, active, sessionToken) {
         dispatch(getUsersSuccess(data));
       })
       .catch((error) => {
-        dispatch(getUsersFailure(error));
+        dispatch(getUsersFailure(error.response.data.error));
       });
   };
 }
@@ -90,8 +95,14 @@ export function getUser(username, sessionToken) {
         dispatch(getUserSuccess(data.user));
       })
       .catch((error) => {
-        dispatch(getUserFailure(error));
+        dispatch(getUserFailure(error.response.data.error));
       });
+  };
+}
+
+export function onUserFormClear() {
+  return {
+    type: ON_USER_FORM_CLEAR,
   };
 }
 
@@ -147,7 +158,57 @@ export function updateUser(originalUsername, username, email, firstName, lastNam
         dispatch(getUser(username));
       })
       .catch((error) => {
-        dispatch(userUpdateFailure(error));
+        dispatch(userUpdateFailure(error.response.data.error));
+      });
+  };
+}
+
+export function userAddRequest() {
+  return {
+    type: USER_ADD_REQUEST,
+  };
+}
+
+export function userAddSuccess() {
+  return {
+    type: USER_ADD_SUCCESS,
+  };
+}
+
+export function userAddFailure(data) {
+  return {
+    type: USER_ADD_FAILURE,
+    payload: data,
+  };
+}
+
+/**
+ * ## addUser
+ *
+ * The sessionToken is provided when Hot Loading.
+ *
+ * With the sessionToken, the server is called with the data to add
+ * If successful, get the user so that the screen is addd with
+ * the data as now persisted on the serverx
+ *
+ */
+export function addUser(username, email, password, firstName, lastName, sessionToken) {
+  return (dispatch) => {
+    dispatch(userAddRequest());
+    return authToken.getSessionToken(sessionToken)
+      .then(token => usersRequest.init(token)
+        .addUser({
+          username,
+          email,
+          password,
+          firstName,
+          lastName,
+        }))
+      .then(() => {
+        dispatch(userAddSuccess());
+      })
+      .catch((error) => {
+        dispatch(userAddFailure(error.response.data.error));
       });
   };
 }

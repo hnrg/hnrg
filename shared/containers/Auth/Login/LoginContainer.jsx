@@ -12,36 +12,35 @@ class LoginContainer extends Component {
   constructor(props, context) {
     super(props, context);
 
-    const { fields, isFetching, isValid } = this.props.auth;
+    const { fields, isFetching, isValid, error, } = this.props.auth;
 
     this.state = {
-      fields: {
-        ...fields,
-        email: "",
-        password: "",
-      },
+      fields,
       isValid,
       isFetching,
+      error,
     };
   }
 
   componentWillReceiveProps(props) {
-    const { fields, isFetching, isValid } = props.auth;
+    const { fields, isFetching, isValid, error, } = props.auth;
 
     this.setState({
       fields,
       isValid,
       isFetching,
+      error,
     });
   }
 
   componentDidMount() {
-    const { fields, isFetching, isValid } = this.props.auth;
+    const { fields, isFetching, isValid, error, } = this.props.auth;
 
     this.setState({
       fields,
       isValid,
       isFetching,
+      error,
     });
   }
 
@@ -68,7 +67,7 @@ class LoginContainer extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching } = this.state;
+    const { fields, isValid, isFetching, error, } = this.state;
 
     return(
       <div className='login-form'>
@@ -85,8 +84,13 @@ class LoginContainer extends Component {
               size='large'
               onSubmit={this.handleSubmit.bind(this)}
             >
-              <Segment stacked>
+              <Segment stacked textAlign='left'>
+                {error && <Message negative>
+                  <Message.Header>Existen errores</Message.Header>
+                  <p>{error}</p>
+                </Message>}
                 <Form.Input
+                  label={fields.emailErrorMsg}
                   fluid
                   icon='user'
                   iconPosition='left'
@@ -97,6 +101,7 @@ class LoginContainer extends Component {
                   onChange={this.handleChange.bind(this)}
                 />
                 <Form.Input
+                  label={fields.passwordErrorMsg}
                   fluid
                   icon='lock'
                   iconPosition='left'

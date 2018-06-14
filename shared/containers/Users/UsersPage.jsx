@@ -12,13 +12,12 @@ import {
 
 import * as usersActions from 'reducers/actions/users-actions';
 
-import Footer from 'components/Footer';
-import TopMenu from 'components/TopMenu';
+import UserAdd from 'components/Users/Add';
 import UserShow from 'components/Users/Show';
 import UserEdit from 'components/Users/Edit';
 import UsersList from 'components/Users/List';
 
-const panes = ({ loading, originalUser, fields, isValid, isFetching }, actions) => [
+const panes = ({ loading, originalUser, fields, isValid, isFetching, error }, actions) => [
   {
     menuItem: { key: 'user', icon: 'user', content: 'Ver perfil' },
     render: () => <Tab.Pane loading={loading} padded='very'><UserShow user={originalUser} /></Tab.Pane>
@@ -30,6 +29,7 @@ const panes = ({ loading, originalUser, fields, isValid, isFetching }, actions) 
         <UserEdit
           user={originalUser}
           fields={fields}
+          error={error}
           isValid={isValid}
           isFetching={isFetching}
           onFormFieldChange={actions.onUserFormFieldChange}
@@ -46,6 +46,7 @@ class UsersContainer extends Component {
     const {
       originalUser,
       fields,
+      error,
       isFetching,
       isValid,
       users,
@@ -55,6 +56,7 @@ class UsersContainer extends Component {
 
     this.state = {
       loading: true,
+      currentView: 'usersList',
       pageNumber: 0,
       username: '',
       active: true,
@@ -63,6 +65,7 @@ class UsersContainer extends Component {
       count,
       originalUser,
       fields,
+      error,
       isValid,
       isFetching,
     };
@@ -75,6 +78,7 @@ class UsersContainer extends Component {
       isFetching,
       isValid,
       users,
+      error,
       totalCount,
       count,
     } = props.users;
@@ -86,6 +90,7 @@ class UsersContainer extends Component {
       isValid,
       isFetching,
       users,
+      error,
       totalCount,
       count,
     });
@@ -98,6 +103,7 @@ class UsersContainer extends Component {
       isFetching,
       isValid,
       users,
+      error,
       totalCount,
       count,
     } = this.props.users;
@@ -121,6 +127,7 @@ class UsersContainer extends Component {
       isValid,
       isFetching,
       users,
+      error,
       totalCount,
       count,
     });
@@ -142,7 +149,45 @@ class UsersContainer extends Component {
     });
   }
 
+  onAddButtonClick() {
+    this.setState({
+      currentView: 'userCreate',
+    });
+  }
+
+  usersList() {
+    const { actions, match } = this.props;
+
+    return (
+      <UsersList
+        url={match.url}
+        users={this.state.users}
+        pageNumber={this.state.pageNumber}
+        totalCount={this.state.totalCount}
+        count={this.state.count}
+        onAddButtonClick={this.onAddButtonClick.bind(this)}
+        onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
+      );
+  }
+
+  userCreate() {
+    const { fields, isValid, isFetching, error } = this.state;
+    const { actions } = this.props;
+
+    return (
+      <UserAdd
+        error={error}
+        fields={fields}
+        isValid={isValid}
+        isFetching={isFetching}
+        onMount={actions.onUserFormClear}
+        onFormFieldChange={actions.onUserFormFieldChange}
+        addUser={actions.addUser} />
+    );
+  }
+
   render() {
+    const { currentView } = this.state;
     const { actions, match } = this.props;
 
     return (
@@ -150,13 +195,7 @@ class UsersContainer extends Component {
         {
           this.props.match.params.username ?
           <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} /> :
-          <UsersList
-            url={match.url}
-            users={this.state.users}
-            pageNumber={this.state.pageNumber}
-            totalCount={this.state.totalCount}
-            count={this.state.count}
-            onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
+          this[currentView]()
         }
       </div>
     );

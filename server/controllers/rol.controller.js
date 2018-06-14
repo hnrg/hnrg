@@ -24,8 +24,7 @@ exports.getRoles = async function getRoles(req, res) {
     await Rol.count({ deleted, name })
       .exec((err, totalCount) => {
         if (err) {
-          next(err);
-          return;
+          throw (err);
         }
 
         if (!totalCount) {
@@ -42,8 +41,7 @@ exports.getRoles = async function getRoles(req, res) {
           .populate('permissions')
           .exec(($err, roles) => {
             if ($err) {
-              next($err);
-              return;
+              throw ($err);
             }
 
             res.status(200).send({
@@ -116,7 +114,7 @@ exports.getRol = async function getRol(req, res) {
       .populate('permissions')
       .exec((err, rol) => {
         if (err) {
-          return next(err);
+          throw (err);
         }
 
         if (rol == null) {
@@ -152,7 +150,7 @@ exports.deleteRol = async function deleteRol(req, res) {
       .exec((err, rol) => {
         if (err || rol == null) {
           res.status(422).json({ error: 'No rol was found with that id' });
-          return next(err);
+          return;
         }
 
         return res.status(200).end();
@@ -178,7 +176,7 @@ exports.deleteRolPermission = async function deleteRolPermission(req, res) {
       .exec((err, rol) => {
         if (err || rol == null) {
           res.status(422).json({ error: 'No rol was found with that id' });
-          return next(err);
+          return;
         }
 
         rol.permissions = _.remove(rol.permissions, permission => permission._id == req.permission);
@@ -194,7 +192,7 @@ exports.deleteRolPermission = async function deleteRolPermission(req, res) {
   }
 };
 
-exports.updateRol = async function updateRol(req, res, next) {
+exports.updateRol = async function updateRol(req, res) {
   try {
     permissionsCheck(req.user, 'rol_update');
 
@@ -202,7 +200,7 @@ exports.updateRol = async function updateRol(req, res, next) {
       .exec((err, rol) => {
         if (err || rol == null) {
           res.status(422).json({ error: 'No rol was found with that id.' });
-          return next(err);
+          return;
         }
 
         return res.status(200).json({ rol });

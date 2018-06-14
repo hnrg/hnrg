@@ -22,6 +22,13 @@ const UsersList = (props) => {
   return(
     <Segment>
       <Header as='h2' content='Listado de Usuarios' />
+      <Button
+        circular
+        size='tiny'
+        color='teal'
+        icon='user'
+        title='Agregar usuario'
+        onClick={props.onAddButtonClick} />
       <Form>
         <Form.Group>
           <Form.Select

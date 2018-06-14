@@ -51,7 +51,7 @@ export function getProfile(sessionToken) {
         dispatch(getProfileSuccess(data.user));
       })
       .catch((error) => {
-        dispatch(getProfileFailure(error));
+        dispatch(getProfileFailure(error.response.data.error));
       });
   };
 }
@@ -108,7 +108,7 @@ export function updateProfile(originalUsername, username, email, firstName, last
         dispatch(getProfile());
       })
       .catch((error) => {
-        dispatch(profileUpdateFailure(error));
+        dispatch(profileUpdateFailure(error.response.data.error));
       });
   };
 }
