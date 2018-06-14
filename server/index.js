@@ -87,6 +87,7 @@ app.use('/api', routes.appointments);
 app.use('/api', routes.auth);
 app.use('/api', routes.configurations);
 app.use('/api', routes.demographicData);
+app.use('/api', routes.documentTypes);
 app.use('/api', routes.healthControl);
 app.use('/api', routes.patients);
 app.use('/api', routes.permissions);
