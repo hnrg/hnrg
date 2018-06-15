@@ -75,7 +75,6 @@ class Add extends Component {
 
   render() {
     const { fields, isValid, isFetching, error } = this.state;
-    console.log(error);
 
     return(
       <Segment padded>

@@ -15,32 +15,33 @@ import * as documentTypesActions from 'reducers/actions/document-types-actions';
 
 import Footer from 'components/Footer';
 import TopMenu from 'components/TopMenu';
-// import PatientShow from 'components/Patients/Show';
+import PatientShow from 'components/Patients/Show';
 // import PatientEdit from 'components/Patients/Edit';
 import PatientsList from 'components/Patients/List';
 
-/*
-const panes = ({ loading, originalPatient, fields, isValid, isFetching }, actions) => [
+
+const panes = ({ loading, patients }, actions) => [
   {
-    menuItem: { key: 'patient', icon: 'heartbeat' Ver perfil' },
-    render: () => <Tab.Pane loading={loading} padded='very'><UserShow user={originalUser} /></Tab.Pane>
+    menuItem: { key: 'patient', icon: 'heartbeat', content: ' Ver perfil' },
+    render: () => <Tab.Pane loading={loading} padded='very'><PatientShow patient={patients.originalPatient} /></Tab.Pane>
   },
+/*
   {
     menuItem: { key: 'edit', icon: 'edit', content: 'Editar perfil' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        <UserEdit
-          user={originalUser}
-          fields={fields}
-          isValid={isValid}
-          isFetching={isFetching}
-          onFormFieldChange={actions.onUserFormFieldChange}
-          updateUser={actions.updateUser} />
+        <PatientEdit
+          patient={patients.originalPatient}
+          fields={patients.fields}
+          isValid={patients.isValid}
+          isFetching={patients.isFetching}
+          onFormFieldChange={patients.actions.onUserFormFieldChange}
+          updatePatient={patients.actions.updatePatient} />
       </Tab.Pane>
     ),
-  },
+  },*/
 ];
-*/
+
 
 class PatientsContainer extends Component {
   constructor(props) {

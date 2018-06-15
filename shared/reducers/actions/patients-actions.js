@@ -79,7 +79,7 @@ export function getPatients(pageNumber, firtsName, lastName, documentType, docum
  * controls which form is displayed to the user
  * as in login, register, logout or reset password
  */
-export function getPatient(sessionToken, patient) {
+export function getPatient(patient, sessionToken) {
   return (dispatch) => {
     dispatch(getPatientRequest());
     // store or get a sessionToken

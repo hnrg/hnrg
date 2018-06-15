@@ -7,3 +7,4 @@ const telegramToken = process.env.TELEGRAM_TOKEN || '';
 router.route(`/telegram/bot${telegramToken}`).post(TelegramController.request);
 
 module.exports = router;
+

@@ -1,5 +1,5 @@
 export default {
-  documentTypes: null,
+  waterTypes: null,
   error: null,
   isValid: false,
   isFetching: false,

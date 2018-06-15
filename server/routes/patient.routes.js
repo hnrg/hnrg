@@ -22,3 +22,4 @@ router.route('/patients/:id').delete(requireAuth, configurationMiddleware, Patie
 router.route('/patients/:id/health-controls/:type').get(requireAuth, configurationMiddleware, PatientController.getPatientHealthControls);
 
 module.exports = router;
+

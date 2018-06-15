@@ -33,7 +33,7 @@ const PatientsList = (props) => {
             onChange={props.onSearchFieldChange}
             placeholder='Apellido del paciente' />
           <Form.Select
-            placeholder='documentType'
+            placeholder='Tipo de documento'
             name='documentType'
             onChange={props.onSearchFieldChange}
             options={options} />

@@ -1,5 +1,5 @@
 export default {
-  documentTypes: null,
+  heatingTypes: null,
   error: null,
   isValid: false,
   isFetching: false,

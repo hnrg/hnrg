@@ -20,3 +20,4 @@ router.route('/health-controls/:id').delete(requireAuth, configurationMiddleware
 router.route('/health-controls/:id').post(requireAuth, configurationMiddleware, HealthControlController.updateHealthControl);
 
 module.exports = router;
+

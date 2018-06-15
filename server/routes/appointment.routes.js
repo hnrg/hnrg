@@ -24,3 +24,4 @@ router.route('/turnos/:id')
   .delete(configurationMiddleware, AppointmentController.deleteAppointment);
 
 module.exports = router;
+
