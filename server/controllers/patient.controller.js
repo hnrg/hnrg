@@ -142,7 +142,7 @@ exports.getPatient = async function getPatient(req, res, next) {
     permissionsCheck(req.user, 'paciente_show');
 
     await Patient.findById(req.params.id)
-      .whare('deleted').equals(false)
+      .where('deleted').equals(false)
       .populate('demographicData')
       .populate('medicalInsurance')
       .populate('documentType')
