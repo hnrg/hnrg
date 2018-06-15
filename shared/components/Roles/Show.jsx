@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import moment from 'moment-timezone';
 import {
   Button,
+  Container,
   Divider,
   Grid,
   Header,
@@ -11,6 +12,7 @@ import {
   Image,
   List,
   Modal,
+  Table,
 } from 'semantic-ui-react';
 
 import icon from 'static/icons/icon.png';
@@ -46,13 +48,43 @@ class Show extends Component {
     const { rol } = this.state;
 
     return(
-      <center>
+      <div>
         <Header as='h2' icon>
           {rol.name}
         </Header>
         <Divider hidden />
-        <Image size='mini' src={icon} />
-      </center>
+        <Table basic='very' celled compact>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Permiso</Table.HeaderCell>
+              <Table.HeaderCell>Acciones</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+
+          <Table.Body>
+            {Array.from(rol.permissions || []).map((permission, id) => {
+              return (
+                <Table.Row>
+                  <Table.Cell>
+                    <Header as='h4' image>
+                      <Header.Content>
+                        {permission.name}
+                      </Header.Content>
+                    </Header>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Button circular size='tiny' color='red' icon='remove' title={`Eliminar permiso: ${permission.name}`} />
+                  </Table.Cell>
+                </Table.Row>
+              );
+            })}
+          </Table.Body>
+        </Table>
+        <Divider hidden />
+        <center>
+          <Image size='mini' src={icon} />
+        </center>
+      </div>
     );
   }
 }

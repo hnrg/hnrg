@@ -181,6 +181,7 @@ class ConfigurationContainer extends Component {
               error={fields.amountHasError}
               onChange={this.handleChange.bind(this)} />
           </Form.Group>
+          <Divider hidden />
           <Form.Checkbox
             label='Confirmar cambios'
             onChange={((e, data) => {
