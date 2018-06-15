@@ -11,6 +11,7 @@ import profileReducer from './profile';
 import patientsReducer from './patients';
 import healthControlsReducer from './health-controls';
 import heatingTypesReducer from './heating-types';
+import medicalInsurancesReducer from './medical-insurances';
 import rolesReducer from './roles';
 import permissionsReducer from './permissions';
 import usersReducer from './users';
@@ -27,6 +28,7 @@ export default combineReducers({
   patients: patientsReducer,
   healthControls: healthControlsReducer,
   heatingTypes: heatingTypesReducer,
+  medicalInsurances: medicalInsurancesReducer,
   roles: rolesReducer,
   permissions: permissionsReducer,
   users: usersReducer,
