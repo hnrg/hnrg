@@ -18,3 +18,4 @@ router.route('/users/:username').post(requireAuth, configurationMiddleware, User
 router.route('/users').post(requireAuth, configurationMiddleware, UserController.addUser);
 
 module.exports = router;
+

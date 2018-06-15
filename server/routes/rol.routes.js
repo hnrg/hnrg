@@ -22,3 +22,4 @@ router.route('/roles/:name').delete(requireAuth, configurationMiddleware, RolCon
 router.route('/roles/:name/:permission').delete(requireAuth, configurationMiddleware, RolController.deleteRolPermission);
 
 module.exports = router;
+

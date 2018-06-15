@@ -16,3 +16,4 @@ router.route('/demographic-data').post(requireAuth, configurationMiddleware, Dem
 router.route('/demographic-data/:id').get(requireAuth, configurationMiddleware, DemographicDataController.getDemographicData);
 
 module.exports = router;
+

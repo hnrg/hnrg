@@ -12,3 +12,4 @@ const router = Router();
 router.route('/permissions').get(requireAuth, configurationMiddleware, PermissionController.getPermissions);
 
 module.exports = router;
+

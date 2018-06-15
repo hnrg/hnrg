@@ -16,3 +16,4 @@ router.route('/auth/me')
   .post(requireAuth, AuthController.updateProfileAction);
 
 module.exports = router;
+

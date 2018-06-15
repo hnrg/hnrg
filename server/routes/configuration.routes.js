@@ -16,3 +16,4 @@ router.route('/configurations/current').get(ConfigurationController.getCurrentCo
 router.route('/configurations/:id').get(requireAuth, configurationMiddleware, ConfigurationController.getConfiguration);
 
 module.exports = router;
+

@@ -8,3 +8,4 @@ const router = Router();
 router.route('/document-types').get(configurationMiddleware, DocumentTypesController.getDocumentTypes);
 
 module.exports = router;
+
