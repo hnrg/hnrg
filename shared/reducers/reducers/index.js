@@ -10,6 +10,7 @@ import globalReducer from './global';
 import profileReducer from './profile';
 import patientsReducer from './patients';
 import healthControlsReducer from './health-controls';
+import heatingTypesReducer from './heating-types';
 import rolesReducer from './roles';
 import permissionsReducer from './permissions';
 import usersReducer from './users';
@@ -24,6 +25,7 @@ export default combineReducers({
   profile: profileReducer,
   patients: patientsReducer,
   healthControls: healthControlsReducer,
+  heatingTypes: heatingTypesReducer,
   roles: rolesReducer,
   permissions: permissionsReducer,
   users: usersReducer,
