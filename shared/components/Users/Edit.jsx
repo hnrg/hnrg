@@ -92,7 +92,7 @@ class Edit extends Component {
             value={fields.firstName}
             error={fields.firstNameHasError} />
           <Form.Input
-            label={fields.usernameErrorMsg || 'Apellido'}
+            label={fields.lastNameErrorMsg || 'Apellido'}
             name='lastName'
             placeholder='Apellido'
             width={8}

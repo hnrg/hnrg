@@ -13,6 +13,8 @@ export default {
     delta: null,
     amount: null,
     maintenance: false,
+    createdAt: null,
+    updatedAt: null,
     user: null,
   },
   fields: {

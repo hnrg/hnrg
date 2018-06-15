@@ -20,6 +20,7 @@ class ConfigurationContainer extends Component {
     super(props);
 
     this.state = {
+      confirmSubmit: false,
       ...this.props.configuration,
     };
   }
@@ -63,11 +64,12 @@ class ConfigurationContainer extends Component {
     e.preventDefault();
     const {
       fields,
+      confirmSubmit,
       isValid,
       isFetching
     } = this.state;
 
-    if (!isValid || isFetching) {
+    if (!isValid || isFetching || !confirmSubmit) {
       return;
     }
 
@@ -81,7 +83,7 @@ class ConfigurationContainer extends Component {
       amount,
       maintenance,
     } = fields;
-    console.log(fields);
+
     this.props.actions.addConfiguration(
       name,
       amountPerPage,
@@ -95,7 +97,7 @@ class ConfigurationContainer extends Component {
   }
 
   render() {
-    const {fields, isValid, isFetching} = this.state;
+    const {fields, isValid, isFetching, confirmSubmit} = this.state;
 
     return (
       <Segment>
@@ -146,7 +148,7 @@ class ConfigurationContainer extends Component {
             value={fields.description}
             error={fields.descriptionHasError}
             onChange={this.handleChange.bind(this)} />
-          <Divider />
+          <Divider hidden />
           <Header as='h3'>
             Configuración de sistema de turnos
           </Header>
@@ -179,7 +181,13 @@ class ConfigurationContainer extends Component {
               error={fields.amountHasError}
               onChange={this.handleChange.bind(this)} />
           </Form.Group>
-          <Form.Checkbox label='I agree to the Terms and Conditions' />
+          <Form.Checkbox
+            label='Confirmar cambios'
+            onChange={((e, data) => {
+              this.setState({
+                confirmSubmit: !this.state.confirmSubmit,
+              });
+            }).bind(this)} />
           <Form.Button disabled={!isValid || isFetching}>Guardar</Form.Button>
         </Form>
       </Segment>
