@@ -9,7 +9,9 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 
 const router = Router();
 
-router.route('/configurations').post(requireAuth, configurationMiddleware, ConfigurationController.getConfigurations);
+router.route('/configurations')
+  .get(requireAuth, configurationMiddleware, ConfigurationController.getConfigurations)
+  .post(requireAuth, configurationMiddleware, ConfigurationController.addConfiguration);
 
 router.route('/configurations/current').get(ConfigurationController.getCurrentConfiguration);
 
