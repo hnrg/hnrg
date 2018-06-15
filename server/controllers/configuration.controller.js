@@ -13,7 +13,9 @@ exports.getConfigurations = async function getConfigurations(req, res) {
 
     const configurations = await Configuration.find({}).exec();
 
-    res.status(200).send({ configurations });
+    res.status(200).send({
+      configurations
+    });
   } catch (e) {
     res.status(500).send(e);
   }
@@ -30,15 +32,40 @@ exports.addConfiguration = async function addConfiguration(req, res) {
   try {
     permissionsCheck(req.user, 'configuracion_new');
 
-    const { configuration } = req.body;
+    const {configuration} = req.body;
 
-    Configuration.findOne().exec((err, oldConfiguration) => {
+    let webpage = configuration.webpage || {};
+    let appointments = configuration.appointments || {};
+    let maintenance = configuration.maintenance || null;
+
+    await Configuration.findOne().exec((err, oldConfiguration) => {
+      webpage = {
+        name: webpage.name || oldConfiguration.webpage.name,
+        amountPerPage: webpage.amountPerPage || oldConfiguration.webpage.amountPerPage,
+        email: webpage.email || oldConfiguration.webpage.email,
+        description: webpage.description || oldConfiguration.webpage.description,
+      };
+
+      appointments = {
+        from: appointments.from || oldConfiguration.appointments.from,
+        delta: appointments.delta || oldConfiguration.appointments.delta,
+        amount: appointments.amount || oldConfiguration.appointments.amount,
+      };
+
       const newConfiguration = new Configuration({
-        ...oldConfiguration,
-        ...configuration,
+        webpage,
+        appointments,
+        maintenance: maintenance || oldConfiguration.maintenance,
+        user: req.user._id,
       });
 
-      newConfiguration.save(($err, saved) => res.status(200).send({ configuration: saved }));
+      newConfiguration.save(($err, saved) => {
+        if ($err) {
+          throw ($err);
+        }
+
+        res.status(201).send({configuration: saved});
+      });
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
@@ -55,7 +82,9 @@ exports.getConfiguration = async function getConfiguration(req, res) {
 
     const configuration = await Configuration.findById(req.params.id).exec();
 
-    res.status(200).send({ configuration });
+    res.status(200).send({
+      configuration
+    });
   } catch (e) {
     res.status(500).send(e);
   }
@@ -63,9 +92,11 @@ exports.getConfiguration = async function getConfiguration(req, res) {
 
 exports.getCurrentConfiguration = async function getCurrentConfiguration(req, res) {
   try {
-    const configuration = await Configuration.findOne({}).exec();
+    const configuration = await Configuration.findOne({}).sort('-updatedAt').exec();
 
-    res.status(200).send({ configuration });
+    res.status(200).send({
+      configuration
+    });
   } catch (e) {
     res.status(500).send(e);
   }
