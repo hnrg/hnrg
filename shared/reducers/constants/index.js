@@ -10,3 +10,4 @@ export * from './heating-types.constants';
 export * from './roles.constants';
 export * from './permissions.constants';
 export * from './users.constants';
+export * from './water-types.constants';

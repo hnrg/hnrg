@@ -14,6 +14,7 @@ import heatingTypesReducer from './heating-types';
 import rolesReducer from './roles';
 import permissionsReducer from './permissions';
 import usersReducer from './users';
+import waterTypesReducer from './water-types';
 
 export default combineReducers({
   form: formReducer,
@@ -29,4 +30,5 @@ export default combineReducers({
   roles: rolesReducer,
   permissions: permissionsReducer,
   users: usersReducer,
+  waterTypes: waterTypesReducer,
 });
