@@ -1,7 +1,16 @@
+import fieldValidation from 'reducers/lib/field-validation/configuration';
+import formValidation from './configuration-form';
+
 import {
   GET_CONFIGURATION_REQUEST,
   GET_CONFIGURATION_SUCCESS,
   GET_CONFIGURATION_FAILURE,
+
+  CONFIGURATION_ADD_REQUEST,
+  CONFIGURATION_ADD_SUCCESS,
+  CONFIGURATION_ADD_FAILURE,
+
+  ON_CONFIGURATION_FORM_FIELD_CHANGE,
 
   LOGOUT_SUCCESS,
 
@@ -20,13 +29,21 @@ import InitialState from 'reducers/states/configuration-state';
  * @param {Object} action - type and payload
  */
 export default function configurationReducer(state = InitialState, action) {
+  let nextConfigurationState = null;
+
   switch (action.type) {
     /**
      * ### Request starts
      * set the form to fetching and clear any errors
      */
+    case CONFIGURATION_ADD_REQUEST:
     case GET_CONFIGURATION_REQUEST:
       return { ...state, isFetching: true, error: null };
+
+    case CONFIGURATION_ADD_SUCCESS:
+    {
+      return { ...state, isFetching: false };
+    }
 
     /**
      * ### Request ends successfully
@@ -36,22 +53,52 @@ export default function configurationReducer(state = InitialState, action) {
      * Validate the data to make sure it's all good and someone didn't
      * mung it up through some other mechanism
      */
-    case GET_CONFIGURATION_SUCCESS:
-      return {
+    case GET_CONFIGURATION_SUCCESS: {
+      nextConfigurationState = {
         ...state,
         current: {
           ...state.current,
-          webpage: {
-            name: action.payload.webpage.name,
-            amountPerPage: action.payload.webpage.amountPerPage,
-            email: action.payload.webpage.email,
-            description: action.payload.webpage.description,
-          },
+          name: action.payload.webpage.name,
+          amountPerPage: action.payload.webpage.amountPerPage,
+          email: action.payload.webpage.email,
+          description: action.payload.webpage.description,
+          from: action.payload.appointments.from,
+          delta: action.payload.appointments.delta,
+          amount: action.payload.appointments.amount,
+          maintenance: action.payload.maintenance,
+          user: action.payload.user,
+        },
+        fields: {
+          ...state.fields,
+          name: action.payload.webpage.name,
+          amountPerPage: action.payload.webpage.amountPerPage,
+          email: action.payload.webpage.email,
+          description: action.payload.webpage.description,
+          from: action.payload.appointments.from,
+          delta: action.payload.appointments.delta,
+          amount: action.payload.appointments.amount,
           maintenance: action.payload.maintenance,
         },
         isFetching: false,
         error: null,
       };
+
+      return formValidation(fieldValidation(nextConfigurationState, action), action);
+    };
+
+    case ON_CONFIGURATION_FORM_FIELD_CHANGE: {
+      const { field, value } = action.payload;
+
+      nextConfigurationState = {
+        ...state,
+        fields: {
+          ...state.fields,
+          [field]: value,
+        },
+      };
+
+      return formValidation(fieldValidation(nextConfigurationState, action), action);
+    }
 
     /**
      * User logged out, so reset form fields and original configuration.
@@ -68,6 +115,7 @@ export default function configurationReducer(state = InitialState, action) {
      * ### Request fails
      * we're done fetching and the error needs to be displayed to the user
      */
+    case CONFIGURATION_ADD_FAILURE:
     case GET_CONFIGURATION_FAILURE:
       return {
         ...state,
@@ -95,18 +143,15 @@ export default function configurationReducer(state = InitialState, action) {
         configurations: configuration.configurations,
         current: {
           ...current,
-          webpage: {
-            name: configuration.current.webpage.name,
-            amountPerPage: configuration.current.webpage.amountPerPage,
-            email: configuration.current.webpage.email,
-            description: configuration.current.webpage.description,
-          },
-          appointments: {
-            from: configuration.current.appointments.from,
-            delta: configuration.current.appointments.delta,
-            ammount: configuration.current.appointments.ammount,
-          },
+          name: configuration.current.webpage.name,
+          amountPerPage: configuration.current.webpage.amountPerPage,
+          email: configuration.current.webpage.email,
+          description: configuration.current.webpage.description,
+          from: configuration.current.appointments.from,
+          delta: configuration.current.appointments.delta,
+          amount: configuration.current.appointments.amount,
           maintenance: configuration.current.maintenance,
+          user: configuration.current.user,
         },
       };
     }

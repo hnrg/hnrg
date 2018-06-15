@@ -69,7 +69,7 @@ export function getHealthControls(pageNumber, sessionToken) {
         dispatch(getHealthControlsSuccess(data));
       })
       .catch((error) => {
-        dispatch(getHealthControlsFailure(error.response.data.error));
+        dispatch(getHealthControlsFailure(error.response.data.error || error.response.data));
       });
   };
 }
@@ -89,7 +89,7 @@ export function getHealthControl(sessionToken, healthControl) {
         dispatch(getHealthControlSuccess(data.healthControl));
       })
       .catch((error) => {
-        dispatch(getHealthControlFailure(error.response.data.error));
+        dispatch(getHealthControlFailure(error.response.data.error || error.response.data));
       });
   };
 }
