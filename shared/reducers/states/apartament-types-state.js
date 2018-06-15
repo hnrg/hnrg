@@ -1,5 +1,5 @@
 export default {
-  documentTypes: null,
+  apartamentTypes: null,
   error: null,
   isValid: false,
   isFetching: false,
