@@ -1,3 +1,4 @@
+import fieldValidation from 'reducers/lib/field-validation/patients';
 
 import {
   GET_PATIENTS_REQUEST,
@@ -97,7 +98,7 @@ export default function patientsReducer(state = InitialState, action) {
           phone: action.payload.phone,
           birthday: action.payload.birthday,
           sex: action.payload.sex,
-          documentType: action.payload.documentType.name,
+          documentType: action.payload.documentType,
           documentNumber: action.payload.documentNumber,
         },
         originalPatient: {
