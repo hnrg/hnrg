@@ -87,11 +87,10 @@ class HomeContainer extends Component {
 
   render() {
     const { isLoggedIn, cards, currentConfiguration } = this.state;
-    const { webpage } = currentConfiguration;
 
     return (
       <div>
-        <Navbar {...webpage} isLoggedIn={isLoggedIn} />
+        <Navbar {...currentConfiguration} isLoggedIn={isLoggedIn} />
         <Container textAlign='center'>
           {cards.map((card, id) => (
             <div key={id}>
@@ -100,7 +99,7 @@ class HomeContainer extends Component {
             </div>
           ))}
         </Container>
-        <Footer {...webpage} />
+        <Footer {...currentConfiguration} />
       </div>
     );
   }

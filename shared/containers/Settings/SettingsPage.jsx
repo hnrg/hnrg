@@ -1,13 +1,204 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
+  Container,
+  Divider,
+  Form,
+  Grid,
+  Header,
   Segment,
-} from "semantic-ui-react";
+  Tab
+} from 'semantic-ui-react';
 
-const Home = props => (
-  <Segment>
-    <h1>React Admin Dashboard - Settings</h1>
-  </Segment>
-);
+import * as configurationActions from 'reducers/actions/configuration-actions';
 
-export default connect()(Home);
+class ConfigurationContainer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.props.configuration,
+    };
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      ...props.configuration,
+    });
+  }
+
+  componentDidMount() {
+    const {current} = this.props.configuration;
+
+    if (current.user === null) {
+      this.props.actions.getConfiguration();
+      return;
+    }
+
+    this.setState({
+      ...this.props.configuration,
+    });
+  }
+
+  handleChange(e, {name, value}) {
+    const newValue = name === 'maintenance' ?
+      !this.state.fields.maintenance :
+      value;
+
+    this.props.actions.onConfigurationFormFieldChange(name, newValue);
+
+    this.setState({
+      ...this.state,
+      fields: {
+        ...this.state.fields,
+        [name]: value,
+      }
+    });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const {
+      fields,
+      isValid,
+      isFetching
+    } = this.state;
+
+    if (!isValid || isFetching) {
+      return;
+    }
+
+    const {
+      name,
+      amountPerPage,
+      email,
+      description,
+      from,
+      delta,
+      amount,
+      maintenance,
+    } = fields;
+    console.log(fields);
+    this.props.actions.addConfiguration(
+      name,
+      amountPerPage,
+      email,
+      description,
+      from,
+      delta,
+      amount,
+      maintenance
+    );
+  }
+
+  render() {
+    const {fields, isValid, isFetching} = this.state;
+
+    return (
+      <Segment>
+        <Form onSubmit={this.handleSubmit.bind(this)}>
+          <Header as='h3'>
+            Configuración del Sitio
+          </Header>
+          <Form.Group widths='equal'>
+            <Form.Input
+              fluid
+              label={fields.nameErrorMsg || 'Nombre'}
+              placeholder='Nombre'
+              name='name'
+              value={fields.name}
+              error={fields.nameHasError}
+              onChange={this.handleChange.bind(this)} />
+            <Form.Input
+              fluid
+              label={fields.emailErrorMsg || 'Mail de contacto'}
+              placeholder='Mail de contacto'
+              name='email'
+              value={fields.email}
+              error={fields.emailHasError}
+              onChange={this.handleChange.bind(this)} />
+            <Form.Input
+              fluid
+              type='number'
+              label={fields.amountPerPageErrorMsg || 'Cantidad por página'}
+              placeholder='Cantidad por página'
+              name='amountPerPage'
+              value={fields.amountPerPage || 0}
+              error={fields.amountPerPageHasError}
+              onChange={this.handleChange.bind(this)} />
+          </Form.Group>
+          <Form.Group inline widths='equal'>
+            <Form.Checkbox
+              label={fields.maintenanceErrorMsg || 'Sitio en mantenimiento'}
+              checked={fields.maintenance}
+              value={fields.maintenance ? 'on' : 'off'}
+              name='maintenance'
+              error={fields.maintenanceHasError}
+              onChange={this.handleChange.bind(this)} />
+          </Form.Group>
+          <Form.TextArea
+            label={fields.descriptionErrorMsg || 'Descripción'}
+            placeholder='Descripción...'
+            name='description'
+            value={fields.description}
+            error={fields.descriptionHasError}
+            onChange={this.handleChange.bind(this)} />
+          <Divider />
+          <Header as='h3'>
+            Configuración de sistema de turnos
+          </Header>
+          <Form.Group inline widths='equal'>
+            <Form.Input
+              fluid
+              type='number'
+              label={fields.fromErrorMsg || 'Comienzo de turnos'}
+              placeholder='Comienzo de turnos'
+              name='from'
+              value={fields.from || 0}
+              error={fields.fromHasError}
+              onChange={this.handleChange.bind(this)} />
+            <Form.Input
+              fluid
+              type='number'
+              label={fields.deltaErrorMsg || 'Intervalo entre turnos'}
+              placeholder='Intervalo entre turnos'
+              name='delta'
+              value={fields.delta || 0}
+              error={fields.deltaHasError}
+              onChange={this.handleChange.bind(this)} />
+            <Form.Input
+              fluid
+              type='number'
+              label={fields.amountErrorMsg || 'Cantidad de turnos por día'}
+              placeholder='Cantidad de turnos por día'
+              name='amount'
+              value={fields.amount || 0}
+              error={fields.amountHasError}
+              onChange={this.handleChange.bind(this)} />
+          </Form.Group>
+          <Form.Checkbox label='I agree to the Terms and Conditions' />
+          <Form.Button disabled={!isValid || isFetching}>Guardar</Form.Button>
+        </Form>
+      </Segment>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    configuration: state.configuration
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      ...configurationActions,
+    }, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConfigurationContainer);
