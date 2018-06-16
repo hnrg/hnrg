@@ -112,9 +112,10 @@ exports.addPatient = async function addPatient(req, res, next) {
 
         const updatedPatient = patient;
         updatedPatient.deleted = false;
-        const saved = updatedPatient.save();
 
-        return res.status(200).json({ patient: saved });
+        updatedPatient.save(($$err, saved) => {
+          return res.status(200).json({ patient: saved });
+        });
       }
 
       const newPatient = new Patient(req.body.patient);
