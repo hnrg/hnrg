@@ -74,7 +74,7 @@ const PatientsList = (props) => {
               <Table.Cell>{patient.documentNumber}</Table.Cell>
               <Table.Cell>
                 <Button circular size='tiny' color='teal' as={Link} to={`${props.url}/${patient._id}`} icon='heartbeat' title={'Ver paciente'} />
-                <Button circular size='tiny' color='red' icon='remove user' title={'Eliminar paciente'} />
+                <Button circular size='tiny' color='red' icon='remove user' title={`Eliminar ${patient._id}`} onClick={props.deleteAction(patient._id)} />
               </Table.Cell>
             </Table.Row>
           ))}
