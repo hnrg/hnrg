@@ -18,6 +18,10 @@ import {
   PATIENT_UPDATE_SUCCESS,
   PATIENT_UPDATE_FAILURE,
 
+  PATIENT_DELETE_REQUEST,
+  PATIENT_DELETE_SUCCESS,
+  PATIENT_DELETE_FAILURE,
+
   ON_PATIENT_FORM_CLEAR,
   ON_PATIENT_FORM_FIELD_CHANGE,
 
@@ -49,6 +53,7 @@ export default function patientsReducer(state = InitialState, action) {
     case GET_PATIENT_REQUEST:
     case PATIENT_ADD_REQUEST:
     case PATIENT_UPDATE_REQUEST:
+    case PATIENT_DELETE_REQUEST:
     {
       return { ...state, isFetching: true, error: null };
     }
@@ -74,6 +79,7 @@ export default function patientsReducer(state = InitialState, action) {
 
     case PATIENT_ADD_SUCCESS:
     case PATIENT_UPDATE_SUCCESS:
+    case PATIENT_DELETE_SUCCESS:
     {
       return {
         ...state,
@@ -190,6 +196,7 @@ export default function patientsReducer(state = InitialState, action) {
     case GET_PATIENT_FAILURE:
     case PATIENT_ADD_FAILURE:
     case PATIENT_UPDATE_FAILURE:
+    case PATIENT_DELETE_FAILURE:
     {
       return {
         ...state,
