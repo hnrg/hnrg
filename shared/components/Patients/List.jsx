@@ -22,6 +22,13 @@ const PatientsList = (props) => {
   return(
     <Segment>
       <Header as='h2' content='Listado de Pacientes' />
+      <Button
+        circular
+        size='tiny'
+        color='teal'
+        icon='heartbeat'
+        title='Agregar paciente'
+        onClick={props.onAddButtonClick} />
       <Form>
         <Form.Group>
           <Form.Input
@@ -66,7 +73,7 @@ const PatientsList = (props) => {
               <Table.Cell>{patient.sex}</Table.Cell>
               <Table.Cell>{patient.documentNumber}</Table.Cell>
               <Table.Cell>
-                <Button circular size='tiny' color='teal' as={Link} to={`${props.url}/${patient.id}`} icon='heartbeat' title={'Ver paciente'} />
+                <Button circular size='tiny' color='teal' as={Link} to={`${props.url}/${patient._id}`} icon='heartbeat' title={'Ver paciente'} />
                 <Button circular size='tiny' color='red' icon='remove user' title={'Eliminar paciente'} />
               </Table.Cell>
             </Table.Row>
