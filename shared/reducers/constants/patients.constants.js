@@ -14,6 +14,10 @@ export const PATIENT_UPDATE_REQUEST = 'patient-update-request';
 export const PATIENT_UPDATE_SUCCESS = 'patient-update-success';
 export const PATIENT_UPDATE_FAILURE = 'patient-update-failure';
 
+export const PATIENT_DELETE_REQUEST = 'patient-delete-request';
+export const PATIENT_DELETE_SUCCESS = 'patient-delete-success';
+export const PATIENT_DELETE_FAILURE = 'patient-delete-failure';
+
 export const ON_PATIENT_FORM_CLEAR = 'on-patient-form-clear';
 export const ON_PATIENT_FORM_FIELD_CHANGE = 'on-patient-form-field-change';
 
