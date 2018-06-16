@@ -11,23 +11,24 @@ import {
 } from 'semantic-ui-react';
 
 import * as patientsActions from 'reducers/actions/patients-actions';
+import * as medicalInsurancesActions from 'reducers/actions/medical-insurances-actions';
 import * as documentTypesActions from 'reducers/actions/document-types-actions';
 
 import Footer from 'components/Footer';
 import TopMenu from 'components/TopMenu';
+import PatientAdd from 'components/Patients/Add';
 import PatientShow from 'components/Patients/Show';
-// import PatientEdit from 'components/Patients/Edit';
+import PatientEdit from 'components/Patients/Edit';
 import PatientsList from 'components/Patients/List';
 
 
-const panes = ({ loading, patients }, actions) => [
+const panes = ({ loading, patients, documentTypes, medicalInsurances }, actions) => [
   {
-    menuItem: { key: 'patient', icon: 'heartbeat', content: ' Ver perfil' },
+    menuItem: { key: 'patient', icon: 'heartbeat', content: ' Ver paciente' },
     render: () => <Tab.Pane loading={loading} padded='very'><PatientShow patient={patients.originalPatient} /></Tab.Pane>
   },
-/*
   {
-    menuItem: { key: 'edit', icon: 'edit', content: 'Editar perfil' },
+    menuItem: { key: 'edit', icon: 'edit', content: 'Editar paciente' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
         <PatientEdit
@@ -35,11 +36,13 @@ const panes = ({ loading, patients }, actions) => [
           fields={patients.fields}
           isValid={patients.isValid}
           isFetching={patients.isFetching}
-          onFormFieldChange={patients.actions.onUserFormFieldChange}
-          updatePatient={patients.actions.updatePatient} />
+          onFormFieldChange={actions.onPatientFormFieldChange}
+          updatePatient={actions.updatePatient}
+          documentTypes={documentTypes.documentTypes}
+          medicalInsurances={medicalInsurances.medicalInsurances} />
       </Tab.Pane>
     ),
-  },*/
+  },
 ];
 
 
@@ -49,6 +52,7 @@ class PatientsContainer extends Component {
 
     this.state = {
       loading: true,
+      currentView: 'patientsList',
       patients: {
         ...this.props.patients,
         pageNumber: 0,
@@ -57,9 +61,12 @@ class PatientsContainer extends Component {
         documentType: null,
         documentNumber: null,
       },
+      medicalInsurances: {
+        ...this.props.medicalInsurances,
+      },
       documentTypes: {
         ...this.props.documentTypes,
-      }
+      },
     };
   }
 
@@ -68,6 +75,9 @@ class PatientsContainer extends Component {
       loading: props.patients.fields.documentNumber === null,
       patients: {
         ...props.patients,
+      },
+      medicalInsurances: {
+        ...props.medicalInsurances,
       },
       documentTypes: {
         ...props.documentTypes,
@@ -93,6 +103,7 @@ class PatientsContainer extends Component {
 
     if (!this.props.match.params.id) {
       this.props.actions.getDocumentTypes();
+      this.props.actions.getMedicalInsurances();
     }
 
     if (!this.props.match.params.id && this.state.patients.patients === null) {
@@ -107,6 +118,9 @@ class PatientsContainer extends Component {
       patients: {
         ...this.state.patients,
         ...this.props.patients,
+      },
+      medicalInsurances: {
+        ...this.props.medicalInsurances,
       },
       documentTypes: {
         ...this.props.documentTypes,
@@ -136,7 +150,48 @@ class PatientsContainer extends Component {
     });
   }
 
+  onAddButtonClick() {
+    this.setState({
+      currentView: 'patientCreate',
+    });
+  }
+
+  patientsList() {
+    const { match } = this.props;
+    return (
+      <PatientsList
+        url={match.url}
+        patients={this.state.patients.patients}
+        documentTypes={this.state.documentTypes.documentTypes}
+        pageNumber={this.state.patients.pageNumber}
+        totalCount={this.state.patients.totalCount}
+        count={this.state.patients.count}
+        onAddButtonClick={this.onAddButtonClick.bind(this)}
+        onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
+    );
+  }
+
+  patientCreate() {
+    const { originalPatient, fields, isValid, isFetching, error } = this.state.patients;
+    const { actions } = this.props;
+
+    return (
+        <PatientAdd
+          patient={originalPatient}
+          error={error}
+          fields={fields}
+          isValid={isValid}
+          documentTypes={this.state.documentTypes.documentTypes}
+          medicalInsurances={this.state.medicalInsurances.medicalInsurances}
+          isFetching={isFetching}
+          onMount={actions.onPatientFormClear}
+          onFormFieldChange={actions.onPatientFormFieldChange}
+          addPatient={actions.addPatient} />
+    );
+  }
+
   render() {
+    const { currentView } = this.state;
     const { actions, match } = this.props;
 
     return (
@@ -144,14 +199,7 @@ class PatientsContainer extends Component {
         {
           this.props.match.params.id ?
           <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} /> :
-          <PatientsList
-            url={match.url}
-            patients={this.state.patients.patients}
-            documentTypes={this.state.documentTypes.documentTypes}
-            pageNumber={this.state.patients.pageNumber}
-            totalCount={this.state.patients.totalCount}
-            count={this.state.patients.count}
-            onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
+          this[currentView]()
         }
       </div>
     );
@@ -162,6 +210,7 @@ function mapStateToProps(state) {
   return {
     patients: state.patients,
     documentTypes: state.documentTypes,
+    medicalInsurances: state.medicalInsurances,
   };
 }
 
@@ -169,6 +218,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       ...patientsActions,
+      ...medicalInsurancesActions,
       ...documentTypesActions,
     }, dispatch)
   };
