@@ -72,6 +72,7 @@ class Edit extends Component {
       fields.phone,
       fields.birthday,
       fields.sex,
+      fields.medicalInsurance,
       fields.documentType,
       fields.documentNumber,
       null
@@ -82,15 +83,20 @@ class Edit extends Component {
     const { fields, isValid, isFetching, error } = this.state;
 
     const sexOptions = [
-      { key: "m", value: "m", icon: 'man',text: "Masculino" },
-      { key: "f", value: "f", icon: 'woman', text: "Femenino" },
-      { key: "o", value: "o", icon: 'other gender', text: "Otro" },
+      { key: "m", value: "Masculino", icon: 'man',text: "Masculino" },
+      { key: "f", value: "Femenino", icon: 'woman', text: "Femenino" },
+      { key: "o", value: "Otro", icon: 'other gender', text: "Otro" },
     ];
 
     const documentTypesOptions = Array.from(this.props.documentTypes || []).map((elem) => {
       return { key: elem.name, value: elem._id, icon: 'genderless', text: elem.name };
     });
 
+    const medicalInsurancesOptions = Array.from(this.props.medicalInsurances || []).map((elem) => {
+      return { key: elem.name, value: elem._id, text: elem.name };
+    });
+
+    console.log("fields: ", fields);
     return(
       <Form onSubmit={this.handleSubmit}>
         {error && <Message negative>
@@ -150,6 +156,7 @@ class Edit extends Component {
             placeholder='Sexo'
             width={4}
             onChange={this.handleChange}
+            value={fields.sex}
             options={sexOptions}
             error={fields.sexHasError} />
         </Form.Group>
@@ -159,19 +166,30 @@ class Edit extends Component {
             name='documentType'
             placeholder='Tipo de documento'
             required
-            width={8}
+            width={5}
             onChange={this.handleChange}
+            value={fields.documentType ? fields.documentType._id : fields.documentType}
             options={documentTypesOptions}
             error={fields.documentTypeHasError} />
           <Form.Input
             label={fields.documentNumberErrorMsg || 'Número de documento'}
-            name='documentType'
+            name='documentNumber'
             placeholder='Número de documento'
             required
-            width={8}
+            width={6}
             onChange={this.handleChange}
-            value={fields.documentNumber || 0}
+            value={fields.documentNumber || ''}
             error={fields.documentNumberHasError} />
+          <Form.Select
+            label={fields.medicalInsuranceErrorMsg || 'Obra social'}
+            name='medicalInsurance'
+            placeholder='Obra social'
+            required
+            width={5}
+            onChange={this.handleChange}
+            value={fields.medicalInsurance ? fields.medicalInsurance._id : fields.medicalInsurance}
+            options={medicalInsurancesOptions}
+            error={fields.medicalInsuranceHasError} />
         </Form.Group>
         <Button disabled={!isValid || isFetching} color='teal' fluid size='large'>
           <Icon name='save' size='small' />
