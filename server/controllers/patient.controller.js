@@ -114,13 +114,17 @@ exports.addPatient = async function addPatient(req, res, next) {
         updatedPatient.deleted = false;
         const saved = updatedPatient.save();
 
-        return res.status(201).json({ patient: saved });
+        return res.status(200).json({ patient: saved });
       }
 
       const newPatient = new Patient(req.body.patient);
-      const saved = newPatient.save();
+      newPatient.save(($$err, saved) => {
+        if ($$err) {
+          throw ($$err);
+        }
 
-      return res.status(201).json({ patient: saved });
+        res.status(201).send({ patient: saved });
+      });
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
