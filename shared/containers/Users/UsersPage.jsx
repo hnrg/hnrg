@@ -163,6 +163,14 @@ class UsersContainer extends Component {
     };
   }
 
+  enableAction(username) {
+    const self = this;
+
+    return function() {
+      self.props.actions.enableUser(username);
+    };
+  }
+
   usersList() {
     const { actions, match } = this.props;
 
@@ -175,6 +183,7 @@ class UsersContainer extends Component {
         count={this.state.count}
         onAddButtonClick={this.onAddButtonClick.bind(this)}
         deleteAction={this.deleteAction.bind(this)}
+        enableAction={this.enableAction.bind(this)}
         onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
       );
   }

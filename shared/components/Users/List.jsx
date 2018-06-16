@@ -61,8 +61,14 @@ const UsersList = (props) => {
               <Table.Cell>{user.email}</Table.Cell>
               <Table.Cell>{user.firstName} {user.lastName}</Table.Cell>
               <Table.Cell>
-                <Button circular size='tiny' color='teal' as={Link} to={`${props.url}/${user.username}`} icon='user' title={`Ver ${user.username}`} />
-                <Button circular size='tiny' color='red' icon='remove user' title={`Eliminar ${user.username}`} onClick={props.deleteAction(user.username)} />
+                {
+                  (user.active) ?
+                  <div>
+                    <Button circular size='tiny' color='teal' as={Link} to={`${props.url}/${user.username}`} icon='user' title={`Ver ${user.username}`} />
+                    <Button circular size='tiny' color='red' icon='remove user' title={`Eliminar ${user.username}`} onClick={props.deleteAction(user.username)} />
+                  </div>:
+                  <Button circular size='tiny' color='blue' icon='add user' title={`Habilitar ${user.username}`} onClick={props.enableAction(user.username)} />
+                }
               </Table.Cell>
             </Table.Row>
           ))}

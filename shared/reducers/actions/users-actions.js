@@ -15,6 +15,10 @@ import {
   USER_DELETE_SUCCESS,
   USER_DELETE_FAILURE,
 
+  USER_ENABLE_REQUEST,
+  USER_ENABLE_SUCCESS,
+  USER_ENABLE_FAILURE,
+
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAILURE,
@@ -255,6 +259,48 @@ export function deleteUser(username, sessionToken) {
       })
       .catch((error) => {
         dispatch(userDeleteFailure(error.response.data.error));
+      });
+  };
+}
+
+export function userEnableRequest() {
+  return {
+    type: USER_ENABLE_REQUEST,
+  };
+}
+
+export function userEnableSuccess() {
+  return {
+    type: USER_ENABLE_SUCCESS,
+  };
+}
+
+export function userEnableFailure(data) {
+  return {
+    type: USER_ENABLE_FAILURE,
+    payload: data,
+  };
+}
+
+/**
+ * ## enableUser
+ *
+ * The sessionToken is provided when Hot Loading.
+ *
+ * With the sessionToken, the server is called with the data to enable
+ *
+ */
+export function enableUser(username, sessionToken) {
+  return (dispatch) => {
+    dispatch(userEnableRequest());
+    return authToken.getSessionToken(sessionToken)
+      .then(token => usersRequest.init(token).enableUser(username))
+      .then(() => {
+        dispatch(userEnableSuccess());
+        dispatch(getUsers());
+      })
+      .catch((error) => {
+        dispatch(userEnableFailure(error.response.data.error));
       });
   };
 }
