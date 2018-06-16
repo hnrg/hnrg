@@ -155,6 +155,14 @@ class UsersContainer extends Component {
     });
   }
 
+  deleteAction(username) {
+    const self = this;
+
+    return function() {
+      self.props.actions.deleteUser(username);
+    };
+  }
+
   usersList() {
     const { actions, match } = this.props;
 
@@ -166,6 +174,7 @@ class UsersContainer extends Component {
         totalCount={this.state.totalCount}
         count={this.state.count}
         onAddButtonClick={this.onAddButtonClick.bind(this)}
+        deleteAction={this.deleteAction.bind(this)}
         onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
       );
   }

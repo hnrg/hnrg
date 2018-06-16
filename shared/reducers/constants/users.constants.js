@@ -10,6 +10,10 @@ export const USER_ADD_REQUEST = 'user-add-request';
 export const USER_ADD_SUCCESS = 'user-add-success';
 export const USER_ADD_FAILURE = 'user-add-failure';
 
+export const USER_DELETE_REQUEST = 'user-delete-request';
+export const USER_DELETE_SUCCESS = 'user-delete-success';
+export const USER_DELETE_FAILURE = 'user-delete-failure';
+
 export const USER_UPDATE_REQUEST = 'user-update-request';
 export const USER_UPDATE_SUCCESS = 'user-update-success';
 export const USER_UPDATE_FAILURE = 'user-update-failure';
