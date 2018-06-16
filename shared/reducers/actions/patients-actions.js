@@ -15,6 +15,10 @@ import {
   PATIENT_UPDATE_SUCCESS,
   PATIENT_UPDATE_FAILURE,
 
+  PATIENT_DELETE_REQUEST,
+  PATIENT_DELETE_SUCCESS,
+  PATIENT_DELETE_FAILURE,
+
   ON_PATIENT_FORM_CLEAR,
   ON_PATIENT_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
@@ -250,3 +254,46 @@ export function addPatient(
       });
   };
 }
+
+export function patientDeleteRequest() {
+  return {
+    type: PATIENT_DELETE_REQUEST,
+  };
+}
+
+export function patientDeleteSuccess() {
+  return {
+    type: PATIENT_DELETE_SUCCESS,
+  };
+}
+
+export function patientDeleteFailure(data) {
+  return {
+    type: PATIENT_DELETE_FAILURE,
+    payload: data,
+  };
+}
+
+/**
+ * ## deletePatient
+ *
+ * The sessionToken is provided when Hot Loading.
+ *
+ * With the sessionToken, the server is called with the data to delete
+ *
+ */
+export function deletePatient(patientId, sessionToken) {
+  return (dispatch) => {
+    dispatch(patientDeleteRequest());
+    return authToken.getSessionToken(sessionToken)
+      .then(token => patientsRequest.init(token).deletePatient(patientId))
+      .then(() => {
+        dispatch(patientDeleteSuccess());
+        dispatch(getPatients());
+      })
+      .catch((error) => {
+        dispatch(patientDeleteFailure(error.response.data.error));
+      });
+  };
+}
+
