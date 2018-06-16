@@ -75,7 +75,13 @@ export default function patientsReducer(state = InitialState, action) {
     case PATIENT_ADD_SUCCESS:
     case PATIENT_UPDATE_SUCCESS:
     {
-      return { ...state, isFetching: false };
+      return {
+        ...state,
+        isFetching: false,
+        totalCount: 0,
+        count: 0,
+        patients: null,
+      };
     }
 
     case GET_PATIENT_SUCCESS: {
