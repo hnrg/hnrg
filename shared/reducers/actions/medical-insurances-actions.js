@@ -1,7 +1,7 @@
 import {
-  GET_MEDICAL_INSUTANCES_REQUEST,
-  GET_MEDICAL_INSUTANCES_SUCCESS,
-  GET_MEDICAL_INSUTANCES_FAILURE,
+  GET_MEDICAL_INSURANCES_REQUEST,
+  GET_MEDICAL_INSURANCES_SUCCESS,
+  GET_MEDICAL_INSURANCES_FAILURE,
 } from 'reducers/constants';
 
 import { medicalInsurancesRequest } from 'reducers/lib/request/medical-insurances-request';
@@ -12,20 +12,20 @@ import { authToken } from 'reducers/lib/store/auth-token';
  */
 export function getMedicalInsurancesRequest() {
   return {
-    type: GET_MEDICAL_INSUTANCES_REQUEST,
+    type: GET_MEDICAL_INSURANCES_REQUEST,
   };
 }
 
 export function getMedicalInsurancesSuccess(medicalInsurances) {
   return {
-    type: GET_MEDICAL_INSUTANCES_SUCCESS,
+    type: GET_MEDICAL_INSURANCES_SUCCESS,
     payload: medicalInsurances,
   };
 }
 
 export function getMedicalInsurancesFailure(error) {
   return {
-    type: GET_MEDICAL_INSUTANCES_FAILURE,
+    type: GET_MEDICAL_INSURANCES_FAILURE,
     payload: error,
   };
 }
