@@ -15,7 +15,8 @@ router.route('/users/:username').get(requireAuth, configurationMiddleware, UserC
 
 router.route('/users/:username').post(requireAuth, configurationMiddleware, UserController.updateUser);
 
+router.route('/users/:username').delete(requireAuth, configurationMiddleware, UserController.deleteUser);
+
 router.route('/users').post(requireAuth, configurationMiddleware, UserController.addUser);
 
 module.exports = router;
-

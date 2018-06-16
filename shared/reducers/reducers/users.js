@@ -14,6 +14,14 @@ import {
   USER_ADD_SUCCESS,
   USER_ADD_FAILURE,
 
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
+  USER_DELETE_FAILURE,
+
+  USER_ENABLE_REQUEST,
+  USER_ENABLE_SUCCESS,
+  USER_ENABLE_FAILURE,
+
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAILURE,
@@ -48,6 +56,8 @@ export default function usersReducer(state = InitialState, action) {
     case GET_USERS_REQUEST:
     case GET_USER_REQUEST:
     case USER_ADD_REQUEST:
+    case USER_DELETE_REQUEST:
+    case USER_ENABLE_REQUEST:
     case USER_UPDATE_REQUEST:
     {
       return { ...state, isFetching: true, error: null };
@@ -73,9 +83,17 @@ export default function usersReducer(state = InitialState, action) {
     }
 
     case USER_ADD_SUCCESS:
+    case USER_DELETE_SUCCESS:
+    case USER_ENABLE_SUCCESS:
     case USER_UPDATE_SUCCESS:
     {
-      return { ...state, isFetching: false };
+      return {
+        ...state,
+        isFetching: false,
+        totalCount: 0,
+        count: 0,
+        users: null,
+      };
     }
 
     /**
@@ -174,6 +192,8 @@ export default function usersReducer(state = InitialState, action) {
     case GET_USERS_FAILURE:
     case GET_USER_FAILURE:
     case USER_ADD_FAILURE:
+    case USER_DELETE_FAILURE:
+    case USER_ENABLE_FAILURE:
     case USER_UPDATE_FAILURE:
     {
       return {
