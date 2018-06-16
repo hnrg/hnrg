@@ -6,6 +6,17 @@ import {
   GET_PATIENT_REQUEST,
   GET_PATIENT_SUCCESS,
   GET_PATIENT_FAILURE,
+
+  PATIENT_ADD_REQUEST,
+  PATIENT_ADD_SUCCESS,
+  PATIENT_ADD_FAILURE,
+
+  PATIENT_UPDATE_REQUEST,
+  PATIENT_UPDATE_SUCCESS,
+  PATIENT_UPDATE_FAILURE,
+
+  ON_PATIENT_FORM_CLEAR,
+  ON_PATIENT_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
 import { patientsRequest } from 'reducers/lib/request/patients-request';
@@ -56,7 +67,7 @@ export function getPatientFailure(error) {
 
 /**
  * ## State actions
- * controls which form is displayed to the user
+ * controls which form is displayed to the patient
  * as in login, register, logout or reset password
  */
 export function getPatients(pageNumber, firtsName, lastName, documentType, documentNumber, sessionToken) {
@@ -76,7 +87,7 @@ export function getPatients(pageNumber, firtsName, lastName, documentType, docum
 
 /**
  * ## State actions
- * controls which form is displayed to the user
+ * controls which form is displayed to the patient
  * as in login, register, logout or reset password
  */
 export function getPatient(patient, sessionToken) {
@@ -94,3 +105,148 @@ export function getPatient(patient, sessionToken) {
   };
 }
 
+export function onPatientFormClear() {
+  return {
+    type: ON_PATIENT_FORM_CLEAR,
+  };
+}
+
+export function onPatientFormFieldChange(field, value) {
+  return {
+    type: ON_PATIENT_FORM_FIELD_CHANGE,
+    payload: { field, value },
+  };
+}
+
+export function patientUpdateRequest() {
+  return {
+    type: PATIENT_UPDATE_REQUEST,
+  };
+}
+
+export function patientUpdateSuccess() {
+  return {
+    type: PATIENT_UPDATE_SUCCESS,
+  };
+}
+
+export function patientUpdateFailure(data) {
+  return {
+    type: PATIENT_UPDATE_FAILURE,
+    payload: data,
+  };
+}
+
+/**
+ * ## updatePatient
+ *
+ * The sessionToken is provided when Hot Loading.
+ *
+ * With the sessionToken, the server is called with the data to update
+ * If successful, get the patient so that the screen is updated with
+ * the data as now persisted on the serverx
+ *
+ */
+export function updatePatient(
+    originalPatient,
+    firstName,
+    lastName,
+    address,
+    phone,
+    birthday,
+    sex,
+    medicalInsurance,
+    documentType,
+    documentNumber,
+    sessionToken
+  ) {
+  return (dispatch) => {
+    dispatch(patientUpdateRequest());
+    return authToken.getSessionToken(sessionToken)
+      .then(token => patientsRequest.init(token)
+        .updatePatient(originalPatient, {
+          firstName,
+          lastName,
+          address,
+          phone,
+          birthday,
+          sex,
+          medicalInsurance,
+          documentType,
+          documentNumber,
+        }))
+      .then(() => {
+        dispatch(patientUpdateSuccess());
+        dispatch(getPatient(originalPatient));
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(patientUpdateFailure(error.response.data.error));
+      });
+  };
+}
+
+export function patientAddRequest() {
+  return {
+    type: PATIENT_ADD_REQUEST,
+  };
+}
+
+export function patientAddSuccess() {
+  return {
+    type: PATIENT_ADD_SUCCESS,
+  };
+}
+
+export function patientAddFailure(data) {
+  return {
+    type: PATIENT_ADD_FAILURE,
+    payload: data,
+  };
+}
+
+/**
+ * ## addPatient
+ *
+ * The sessionToken is provided when Hot Loading.
+ *
+ * With the sessionToken, the server is called with the data to add
+ * If successful, get the patient so that the screen is addd with
+ * the data as now persisted on the serverx
+ *
+ */
+export function addPatient(
+    firstName,
+    lastName,
+    address,
+    phone,
+    birthday,
+    sex,
+    medicalInsurance,
+    documentType,
+    documentNumber,
+    sessionToken,
+   ) {
+  return (dispatch) => {
+    dispatch(patientAddRequest());
+    return authToken.getSessionToken(sessionToken)
+      .then(token => patientsRequest.init(token)
+        .addPatient({
+          firstName,
+          lastName,
+          address,
+          phone,
+          birthday,
+          sex,
+          medicalInsurance,
+          documentType,
+          documentNumber,
+        }))
+      .then(() => {
+        dispatch(patientAddSuccess());
+      })
+      .catch((error) => {
+        dispatch(patientAddFailure(error.response.data.error));
+      });
+  };
+}
