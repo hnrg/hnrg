@@ -17,6 +17,7 @@ class Add extends Component {
     this.state = {
       isValid: this.props.isValid,
       isFetching: this.props.isFetching,
+      originalPatient: this.props.patient,
       fields: this.props.fields,
       error: this.props.error,
     };
@@ -26,9 +27,10 @@ class Add extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { fields, isValid, isFetching, error } = props;
+    const { patient, fields, isValid, isFetching, error } = props;
 
     this.setState({
+      originalPatient: patient,
       fields,
       isValid,
       isFetching,
@@ -37,9 +39,10 @@ class Add extends Component {
   }
 
   componentDidMount() {
-    const { fields, isValid, isFetching, error } = this.props;
+    const { patient, fields, isValid, isFetching, error } = this.props;
 
     this.setState({
+      originalPatient: patient,
       fields,
       isValid,
       isFetching,
@@ -61,7 +64,7 @@ class Add extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const { fields } = this.state;
+    const { originalPatient, fields } = this.state;
 
     this.props.addPatient(
       fields.firstName,
@@ -70,6 +73,7 @@ class Add extends Component {
       fields.phone,
       fields.birthday,
       fields.sex,
+      fields.medicalInsurance,
       fields.documentType,
       fields.documentNumber,
       null
@@ -80,9 +84,9 @@ class Add extends Component {
     const { fields, isValid, isFetching, error } = this.state;
 
     const sexOptions = [
-      { key: "m", value: "m", icon: 'man',text: "Masculino" },
-      { key: "f", value: "f", icon: 'woman', text: "Femenino" },
-      { key: "o", value: "o", icon: 'other gender', text: "Otro" },
+      { key: "m", value: "Masculino", icon: 'man',text: "Masculino" },
+      { key: "f", value: "Femenino", icon: 'woman', text: "Femenino" },
+      { key: "o", value: "Otro", icon: 'other gender', text: "Otro" },
     ];
 
     const documentTypesOptions = Array.from(this.props.documentTypes || []).map((elem) => {
@@ -173,17 +177,17 @@ class Add extends Component {
               required
               width={6}
               onChange={this.handleChange}
-              value={fields.documentNumber}
+              value={fields.documentNumber || ''}
               error={fields.documentNumberHasError} />
             <Form.Select
-              label={fields.medicalInsurancesErrorMsg || 'Obra social'}
-              name='medicalInsurances'
+              label={fields.medicalInsuranceErrorMsg || 'Obra social'}
+              name='medicalInsurance'
               placeholder='Obra social'
               required
               width={5}
               onChange={this.handleChange}
               options={medicalInsurancesOptions}
-              error={fields.medicalInsurancesHasError} />
+              error={fields.medicalInsuranceHasError} />
           </Form.Group>
           <Button disabled={!isValid || isFetching} color='teal' fluid size='large'>
             <Icon name='save' size='small' />
