@@ -63,8 +63,6 @@ const patientSchema = new Schema({
 
 patientSchema.index({ documentNumber: 1, documentType: 1 }, { unique: true });
 
-patientSchema.virtual('fullName').get(() => {
-  return this.firstName + ' ' + this.lastName;
-})
+patientSchema.virtual('fullName').get(() => `${this.firstName} ${this.lastName}`);
 
 module.exports = mongoose.model('Patient', patientSchema);

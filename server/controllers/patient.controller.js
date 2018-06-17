@@ -21,13 +21,13 @@ exports.getPatients = async function getPatients(req, res, next) {
     const { webpage } = configuration;
     const { amountPerPage } = webpage;
 
-    var where = {
+    const where = {
       deleted,
       firstName,
       lastName,
       documentNumber: {
-        $gte: documentNumber
-      }
+        $gte: documentNumber,
+      },
     };
 
     if (documentType) {
@@ -113,9 +113,7 @@ exports.addPatient = async function addPatient(req, res, next) {
         const updatedPatient = patient;
         updatedPatient.deleted = false;
 
-        updatedPatient.save(($$err, saved) => {
-          return res.status(200).json({ patient: saved });
-        });
+        updatedPatient.save(($$err, saved) => res.status(200).json({ patient: saved }));
       }
 
       const newPatient = new Patient(req.body.patient);

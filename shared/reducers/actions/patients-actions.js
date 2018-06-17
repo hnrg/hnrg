@@ -152,18 +152,18 @@ export function patientUpdateFailure(data) {
  *
  */
 export function updatePatient(
-    originalPatient,
-    firstName,
-    lastName,
-    address,
-    phone,
-    birthday,
-    sex,
-    medicalInsurance,
-    documentType,
-    documentNumber,
-    sessionToken
-  ) {
+  originalPatient,
+  firstName,
+  lastName,
+  address,
+  phone,
+  birthday,
+  sex,
+  medicalInsurance,
+  documentType,
+  documentNumber,
+  sessionToken,
+) {
   return (dispatch) => {
     dispatch(patientUpdateRequest());
     return authToken.getSessionToken(sessionToken)
@@ -220,17 +220,17 @@ export function patientAddFailure(data) {
  *
  */
 export function addPatient(
-    firstName,
-    lastName,
-    address,
-    phone,
-    birthday,
-    sex,
-    medicalInsurance,
-    documentType,
-    documentNumber,
-    sessionToken,
-   ) {
+  firstName,
+  lastName,
+  address,
+  phone,
+  birthday,
+  sex,
+  medicalInsurance,
+  documentType,
+  documentNumber,
+  sessionToken,
+) {
   return (dispatch) => {
     dispatch(patientAddRequest());
     return authToken.getSessionToken(sessionToken)

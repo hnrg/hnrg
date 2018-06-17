@@ -99,7 +99,7 @@ export function addConfiguration(
   delta,
   amount,
   maintenance,
-  sessionToken
+  sessionToken,
 ) {
   return (dispatch) => {
     dispatch(configurationAddRequest());

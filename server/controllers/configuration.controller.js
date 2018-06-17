@@ -14,7 +14,7 @@ exports.getConfigurations = async function getConfigurations(req, res) {
     const configurations = await Configuration.find({}).exec();
 
     res.status(200).send({
-      configurations
+      configurations,
     });
   } catch (e) {
     res.status(500).send(e);
@@ -32,11 +32,11 @@ exports.addConfiguration = async function addConfiguration(req, res) {
   try {
     permissionsCheck(req.user, 'configuracion_new');
 
-    const {configuration} = req.body;
+    const { configuration } = req.body;
 
     let webpage = configuration.webpage || {};
     let appointments = configuration.appointments || {};
-    let maintenance = configuration.maintenance || null;
+    const maintenance = configuration.maintenance || null;
 
     await Configuration.findOne().exec((err, oldConfiguration) => {
       webpage = {
@@ -64,7 +64,7 @@ exports.addConfiguration = async function addConfiguration(req, res) {
           throw ($err);
         }
 
-        res.status(201).send({configuration: saved});
+        res.status(201).send({ configuration: saved });
       });
     });
   } catch (e) {
@@ -83,7 +83,7 @@ exports.getConfiguration = async function getConfiguration(req, res) {
     const configuration = await Configuration.findById(req.params.id).exec();
 
     res.status(200).send({
-      configuration
+      configuration,
     });
   } catch (e) {
     res.status(500).send(e);
@@ -95,7 +95,7 @@ exports.getCurrentConfiguration = async function getCurrentConfiguration(req, re
     const configuration = await Configuration.findOne({}).sort('-updatedAt').exec();
 
     res.status(200).send({
-      configuration
+      configuration,
     });
   } catch (e) {
     res.status(500).send(e);

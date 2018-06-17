@@ -9,7 +9,7 @@ const configurationSchema = new Schema({
     name: { type: String, required: 'El campo `nombre` es requerido' },
     amountPerPage: { type: Number },
     email: { type: String, trim: true, required: 'El campo `email` es requerido' },
-    description: { type: String, trim: true, },
+    description: { type: String, trim: true },
   },
   appointments: {
     from: { type: Number },

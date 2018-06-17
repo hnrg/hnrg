@@ -47,7 +47,7 @@ export default class ConfigurationRequest {
           amount,
         },
         maintenance,
-      }
+      },
     }, {
       headers: {
         Authorization: this._sessionToken,

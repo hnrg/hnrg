@@ -84,7 +84,7 @@ export default function configurationReducer(state = InitialState, action) {
       };
 
       return formValidation(fieldValidation(nextConfigurationState, action), action);
-    };
+    }
 
     case ON_CONFIGURATION_FORM_FIELD_CHANGE: {
       const { field, value } = action.payload;
