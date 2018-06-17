@@ -58,7 +58,7 @@ const UsersList = (props) => {
               </Table.Cell>
               <Table.Cell>
                 <Button circular size='tiny' color='teal' as={Link} to={`${props.url}/${rol.name}`} icon='edit' title={`Ver ${rol.name}`} />
-                <Button circular size='tiny' color='red' icon='remove' title={`Eliminar ${rol.name}`} />
+                <Button circular size='tiny' color='red' icon='remove' title={`Eliminar ${rol.name}`} onClick={props.deleteAction(rol.name)} />
               </Table.Cell>
             </Table.Row>
           ))}

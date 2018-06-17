@@ -51,6 +51,36 @@ export default class RolesRequest {
     });
   }
 
+  deleteRol(rolname) {
+    return axios.delete(`/api/roles/${rolname}`, {
+      headers: {
+        Authorization: this._sessionToken,
+      },
+    }).then((response) => {
+      if (response.status === 200 || response.status === 201) {
+        return response.data;
+      }
+      throw (response.data.error);
+    }).catch((error) => {
+      throw error;
+    });
+  }
+
+  deleteRolPermission(rolname, permission) {
+    return axios.delete(`/api/roles/${rolname}/${permission}`, {
+      headers: {
+        Authorization: this._sessionToken,
+      },
+    }).then((response) => {
+      if (response.status === 200 || response.status === 201) {
+        return response.data;
+      }
+      throw (response.data.error);
+    }).catch((error) => {
+      throw error;
+    });
+  }
+
   updateRol(originalRolname, {
     name,
   }) {

@@ -4,6 +4,7 @@ const permissionsCheck = require('../modules/permissions-check');
 
 const Permission = require('../models/permission');
 const Rol = require('../models/rol');
+const User = require('../models/user');
 
 /**
  * Get all roles
@@ -153,14 +154,39 @@ exports.deleteRol = async function deleteRol(req, res) {
   try {
     permissionsCheck(req.user, 'rol_destroy');
 
-    await Rol.findOneAndUpdate({ name: req.params.name }, { deleted: true })
+    await Rol.findOne({ name: req.params.name })
       .exec((err, rol) => {
         if (err || rol == null) {
           res.status(422).json({ error: 'No rol was found with that name' });
           return;
         }
 
-        return res.status(200).end();
+        User.count({
+          active: true,
+          roles: {
+            $elemMatch: {
+              $in: [rol._id]
+            }
+          },
+        })
+        .exec(($err, count) => {
+          if ($err) {
+            throw ($err);
+          }
+
+          if (count > 0) {
+            res.status(422).json({ error: 'No se puede borrar el rol ya que existen usuarios que lo tienen' });
+            return;
+          }
+
+          rol.deleted = true;
+          rol.save(($$err, saved) => {
+            if ($$err) {
+              throw ($$err);
+            }
+            res.status(200).end();
+          });
+        });
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
@@ -180,13 +206,15 @@ exports.deleteRolPermission = async function deleteRolPermission(req, res) {
     permissionsCheck(req.user, 'rol_destroy');
 
     await Rol.findOne({ name: req.params.name })
+      .populate('permissions')
       .exec((err, rol) => {
         if (err || rol == null) {
           res.status(422).json({ error: 'No rol was found with that name' });
           return;
         }
 
-        rol.permissions = _.remove(rol.permissions, permission => permission.name == req.params.permission);
+        rol.permissions = rol.permissions.filter(permission => permission.name !== req.params.permission);
+
         rol.save(($err, updated) => {
           if ($err) {
             throw ($err);

@@ -7,6 +7,18 @@ import {
   GET_ROL_SUCCESS,
   GET_ROL_FAILURE,
 
+  ROL_ADD_REQUEST,
+  ROL_ADD_SUCCESS,
+  ROL_ADD_FAILURE,
+
+  ROL_DELETE_REQUEST,
+  ROL_DELETE_SUCCESS,
+  ROL_DELETE_FAILURE,
+
+  ROL_PERMISSION_DELETE_REQUEST,
+  ROL_PERMISSION_DELETE_SUCCESS,
+  ROL_PERMISSION_DELETE_FAILURE,
+
   ROL_UPDATE_REQUEST,
   ROL_UPDATE_SUCCESS,
   ROL_UPDATE_FAILURE,
@@ -145,6 +157,74 @@ export function updateRol(originalRolname, name, sessionToken) {
       })
       .catch((error) => {
         dispatch(rolUpdateFailure(error.response.data.error));
+      });
+  };
+}
+
+export function rolDeleteRequest() {
+  return {
+    type: ROL_DELETE_REQUEST,
+  };
+}
+
+export function rolDeleteSuccess() {
+  return {
+    type: ROL_DELETE_SUCCESS,
+  };
+}
+
+export function rolDeleteFailure(data) {
+  return {
+    type: ROL_DELETE_FAILURE,
+    payload: data,
+  };
+}
+
+export function deleteRol(name, sessionToken) {
+  return (dispatch) => {
+    dispatch(rolDeleteRequest());
+    return authToken.getSessionToken(sessionToken)
+      .then(token => rolesRequest.init(token).deleteRol(name))
+      .then(() => {
+        dispatch(rolDeleteSuccess());
+        dispatch(getRoles(name));
+      })
+      .catch((error) => {
+        dispatch(rolDeleteFailure(error.response.data.error));
+      });
+  };
+}
+
+export function rolPermissionDeleteRequest() {
+  return {
+    type: ROL_PERMISSION_DELETE_REQUEST,
+  };
+}
+
+export function rolPermissionDeleteSuccess() {
+  return {
+    type: ROL_PERMISSION_DELETE_SUCCESS,
+  };
+}
+
+export function rolPermissionDeleteFailure(data) {
+  return {
+    type: ROL_PERMISSION_DELETE_FAILURE,
+    payload: data,
+  };
+}
+
+export function deleteRolPermission(rolname, permission, sessionToken) {
+  return (dispatch) => {
+    dispatch(rolPermissionDeleteRequest());
+    return authToken.getSessionToken(sessionToken)
+      .then(token => rolesRequest.init(token).deleteRolPermission(rolname, permission))
+      .then(() => {
+        dispatch(rolPermissionDeleteSuccess());
+        dispatch(getRol(rolname));
+      })
+      .catch((error) => {
+        dispatch(rolPermissionDeleteFailure(error.response.data.error));
       });
   };
 }

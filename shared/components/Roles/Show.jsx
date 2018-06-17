@@ -64,7 +64,7 @@ class Show extends Component {
           <Table.Body>
             {Array.from(rol.permissions || []).map((permission, id) => {
               return (
-                <Table.Row>
+                <Table.Row key={id}>
                   <Table.Cell>
                     <Header as='h4' image>
                       <Header.Content>
@@ -79,7 +79,7 @@ class Show extends Component {
                       color='red'
                       icon='remove'
                       title={`Eliminar permiso: ${permission.name}`}
-                      onClick={this.props.deletePermissionAction(permission.name)} />
+                      onClick={this.props.deletePermissionAction(rol.name, permission.name)} />
                   </Table.Cell>
                 </Table.Row>
               );

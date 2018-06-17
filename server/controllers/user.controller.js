@@ -160,7 +160,7 @@ exports.deleteUser = async function deleteUser(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_index');
 
-    await User.findOneAndUpdate({ username: req.params.username }, { active: false })
+    await User.findOneAndUpdate({ username: req.params.username }, { active: false, roles: [] })
       .exec((err, user) => {
         if (err || user == null) {
           res.status(422).json({ error: 'No user was found with that id' });

@@ -10,6 +10,18 @@ import {
   GET_ROL_SUCCESS,
   GET_ROL_FAILURE,
 
+  ROL_ADD_REQUEST,
+  ROL_ADD_SUCCESS,
+  ROL_ADD_FAILURE,
+
+  ROL_DELETE_REQUEST,
+  ROL_DELETE_SUCCESS,
+  ROL_DELETE_FAILURE,
+
+  ROL_PERMISSION_DELETE_REQUEST,
+  ROL_PERMISSION_DELETE_SUCCESS,
+  ROL_PERMISSION_DELETE_FAILURE,
+
   ROL_UPDATE_REQUEST,
   ROL_UPDATE_SUCCESS,
   ROL_UPDATE_FAILURE,
@@ -42,6 +54,9 @@ export default function rolesReducer(state = InitialState, action) {
      */
     case GET_ROLES_REQUEST:
     case GET_ROL_REQUEST:
+    case ROL_ADD_REQUEST:
+    case ROL_DELETE_REQUEST:
+    case ROL_PERMISSION_DELETE_REQUEST:
     case ROL_UPDATE_REQUEST:
     {
       return { ...state, isFetching: true, error: null };
@@ -66,8 +81,18 @@ export default function rolesReducer(state = InitialState, action) {
       };
     }
 
-    case ROL_UPDATE_SUCCESS: {
-      return { ...state, isFetching: false };
+    case ROL_ADD_SUCCESS:
+    case ROL_DELETE_SUCCESS:
+    case ROL_PERMISSION_DELETE_SUCCESS:
+    case ROL_UPDATE_SUCCESS:
+    {
+      return {
+        ...state,
+        isFetching: false,
+        roles: null,
+        totalCount: 0,
+        count: 0,
+      };
     }
 
     /**
@@ -88,6 +113,9 @@ export default function rolesReducer(state = InitialState, action) {
      */
     case GET_ROLES_FAILURE:
     case GET_ROL_FAILURE:
+    case ROL_ADD_FAILURE:
+    case ROL_DELETE_FAILURE:
+    case ROL_PERMISSION_DELETE_FAILURE:
     case ROL_UPDATE_FAILURE:
     {
       return {
