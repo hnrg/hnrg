@@ -15,6 +15,10 @@ import {
   ROL_DELETE_SUCCESS,
   ROL_DELETE_FAILURE,
 
+  ROL_ENABLE_REQUEST,
+  ROL_ENABLE_SUCCESS,
+  ROL_ENABLE_FAILURE,
+
   ROL_PERMISSION_DELETE_REQUEST,
   ROL_PERMISSION_DELETE_SUCCESS,
   ROL_PERMISSION_DELETE_FAILURE,
@@ -187,10 +191,44 @@ export function deleteRol(name, sessionToken) {
       .then(token => rolesRequest.init(token).deleteRol(name))
       .then(() => {
         dispatch(rolDeleteSuccess());
-        dispatch(getRoles(name));
+        dispatch(getRoles());
       })
       .catch((error) => {
         dispatch(rolDeleteFailure(error.response.data.error));
+      });
+  };
+}
+
+export function rolEnableRequest() {
+  return {
+    type: ROL_ENABLE_REQUEST,
+  };
+}
+
+export function rolEnableSuccess() {
+  return {
+    type: ROL_ENABLE_SUCCESS,
+  };
+}
+
+export function rolEnableFailure(data) {
+  return {
+    type: ROL_ENABLE_FAILURE,
+    payload: data,
+  };
+}
+
+export function enableRol(name, sessionToken) {
+  return (dispatch) => {
+    dispatch(rolEnableRequest());
+    return authToken.getSessionToken(sessionToken)
+      .then(token => rolesRequest.init(token).enableRol(name))
+      .then(() => {
+        dispatch(rolEnableSuccess());
+        dispatch(getRoles());
+      })
+      .catch((error) => {
+        dispatch(rolEnableFailure(error.response.data.error));
       });
   };
 }

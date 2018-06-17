@@ -164,6 +164,14 @@ class RolesContainer extends Component {
     }
   }
 
+  enableAction(rolname) {
+    const self = this;
+
+    return function() {
+      self.props.actions.enableRol(rolname);
+    };
+  }
+
   render() {
     const { actions, match } = this.props;
 
@@ -181,6 +189,7 @@ class RolesContainer extends Component {
             totalCount={this.state.totalCount}
             count={this.state.count}
             deleteAction={this.deleteAction.bind(this)}
+            enableAction={this.enableAction.bind(this)}
             onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
         }
       </div>

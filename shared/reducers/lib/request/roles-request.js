@@ -81,6 +81,25 @@ export default class RolesRequest {
     });
   }
 
+  enableRol(rolname) {
+    return axios.post(`/api/roles/${rolname}`, {
+      rol: {
+        deleted: false,
+      },
+    }, {
+      headers: {
+        Authorization: this._sessionToken,
+      },
+    }).then((response) => {
+      if (response.status === 200 || response.status === 201) {
+        return response.data;
+      }
+      throw (response.data.error);
+    }).catch((error) => {
+      throw error;
+    });
+  }
+
   updateRol(originalRolname, {
     name,
   }) {

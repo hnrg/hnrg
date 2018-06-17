@@ -14,6 +14,10 @@ export const ROL_DELETE_REQUEST = 'rol-delete-request';
 export const ROL_DELETE_SUCCESS = 'rol-delete-success';
 export const ROL_DELETE_FAILURE = 'rol-delete-failure';
 
+export const ROL_ENABLE_REQUEST = 'rol-enable-request';
+export const ROL_ENABLE_SUCCESS = 'rol-enable-success';
+export const ROL_ENABLE_FAILURE = 'rol-enable-failure';
+
 export const ROL_PERMISSION_DELETE_REQUEST = 'rol-permission-delete-request';
 export const ROL_PERMISSION_DELETE_SUCCESS = 'rol-permission-delete-success';
 export const ROL_PERMISSION_DELETE_FAILURE = 'rol-permission-delete-failure';

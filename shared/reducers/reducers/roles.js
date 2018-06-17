@@ -18,6 +18,10 @@ import {
   ROL_DELETE_SUCCESS,
   ROL_DELETE_FAILURE,
 
+  ROL_ENABLE_REQUEST,
+  ROL_ENABLE_SUCCESS,
+  ROL_ENABLE_FAILURE,
+
   ROL_PERMISSION_DELETE_REQUEST,
   ROL_PERMISSION_DELETE_SUCCESS,
   ROL_PERMISSION_DELETE_FAILURE,
@@ -56,6 +60,7 @@ export default function rolesReducer(state = InitialState, action) {
     case GET_ROL_REQUEST:
     case ROL_ADD_REQUEST:
     case ROL_DELETE_REQUEST:
+    case ROL_ENABLE_REQUEST:
     case ROL_PERMISSION_DELETE_REQUEST:
     case ROL_UPDATE_REQUEST:
     {
@@ -83,6 +88,7 @@ export default function rolesReducer(state = InitialState, action) {
 
     case ROL_ADD_SUCCESS:
     case ROL_DELETE_SUCCESS:
+    case ROL_ENABLE_SUCCESS:
     case ROL_PERMISSION_DELETE_SUCCESS:
     case ROL_UPDATE_SUCCESS:
     {
@@ -115,6 +121,7 @@ export default function rolesReducer(state = InitialState, action) {
     case GET_ROL_FAILURE:
     case ROL_ADD_FAILURE:
     case ROL_DELETE_FAILURE:
+    case ROL_ENABLE_FAILURE:
     case ROL_PERMISSION_DELETE_FAILURE:
     case ROL_UPDATE_FAILURE:
     {
