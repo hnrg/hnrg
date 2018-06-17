@@ -225,7 +225,6 @@ export function logout() {
         dispatch(loginState());
         dispatch(logoutSuccess());
         dispatch(deleteSessionToken());
-        global.window.location.replace('/login');
       })
       .catch((error) => {
         dispatch(loginState());
@@ -256,7 +255,6 @@ export function login({ email, password }) {
       .then(data => saveSessionToken(data.token)
         .then(() => {
           dispatch(loginSuccess(data.token));
-          global.window.location.replace('/dashboard');
           dispatch(logoutState());
         }))
       .catch((error) => {

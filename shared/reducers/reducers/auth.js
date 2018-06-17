@@ -64,7 +64,6 @@ export default function (state = InitialState, action) {
       const { fields } = state;
       return {
         ...state,
-        state: action.type,
         error: null,
         fields: {
           ...fields,
@@ -82,11 +81,9 @@ export default function (state = InitialState, action) {
        * Set the form state and clear any errors
        */
     case LOGIN:
-    case FORGOT_PASSWORD:
     {
       return formValidation({
         ...state,
-        state: action.type,
         error: null,
       });
     }
@@ -106,9 +103,11 @@ export default function (state = InitialState, action) {
       const nextState = {
         ...state,
         error: null,
+        fields: {
+          ...state.fields,
+          [field]: value,
+        }
       };
-
-      nextState.fields[field] = value;
 
       return formValidation(fieldValidation(nextState, action), action);
     }
@@ -118,12 +117,18 @@ export default function (state = InitialState, action) {
        */
     case SESSION_TOKEN_SUCCESS:
     case SESSION_TOKEN_FAILURE:
-    case LOGIN_SUCCESS:
     case LOGOUT_SUCCESS:
-    case RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        authenticated: false,
+        isFetching: false,
+      };
+
+    case LOGIN_SUCCESS:
       return {
         ...state,
         isFetching: false,
+        authenticated: true,
       };
 
       /**
@@ -137,6 +142,7 @@ export default function (state = InitialState, action) {
       return {
         ...state,
         isFetching: false,
+        authenticated: false,
         error: action.payload,
       };
 
@@ -151,9 +157,9 @@ export default function (state = InitialState, action) {
 
       return {
         ...state,
-        state: auth.state,
         disabled: auth.disabled,
         error: auth.error,
+        authenticated: auth.authenticated,
         isValid: auth.isValid,
         isFetching: auth.isFetching,
         fields: {
