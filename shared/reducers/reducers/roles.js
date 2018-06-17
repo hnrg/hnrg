@@ -138,6 +138,7 @@ export default function rolesReducer(state = InitialState, action) {
         fields: {
           ...state.fields,
           name: action.payload.name,
+          permissions: action.payload.permissions.map(p => p.name),
         },
         originalRol: {
           ...state.originalRol,

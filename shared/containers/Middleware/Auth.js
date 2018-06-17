@@ -9,7 +9,6 @@ import * as authActions from 'reducers/actions/auth-actions';
 export default function requireAuth(ComposedComponent) {
   class Authentication extends Component {
     render() {
-      console.log(this.props);
       return (this.props.auth.authenticated) ?
         <ComposedComponent {...this.props} /> :
         <Redirect to={{ pathname: '/login' }} />;
