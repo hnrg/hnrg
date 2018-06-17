@@ -76,19 +76,26 @@ exports.addRol = async function addRol(req, res) {
       return res.status(400).end();
     }
 
-    await Permission.count({
-      _id: {
+    await Permission.find({
+      name: {
         $in: rol.permissions,
       },
-    }, (error, count) => {
-      if (count > 0) {
+    }, (error, permissions) => {
+      if (!permissions) {
         return res.status(403);
       }
 
-      const newRol = new Rol(rol);
-      const saved = newRol.save();
+      const newRol = new Rol({
+        name: rol.name,
+        permissions: permissions.map(p => p._id),
+      });
+      newRol.save(($err, saved) => {
+        if ($err) {
+          throw ($err);
+        }
 
-      return res.status(201).send({ rol: saved });
+        res.status(201).send({ rol: saved });
+      });
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
@@ -149,7 +156,7 @@ exports.deleteRol = async function deleteRol(req, res) {
     await Rol.findOneAndUpdate({ name: req.params.name }, { deleted: true })
       .exec((err, rol) => {
         if (err || rol == null) {
-          res.status(422).json({ error: 'No rol was found with that id' });
+          res.status(422).json({ error: 'No rol was found with that name' });
           return;
         }
 
@@ -172,16 +179,21 @@ exports.deleteRolPermission = async function deleteRolPermission(req, res) {
   try {
     permissionsCheck(req.user, 'rol_destroy');
 
-    await Rol.findById(req.params.id)
+    await Rol.findOne({ name: req.params.name })
       .exec((err, rol) => {
         if (err || rol == null) {
-          res.status(422).json({ error: 'No rol was found with that id' });
+          res.status(422).json({ error: 'No rol was found with that name' });
           return;
         }
 
-        rol.permissions = _.remove(rol.permissions, permission => permission._id == req.permission);
+        rol.permissions = _.remove(rol.permissions, permission => permission.name == req.params.permission);
+        rol.save(($err, updated) => {
+          if ($err) {
+            throw ($err);
+          }
 
-        return res.status(200).json({ rol });
+          res.status(200).json({ rol: updated });
+        });
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {

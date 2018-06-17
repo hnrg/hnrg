@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import moment from 'moment-timezone';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -97,10 +98,21 @@ class ConfigurationContainer extends Component {
   }
 
   render() {
-    const {fields, isValid, isFetching, confirmSubmit} = this.state;
+    const {current, fields, isValid, isFetching, confirmSubmit} = this.state;
+    const {user, updatedAt} = current;
+
+    const lastModified = moment(updatedAt);
+    lastModified.locale('es');
 
     return (
       <Segment>
+        <Header as='h3'>
+          Última actualización
+          <Header.Subheader>
+            El usuario {user ? user.username : ''} actualizó la configuration del sistema por última vez el día {lastModified.format('LLLL')}.
+          </Header.Subheader>
+        </Header>
+        <Divider hidden />
         <Form onSubmit={this.handleSubmit.bind(this)}>
           <Header as='h3'>
             Configuración del Sitio

@@ -10,11 +10,8 @@ export default class PermissionsRequest {
     return this;
   }
 
-  getPermissions(pageNumber = 0) {
+  getPermissions() {
     return axios.get('/api/permissions', {
-      params: {
-        pageNumber,
-      },
       headers: {
         Authorization: this._sessionToken,
       },
@@ -22,6 +19,7 @@ export default class PermissionsRequest {
       if (response.status === 200 || response.status === 201) {
         return response.data;
       }
+      
       throw (response.data.error);
     }).catch((error) => {
       throw error;

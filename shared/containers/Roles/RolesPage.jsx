@@ -21,7 +21,13 @@ import RolesList from 'components/Roles/List';
 const panes = ({ loading, originalRol, fields, isValid, isFetching }, actions) => [
   {
     menuItem: { key: 'rol', icon: 'certificate', content: 'Ver rol' },
-    render: () => <Tab.Pane loading={loading} padded='very'><RolShow rol={originalRol} /></Tab.Pane>
+    render: () => (
+      <Tab.Pane loading={loading} padded='very'>
+        <RolShow
+          rol={originalRol}
+          deletePermissionAction={actions.deletePermissionAction} />
+      </Tab.Pane>
+    ),
   },
   {
     menuItem: { key: 'edit', icon: 'edit', content: 'Editar rol' },
@@ -142,8 +148,26 @@ class RolesContainer extends Component {
     });
   }
 
+  deleteAction(rolname) {
+    const self = this;
+
+    return function() {
+      self.props.actions.deleteRol(rolname);
+    };
+  }
+
+  deletePermissionAction(rolname, permission) {
+    const self = this;
+
+    return function() {
+      self.props.actions.deleteRolPermission(rolname, permission);
+    }
+  }
+
   render() {
     const { actions, match } = this.props;
+
+    actions.deletePermissionAction = this.deletePermissionAction.bind(this);
 
     return (
       <div>
@@ -156,6 +180,7 @@ class RolesContainer extends Component {
             pageNumber={this.state.pageNumber}
             totalCount={this.state.totalCount}
             count={this.state.count}
+            deleteAction={this.deleteAction.bind(this)}
             onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
         }
       </div>

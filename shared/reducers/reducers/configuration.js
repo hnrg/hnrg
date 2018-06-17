@@ -67,6 +67,8 @@ export default function configurationReducer(state = InitialState, action) {
           amount: action.payload.appointments.amount,
           maintenance: action.payload.maintenance,
           user: action.payload.user,
+          createdAt: action.payload.createdAt,
+          updatedAt: action.payload.updatedAt,
         },
         fields: {
           ...state.fields,
@@ -132,7 +134,7 @@ export default function configurationReducer(state = InitialState, action) {
      */
     case SET_STATE: {
       const { configuration } = JSON.parse(action.payload);
-      const { current } = state;
+      const { current, fields } = state;
 
       return {
         ...state,
@@ -152,6 +154,19 @@ export default function configurationReducer(state = InitialState, action) {
           amount: configuration.current.appointments.amount,
           maintenance: configuration.current.maintenance,
           user: configuration.current.user,
+          createdAt: configuration.current.createdAt,
+          updatedAt: configuration.current.updatedAt,
+        },
+        fields: {
+          ...fields,
+          name: configuration.fields.webpage.name,
+          amountPerPage: configuration.fields.webpage.amountPerPage,
+          email: configuration.fields.webpage.email,
+          description: configuration.fields.webpage.description,
+          from: configuration.fields.appointments.from,
+          delta: configuration.fields.appointments.delta,
+          amount: configuration.fields.appointments.amount,
+          maintenance: configuration.fields.maintenance,
         },
       };
     }

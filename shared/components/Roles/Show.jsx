@@ -73,7 +73,13 @@ class Show extends Component {
                     </Header>
                   </Table.Cell>
                   <Table.Cell>
-                    <Button circular size='tiny' color='red' icon='remove' title={`Eliminar permiso: ${permission.name}`} />
+                    <Button
+                      circular
+                      size='tiny'
+                      color='red'
+                      icon='remove'
+                      title={`Eliminar permiso: ${permission.name}`}
+                      onClick={this.props.deletePermissionAction(permission.name)} />
                   </Table.Cell>
                 </Table.Row>
               );

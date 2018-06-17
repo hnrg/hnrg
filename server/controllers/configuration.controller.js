@@ -92,7 +92,7 @@ exports.getConfiguration = async function getConfiguration(req, res) {
 
 exports.getCurrentConfiguration = async function getCurrentConfiguration(req, res) {
   try {
-    const configuration = await Configuration.findOne({}).sort('-updatedAt').exec();
+    const configuration = await Configuration.findOne({}).sort('-updatedAt').populate('user').exec();
 
     res.status(200).send({
       configuration,

@@ -36,12 +36,12 @@ export function getPermissionsFailure(error) {
  * controls which form is displayed to the user
  * as in login, register, logout or reset password
  */
-export function getPermissions(pageNumber, sessionToken) {
+export function getPermissions(sessionToken) {
   return (dispatch) => {
     dispatch(getPermissionsRequest());
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
-      .then(token => permissionsRequest.init(token).getPermissions(pageNumber))
+      .then(token => permissionsRequest.init(token).getPermissions())
       .then((data) => {
         dispatch(getPermissionsSuccess(data.permissions));
       })
