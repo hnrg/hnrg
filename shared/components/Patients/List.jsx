@@ -26,9 +26,10 @@ const PatientsList = (props) => {
         circular
         size='tiny'
         color='teal'
-        icon='heartbeat'
+        icon='add user'
         title='Agregar paciente'
         onClick={props.onAddButtonClick} />
+      <Divider horizontal section>Búsqueda</Divider>
       <Form>
         <Form.Group>
           <Form.Input
@@ -57,6 +58,7 @@ const PatientsList = (props) => {
             <Table.HeaderCell>Domicilio</Table.HeaderCell>
             <Table.HeaderCell>Teléfono</Table.HeaderCell>
             <Table.HeaderCell>Género</Table.HeaderCell>
+            <Table.HeaderCell>Tipo de documento</Table.HeaderCell>
             <Table.HeaderCell>Número de documento</Table.HeaderCell>
             <Table.HeaderCell>Opciones</Table.HeaderCell>
           </Table.Row>
@@ -71,6 +73,7 @@ const PatientsList = (props) => {
               <Table.Cell>{patient.address}</Table.Cell>
               <Table.Cell>{patient.phone}</Table.Cell>
               <Table.Cell>{patient.sex}</Table.Cell>
+              <Table.Cell>{patient.documentType ? patient.documentType.name : '' }</Table.Cell>
               <Table.Cell>{patient.documentNumber}</Table.Cell>
               <Table.Cell>
                 <Button circular size='tiny' color='teal' as={Link} to={`${props.url}/${patient._id}`} icon='heartbeat' title={'Ver paciente'} />
