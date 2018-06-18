@@ -8,8 +8,8 @@ WORKDIR /usr/src/app
 COPY package.json .
 COPY yarn.lock .
 COPY . .
-RUN yarn
-RUN yarn build:dev
+RUN yarn \
+    && yarn build:dev \
 
 ENV NODE_ENV development
 
