@@ -17,7 +17,7 @@ import UserShow from 'components/Users/Show';
 import UserEdit from 'components/Users/Edit';
 import UsersList from 'components/Users/List';
 
-const panes = ({ loading, originalUser, fields, isValid, isFetching, error }, actions) => [
+const panes = ({ loading, originalUser, fields, isValid, isFetching, error, success }, actions) => [
   {
     menuItem: { key: 'user', icon: 'user', content: 'Ver perfil' },
     render: () => <Tab.Pane loading={loading} padded='very'><UserShow user={originalUser} /></Tab.Pane>
@@ -30,6 +30,7 @@ const panes = ({ loading, originalUser, fields, isValid, isFetching, error }, ac
           user={originalUser}
           fields={fields}
           error={error}
+          success={success}
           isValid={isValid}
           isFetching={isFetching}
           onFormFieldChange={actions.onUserFormFieldChange}
@@ -47,6 +48,7 @@ class UsersContainer extends Component {
       originalUser,
       fields,
       error,
+      success,
       isFetching,
       isValid,
       users,
@@ -66,6 +68,7 @@ class UsersContainer extends Component {
       originalUser,
       fields,
       error,
+      success,
       isValid,
       isFetching,
     };
@@ -79,6 +82,7 @@ class UsersContainer extends Component {
       isValid,
       users,
       error,
+      success,
       totalCount,
       count,
     } = props.users;
@@ -91,6 +95,7 @@ class UsersContainer extends Component {
       isFetching,
       users,
       error,
+      success,
       totalCount,
       count,
     });
@@ -104,6 +109,7 @@ class UsersContainer extends Component {
       isValid,
       users,
       error,
+      success,
       totalCount,
       count,
     } = this.props.users;
@@ -128,6 +134,7 @@ class UsersContainer extends Component {
       isFetching,
       users,
       error,
+      success,
       totalCount,
       count,
     });
@@ -189,12 +196,13 @@ class UsersContainer extends Component {
   }
 
   userCreate() {
-    const { fields, isValid, isFetching, error } = this.state;
+    const { fields, isValid, isFetching, error, success } = this.state;
     const { actions } = this.props;
 
     return (
       <UserAdd
         error={error}
+        success={success}
         fields={fields}
         isValid={isValid}
         isFetching={isFetching}

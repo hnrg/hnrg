@@ -17,6 +17,7 @@ class Edit extends Component {
       originalUser: this.props.user,
       fields: this.props.fields,
       error: this.props.error,
+      success: this.props.success,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -24,7 +25,7 @@ class Edit extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { user, fields, isValid, isFetching, error } = props;
+    const { user, fields, isValid, isFetching, error, success } = props;
 
     this.setState({
       originalUser: user,
@@ -32,11 +33,12 @@ class Edit extends Component {
       isValid,
       isFetching,
       error,
+      success,
     });
   }
 
   componentDidMount() {
-    const { user, fields, isValid, isFetching, error, } = this.props;
+    const { user, fields, isValid, isFetching, error, success, } = this.props;
 
     this.setState({
       originalUser: user,
@@ -44,6 +46,7 @@ class Edit extends Component {
       isValid,
       isFetching,
       error,
+      success,
     });
   }
 
@@ -74,10 +77,13 @@ class Edit extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching, error } = this.state;
+    const { fields, isValid, isFetching, error, success } = this.state;
 
     return(
       <Form onSubmit={this.handleSubmit}>
+        {success && <Message positive>
+          <Message.Header>La operación fué realizada con éxito.</Message.Header>
+        </Message>}
         {error && <Message negative>
           <Message.Header>Existen errores</Message.Header>
           <p>{error}</p>

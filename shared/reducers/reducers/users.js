@@ -60,7 +60,7 @@ export default function usersReducer(state = InitialState, action) {
     case USER_ENABLE_REQUEST:
     case USER_UPDATE_REQUEST:
     {
-      return { ...state, isFetching: true, error: null };
+      return { ...state, isFetching: true, error: null, };
     }
 
     /**
@@ -79,6 +79,7 @@ export default function usersReducer(state = InitialState, action) {
         totalCount: action.payload.totalCount,
         isFetching: false,
         error: null,
+        success: null,
       };
     }
 
@@ -93,6 +94,7 @@ export default function usersReducer(state = InitialState, action) {
         totalCount: 0,
         count: 0,
         users: null,
+        success: true,
       };
     }
 
@@ -137,6 +139,8 @@ export default function usersReducer(state = InitialState, action) {
     case ON_USER_FORM_CLEAR: {
       return {
         ...state,
+        error: null,
+        success: null,
         fields: {
           username: '',
           usernameHasError: false,
@@ -162,6 +166,8 @@ export default function usersReducer(state = InitialState, action) {
 
       nextUserState = {
         ...state,
+        error: null,
+        success: null,
         fields: {
           ...state.fields,
           [field]: value,
@@ -180,6 +186,7 @@ export default function usersReducer(state = InitialState, action) {
         ...state,
         email: '',
         error: null,
+        success: null,
       };
 
       return formValidation(nextUserState, action);
@@ -200,6 +207,7 @@ export default function usersReducer(state = InitialState, action) {
         ...state,
         isFetching: false,
         error: action.payload,
+        success: null,
       };
     }
 
@@ -221,6 +229,7 @@ export default function usersReducer(state = InitialState, action) {
         users: users.users,
         disabled: users.disabled,
         error: users.error,
+        success: users.success,
         isValid: users.isValid,
         isFetching: users.isFetching,
         fields: {
