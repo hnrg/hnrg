@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -9,13 +10,13 @@ import * as globalActions from 'reducers/actions/global-actions';
 class LogoutContainer extends Component {
   componentWillMount() {
     this.props.actions.logout();
-    this.props.history.push('/login');
   }
 
   render() {
     return (
       <div>
         <h3>Bye!</h3>
+        <Redirect to={{ pathname: '/login' }} />
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
@@ -12,10 +13,11 @@ class LoginContainer extends Component {
   constructor(props, context) {
     super(props, context);
 
-    const { fields, isFetching, isValid, error, } = this.props.auth;
+    const { fields, isFetching, isValid, error, authenticated, } = this.props.auth;
 
     this.state = {
       fields,
+      authenticated,
       isValid,
       isFetching,
       error,
@@ -23,10 +25,11 @@ class LoginContainer extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { fields, isFetching, isValid, error, } = props.auth;
+    const { fields, isFetching, isValid, error, authenticated, } = props.auth;
 
     this.setState({
       fields,
+      authenticated,
       isValid,
       isFetching,
       error,
@@ -34,10 +37,11 @@ class LoginContainer extends Component {
   }
 
   componentDidMount() {
-    const { fields, isFetching, isValid, error, } = this.props.auth;
+    const { fields, isFetching, isValid, error, authenticated, } = this.props.auth;
 
     this.setState({
       fields,
+      authenticated,
       isValid,
       isFetching,
       error,
@@ -67,9 +71,10 @@ class LoginContainer extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching, error, } = this.state;
+    const { fields, isValid, isFetching, error, authenticated, } = this.state;
 
-    return(
+    return authenticated ?
+      <Redirect to={{ pathname: '/dashboard' }} /> :
       <div className='login-form'>
         <Grid
           textAlign='center'
@@ -125,8 +130,7 @@ class LoginContainer extends Component {
             </Form>
           </Grid.Column>
         </Grid>
-      </div>
-    );
+      </div>;
   }
 }
 

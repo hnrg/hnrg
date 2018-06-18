@@ -1,9 +1,7 @@
-import { LOGIN } from 'reducers/constants';
-
 export default {
-  state: LOGIN,
   disabled: false,
   error: null,
+  authenticated: false,
   isValid: false,
   isFetching: false,
   fields: {
