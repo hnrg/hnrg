@@ -19,7 +19,7 @@ import TopMenu from 'components/TopMenu';
 import UserShow from 'components/Users/Show';
 import UserEdit from 'components/Users/Edit';
 
-const panes = ({ loading, originalProfile, fields, isValid, isFetching }, actions) => [
+const panes = ({ loading, originalProfile, fields, isValid, isFetching, error, success, }, actions) => [
   {
     menuItem: { key: 'user', icon: 'user', content: 'Ver perfil' },
     render: () => <Tab.Pane loading={loading} padded='very'><UserShow user={originalProfile} /></Tab.Pane>
@@ -31,6 +31,8 @@ const panes = ({ loading, originalProfile, fields, isValid, isFetching }, action
         <UserEdit
           user={originalProfile}
           fields={fields}
+          error={error}
+          success={success}
           isValid={isValid}
           isFetching={isFetching}
           onFormFieldChange={actions.onProfileFormFieldChange}
@@ -44,7 +46,7 @@ class ProfileContainer extends Component {
   constructor(props) {
     super(props);
 
-    const { originalProfile, fields, isFetching, isValid } = this.props.profile;
+    const { originalProfile, fields, isFetching, isValid, error, success, } = this.props.profile;
 
     this.state = {
       loading: true,
@@ -52,11 +54,13 @@ class ProfileContainer extends Component {
       fields,
       isValid,
       isFetching,
+      error,
+      success,
     };
   }
 
   componentWillReceiveProps(props) {
-    const { originalProfile, fields, isFetching, isValid } = props.profile;
+    const { originalProfile, fields, isFetching, isValid, error, success, } = props.profile;
 
     this.setState({
       loading: this.props.profile.fields.username === '',
@@ -64,11 +68,13 @@ class ProfileContainer extends Component {
       fields,
       isValid,
       isFetching,
+      error,
+      success,
     });
   }
 
   componentDidMount() {
-    const { originalProfile, fields, isFetching, isValid } = this.props.profile;
+    const { originalProfile, fields, isFetching, isValid, error, success, } = this.props.profile;
 
     if (this.props.profile.fields.username === '') {
       this.props.actions.getProfile(this.props.global.currentUser);
@@ -81,6 +87,8 @@ class ProfileContainer extends Component {
       fields,
       isValid,
       isFetching,
+      error,
+      success,
     });
   }
 

@@ -42,7 +42,7 @@ export default function configurationReducer(state = InitialState, action) {
 
     case CONFIGURATION_ADD_SUCCESS:
     {
-      return { ...state, isFetching: false };
+      return { ...state, isFetching: false, success: true };
     }
 
     /**
@@ -93,6 +93,7 @@ export default function configurationReducer(state = InitialState, action) {
 
       nextConfigurationState = {
         ...state,
+        success: null,
         fields: {
           ...state.fields,
           [field]: value,
@@ -111,6 +112,7 @@ export default function configurationReducer(state = InitialState, action) {
         ...state,
         email: '',
         error: null,
+        success: null,
       };
 
     /**
@@ -123,6 +125,7 @@ export default function configurationReducer(state = InitialState, action) {
         ...state,
         isFetching: false,
         error: action.payload,
+        success: null,
       };
 
     /**
@@ -140,6 +143,7 @@ export default function configurationReducer(state = InitialState, action) {
         ...state,
         disabled: configuration.disabled,
         error: configuration.error,
+        success: configuration.success,
         isValid: configuration.isValid,
         isFetching: configuration.isFetching,
         configurations: configuration.configurations,

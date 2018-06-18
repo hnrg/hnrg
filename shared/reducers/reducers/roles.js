@@ -83,6 +83,7 @@ export default function rolesReducer(state = InitialState, action) {
         roles: action.payload.roles,
         isFetching: false,
         error: null,
+        success: null,
       };
     }
 
@@ -95,9 +96,10 @@ export default function rolesReducer(state = InitialState, action) {
       return {
         ...state,
         isFetching: false,
-        roles: null,
         totalCount: 0,
         count: 0,
+        roles: null,
+        success: null,
       };
     }
 
@@ -110,6 +112,7 @@ export default function rolesReducer(state = InitialState, action) {
         ...state,
         roles: [],
         error: null,
+        success: null,
       };
     }
 
@@ -129,6 +132,7 @@ export default function rolesReducer(state = InitialState, action) {
         ...state,
         isFetching: false,
         error: action.payload,
+        success: null,
       };
     }
 
@@ -157,6 +161,7 @@ export default function rolesReducer(state = InitialState, action) {
 
       nextRolState = {
         ...state,
+        success: null,
         fields: {
           ...state.fields,
           [field]: value,
@@ -180,6 +185,7 @@ export default function rolesReducer(state = InitialState, action) {
         ...state,
         disabled: roles.disabled,
         error: roles.error,
+        success: roles.success,
         isValid: roles.isValid,
         isFetching: roles.isFetching,
         originalRol: roles.originalRol,

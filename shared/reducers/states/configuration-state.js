@@ -1,6 +1,7 @@
 export default {
   disabled: false,
   error: null,
+  success: null,
   isValid: false,
   isFetching: false,
   configurations: null,
