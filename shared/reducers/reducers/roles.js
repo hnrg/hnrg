@@ -98,7 +98,7 @@ export default function rolesReducer(state = InitialState, action) {
         totalCount: 0,
         count: 0,
         roles: null,
-        success: null,
+        success: true,
       };
     }
 

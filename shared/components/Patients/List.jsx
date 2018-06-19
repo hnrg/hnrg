@@ -7,6 +7,7 @@ import {
   Divider,
   Form,
   Header,
+  Message,
   Pagination,
   Segment,
   Table,
@@ -27,13 +28,21 @@ class PatientsList extends Component {
     this.state = {
       open: false,
       patientSelected: null,
+      visible: false,
     };
+  }
+
+  handleDismiss() {
+    this.setState({
+      visible: false,
+    });
   }
 
   open(e, data) {
     const { patient } = data;
     this.setState({
       open: true,
+      visible: true,
       patientSelected: patient,
     });
   }
@@ -90,6 +99,13 @@ class PatientsList extends Component {
               placeholder='Número de documento' />
           </Form.Group>
         </Form>
+        {this.props.success && this.state.visible && <Message positive onDismiss={this.handleDismiss.bind(this)}>
+          <Message.Header>La operación fué realizada con éxito.</Message.Header>
+        </Message>}
+        {this.props.error && this.state.visible && <Message negative onDismiss={this.handleDismiss.bind(this)}>
+          <Message.Header>Existen errores</Message.Header>
+          <p>{this.props.error}</p>
+        </Message>}
         <Table padded>
           <Table.Header>
             <Table.Row>
@@ -123,7 +139,6 @@ class PatientsList extends Component {
                     to={`${props.url}/${patient._id}`}
                     icon='heartbeat'
                     title={'Ver paciente'} />
-
                   <Button
                     circular
                     size='tiny'
@@ -132,8 +147,6 @@ class PatientsList extends Component {
                     title={`Eliminar ${patient.firstName} ${patient.lastName}`}
                     onClick={this.open.bind(this)}
                     patient={patient} />
-
-
                 </Table.Cell>
               </Table.Row>
             ))}
