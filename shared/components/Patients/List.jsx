@@ -71,12 +71,11 @@ class PatientsList extends Component {
       <Segment>
         <Header as='h2' content='Listado de Pacientes' />
         <Button
-          circular
-          size='tiny'
           color='teal'
           icon='add user'
-          title='Agregar paciente'
-          onClick={props.onAddButtonClick} />
+          title='Registrar paciente'
+          onClick={props.onAddButtonClick}
+          content='Registrar paciente' />
         <Divider horizontal section>Búsqueda</Divider>
         <Form>
           <Form.Group>
