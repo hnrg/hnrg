@@ -10,6 +10,7 @@ import {
   Form,
   Grid,
   Header,
+  Message,
   Segment,
   Tab
 } from 'semantic-ui-react';
@@ -98,7 +99,7 @@ class ConfigurationContainer extends Component {
   }
 
   render() {
-    const {current, fields, isValid, isFetching, confirmSubmit} = this.state;
+    const {current, fields, isValid, isFetching, confirmSubmit, error, success} = this.state;
     const {user, updatedAt} = current;
 
     const lastModified = moment(updatedAt);
@@ -113,6 +114,13 @@ class ConfigurationContainer extends Component {
           </Header.Subheader>
         </Header>
         <Divider hidden />
+        {success && <Message positive>
+          <Message.Header>La operación fué realizada con éxito.</Message.Header>
+        </Message>}
+        {error && <Message negative>
+          <Message.Header>Existen errores</Message.Header>
+          <p>{error}</p>
+        </Message>}
         <Form onSubmit={this.handleSubmit.bind(this)}>
           <Header as='h3'>
             Configuración del Sitio

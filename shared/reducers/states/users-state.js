@@ -14,6 +14,7 @@ export default {
   count: 0,
   users: null,
   disabled: false,
+  success: null,
   error: null,
   isValid: false,
   isFetching: false,

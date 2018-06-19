@@ -9,6 +9,7 @@ export default {
   roles: null,
   disabled: false,
   error: null,
+  success: null,
   isValid: false,
   isFetching: false,
   fields: {

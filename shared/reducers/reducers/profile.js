@@ -43,7 +43,7 @@ export default function profileReducer(state = InitialState, action) {
     }
 
     case PROFILE_UPDATE_SUCCESS: {
-      return { ...state, isFetching: false };
+      return { ...state, isFetching: false, success: true, };
     }
 
     /**
@@ -91,6 +91,7 @@ export default function profileReducer(state = InitialState, action) {
 
       nextProfileState = {
         ...state,
+        success: null,
         fields: {
           ...state.fields,
           [field]: value,
@@ -109,6 +110,7 @@ export default function profileReducer(state = InitialState, action) {
         ...state,
         email: '',
         error: null,
+        success: null,
       };
 
       return formValidation(nextProfileState, action);
@@ -125,6 +127,7 @@ export default function profileReducer(state = InitialState, action) {
         ...state,
         isFetching: false,
         error: action.payload,
+        success: null,
       };
     }
 
@@ -143,6 +146,7 @@ export default function profileReducer(state = InitialState, action) {
         ...state,
         disabled: profile.disabled,
         error: profile.error,
+        success: profile.success,
         isValid: profile.isValid,
         isFetching: profile.isFetching,
         fields: {

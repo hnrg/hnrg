@@ -19,6 +19,7 @@ class Add extends Component {
       isFetching: this.props.isFetching,
       fields: this.props.fields,
       error: this.props.error,
+      success: this.props.success,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -26,24 +27,26 @@ class Add extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { fields, isValid, isFetching, error } = props;
+    const { fields, isValid, isFetching, error, success } = props;
 
     this.setState({
       fields,
       isValid,
       isFetching,
       error,
+      success,
     });
   }
 
   componentDidMount() {
-    const { fields, isValid, isFetching, error } = this.props;
+    const { fields, isValid, isFetching, error, success } = this.props;
 
     this.setState({
       fields,
       isValid,
       isFetching,
       error,
+      success,
     });
   }
 
@@ -74,10 +77,13 @@ class Add extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching, error } = this.state;
+    const { fields, isValid, isFetching, error, success } = this.state;
 
     return(
       <Segment padded>
+        {success && <Message positive>
+          <Message.Header>La operación fué realizada con éxito.</Message.Header>
+        </Message>}
         {error && <Message negative>
           <Message.Header>Existen errores</Message.Header>
           <p>{error}</p>
