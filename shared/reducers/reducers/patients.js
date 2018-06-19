@@ -110,6 +110,7 @@ export default function patientsReducer(state = InitialState, action) {
           id: action.payload._id,
           firstName: action.payload.firstName,
           lastName: action.payload.lastName,
+          fullName: action.payload.firstName + ' ' + action.payload.lastName,
           address: action.payload.address,
           phone: action.payload.phone,
           birthday: action.payload.birthday,
