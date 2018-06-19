@@ -39,7 +39,7 @@ class Footer extends Component {
             </Grid>
             <Divider inverted section />
             <Button circular color='facebook' icon='facebook' as='a' href='https://www.facebook.com/pages/Hospital-Zonal-de-Agudos-Dr-Ricardo-Guti%C3%A9rrez/143694942367566' target='_blank' />
-            <Button circular color='orange' icon='marker' as='a' href='https://www.google.com.ar/maps/place/Hospital+Dr.+Ricardo+Guti%C3%A9rrez/@-34.8957026,-57.9479304,15z/data=!4m2!3m1!1s0x0:0xf673863d8a6bfd43?sa=X&ved=0ahUKEwj2n4bVhuzWAhUFipAKHTdsCesQ_BIIhQEwCg' target='_blank' />
+            <Button circular color='orange' icon='map marker alternate' as='a' href='https://www.google.com.ar/maps/place/Hospital+Dr.+Ricardo+Guti%C3%A9rrez/@-34.8957026,-57.9479304,15z/data=!4m2!3m1!1s0x0:0xf673863d8a6bfd43?sa=X&ved=0ahUKEwj2n4bVhuzWAhUFipAKHTdsCesQ_BIIhQEwCg' target='_blank' />
             <Button circular color='green' icon='info' as='a' href='https://clinica-web.com.ar/listing/hospital-dr-ricardo-gutierrez-la-plata/' target='_blank' />
             <Button circular color='red' icon='mail' as='a' href={`mailto:${email}`} />
             <Divider inverted section />
