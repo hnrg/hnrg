@@ -1,6 +1,6 @@
-FROM node:8.9.4
+FROM node:9.5.0
 
-MAINTAINER COD-Project <codproject267@gmail.com>
+MAINTAINER HNRG <hnrg@gmail.com>
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app

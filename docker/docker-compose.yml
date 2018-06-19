@@ -1,0 +1,29 @@
+version: '3'
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: hnrg_grupo74_prod
+    links:
+     - db
+     - redis
+    ports:
+     - "8000:8000"
+    volumes:
+     - ..:/usr/src/app/
+    environment:
+      NODE_ENV: production
+      MONGO_URL: mongodb://db/hnrg
+      REDIS_URL: redis://redis
+      TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+      NTBA_FIX_319: "true"
+      URL: ${URL_BASE}
+  db:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
