@@ -9,7 +9,7 @@ const Patient = require('../models/patient');
  * @param res
  * @returns void
  */
-exports.getDemographicsData = async function getDemographicsData(req, res) {
+exports.getDemographicData = async function getDemographicData(req, res) {
   try {
     permissionsCheck(req.user, 'paciente_index');
 
@@ -81,7 +81,7 @@ exports.addDemographicData = async function addDemographicData(req, res) {
  * @param res
  * @returns void
  */
-exports.getDemographicData = async function getDemographicData(req, res) {
+exports.getSingleDemographicData = async function getSingleDemographicData(req, res) {
   try {
     permissionsCheck(req.user, 'paciente_show');
 
