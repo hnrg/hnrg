@@ -56,6 +56,8 @@ class RolesContainer extends Component {
       isValid,
       roles,
       totalCount,
+      error,
+      success,
       count,
     } = this.props.roles;
 
@@ -64,6 +66,7 @@ class RolesContainer extends Component {
       pageNumber: 0,
       rolname: '',
       deleted: false,
+      currentView: 'rolesList',
       roles,
       totalCount,
       count,
@@ -71,6 +74,8 @@ class RolesContainer extends Component {
       fields,
       isValid,
       isFetching,
+      error,
+      success,
     };
   }
 
@@ -83,6 +88,8 @@ class RolesContainer extends Component {
       roles,
       totalCount,
       count,
+      error,
+      success,
     } = props.roles;
 
     this.setState({
@@ -94,6 +101,8 @@ class RolesContainer extends Component {
       roles,
       totalCount,
       count,
+      error,
+      success,
     });
   }
 
@@ -106,6 +115,8 @@ class RolesContainer extends Component {
       roles,
       totalCount,
       count,
+      error,
+      success,
     } = this.props.roles;
 
     if (this.props.match.params.name && (originalRol.name === '' || this.props.match.params.name !== originalRol.name)) {
@@ -129,6 +140,8 @@ class RolesContainer extends Component {
       roles,
       totalCount,
       count,
+      error,
+      success,
     });
   }
 
@@ -172,7 +185,40 @@ class RolesContainer extends Component {
     };
   }
 
+  onAddButtonClick() {
+    this.setState({
+      currentView: 'userCreate',
+    });
+  }
+
+  rolesList() {
+    const { actions, match } = this.props;
+
+    return <RolesList
+      url={match.url}
+      roles={this.state.roles}
+      pageNumber={this.state.pageNumber}
+      totalCount={this.state.totalCount}
+      count={this.state.count}
+      error={this.state.error}
+      success={this.state.success}
+      deleteAction={this.deleteAction.bind(this)}
+      enableAction={this.enableAction.bind(this)}
+      onAddButtonClick={this.onAddButtonClick.bind(this)}
+      onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
+  }
+
+  userCreate() {
+    const { fields, isValid, isFetching, error, success } = this.state;
+    const { actions } = this.props;
+
+    return (
+      <div></div>
+    );
+  }
+
   render() {
+    const { currentView } = this.state;
     const { actions, match } = this.props;
 
     actions.deletePermissionAction = this.deletePermissionAction.bind(this);
@@ -182,15 +228,7 @@ class RolesContainer extends Component {
         {
           this.props.match.params.name ?
           <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} /> :
-          <RolesList
-            url={match.url}
-            roles={this.state.roles}
-            pageNumber={this.state.pageNumber}
-            totalCount={this.state.totalCount}
-            count={this.state.count}
-            deleteAction={this.deleteAction.bind(this)}
-            enableAction={this.enableAction.bind(this)}
-            onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
+          this[currentView]()
         }
       </div>
     );

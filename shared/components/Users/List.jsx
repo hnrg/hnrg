@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Button,
@@ -6,6 +6,7 @@ import {
   Divider,
   Form,
   Header,
+  Message,
   Pagination,
   Segment,
   Table,
@@ -16,76 +17,99 @@ const options = [
   { key: 'inactive', value: false, icon: 'lock', text: 'Inactivos' },
 ];
 
-const UsersList = (props) => {
-  const totalPages = !props.count ? 0 : props.totalCount / props.count;
+class UsersList extends Component {
+  constructor(props) {
+    super(props);
 
-  return(
-    <Segment>
-      <Header as='h2' content='Listado de Usuarios' />
-      <Button
-        circular
-        size='tiny'
-        color='teal'
-        icon='user'
-        title='Agregar usuario'
-        onClick={props.onAddButtonClick} />
-      <Form>
-        <Form.Group>
-          <Form.Select
-            placeholder='Estado'
-            name='active'
-            onChange={props.onSearchFieldChange}
-            options={options} />
-          <Form.Input
-            name='username'
-            onChange={props.onSearchFieldChange}
-            placeholder='Nombre de usuario' />
-        </Form.Group>
-      </Form>
-      <Table padded>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Nombre de usuario</Table.HeaderCell>
-            <Table.HeaderCell>Email</Table.HeaderCell>
-            <Table.HeaderCell>Nombre y Apellido</Table.HeaderCell>
-            <Table.HeaderCell>Opciones</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
+    this.state = {
+      visible: true,
+    };
+  }
 
-        <Table.Body>
-          {props.users && props.users.map((user, id) => (
-            <Table.Row key={id}>
-              <Table.Cell>
-                <Header as='h5' content={<Link to={`${props.url}/${user.username}`}>{user.username}</Link>} />
-              </Table.Cell>
-              <Table.Cell>{user.email}</Table.Cell>
-              <Table.Cell>{user.firstName} {user.lastName}</Table.Cell>
-              <Table.Cell>
-                {
-                  (user.active) ?
-                  <div>
-                    <Button circular size='tiny' color='teal' as={Link} to={`${props.url}/${user.username}`} icon='user' title={`Ver ${user.username}`} />
-                    <Button circular size='tiny' color='red' icon='remove user' title={`Eliminar ${user.username}`} onClick={props.deleteAction(user.username)} />
-                  </div>:
-                  <Button circular size='tiny' color='blue' icon='add user' title={`Habilitar ${user.username}`} onClick={props.enableAction(user.username)} />
-                }
-              </Table.Cell>
+  handleDismiss() {
+    this.setState({
+      visible: false,
+    });
+  }
+
+  render() {
+    const totalPages = !this.props.count ? 0 : this.props.totalCount / this.props.count;
+
+    return(
+      <Segment>
+        <Header as='h2' content='Listado de Usuarios' />
+        <Button
+          color='teal'
+          icon='add user'
+          title='Agregar usuario'
+          content='Registrar usuario'
+          onClick={this.props.onAddButtonClick} />
+        <Divider hidden />
+        <Form>
+          <Form.Group>
+            <Form.Select
+              placeholder='Estado'
+              name='active'
+              onChange={this.props.onSearchFieldChange}
+              options={options} />
+            <Form.Input
+              name='username'
+              onChange={this.props.onSearchFieldChange}
+              placeholder='Nombre de usuario' />
+          </Form.Group>
+        </Form>
+        {this.props.success && this.state.visible && <Message positive onDismiss={this.handleDismiss.bind(this)}>
+          <Message.Header>La operación fué realizada con éxito.</Message.Header>
+        </Message>}
+        {this.props.error && this.state.visible && <Message negative onDismiss={this.handleDismiss.bind(this)}>
+          <Message.Header>Existen errores</Message.Header>
+          <p>{this.props.error}</p>
+        </Message>}
+        <Table padded>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Nombre de usuario</Table.HeaderCell>
+              <Table.HeaderCell>Email</Table.HeaderCell>
+              <Table.HeaderCell>Nombre y Apellido</Table.HeaderCell>
+              <Table.HeaderCell>Opciones</Table.HeaderCell>
             </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-      <Divider hidden />
-      <Container textAlign='center'>
-        <Pagination
-          defaultActivePage={props.pageNumber + 1}
-          ellipsisItem={undefined}
-          totalPages={totalPages}
-          onPageChange={(e, { activePage }) => {
-            props.onSearchFieldChange(e, { name: 'pageNumber', value: activePage - 1 });
-          }} />
-      </Container>
-    </Segment>
-  );
-};
+          </Table.Header>
+
+          <Table.Body>
+            {this.props.users && this.props.users.map((user, id) => (
+              <Table.Row key={id}>
+                <Table.Cell>
+                  <Header as='h5' content={<Link to={`${this.props.url}/${user.username}`}>{user.username}</Link>} />
+                </Table.Cell>
+                <Table.Cell>{user.email}</Table.Cell>
+                <Table.Cell>{user.firstName} {user.lastName}</Table.Cell>
+                <Table.Cell>
+                  {
+                    (user.active) ?
+                    <div>
+                      <Button circular size='tiny' color='teal' as={Link} to={`${this.props.url}/${user.username}`} icon='user' title={`Ver ${user.username}`} />
+                      <Button circular size='tiny' color='red' icon='remove user' title={`Eliminar ${user.username}`} onClick={this.props.deleteAction(user.username)} />
+                    </div>:
+                    <Button circular size='tiny' color='blue' icon='add user' title={`Habilitar ${user.username}`} onClick={this.props.enableAction(user.username)} />
+                  }
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+        <Divider hidden />
+        <Container textAlign='center'>
+          <Pagination
+            defaultActivePage={this.props.pageNumber + 1}
+            ellipsisItem={undefined}
+            totalPages={totalPages}
+            onPageChange={(e, { activePage }) => {
+              this.props.onSearchFieldChange(e, { name: 'pageNumber', value: activePage - 1 });
+            }} />
+        </Container>
+      </Segment>
+    );
+  }
+}
 
 export default UsersList;

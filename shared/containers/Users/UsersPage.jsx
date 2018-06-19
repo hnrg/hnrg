@@ -188,6 +188,8 @@ class UsersContainer extends Component {
         pageNumber={this.state.pageNumber}
         totalCount={this.state.totalCount}
         count={this.state.count}
+        error={this.state.error}
+        success={this.state.success}
         onAddButtonClick={this.onAddButtonClick.bind(this)}
         deleteAction={this.deleteAction.bind(this)}
         enableAction={this.enableAction.bind(this)}
