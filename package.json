@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/COD-Project/grupo74.git"
+    "url": "git+https://gitlab.catedras.linti.unlp.edu.ar/proyecto2017/grupo74.git"
   },
-  "author": "COD-Project <codproject267@gmail.com>",
+  "author": "HNRG <hnrg@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/COD-Project/grupo74/issues"
+    "url": "https://gitlab.catedras.linti.unlp.edu.ar/proyecto2017/grupo74/issues"
   },
-  "homepage": "https://gitlab.com/COD-Project/grupo74#readme",
+  "homepage": "https://gitlab.catedras.linti.unlp.edu.ar/proyecto2017/grupo74#readme",
   "dependencies": {
     "axios": "^0.18.0",
     "bcrypt-nodejs": "0.0.3",
