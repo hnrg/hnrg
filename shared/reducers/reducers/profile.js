@@ -1,5 +1,5 @@
 import fieldValidation from 'reducers/lib/field-validation/profile';
-import formValidation from './profile-form';
+import formValidation from 'reducers/lib/form-validation/profile';
 
 import {
   GET_PROFILE_REQUEST,

@@ -1,5 +1,5 @@
 import fieldValidation from 'reducers/lib/field-validation/roles';
-import formValidation from './roles-form';
+import formValidation from 'reducers/lib/form-validation/roles';
 
 import {
   GET_ROLES_REQUEST,
@@ -83,7 +83,6 @@ export default function rolesReducer(state = InitialState, action) {
         roles: action.payload.roles,
         isFetching: false,
         error: null,
-        success: null,
       };
     }
 

@@ -1,5 +1,5 @@
 import fieldValidation from 'reducers/lib/field-validation/users';
-import formValidation from './users-form';
+import formValidation from 'reducers/lib/form-validation/users';
 
 import {
   GET_USERS_REQUEST,

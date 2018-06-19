@@ -1,5 +1,5 @@
 import fieldValidation from 'reducers/lib/field-validation/configuration';
-import formValidation from './configuration-form';
+import formValidation from 'reducers/lib/form-validation/configuration';
 
 import {
   GET_CONFIGURATION_REQUEST,

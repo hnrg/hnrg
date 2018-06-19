@@ -1,6 +1,6 @@
 import InitialState from 'reducers/states/auth-state';
 import fieldValidation from 'reducers/lib/field-validation/auth';
-import formValidation from './auth-form';
+import formValidation from 'reducers/lib/form-validation/auth';
 import {
   SESSION_TOKEN_REQUEST,
   SESSION_TOKEN_SUCCESS,
