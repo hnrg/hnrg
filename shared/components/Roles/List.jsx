@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   Button,
   Container,
+  Confirm,
   Divider,
   Form,
   Header,
@@ -23,13 +24,39 @@ class RolesList extends Component {
     super(props);
 
     this.state = {
-      visible: true,
+      open: false,
+      visible: false,
+      strategy: null,
     };
+  }
+
+  close() {
+    this.setState({
+      open: false,
+    });
   }
 
   handleDismiss() {
     this.setState({
       visible: false,
+    });
+  }
+
+  handleStrategy(callback) {
+    const self = this;
+
+    return function(e, data) {
+      self.setState({ open: true, visible: true, strategy: callback });
+    }
+  }
+
+  onConfirm(e, data) {
+    const {strategy} = this.state;
+
+    strategy(e, data);
+
+    this.setState({
+        open: false,
     });
   }
 
@@ -91,15 +118,22 @@ class RolesList extends Component {
                     !rol.deleted ?
                     <div>
                       <Button circular size='tiny' color='teal' as={Link} to={`${this.props.url}/${rol.name}`} icon='edit' title={`Ver ${rol.name}`} />
-                      <Button circular size='tiny' color='red' icon='remove' title={`Eliminar ${rol.name}`} onClick={this.props.deleteAction(rol.name)} />
+                      <Button circular size='tiny' color='red' icon='remove' title={`Eliminar ${rol.name}`} onClick={this.handleStrategy(this.props.deleteAction(rol.name))} />
                     </div> :
-                    <Button circular size='tiny' color='blue' icon='add' title={`Habilitar rol ${rol.name}`} onClick={this.props.enableAction(rol.name)} />
+                    <Button circular size='tiny' color='blue' icon='add' title={`Habilitar rol ${rol.name}`} onClick={this.handleStrategy(this.props.enableAction(rol.name))} />
                   }
                 </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
         </Table>
+        <Confirm
+        open={this.state.open}
+        onCancel={this.close.bind(this)}
+        onConfirm={this.onConfirm.bind(this)}
+        content={this.state.strategy
+          && '¿Está seguro de que desea realizar la operación?'
+        } />
         <Divider hidden />
         <Container textAlign='center'>
           <Pagination

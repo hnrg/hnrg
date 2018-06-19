@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Button,
+  Confirm,
   Container,
   Divider,
   Form,
@@ -22,13 +23,39 @@ class UsersList extends Component {
     super(props);
 
     this.state = {
-      visible: true,
+      open: false,
+      visible: false,
+      strategy: null,
     };
+  }
+
+  close() {
+    this.setState({
+      open: false,
+    });
   }
 
   handleDismiss() {
     this.setState({
       visible: false,
+    });
+  }
+
+  handleStrategy(callback) {
+    const self = this;
+
+    return function(e, data) {
+      self.setState({ open: true, visible: true, strategy: callback });
+    }
+  }
+
+  onConfirm(e, data) {
+    const {strategy} = this.state;
+
+    strategy(e, data);
+
+    this.setState({
+        open: false,
     });
   }
 
@@ -88,15 +115,22 @@ class UsersList extends Component {
                     (user.active) ?
                     <div>
                       <Button circular size='tiny' color='teal' as={Link} to={`${this.props.url}/${user.username}`} icon='user' title={`Ver ${user.username}`} />
-                      <Button circular size='tiny' color='red' icon='remove user' title={`Eliminar ${user.username}`} onClick={this.props.deleteAction(user.username)} />
+                      <Button circular size='tiny' color='red' icon='remove user' title={`Eliminar ${user.username}`} onClick={this.handleStrategy(this.props.deleteAction(user.username))} />
                     </div>:
-                    <Button circular size='tiny' color='blue' icon='add user' title={`Habilitar ${user.username}`} onClick={this.props.enableAction(user.username)} />
+                    <Button circular size='tiny' color='blue' icon='add user' title={`Habilitar ${user.username}`} onClick={this.handleStrategy(this.props.enableAction(user.username))} />
                   }
                 </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
         </Table>
+        <Confirm
+        open={this.state.open}
+        onCancel={this.close.bind(this)}
+        onConfirm={this.onConfirm.bind(this)}
+        content={this.state.strategy
+          && '¿Está seguro de que desea realizar la operación?'
+        } />
         <Divider hidden />
         <Container textAlign='center'>
           <Pagination
