@@ -3,6 +3,7 @@ export default {
     id: '',
     firstName: '',
     lastName: '',
+    fullName: '',
     address: '',
     phone: '',
     birthday: null,

@@ -156,14 +156,6 @@ class PatientsContainer extends Component {
     });
   }
 
-  deleteAction(patientId) {
-    const self = this;
-
-    return function() {
-      self.props.actions.deletePatient(patientId);
-    };
-  }
-
   patientsList() {
     const { match } = this.props;
     return (
@@ -175,7 +167,7 @@ class PatientsContainer extends Component {
         totalCount={this.state.patients.totalCount}
         count={this.state.patients.count}
         onAddButtonClick={this.onAddButtonClick.bind(this)}
-        deleteAction={this.deleteAction.bind(this)}
+        deleteAction={this.props.actions.deletePatient}
         onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
     );
   }
