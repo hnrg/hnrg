@@ -1,7 +1,7 @@
 import {
-  GET_ROLES_REQUEST,
-  GET_ROLES_SUCCESS,
-  GET_ROLES_FAILURE,
+  GET_HEALTH_CONTROLS_REQUEST,
+  GET_HEALTH_CONTROLS_SUCCESS,
+  GET_HEALTH_CONTROLS_FAILURE,
 
   GET_HEALTH_CONTROL_REQUEST,
   GET_HEALTH_CONTROL_SUCCESS,
@@ -27,46 +27,46 @@ import {
   ON_HEALTH_CONTROL_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
-import { rolesRequest } from 'reducers/lib/request/roles-request';
+import { healthControlsRequest } from 'reducers/lib/request/healthControls-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
 /**
  * ## retreiving profile actions
  */
-export function getRolesRequest() {
+export function getHealthControlsRequest() {
   return {
-    type: GET_ROLES_REQUEST,
+    type: GET_HEALTH_CONTROLS_REQUEST,
   };
 }
 
-export function getRolesSuccess(data) {
+export function getHealthControlsSuccess(data) {
   return {
-    type: GET_ROLES_SUCCESS,
+    type: GET_HEALTH_CONTROLS_SUCCESS,
     payload: data,
   };
 }
 
-export function getRolesFailure(error) {
+export function getHealthControlsFailure(error) {
   return {
-    type: GET_ROLES_FAILURE,
+    type: GET_HEALTH_CONTROLS_FAILURE,
     payload: error,
   };
 }
 
-export function getRolRequest() {
+export function getHealthControlRequest() {
   return {
     type: GET_HEALTH_CONTROL_REQUEST,
   };
 }
 
-export function getRolSuccess(rol) {
+export function getHealthControlSuccess(healthControl) {
   return {
     type: GET_HEALTH_CONTROL_SUCCESS,
-    payload: rol,
+    payload: healthControl,
   };
 }
 
-export function getRolFailure(error) {
+export function getHealthControlFailure(error) {
   return {
     type: GET_HEALTH_CONTROL_FAILURE,
     payload: error,
@@ -75,65 +75,65 @@ export function getRolFailure(error) {
 
 /**
  * ## State actions
- * controls which form is displayed to the rol
+ * controls which form is displayed to the healthControl
  * as in login, register, logout or reset password
  */
-export function getRoles(pageNumber, name, deleted, sessionToken) {
+export function getHealthControls(pageNumber, sessionToken) {
   return (dispatch) => {
-    dispatch(getRolesRequest());
-    // store or get a sessionToken
+    dispatch(getHealthControlsRequest());
+    // store or get a sessionTokens
     return authToken.getSessionToken(sessionToken)
-      .then(token => rolesRequest.init(token).getRoles(pageNumber, name, deleted))
+      .then(token => healthControlsRequest.init(token).getHealthControls(pageNumber))
       .then((data) => {
-        dispatch(getRolesSuccess(data));
+        dispatch(getHealthControlsSuccess(data));
       })
       .catch((error) => {
-        dispatch(getRolesFailure(error.response.data.error));
+        dispatch(getHealthControlsFailure(error.response.data.error));
       });
   };
 }
 
-export function getRol(rolname, sessionToken) {
+export function getHealthControl(healthControl, sessionToken) {
   return (dispatch) => {
-    dispatch(getRolRequest());
+    dispatch(getHealthControlRequest());
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
-      .then(token => rolesRequest.init(token).getRol(rolname))
+      .then(token => healthControlsRequest.init(token).getHealthControl(healthControl))
       .then((data) => {
-        dispatch(getRolSuccess(data.rol));
+        dispatch(getHealthControlSuccess(data.rol));
       })
       .catch((error) => {
-        dispatch(getRolFailure(error.response.data.error));
+        dispatch(getHealthControlFailure(error.response.data.error));
       });
   };
 }
 
-export function onRolFormFieldChange(field, value) {
+export function onHealthControlFormFieldChange(field, value) {
   return {
     type: ON_HEALTH_CONTROL_FORM_FIELD_CHANGE,
     payload: { field, value },
   };
 }
 
-export function onRolFormClear() {
+export function onHealthControlFormClear() {
   return {
     type: ON_HEALTH_CONTROL_FORM_CLEAR,
   };
 }
 
-export function rolAddRequest() {
+export function healthControlAddRequest() {
   return {
     type: HEALTH_CONTROL_ADD_REQUEST,
   };
 }
 
-export function rolAddSuccess() {
+export function healthControlAddSuccess() {
   return {
     type: HEALTH_CONTROL_ADD_SUCCESS,
   };
 }
 
-export function rolAddFailure(data) {
+export function healthControlAddFailure(data) {
   return {
     type: HEALTH_CONTROL_ADD_FAILURE,
     payload: data,
@@ -141,47 +141,71 @@ export function rolAddFailure(data) {
 }
 
 /**
- * ## addRol
+ * ## addHealthControl
  *
  * The sessionToken is provided when Hot Loading.
  *
  * With the sessionToken, the server is called with the data to add
- * If successful, get the rol so that the screen is updated with
+ * If successful, get the healthControl so that the screen is updated with
  * the data as now persisted on the serverx
  *
  */
-export function addRol(name, permissions, sessionToken) {
+export function addHealthControl(
+  date,
+  weight,
+  pc,
+  ppc,
+  height,
+  completeVaccines,
+  vaccinesObservations,
+  maturationObservations,
+  commonPhysicalExamination,
+  physicalExaminationObservations,
+  feeding,
+  generalObservations,
+  sessionToken
+) {
   return (dispatch) => {
-    dispatch(rolAddRequest());
+    dispatch(healthControlAddRequest());
     return authToken.getSessionToken(sessionToken)
-      .then(token => rolesRequest.init(token)
-        .addRol({
-          name,
-          permissions,
+      .then(token => healthControlsRequest.init(token)
+        .addHealthControl({
+          date,
+          weight,
+          pc,
+          ppc,
+          height,
+          completeVaccines,
+          vaccinesObservations,
+          maturationObservations,
+          commonPhysicalExamination,
+          physicalExaminationObservations,
+          feeding,
+          generalObservations,
         }))
       .then(() => {
-        dispatch(rolAddSuccess());
+        dispatch(healthControlAddSuccess());
       })
       .catch((error) => {
         console.log(error);
-        dispatch(rolAddFailure(error.response.data.error));
+        dispatch(healthControlAddFailure(error.response.data.error));
       });
   };
 }
 
-export function rolUpdateRequest() {
+export function healthControlUpdateRequest() {
   return {
     type: HEALTH_CONTROL_UPDATE_REQUEST,
   };
 }
 
-export function rolUpdateSuccess() {
+export function healthControlUpdateSuccess() {
   return {
     type: HEALTH_CONTROL_UPDATE_SUCCESS,
   };
 }
 
-export function rolUpdateFailure(data) {
+export function healthControlUpdateFailure(data) {
   return {
     type: HEALTH_CONTROL_UPDATE_FAILURE,
     payload: data,
@@ -189,98 +213,123 @@ export function rolUpdateFailure(data) {
 }
 
 /**
- * ## updateRol
+ * ## updateHealthControl
  *
  * The sessionToken is provided when Hot Loading.
  *
  * With the sessionToken, the server is called with the data to update
- * If successful, get the rol so that the screen is updated with
+ * If successful, get the healthControl so that the screen is updated with
  * the data as now persisted on the serverx
  *
  */
-export function updateRol(originalRolname, name, permissions, sessionToken) {
+export function updateHealthControl(
+  originalHealthControl,
+  date,
+  weight,
+  pc,
+  ppc,
+  height,
+  completeVaccines,
+  vaccinesObservations,
+  maturationObservations,
+  commonPhysicalExamination,
+  physicalExaminationObservations,
+  feeding,
+  generalObservations,
+  sessionToken
+) {
   return (dispatch) => {
-    dispatch(rolUpdateRequest());
+    dispatch(healthControlUpdateRequest());
     return authToken.getSessionToken(sessionToken)
-      .then(token => rolesRequest.init(token)
-        .updateRol(originalRolname, {
-          name,
-          permissions,
+      .then(token => healthControlsRequest.init(token)
+        .updateHealthControl(originalHealthControl, {
+          date,
+          weight,
+          pc,
+          ppc,
+          height,
+          completeVaccines,
+          vaccinesObservations,
+          maturationObservations,
+          commonPhysicalExamination,
+          physicalExaminationObservations,
+          feeding,
+          generalObservations,
         }))
       .then(() => {
-        dispatch(rolUpdateSuccess());
-        dispatch(getRol(name));
+        dispatch(healthControlUpdateSuccess());
+        dispatch(getHealthControl(originalHealthControl));
       })
       .catch((error) => {
-        dispatch(rolUpdateFailure(error.response.data.error));
+        dispatch(healthControlUpdateFailure(error.response.data.error));
       });
   };
 }
 
-export function rolDeleteRequest() {
+export function healthControlDeleteRequest() {
   return {
     type: HEALTH_CONTROL_DELETE_REQUEST,
   };
 }
 
-export function rolDeleteSuccess() {
+export function healthControlDeleteSuccess() {
   return {
     type: HEALTH_CONTROL_DELETE_SUCCESS,
   };
 }
 
-export function rolDeleteFailure(data) {
+export function healthControlDeleteFailure(data) {
   return {
     type: HEALTH_CONTROL_DELETE_FAILURE,
     payload: data,
   };
 }
 
-export function deleteRol(name, sessionToken) {
+export function deleteHealthControl(healthControl, sessionToken) {
   return (dispatch) => {
-    dispatch(rolDeleteRequest());
+    dispatch(healthControlDeleteRequest());
     return authToken.getSessionToken(sessionToken)
-      .then(token => rolesRequest.init(token).deleteRol(name))
+      .then(token => healthControlsRequest.init(token).deleteHealthControl(healthControl))
       .then(() => {
-        dispatch(rolDeleteSuccess());
-        dispatch(getRoles());
+        dispatch(healthControlDeleteSuccess());
+        dispatch(getHealthControls());
       })
       .catch((error) => {
-        dispatch(rolDeleteFailure(error.response.data.error));
+        dispatch(healthControlDeleteFailure(error.response.data.error));
       });
   };
 }
 
-export function rolEnableRequest() {
+export function healthControlEnableRequest() {
   return {
     type: HEALTH_CONTROL_ENABLE_REQUEST,
   };
 }
 
-export function rolEnableSuccess() {
+export function healthControlEnableSuccess() {
   return {
     type: HEALTH_CONTROL_ENABLE_SUCCESS,
   };
 }
 
-export function rolEnableFailure(data) {
+export function healthControlEnableFailure(data) {
   return {
     type: HEALTH_CONTROL_ENABLE_FAILURE,
     payload: data,
   };
 }
 
-export function enableRol(name, sessionToken) {
+export function enableHealthControl(healthControl, sessionToken) {
   return (dispatch) => {
-    dispatch(rolEnableRequest());
+    dispatch(healthControlEnableRequest());
     return authToken.getSessionToken(sessionToken)
-      .then(token => rolesRequest.init(token).enableRol(name))
+      .then(token => healthControlsRequest.init(token).enableHealthControl(healthControl))
       .then(() => {
-        dispatch(rolEnableSuccess());
-        dispatch(getRoles());
+        dispatch(healthControlEnableSuccess());
+        dispatch(getHealthControls());
       })
       .catch((error) => {
-        dispatch(rolEnableFailure(error.response.data.error));
+        dispatch(healthControlEnableFailure(error.response.data.error));
       });
   };
 }
