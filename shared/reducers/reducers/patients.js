@@ -129,7 +129,7 @@ export default function patientsReducer(state = InitialState, action) {
         nextPatientState = {
           ...nextPatientState,
           fields: {
-            ...nextPatientState.state.fields,
+            ...nextPatientState.fields,
             refrigerator: action.payload.demographicData.refrigerator,
             electricity: action.payload.demographicData.electricity,
             pet: action.payload.demographicData.pet,
