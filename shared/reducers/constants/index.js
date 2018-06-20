@@ -1,3 +1,4 @@
+export * from './analytics.constants';
 export * from './apartment-types.constants';
 export * from './auth.constants';
 export * from './configuration.constants';
