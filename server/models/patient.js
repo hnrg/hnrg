@@ -41,6 +41,7 @@ const patientSchema = new Schema({
   demographicData: {
     type: Schema.Types.ObjectId,
     ref: 'DemographicData',
+    default: null,
   },
   medicalInsurance: {
     type: Schema.Types.ObjectId,
