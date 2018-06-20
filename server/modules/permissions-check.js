@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 function NotAllowedError(message) {
   this.name = 'NotAllowedError';
-  this.message = message || 'The server understood the request, but is refusing to fulfill it.';
+  this.message = message || 'El servidor comprende el pedido, pero se niega a responderla.';
   this.stack = (new Error()).stack;
 }
 

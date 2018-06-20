@@ -16,7 +16,7 @@ const localLogin = new LocalStrategy(localOptions, ((email, password, done) => {
     }
 
     if (!user) {
-      return done(null, false, { error: 'No user exists with that email address' });
+      return done(null, false, { error: 'No existe un usuario con ese mail' });
     }
 
     user.comparePassword(password, (error, isMatch) => {
@@ -25,7 +25,7 @@ const localLogin = new LocalStrategy(localOptions, ((email, password, done) => {
       }
 
       if (!isMatch) {
-        return done(null, false, { error: 'Invalid password' });
+        return done(null, false, { error: 'Contraseña invalida' });
       }
 
       return done(null, user);
