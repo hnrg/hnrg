@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
+  Divider,
   Form,
   Message,
   Icon,
@@ -49,13 +50,18 @@ class Edit extends Component {
   }
 
   handleChange(e, {name, value}) {
-    this.props.onFormFieldChange(name, value);
+    const newValue = [ 'refrigerator', 'electricity', 'pet' ].find(e => e == name) ?
+      !this.state.fields[name] :
+      value;
+
+    this.props.onFormFieldChange(name, newValue);
 
     this.setState({
+      ...this.state,
       fields: {
         ...this.state.fields,
         [name]: value,
-      },
+      }
     });
   }
 
@@ -75,6 +81,12 @@ class Edit extends Component {
       fields.medicalInsurance,
       fields.documentType,
       fields.documentNumber,
+      fields.refrigerator,
+      fields.electricity,
+      fields.pet,
+      _fields.apartamentType,
+      fields.heatingType,
+      fields.waterType,
       null
     );
   }
@@ -96,7 +108,18 @@ class Edit extends Component {
       return { key: elem.name, value: elem._id, text: elem.name };
     });
 
-    console.log("fields: ", fields);
+    const apartamentTypesOptions = Array.from(this.props.apartamentTypes || []).map((elem) => {
+      return { key: elem.name, value: elem._id, text: elem.name }
+    });
+
+    const heatingTypesOptions = Array.from(this.props.heatingTypes || []).map((elem) => {
+      return { key: elem.name, value: elem._id, text: elem.name }
+    });
+
+    const waterTypesOptions = Array.from(this.props.waterTypes || []).map((elem) => {
+      return { key: elem.name, value: elem._id, text: elem.name }
+    });
+
     return(
       <Form onSubmit={this.handleSubmit}>
         {error && <Message negative>
@@ -190,6 +213,62 @@ class Edit extends Component {
             value={fields.medicalInsurance ? fields.medicalInsurance._id : fields.medicalInsurance}
             options={medicalInsurancesOptions}
             error={fields.medicalInsuranceHasError} />
+        </Form.Group>
+        <Divider horizontal section>Datos demográficos</Divider>
+        <Form.Group>
+          <Form.Select
+            width={5}
+            label={fields.apartamentTypeErrorMsg || 'Tipo de vivienda'}
+            name='apartamentType'
+            placeholder='Tipo de vivienda'
+            onChange={this.handleChange}
+            value={fields.apartamentType ? fields.apartamentType._id : fields.apartamentType}
+            options={apartamentTypesOptions}
+            error={fields.apartamentTypeHasError} />
+          <Form.Select
+            width={6}
+            label={fields.heatingTypeErrorMsg || 'Tipo de calefacción'}
+            name='heatingType'
+            placeholder='Tipo de calefacción'
+            onChange={this.handleChange}
+            value={fields.heatingType ? fields.heatingType._id : fields.heatingType}
+            options={heatingTypesOptions}
+            error={fields.heatingTypeHasError} />
+          <Form.Select
+            width={5}
+            label={fields.waterTypeErrorMsg || 'Tipo de agua'}
+            name='waterType'
+            placeholder='Tipo de agua'
+            onChange={this.handleChange}
+            value={fields.waterType ? fields.waterType._id : fields.waterType}
+            options={waterTypesOptions}
+            error={fields.waterTypeHasError} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Checkbox
+            width={5}
+            label={fields.refrigeratorErrorMsg || 'Refrigerador'}
+            checked={fields.refrigerator}
+            value={fields.refrigerator ? 'on' : 'off' }
+            name='refrigerator'
+            error={fields.refrigeratorHasError}
+            onChange={this.handleChange} />
+          <Form.Checkbox
+            width={6}
+            label={fields.refrigeratorErrorMsg || 'Electricidad'}
+            checked={fields.electricity}
+            value={fields.electricity ? 'on' : 'off' }
+            name='electricity'
+            error={fields.electricityHasError}
+            onChange={this.handleChange} />
+          <Form.Checkbox
+            width={5}
+            label={fields.petErrorMsg || 'Mascotas'}
+            checked={fields.pet}
+            value={fields.pet ? 'on' : 'off' }
+            name='pet'
+            error={fields.petHasError}
+            onChange={this.handleChange} />
         </Form.Group>
         <Button disabled={!isValid || isFetching} color='teal' fluid size='large'>
           <Icon name='save' size='small' />
