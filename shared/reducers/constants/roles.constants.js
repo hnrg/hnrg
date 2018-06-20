@@ -26,4 +26,5 @@ export const ROL_UPDATE_REQUEST = 'rol-update-request';
 export const ROL_UPDATE_SUCCESS = 'rol-update-success';
 export const ROL_UPDATE_FAILURE = 'rol-update-failure';
 
+export const ON_ROL_FORM_CLEAR = 'on-rol-form-clear';
 export const ON_ROL_FORM_FIELD_CHANGE = 'on-rol-form-field-change';
