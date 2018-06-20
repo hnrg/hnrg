@@ -27,7 +27,6 @@ const DemographicDataList = (props) => {
               <Table.HeaderCell>Tipo de vivienda</Table.HeaderCell>
               <Table.HeaderCell>Tipo de calefacción</Table.HeaderCell>
               <Table.HeaderCell>Tipo de agua</Table.HeaderCell>
-              <Table.HeaderCell>Editar</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -43,16 +42,6 @@ const DemographicDataList = (props) => {
                 <Table.Cell>{patient.demographicData ? patient.demographicData.apartmentType.name : '' }</Table.Cell>
                 <Table.Cell>{patient.demographicData ? patient.demographicData.heatingType.name : '' }</Table.Cell>
                 <Table.Cell>{patient.demographicData ? patient.demographicData.waterType.name : '' }</Table.Cell>
-                <Table.Cell>
-                  <Button
-                    circular
-                    size='tiny'
-                    color='teal'
-                    as={Link}
-                    to={`${props.url}/${patient._id}`}
-                    icon='heartbeat'
-                    title={'Ver paciente'} />
-                </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
