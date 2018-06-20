@@ -10,8 +10,9 @@ import {
   Tab
 } from 'semantic-ui-react';
 
-import * as rolesActions from 'reducers/actions/roles-actions';
 import * as permissionsActions from 'reducers/actions/permissions-actions';
+import * as profileActions from 'reducers/actions/profile-actions';
+import * as rolesActions from 'reducers/actions/roles-actions';
 
 import Footer from 'components/Footer';
 import TopMenu from 'components/TopMenu';
@@ -20,14 +21,14 @@ import RolEdit from 'components/Roles/Edit';
 import RolesList from 'components/Roles/List';
 import RolShow from 'components/Roles/Show';
 
-const panes = ({ loading, originalRol, fields, isValid, isFetching, permissions, error, success }, actions) => [
+const panes = ({ loading, roles, permissions }, actions) => [
   {
     menuItem: { key: 'rol', icon: 'certificate', content: 'Ver rol' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
         <RolShow
-          rol={originalRol}
-          permissions={permissions}
+          rol={roles.originalRol}
+          permissions={permissions.permissions}
           deletePermissionAction={actions.deletePermissionAction} />
       </Tab.Pane>
     ),
@@ -37,13 +38,13 @@ const panes = ({ loading, originalRol, fields, isValid, isFetching, permissions,
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
         <RolEdit
-          rol={originalRol}
-          permissions={permissions}
-          error={error}
-          success={success}
-          fields={fields}
-          isValid={isValid}
-          isFetching={isFetching}
+          rol={roles.originalRol}
+          permissions={permissions.permissions}
+          error={roles.error}
+          success={roles.success}
+          fields={roles.fields}
+          isValid={roles.isValid}
+          isFetching={roles.isFetching}
           onFormFieldChange={actions.onRolFormFieldChange}
           updateRol={actions.updateRol} />
       </Tab.Pane>
@@ -55,107 +56,59 @@ class RolesContainer extends Component {
   constructor(props) {
     super(props);
 
-    const {
-      originalRol,
-      fields,
-      isFetching,
-      isValid,
-      roles,
-      totalCount,
-      error,
-      success,
-      count,
-    } = this.props.roles;
-
     this.state = {
       loading: true,
       pageNumber: 0,
       rolname: '',
       deleted: false,
       currentView: 'rolesList',
-      roles,
-      permissions: this.props.permissions.permissions,
-      totalCount,
-      count,
-      originalRol,
-      fields,
-      isValid,
-      isFetching,
-      error,
-      success,
+      permissions: this.props.permissions,
+      profile: this.props.profile,
+      roles: this.props.roles,
     };
   }
 
   componentWillReceiveProps(props) {
-    const {
-      originalRol,
-      fields,
-      isFetching,
-      isValid,
-      roles,
-      totalCount,
-      count,
-      error,
-      success,
-    } = props.roles;
+    const { fields } = props.roles;
 
     this.setState({
       loading: fields.name === '',
-      originalRol,
-      fields,
-      isValid,
-      isFetching,
-      roles,
-      permissions: props.permissions.permissions,
-      totalCount,
-      count,
-      error,
-      success,
+      permissions: props.permissions,
+      profile: props.profile,
+      roles: props.roles,
     });
   }
 
   componentDidMount() {
-    const {
-      originalRol,
-      fields,
-      isFetching,
-      isValid,
-      roles,
-      totalCount,
-      count,
-      error,
-      success,
-    } = this.props.roles;
+    const { roles, profile, rolname, pageNumber, deleted } = this.state;
+    const { originalRol } = roles;
+    const { permissions } = this.state.permissions;
+
+    if (profile.originalProfile.username === '') {
+      this.props.actions.getProfile();
+      return;
+    }
 
     if (this.props.match.params.name && (originalRol.name === '' || this.props.match.params.name !== originalRol.name)) {
       this.props.actions.getRol(this.props.match.params.name);
       return;
     }
 
-    if (!this.props.match.params.name && this.state.permissions === null) {
+    if (!this.props.match.params.name && permissions === null) {
       this.props.actions.getPermissions();
       return;
     }
 
-    if (!this.props.match.params.name && this.state.roles === null) {
-      const { pageNumber, rolname, deleted } = this.state;
-
+    if (!this.props.match.params.name && roles.roles === null) {
       this.props.actions.getRoles(pageNumber, rolname, deleted);
       return;
     }
 
     this.setState({
       loading: false,
-      originalRol,
-      fields,
-      isValid,
-      isFetching,
-      roles,
-      permissions: this.props.permissions.permissions,
-      totalCount,
-      count,
-      error,
-      success,
+      permissions: this.props.permissions,
+      profile: this.props.profile,
+      roles: this.props.roles,
     });
   }
 
@@ -207,15 +160,16 @@ class RolesContainer extends Component {
 
   rolesList() {
     const { actions, match } = this.props;
+    const { pageNumber, roles } = this.state;
 
     return <RolesList
       url={match.url}
-      roles={this.state.roles}
-      pageNumber={this.state.pageNumber}
-      totalCount={this.state.totalCount}
-      count={this.state.count}
-      error={this.state.error}
-      success={this.state.success}
+      roles={roles.roles}
+      pageNumber={pageNumber}
+      totalCount={roles.totalCount}
+      count={roles.count}
+      error={roles.error}
+      success={roles.success}
       deleteAction={this.deleteAction.bind(this)}
       enableAction={this.enableAction.bind(this)}
       onAddButtonClick={this.onAddButtonClick.bind(this)}
@@ -223,13 +177,15 @@ class RolesContainer extends Component {
   }
 
   rolCreate() {
+    const { permissions, roles } = this.state;
+
     return <RolAdd
-      permissions={this.state.permissions}
-      fields={this.state.fields}
-      isValid={this.state.isValid}
-      isFetching={this.state.isFetching}
-      error={this.state.error}
-      success={this.state.success}
+      permissions={permissions.permissions}
+      fields={roles.fields}
+      isValid={roles.isValid}
+      isFetching={roles.isFetching}
+      error={roles.error}
+      success={roles.success}
       onMount={this.props.actions.onRolFormClear}
       onFormFieldChange={this.props.actions.onRolFormFieldChange}
       addRol={this.props.actions.addRol} />
@@ -255,16 +211,18 @@ class RolesContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    roles: state.roles,
     permissions: state.permissions,
+    profile: state.profile,
+    roles: state.roles,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      ...rolesActions,
       ...permissionsActions,
+      ...profileActions,
+      ...rolesActions,
     }, dispatch)
   };
 }

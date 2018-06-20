@@ -240,29 +240,27 @@ exports.updateRol = async function updateRol(req, res) {
   try {
     permissionsCheck(req.user, 'rol_update');
 
+    var data = {};
     const { rol } = req.body;
-
-    if (!rol.name) {
-      return res.status(400).end();
-    }
 
     await Permission.find({
       name: {
         $in: rol.permissions,
       },
     }, (error, permissions) => {
-      if (!permissions) {
+      if (rol.permissions && !permissions) {
         return res.status(403);
       }
 
       if (error) {
         throw (error);
       }
+      
+      if (rol.name) { data.name = rol.name; }
+      if (rol.permissions) { data.permissions = permissions.map(p => p._id); }
+      if (rol.deleted !== undefined) { data.deleted = rol.deleted }
 
-      Rol.findOneAndUpdate({ name: req.params.name }, {
-        name: rol.name,
-        permissions: permissions.map(p => p._id),
-      }).exec((err, rol) => {
+      Rol.findOneAndUpdate({ name: req.params.name }, data).exec((err, rol) => {
           if (err) {
             throw (err);
           }
