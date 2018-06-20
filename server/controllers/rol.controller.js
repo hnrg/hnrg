@@ -161,7 +161,7 @@ exports.deleteRol = async function deleteRol(req, res) {
     await Rol.findOne({ name: req.params.name })
       .exec((err, rol) => {
         if (err || rol == null) {
-          res.status(422).json({ error: 'No rol was found with that name' });
+          res.status(422).json({ error: 'No se encontró ningún rol con ese nombre' });
           return;
         }
 
@@ -213,7 +213,7 @@ exports.deleteRolPermission = async function deleteRolPermission(req, res) {
       .populate('permissions')
       .exec((err, rol) => {
         if (err || rol == null) {
-          res.status(422).json({ error: 'No rol was found with that name' });
+          res.status(422).json({ error: 'No se encontró ningún rol con ese nombre' });
           return;
         }
 
@@ -268,7 +268,7 @@ exports.updateRol = async function updateRol(req, res) {
           }
 
           if (rol == null) {
-            res.status(422).json({ error: 'No rol was found with that name.' });
+            res.status(422).json({ error: 'No se encontró ningún rol con ese nombre' });
             return;
           }
 

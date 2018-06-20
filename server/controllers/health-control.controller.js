@@ -137,7 +137,7 @@ exports.deleteHealthControl = async function deleteHealthControl(req, res) {
     await healthControl.findByIdAndUpdate(req.params.id, { active: false })
       .exec((error, healthControl) => {
         if (error || healthControl == null) {
-          res.status(422).json({ error: 'No healthControl found with that id' });
+          res.status(422).json({ error: 'Control de salud no encontrado para ese id' });
           throw (error);
         }
 
@@ -164,7 +164,7 @@ exports.updateHealthControl = async function updateHealthControl(req, res) {
     await healthControl.findByIdAndUpdate(req.params.id, req.body.healthControl)
       .exec((error, healthControl) => {
         if (error || healthControl == null) {
-          res.status(422).json({ error: 'No healthControl found with that id' });
+          res.status(422).json({ error: 'Control de salud no encontrado para ese id' });
           throw (error);
         }
 

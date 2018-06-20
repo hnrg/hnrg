@@ -203,7 +203,7 @@ exports.deletePatient = async function deletePatient(req, res) {
     await Patient.findByIdAndUpdate(req.params.id, { deleted: true })
       .exec((err, patient) => {
         if (err || patient == null) {
-          res.status(422).json({ error: 'No patient was found with that id' });
+          res.status(422).json({ error: 'No se encontró ningún paciente con ese id' });
           throw next(err);
         }
 
@@ -234,7 +234,7 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
       .where('deleted').equals(false)
       .exec((err, patient) => {
         if (err || patient == null) {
-          res.status(422).json({ error: 'No patient was found with that id.' });
+          res.status(422).json({ error: 'No se encontró ningún paciente con ese id' });
           throw next(err);
         }
 
@@ -267,7 +267,7 @@ exports.updatePatient = async function updatePatient(req, res, next) {
     await Patient.findByIdAndUpdate(req.params.id, req.body.patient)
       .exec((err, patient) => {
         if (err || patient == null) {
-          res.status(422).json({ error: 'No patient was found with that id.' });
+          res.status(422).json({ error: 'No se encontró ningún paciente con ese id' });
           return;
         }
 

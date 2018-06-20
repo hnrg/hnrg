@@ -100,15 +100,15 @@ exports.addUser = async function addUser(req, res) {
     } = user;
 
     if (!email) {
-      return res.status(422).send({ error: 'You must enter an email address.' });
+      return res.status(422).send({ error: 'Debe ingresar un email' });
     }
 
     if (!username) {
-      return res.status(422).send({ error: 'You must enter a username' });
+      return res.status(422).send({ error: 'Debe ingresar un nombre de usuario' });
     }
 
     if (!password) {
-      return res.status(422).send({ error: 'You must enter a password.' });
+      return res.status(422).send({ error: 'Debe ingresar una contraseña' });
     }
 
     User.findOne({
@@ -119,7 +119,7 @@ exports.addUser = async function addUser(req, res) {
       }
 
       if (existingUser) {
-        return res.status(422).send({ error: 'That email address is already in use.' });
+        return res.status(422).send({ error: 'El mail que seleccionó ya se encuentra en uso' });
       }
 
       User.findOne({
@@ -163,7 +163,7 @@ exports.deleteUser = async function deleteUser(req, res) {
     await User.findOneAndUpdate({ username: req.params.username }, { active: false, roles: [] })
       .exec((err, user) => {
         if (err || user == null) {
-          res.status(422).json({ error: 'No user was found with that id' });
+          res.status(422).json({ error: 'No se encontró ningún usuario con ese id' });
           throw (err);
         }
 
@@ -189,7 +189,7 @@ exports.updateUser = async function updateUser(req, res) {
     await User.findOneAndUpdate({ username: req.params.username }, req.body.user)
       .exec((err, user) => {
         if (err || user == null) {
-          res.status(422).json({ error: 'No user was found with that id.' });
+          res.status(422).json({ error: 'No se encontró ningún user con ese id' });
           throw (err);
         }
 
