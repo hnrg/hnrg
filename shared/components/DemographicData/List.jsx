@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   Button,
   Container,
-  Confirm,
   Divider,
-  Form,
   Header,
-  Message,
   Pagination,
   Segment,
   Table,
@@ -43,9 +40,9 @@ const DemographicDataList = (props) => {
                 <Table.Cell>{patient.demographicData && patient.demographicData.refrigerator ? "Si" : "No" }</Table.Cell>
                 <Table.Cell>{patient.demographicData && patient.demographicData.electricity ? "Si" : "No" }</Table.Cell>
                 <Table.Cell>{patient.demographicData && patient.demographicData.pet ? "Si" : "No" }</Table.Cell>
-                <Table.Cell>{patient.demographicData.apartmentType ? patient.demographicData.apartmentType.name : '' }</Table.Cell>
-                <Table.Cell>{patient.demographicData.heatingType ? patient.demographicData.heatingType.name : '' }</Table.Cell>
-                <Table.Cell>{patient.demographicData.waterType ? patient.demographicData.waterType.name : '' }</Table.Cell>
+                <Table.Cell>{patient.demographicData ? patient.demographicData.apartmentType.name : '' }</Table.Cell>
+                <Table.Cell>{patient.demographicData ? patient.demographicData.heatingType.name : '' }</Table.Cell>
+                <Table.Cell>{patient.demographicData ? patient.demographicData.waterType.name : '' }</Table.Cell>
                 <Table.Cell>
                   <Button
                     circular
