@@ -6,6 +6,16 @@ import {
   Icon,
 } from 'semantic-ui-react';
 
+const options = (permissions) => {
+  return permissions.map(permission => {
+    return {
+      key: permission,
+      value: permission,
+      text: permission,
+    };
+  });
+};
+
 class Edit extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +25,7 @@ class Edit extends Component {
       isFetching: this.props.isFetching,
       originalRol: this.props.rol,
       fields: this.props.fields,
+      permissions: this.props.permissions.map(p => p.name),
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -22,24 +33,26 @@ class Edit extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { rol, fields, isValid, isFetching } = props;
+    const { rol, fields, isValid, isFetching, permissions } = props;
 
     this.setState({
       originalRol: rol,
       fields,
       isValid,
       isFetching,
+      permissions: permissions.map(p => p.name),
     });
   }
 
   componentDidMount() {
-    const { rol, fields, isValid, isFetching } = this.props;
+    const { rol, fields, isValid, isFetching, permissions } = this.props;
 
     this.setState({
       originalRol: rol,
       fields,
       isValid,
       isFetching,
+      permissions: permissions.map(p => p.name),
     });
   }
 
@@ -62,13 +75,14 @@ class Edit extends Component {
     this.props.updateRol(
       originalRol.name,
       fields.name,
+      fields.permissions,
       null
     );
   }
 
   render() {
-    const { fields, isValid, isFetching } = this.state;
-
+    const { originalRol, fields, isValid, isFetching, permissions } = this.state;
+    console.log(fields);
     return(
       <Form onSubmit={this.handleSubmit}>
         <Form.Group>
@@ -76,9 +90,19 @@ class Edit extends Component {
             label={fields.nameErrorMsg || 'Nombre'}
             name='name'
             placeholder='Nombre'
-            width={8}
+            width={16}
             onChange={this.handleChange}
             value={fields.name}
+            error={fields.nameHasError} />
+          <Form.Select
+            label={fields.nameErrorMsg || 'Permisos'}
+            name='permissions'
+            placeholder='Permisos'
+            width={16}
+            multiple
+            onChange={this.handleChange}
+            value={fields.permissions}
+            options={options(permissions)}
             error={fields.nameHasError} />
         </Form.Group>
         <Button disabled={!isValid || isFetching} color='teal' fluid size='large'>
