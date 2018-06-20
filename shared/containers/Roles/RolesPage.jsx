@@ -11,6 +11,7 @@ import {
 } from 'semantic-ui-react';
 
 import * as rolesActions from 'reducers/actions/roles-actions';
+import * as permissionsActions from 'reducers/actions/permissions-actions';
 
 import Footer from 'components/Footer';
 import TopMenu from 'components/TopMenu';
@@ -18,13 +19,14 @@ import RolShow from 'components/Roles/Show';
 import RolEdit from 'components/Roles/Edit';
 import RolesList from 'components/Roles/List';
 
-const panes = ({ loading, originalRol, fields, isValid, isFetching }, actions) => [
+const panes = ({ loading, originalRol, fields, isValid, isFetching, permissions }, actions) => [
   {
     menuItem: { key: 'rol', icon: 'certificate', content: 'Ver rol' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
         <RolShow
           rol={originalRol}
+          permissions={permissions}
           deletePermissionAction={actions.deletePermissionAction} />
       </Tab.Pane>
     ),
@@ -35,6 +37,7 @@ const panes = ({ loading, originalRol, fields, isValid, isFetching }, actions) =
       <Tab.Pane loading={loading} padded='very'>
         <RolEdit
           rol={originalRol}
+          permissions={permissions}
           fields={fields}
           isValid={isValid}
           isFetching={isFetching}
@@ -68,6 +71,7 @@ class RolesContainer extends Component {
       deleted: false,
       currentView: 'rolesList',
       roles,
+      permissions: this.props.permissions.permissions,
       totalCount,
       count,
       originalRol,
@@ -99,6 +103,7 @@ class RolesContainer extends Component {
       isValid,
       isFetching,
       roles,
+      permissions: props.permissions.permissions,
       totalCount,
       count,
       error,
@@ -124,6 +129,11 @@ class RolesContainer extends Component {
       return;
     }
 
+    if (!this.props.match.params.name && this.state.permissions === null) {
+      this.props.actions.getPermissions();
+      return;
+    }
+
     if (!this.props.match.params.name && this.state.roles === null) {
       const { pageNumber, rolname, deleted } = this.state;
 
@@ -138,6 +148,7 @@ class RolesContainer extends Component {
       isValid,
       isFetching,
       roles,
+      permissions: this.props.permissions.permissions,
       totalCount,
       count,
       error,
@@ -237,7 +248,8 @@ class RolesContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    roles: state.roles
+    roles: state.roles,
+    permissions: state.permissions,
   };
 }
 
@@ -245,6 +257,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       ...rolesActions,
+      ...permissionsActions,
     }, dispatch)
   };
 }

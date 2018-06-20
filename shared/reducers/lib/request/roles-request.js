@@ -102,10 +102,12 @@ export default class RolesRequest {
 
   updateRol(originalRolname, {
     name,
+    permissions,
   }) {
     return axios.post(`/api/roles/${originalRolname}`, {
       rol: {
         name,
+        permissions,
       },
     }, {
       headers: {

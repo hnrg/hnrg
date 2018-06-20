@@ -147,13 +147,14 @@ export function rolUpdateFailure(data) {
  * the data as now persisted on the serverx
  *
  */
-export function updateRol(originalRolname, name, sessionToken) {
+export function updateRol(originalRolname, name, permissions, sessionToken) {
   return (dispatch) => {
     dispatch(rolUpdateRequest());
     return authToken.getSessionToken(sessionToken)
       .then(token => rolesRequest.init(token)
         .updateRol(originalRolname, {
           name,
+          permissions,
         }))
       .then(() => {
         dispatch(rolUpdateSuccess());
