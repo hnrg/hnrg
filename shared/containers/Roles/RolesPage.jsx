@@ -15,11 +15,12 @@ import * as permissionsActions from 'reducers/actions/permissions-actions';
 
 import Footer from 'components/Footer';
 import TopMenu from 'components/TopMenu';
-import RolShow from 'components/Roles/Show';
+import RolAdd from 'components/Roles/Add';
 import RolEdit from 'components/Roles/Edit';
 import RolesList from 'components/Roles/List';
+import RolShow from 'components/Roles/Show';
 
-const panes = ({ loading, originalRol, fields, isValid, isFetching, permissions }, actions) => [
+const panes = ({ loading, originalRol, fields, isValid, isFetching, permissions, error, success }, actions) => [
   {
     menuItem: { key: 'rol', icon: 'certificate', content: 'Ver rol' },
     render: () => (
@@ -38,6 +39,8 @@ const panes = ({ loading, originalRol, fields, isValid, isFetching, permissions 
         <RolEdit
           rol={originalRol}
           permissions={permissions}
+          error={error}
+          success={success}
           fields={fields}
           isValid={isValid}
           isFetching={isFetching}
@@ -198,7 +201,7 @@ class RolesContainer extends Component {
 
   onAddButtonClick() {
     this.setState({
-      currentView: 'userCreate',
+      currentView: 'rolCreate',
     });
   }
 
@@ -219,13 +222,17 @@ class RolesContainer extends Component {
       onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
   }
 
-  userCreate() {
-    const { fields, isValid, isFetching, error, success } = this.state;
-    const { actions } = this.props;
-
-    return (
-      <div></div>
-    );
+  rolCreate() {
+    return <RolAdd
+      permissions={this.state.permissions}
+      fields={this.state.fields}
+      isValid={this.state.isValid}
+      isFetching={this.state.isFetching}
+      error={this.state.error}
+      success={this.state.success}
+      onMount={this.props.actions.onRolFormClear}
+      onFormFieldChange={this.props.actions.onRolFormFieldChange}
+      addRol={this.props.actions.addRol} />
   }
 
   render() {

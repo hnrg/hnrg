@@ -30,6 +30,7 @@ import {
   ROL_UPDATE_SUCCESS,
   ROL_UPDATE_FAILURE,
 
+  ON_ROL_FORM_CLEAR,
   ON_ROL_FORM_FIELD_CHANGE,
 
   LOGOUT_SUCCESS,
@@ -153,6 +154,19 @@ export default function rolesReducer(state = InitialState, action) {
       };
 
       return fieldValidation(nextRolState, action);
+    }
+
+    case ON_ROL_FORM_CLEAR: {
+      return {
+        ...state,
+        error: null,
+        success: null,
+        fields: {
+          ...state.fields,
+          name: '',
+          permissions: null,
+        }
+      };
     }
 
     case ON_ROL_FORM_FIELD_CHANGE: {

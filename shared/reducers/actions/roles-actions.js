@@ -27,6 +27,7 @@ import {
   ROL_UPDATE_SUCCESS,
   ROL_UPDATE_FAILURE,
 
+  ON_ROL_FORM_CLEAR,
   ON_ROL_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
@@ -115,6 +116,60 @@ export function onRolFormFieldChange(field, value) {
   return {
     type: ON_ROL_FORM_FIELD_CHANGE,
     payload: { field, value },
+  };
+}
+
+export function onRolFormClear() {
+  return {
+    type: ON_ROL_FORM_CLEAR,
+  };
+}
+
+export function rolAddRequest() {
+  return {
+    type: ROL_ADD_REQUEST,
+  };
+}
+
+export function rolAddSuccess() {
+  return {
+    type: ROL_ADD_SUCCESS,
+  };
+}
+
+export function rolAddFailure(data) {
+  return {
+    type: ROL_ADD_FAILURE,
+    payload: data,
+  };
+}
+
+/**
+ * ## addRol
+ *
+ * The sessionToken is provided when Hot Loading.
+ *
+ * With the sessionToken, the server is called with the data to add
+ * If successful, get the rol so that the screen is updated with
+ * the data as now persisted on the serverx
+ *
+ */
+export function addRol(name, permissions, sessionToken) {
+  return (dispatch) => {
+    dispatch(rolAddRequest());
+    return authToken.getSessionToken(sessionToken)
+      .then(token => rolesRequest.init(token)
+        .addRol({
+          name,
+          permissions,
+        }))
+      .then(() => {
+        dispatch(rolAddSuccess());
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(rolAddFailure(error.response.data.error));
+      });
   };
 }
 
