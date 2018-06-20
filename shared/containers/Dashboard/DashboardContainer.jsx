@@ -16,6 +16,7 @@ import StatisticsPage from 'containers/Statistics';
 import UsersPage from 'containers/Users';
 import PatientsPage from 'containers/Patients';
 import DemographicDataPage from 'containers/DemographicData';
+import DemographicDataAnalyticsPage from 'containers/Analytics/DemographicData';
 
 import './styles.css';
 
@@ -78,6 +79,8 @@ class DashboardContainer extends Component {
             <Route path={`${match.path}/users/:username?`} component={UsersPage} />
             <Route path={`${match.path}/patients/:id?`} component={PatientsPage} />
             <Route path={`${match.path}/demographic-data/:id?`} component={DemographicDataPage} />
+            <Route path={`${match.path}/analytics/demographic-data`} component={DemographicDataAnalyticsPage} />
+            <Route path={`${match.path}/analytics/health-controls`} component={StatisticsPage} />
             <Route path={`${match.path}/roles/:name?`} component={RolesPage} />
           </Switch>
         </Layout>
