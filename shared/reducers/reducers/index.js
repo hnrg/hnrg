@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
 // import reducers
-import apartamentTypesReducer from './apartament-types';
+import apartmentTypesReducer from './apartment-types';
 import authReducer from './auth';
 import configurationReducer from './configuration';
 import documentTypesReducer from './document-types';
@@ -19,7 +19,7 @@ import waterTypesReducer from './water-types';
 
 export default combineReducers({
   form: formReducer,
-  apartamentTypes: apartamentTypesReducer,
+  apartmentTypes: apartmentTypesReducer,
   auth: authReducer,
   configuration: configurationReducer,
   documentTypes: documentTypesReducer,

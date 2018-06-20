@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as patientsActions from 'reducers/actions/patients-actions';
-import * as apartamentTypesActions from 'reducers/actions/apartament-types-actions';
+import * as apartmentTypesActions from 'reducers/actions/apartment-types-actions';
 import * as heatingTypesActions from 'reducers/actions/heating-types-actions';
 import * as waterTypesActions from 'reducers/actions/water-types-actions';
 
@@ -45,7 +45,7 @@ class DemographicDataContainer extends Component {
     } = this.props.patients;
 
     if (!this.props.match.params.id) {
-      this.props.actions.getApartamentTypes();
+      this.props.actions.getApartmentTypes();
       this.props.actions.getHeatingTypes();
       this.props.actions.getWaterTypes();
     }
@@ -88,7 +88,7 @@ class DemographicDataContainer extends Component {
 function mapStateToProps(state) {
   return {
     patients: state.patients,
-    apartamentTypes: state.apartamentTypes,
+    apartmentTypes: state.apartmentTypes,
     heatingTypes: state.heatingTypes,
     waterTypes: state.waterTypes,
   };
@@ -98,7 +98,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       ...patientsActions,
-      ...apartamentTypesActions,
+      ...apartmentTypesActions,
       ...heatingTypesActions,
       ...waterTypesActions,
     }, dispatch)

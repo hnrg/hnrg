@@ -1,7 +1,7 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-export default class ApartamentTypesRequest {
+export default class ApartmentTypesRequest {
   init(token = null) {
     this._sessionToken = _.isNull(token)
       ? null
@@ -10,8 +10,8 @@ export default class ApartamentTypesRequest {
     return this;
   }
 
-  getApartamentTypes() {
-    return axios.get('/api/apartament-types', {
+  getApartmentTypes() {
+    return axios.get('/api/apartment-types', {
       headers: {
         Authorization: this._sessionToken,
       },
@@ -27,4 +27,4 @@ export default class ApartamentTypesRequest {
 }
 
 // The singleton variable
-export const apartamentTypesRequest = new ApartamentTypesRequest();
+export const apartmentTypesRequest = new ApartmentTypesRequest();

@@ -8,6 +8,29 @@ import {
   GET_HEALTH_CONTROL_SUCCESS,
   GET_HEALTH_CONTROL_FAILURE,
 
+  HEALTH_CONTROL_ADD_REQUEST,
+  HEALTH_CONTROL_ADD_SUCCESS,
+  HEALTH_CONTROL_ADD_FAILURE,
+
+  HEALTH_CONTROL_DELETE_REQUEST,
+  HEALTH_CONTROL_DELETE_SUCCESS,
+  HEALTH_CONTROL_DELETE_FAILURE,
+
+  HEALTH_CONTROL_ENABLE_REQUEST,
+  HEALTH_CONTROL_ENABLE_SUCCESS,
+  HEALTH_CONTROL_ENABLE_FAILURE,
+
+  HEALTH_CONTROL_PERMISSION_DELETE_REQUEST,
+  HEALTH_CONTROL_PERMISSION_DELETE_SUCCESS,
+  HEALTH_CONTROL_PERMISSION_DELETE_FAILURE,
+
+  HEALTH_CONTROL_UPDATE_REQUEST,
+  HEALTH_CONTROL_UPDATE_SUCCESS,
+  HEALTH_CONTROL_UPDATE_FAILURE,
+
+  ON_HEALTH_CONTROL_FORM_CLEAR,
+  ON_HEALTH_CONTROL_FORM_FIELD_CHANGE,
+
   LOGOUT_SUCCESS,
 
   SET_STATE,
@@ -32,9 +55,15 @@ export default function healthControlsReducer(state = InitialState, action) {
      * ### Request starts
      * set the form to fetching and clear any errors
      */
-    case GET_HEALTH_CONTROLS_REQUEST: {
-      return { ...state, isFetching: true, error: null };
-    }
+     case GET_HEALTH_CONTROLS_REQUEST:
+     case GET_HEALTH_CONTROL_REQUEST:
+     case HEALTH_CONTROL_ADD_REQUEST:
+     case HEALTH_CONTROL_DELETE_REQUEST:
+     case HEALTH_CONTROL_ENABLE_REQUEST:
+     case HEALTH_CONTROL_UPDATE_REQUEST:
+     {
+       return { ...state, isFetching: true, error: null };
+     }
 
     /**
      * ### Request ends successfully
@@ -55,6 +84,22 @@ export default function healthControlsReducer(state = InitialState, action) {
       };
     }
 
+    case HEALTH_CONTROL_ADD_SUCCESS:
+    case HEALTH_CONTROL_DELETE_SUCCESS:
+    case HEALTH_CONTROL_ENABLE_SUCCESS:
+    case HEALTH_CONTROL_PERMISSION_DELETE_SUCCESS:
+    case HEALTH_CONTROL_UPDATE_SUCCESS:
+    {
+      return {
+        ...state,
+        isFetching: false,
+        totalCount: 0,
+        count: 0,
+        healthControls: null,
+        success: true,
+      };
+    }
+
     /**
      * User logged out, so reset form fields and original healthControl.
      *
@@ -71,19 +116,20 @@ export default function healthControlsReducer(state = InitialState, action) {
      * ### Request fails
      * we're done fetching and the error needs to be displayed to the user
      */
-    case GET_HEALTH_CONTROLS_FAILURE: {
+    case GET_HEALTH_CONTROLS_FAILURE:
+    case GET_HEALTH_CONTROL_FAILURE:
+    case HEALTH_CONTROL_ADD_FAILURE:
+    case HEALTH_CONTROL_DELETE_FAILURE:
+    case HEALTH_CONTROL_ENABLE_FAILURE:
+    case HEALTH_CONTROL_PERMISSION_DELETE_FAILURE:
+    case HEALTH_CONTROL_UPDATE_FAILURE:
+    {
       return {
         ...state,
         isFetching: false,
         error: action.payload,
+        success: null,
       };
-    }
-
-    /**
-     * ### Request starts
-     */
-    case GET_HEALTH_CONTROL_REQUEST: {
-      return { ...state, isFetching: true, error: null };
     }
 
     case GET_HEALTH_CONTROL_SUCCESS: {
@@ -129,14 +175,6 @@ export default function healthControlsReducer(state = InitialState, action) {
       return fieldValidation(nextHealthControlState, action);
     }
 
-    case GET_HEALTH_CONTROL_FAILURE: {
-      return {
-        ...state,
-        isFetching: false,
-        error: action.payload,
-      };
-    }
-
     /**
      * ### set the state
      *
@@ -151,6 +189,7 @@ export default function healthControlsReducer(state = InitialState, action) {
         ...state,
         disabled: healthControls.disabled,
         error: healthControls.error,
+        success: healthControls.success,
         isValid: healthControls.isValid,
         isFetching: healthControls.isFetching,
         healthControls: healthControls.healthControls,

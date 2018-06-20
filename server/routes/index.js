@@ -1,4 +1,4 @@
-const apartamentType = require('./apartament-type.routes');
+const apartmentType = require('./apartment-type.routes');
 const appointments = require('./appointment.routes');
 const auth = require('./auth.routes');
 const configurations = require('./configuration.routes');
@@ -14,7 +14,7 @@ const users = require('./user.routes');
 const waterType = require('./water-type.routes');
 
 module.exports = {
-  apartamentType,
+  apartmentType,
   appointments,
   auth,
   configurations,

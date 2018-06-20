@@ -160,6 +160,7 @@ exports.updateHealthControl = async function updateHealthControl(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_update');
 
+    /* FIXME hc wouldnt be updated. create newone */
     await healthControl.findByIdAndUpdate(req.params.id, req.body.healthControl)
       .exec((error, healthControl) => {
         if (error || healthControl == null) {

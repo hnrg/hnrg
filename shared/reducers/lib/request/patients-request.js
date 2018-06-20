@@ -99,7 +99,7 @@ export default class PatientsRequest {
     refrigerator,
     electricity,
     pet,
-    apartamentType,
+    apartmentType,
     hetingType,
     waterType,
   }) {
@@ -119,7 +119,7 @@ export default class PatientsRequest {
         refrigerator,
         electricity,
         pet,
-        apartamentType,
+        apartmentType,
         hetingType,
         waterType,
       },

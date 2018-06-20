@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const apartamentTypeSchema = new Schema({
+const apartmentTypeSchema = new Schema({
   name: { type: String, required: 'El campo `nombre` es requerido', unique: true },
 });
 
-module.exports = mongoose.model('ApartamentType', apartamentTypeSchema);
+module.exports = mongoose.model('ApartmentType', apartmentTypeSchema);

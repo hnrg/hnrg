@@ -83,7 +83,7 @@ app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 // server public assets and routes
 app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
-app.use('/api', routes.apartamentType);
+app.use('/api', routes.apartmentType);
 app.use('/api', routes.appointments);
 app.use('/api', routes.auth);
 app.use('/api', routes.configurations);

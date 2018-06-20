@@ -1,4 +1,4 @@
-export * from './apartament-types.constants';
+export * from './apartment-types.constants';
 export * from './auth.constants';
 export * from './configuration.constants';
 export * from './document-types.constants';

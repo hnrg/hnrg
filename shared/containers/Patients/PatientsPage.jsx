@@ -13,7 +13,7 @@ import {
 import * as patientsActions from 'reducers/actions/patients-actions';
 import * as medicalInsurancesActions from 'reducers/actions/medical-insurances-actions';
 import * as documentTypesActions from 'reducers/actions/document-types-actions';
-import * as apartamentTypesActions from 'reducers/actions/apartament-types-actions';
+import * as apartmentTypesActions from 'reducers/actions/apartment-types-actions';
 import * as heatingTypesActions from 'reducers/actions/heating-types-actions';
 import * as waterTypesActions from 'reducers/actions/water-types-actions';
 
@@ -26,7 +26,7 @@ import PatientEdit from 'components/Patients/Edit';
 import PatientsList from 'components/Patients/List';
 
 
-const panes = ({ loading, patients, documentTypes, medicalInsurances, apartamentTypes, heatingTypes, waterTypes }, actions) => [
+const panes = ({ loading, patients, documentTypes, medicalInsurances, apartmentTypes, heatingTypes, waterTypes }, actions) => [
   {
     menuItem: { key: 'patient', icon: 'heartbeat', content: ' Ver paciente' },
     render: () => <Tab.Pane loading={loading} padded='very'><PatientShow patient={patients.originalPatient} /></Tab.Pane>
@@ -44,7 +44,7 @@ const panes = ({ loading, patients, documentTypes, medicalInsurances, apartament
           updatePatient={actions.updatePatient}
           documentTypes={documentTypes.documentTypes}
           medicalInsurances={medicalInsurances.medicalInsurances}
-          apartamentTypes={apartamentTypes.apartamentTypes}
+          apartmentTypes={apartmentTypes.apartmentTypes}
           heatingTypes={heatingTypes.heatingTypes}
           waterTypes={waterTypes.waterTypes} />
       </Tab.Pane>
@@ -98,7 +98,7 @@ class PatientsContainer extends Component {
     if (!this.props.match.params.id) {
       this.props.actions.getDocumentTypes();
       this.props.actions.getMedicalInsurances();
-      this.props.actions.getApartamentTypes();
+      this.props.actions.getApartmentTypes();
       this.props.actions.getHeatingTypes();
       this.props.actions.getWaterTypes();
     }
@@ -204,7 +204,7 @@ function mapStateToProps(state) {
     patients: state.patients,
     documentTypes: state.documentTypes,
     medicalInsurances: state.medicalInsurances,
-    apartamentTypes: state.apartamentTypes,
+    apartmentTypes: state.apartmentTypes,
     heatingTypes: state.heatingTypes,
     waterTypes: state.waterTypes,
   };
@@ -216,7 +216,7 @@ function mapDispatchToProps(dispatch) {
       ...patientsActions,
       ...medicalInsurancesActions,
       ...documentTypesActions,
-      ...apartamentTypesActions,
+      ...apartmentTypesActions,
       ...heatingTypesActions,
       ...waterTypesActions,
     }, dispatch)

@@ -13,14 +13,14 @@ import {
  * ## Initial State
  *
  */
-import InitialState from 'reducers/states/apartament-types-state';
+import InitialState from 'reducers/states/apartment-types-state';
 
 /**
- * ## apartamentTypesReducer function
+ * ## apartmentTypesReducer function
  * @param {Object} state - initialState
  * @param {Object} action - type and payload
  */
-export default function apartamentTypesReducer(state = InitialState, action) {
+export default function apartmentTypesReducer(state = InitialState, action) {
   let nextPermissionState = null;
 
   switch (action.type) {
@@ -43,20 +43,20 @@ export default function apartamentTypesReducer(state = InitialState, action) {
     case GET_APARTAMENT_TYPES_SUCCESS: {
       return {
         ...state,
-        apartamentTypes: action.payload,
+        apartmentTypes: action.payload,
         isFetching: false,
         error: null,
       };
     }
 
     /**
-     * User logged out, so reset form fields and original apartamentType.
+     * User logged out, so reset form fields and original apartmentType.
      *
      */
     case LOGOUT_SUCCESS: {
       return nextPermissionState = {
         ...state,
-        apartamentTypes: [],
+        apartmentTypes: [],
         error: null,
       };
     }
@@ -75,14 +75,14 @@ export default function apartamentTypesReducer(state = InitialState, action) {
 
 
     case SET_STATE: {
-      const { apartamentTypes } = JSON.parse(action.payload);
+      const { apartmentTypes } = JSON.parse(action.payload);
 
       return {
         ...state,
-        error: apartamentTypes.error,
-        isValid: apartamentTypes.isValid,
-        isFetching: apartamentTypes.isFetching,
-        apartamentTypes: apartamentTypes.apartamentTypes,
+        error: apartmentTypes.error,
+        isValid: apartmentTypes.isValid,
+        isFetching: apartmentTypes.isFetching,
+        apartmentTypes: apartmentTypes.apartmentTypes,
       };
     }
 

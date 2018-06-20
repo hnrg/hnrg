@@ -1,11 +1,11 @@
 const { Router } = require('express');
 
 const configurationMiddleware = require('../modules/middleware/configuration');
-const ApartamentTypeController = require('../controllers/apartament-type.controller');
+const ApartmentTypeController = require('../controllers/apartment-type.controller');
 
 const router = Router();
 
-router.route('/apartament-types').get(configurationMiddleware, ApartamentTypeController.getApartamentTypes);
+router.route('/apartment-types').get(configurationMiddleware, ApartmentTypeController.getApartmentTypes);
 
 module.exports = router;
 

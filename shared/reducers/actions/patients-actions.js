@@ -165,7 +165,7 @@ export function updatePatient(
   refrigerator,
   electricity,
   pet,
-  apartamentType,
+  apartmentType,
   hetingType,
   waterType,
   sessionToken,
@@ -187,7 +187,7 @@ export function updatePatient(
           refrigerator,
           electricity,
           pet,
-          apartamentType,
+          apartmentType,
           hetingType,
           waterType,
         }))

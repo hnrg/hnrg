@@ -4,26 +4,26 @@ import {
   GET_APARTAMENT_TYPES_FAILURE,
 } from 'reducers/constants';
 
-import { apartamentTypesRequest } from 'reducers/lib/request/apartament-types-request';
+import { apartmentTypesRequest } from 'reducers/lib/request/apartment-types-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
 /**
  * ## retreiving profile actions
  */
-export function getApartamentTypesRequest() {
+export function getApartmentTypesRequest() {
   return {
     type: GET_APARTAMENT_TYPES_REQUEST,
   };
 }
 
-export function getApartamentTypesSuccess(apartamentTypes) {
+export function getApartmentTypesSuccess(apartmentTypes) {
   return {
     type: GET_APARTAMENT_TYPES_SUCCESS,
-    payload: apartamentTypes,
+    payload: apartmentTypes,
   };
 }
 
-export function getApartamentTypesFailure(error) {
+export function getApartmentTypesFailure(error) {
   return {
     type: GET_APARTAMENT_TYPES_FAILURE,
     payload: error,
@@ -36,17 +36,17 @@ export function getApartamentTypesFailure(error) {
  * controls which form is displayed to the user
  * as in login, register, logout or reset password
  */
-export function getApartamentTypes(pageNumber, sessionToken) {
+export function getApartmentTypes(pageNumber, sessionToken) {
   return (dispatch) => {
-    dispatch(getApartamentTypesRequest());
+    dispatch(getApartmentTypesRequest());
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
-      .then(token => apartamentTypesRequest.init(token).getApartamentTypes(pageNumber))
+      .then(token => apartmentTypesRequest.init(token).getApartmentTypes(pageNumber))
       .then((data) => {
-        dispatch(getApartamentTypesSuccess(data.apartamentTypes));
+        dispatch(getApartmentTypesSuccess(data.apartmentTypes));
       })
       .catch((error) => {
-        dispatch(getApartamentTypesFailure(error));
+        dispatch(getApartmentTypesFailure(error));
       });
   };
 }

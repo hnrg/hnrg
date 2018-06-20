@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const ApartmentType = require('./apartament-type');
+const ApartmentType = require('./apartment-type');
 const HeatingType = require('./heating-type');
 const WaterType = require('./water-type');
 

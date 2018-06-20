@@ -84,7 +84,7 @@ class Edit extends Component {
       fields.refrigerator,
       fields.electricity,
       fields.pet,
-      _fields.apartamentType,
+      _fields.apartmentType,
       fields.heatingType,
       fields.waterType,
       null
@@ -108,7 +108,7 @@ class Edit extends Component {
       return { key: elem.name, value: elem._id, text: elem.name };
     });
 
-    const apartamentTypesOptions = Array.from(this.props.apartamentTypes || []).map((elem) => {
+    const apartmentTypesOptions = Array.from(this.props.apartmentTypes || []).map((elem) => {
       return { key: elem.name, value: elem._id, text: elem.name }
     });
 
@@ -218,13 +218,13 @@ class Edit extends Component {
         <Form.Group>
           <Form.Select
             width={5}
-            label={fields.apartamentTypeErrorMsg || 'Tipo de vivienda'}
-            name='apartamentType'
+            label={fields.apartmentTypeErrorMsg || 'Tipo de vivienda'}
+            name='apartmentType'
             placeholder='Tipo de vivienda'
             onChange={this.handleChange}
-            value={fields.apartamentType ? fields.apartamentType._id : fields.apartamentType}
-            options={apartamentTypesOptions}
-            error={fields.apartamentTypeHasError} />
+            value={fields.apartmentType ? fields.apartmentType._id : fields.apartmentType}
+            options={apartmentTypesOptions}
+            error={fields.apartmentTypeHasError} />
           <Form.Select
             width={6}
             label={fields.heatingTypeErrorMsg || 'Tipo de calefacción'}

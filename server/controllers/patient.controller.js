@@ -270,7 +270,7 @@ exports.updatePatient = async function updatePatient(req, res, next) {
             && req.body.demographicData.refrigerator
             && req.body.demographicData.electricity
             && req.body.demographicData.pet
-            && req.body.demographicData.apartamentType
+            && req.body.demographicData.apartmentType
             && req.body.demographicData.heatingType
             && req.body.demographicData.waterType
         ) {

@@ -1,5 +1,5 @@
 export default {
-  apartamentTypes: null,
+  apartmentTypes: null,
   error: null,
   isValid: false,
   isFetching: false,
