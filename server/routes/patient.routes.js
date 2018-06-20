@@ -13,6 +13,8 @@ router.route('/patients').get(requireAuth, configurationMiddleware, PatientContr
 
 router.route('/patients').post(requireAuth, configurationMiddleware, PatientController.addPatient);
 
+router.route('/patients/analytics').get(requireAuth, configurationMiddleware, PatientController.getDemographicDataAnalytics);
+
 router.route('/patients/:id').post(requireAuth, configurationMiddleware, PatientController.updatePatient);
 
 router.route('/patients/:id').get(requireAuth, configurationMiddleware, PatientController.getPatient);
