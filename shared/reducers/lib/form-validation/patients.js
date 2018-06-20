@@ -24,7 +24,13 @@ export default function formValidation(state) {
      state.fields.demographicData !== state.originalPatient.demographicData ||
      state.fields.medicalInsurance !== state.originalPatient.medicalInsurance ||
      state.fields.documentType !== state.originalPatient.documentType ||
-     state.fields.documentNumber !== state.originalPatient.documentNumber)
+     state.fields.documentNumber !== state.originalPatient.documentNumber ||
+     state.fields.refrigerator !== state.originalPatient.refrigerator ||
+     state.fields.electricity !== state.originalPatient.electricity ||
+     state.fields.pet !== state.originalPatient.pet ||
+     state.fields.apartmentType !== state.originalPatient.apartmentType ||
+     state.fields.heatingType !== state.originalPatient.heatingType ||
+     state.fields.waterType !== state.originalPatient.waterType)
   );
 
   return {

@@ -104,6 +104,7 @@ export function getPatient(patient, sessionToken) {
         dispatch(getPatientSuccess(data.patient));
       })
       .catch((error) => {
+        console.log(error);
         dispatch(getPatientFailure(error.response.data.error));
       });
   };
@@ -166,7 +167,7 @@ export function updatePatient(
   electricity,
   pet,
   apartmentType,
-  hetingType,
+  heatingType,
   waterType,
   sessionToken,
 ) {
@@ -188,7 +189,7 @@ export function updatePatient(
           electricity,
           pet,
           apartmentType,
-          hetingType,
+          heatingType,
           waterType,
         }))
       .then(() => {

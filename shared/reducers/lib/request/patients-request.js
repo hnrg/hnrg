@@ -100,7 +100,7 @@ export default class PatientsRequest {
     electricity,
     pet,
     apartmentType,
-    hetingType,
+    heatingType,
     waterType,
   }) {
     return axios.post(`/api/patients/${originalPatient}`, {
@@ -120,7 +120,7 @@ export default class PatientsRequest {
         electricity,
         pet,
         apartmentType,
-        hetingType,
+        heatingType,
         waterType,
       },
     }, {
