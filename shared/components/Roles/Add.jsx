@@ -16,14 +16,15 @@ const options = (permissions) => {
   });
 };
 
-class Edit extends Component {
+class Add extends Component {
   constructor(props) {
     super(props);
+
+    this.props.onMount();
 
     this.state = {
       isValid: this.props.isValid,
       isFetching: this.props.isFetching,
-      originalRol: this.props.rol,
       fields: this.props.fields,
       permissions: this.props.permissions.map(p => p.name),
     };
@@ -33,10 +34,9 @@ class Edit extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { rol, fields, isValid, isFetching, permissions } = props;
+    const { fields, isValid, isFetching, permissions } = props;
 
     this.setState({
-      originalRol: rol,
       fields,
       isValid,
       isFetching,
@@ -45,10 +45,9 @@ class Edit extends Component {
   }
 
   componentDidMount() {
-    const { rol, fields, isValid, isFetching, permissions } = this.props;
+    const { fields, isValid, isFetching, permissions } = this.props;
 
     this.setState({
-      originalRol: rol,
       fields,
       isValid,
       isFetching,
@@ -70,10 +69,9 @@ class Edit extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const { originalRol, fields } = this.state;
+    const { fields } = this.state;
 
-    this.props.updateRol(
-      originalRol.name,
+    this.props.addRol(
       fields.name,
       fields.permissions,
       null
@@ -81,7 +79,7 @@ class Edit extends Component {
   }
 
   render() {
-    const { originalRol, fields, isValid, isFetching, permissions } = this.state;
+    const { fields, isValid, isFetching, permissions } = this.state;
 
     return(
       <Form onSubmit={this.handleSubmit}>
@@ -101,7 +99,7 @@ class Edit extends Component {
             width={16}
             multiple
             onChange={this.handleChange}
-            value={fields.permissions}
+            value={fields.permissions || []}
             options={options(permissions)}
             error={fields.permissionsHasError} />
         </Form.Group>
@@ -114,4 +112,4 @@ class Edit extends Component {
   }
 }
 
-export default Edit;
+export default Add;
