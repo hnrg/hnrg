@@ -8,6 +8,8 @@ import {
   Icon,
 } from 'semantic-ui-react';
 
+import DemographicDataEdit from 'components/DemographicData/Edit';
+
 class Edit extends Component {
   constructor(props) {
     super(props);
@@ -214,61 +216,13 @@ class Edit extends Component {
             error={fields.medicalInsuranceHasError} />
         </Form.Group>
         <Divider horizontal section>Datos demográficos</Divider>
-        <Form.Group>
-          <Form.Select
-            width={5}
-            label={fields.apartmentTypeErrorMsg || 'Tipo de vivienda'}
-            name='apartmentType'
-            placeholder='Tipo de vivienda'
-            onChange={this.handleChange}
-            value={fields.apartmentType ? fields.apartmentType._id : fields.apartmentType}
-            options={apartmentTypesOptions}
-            error={fields.apartmentTypeHasError} />
-          <Form.Select
-            width={6}
-            label={fields.heatingTypeErrorMsg || 'Tipo de calefacción'}
-            name='heatingType'
-            placeholder='Tipo de calefacción'
-            onChange={this.handleChange}
-            value={fields.heatingType ? fields.heatingType._id : fields.heatingType}
-            options={heatingTypesOptions}
-            error={fields.heatingTypeHasError} />
-          <Form.Select
-            width={5}
-            label={fields.waterTypeErrorMsg || 'Tipo de agua'}
-            name='waterType'
-            placeholder='Tipo de agua'
-            onChange={this.handleChange}
-            value={fields.waterType ? fields.waterType._id : fields.waterType}
-            options={waterTypesOptions}
-            error={fields.waterTypeHasError} />
-        </Form.Group>
-        <Form.Group>
-          <Form.Checkbox
-            width={5}
-            label={fields.refrigeratorErrorMsg || 'Refrigerador'}
-            checked={fields.refrigerator}
-            value={fields.refrigerator ? 'on' : 'off' }
-            name='refrigerator'
-            error={fields.refrigeratorHasError}
-            onChange={this.handleChange} />
-          <Form.Checkbox
-            width={6}
-            label={fields.refrigeratorErrorMsg || 'Electricidad'}
-            checked={fields.electricity}
-            value={fields.electricity ? 'on' : 'off' }
-            name='electricity'
-            error={fields.electricityHasError}
-            onChange={this.handleChange} />
-          <Form.Checkbox
-            width={5}
-            label={fields.petErrorMsg || 'Mascotas'}
-            checked={fields.pet}
-            value={fields.pet ? 'on' : 'off' }
-            name='pet'
-            error={fields.petHasError}
-            onChange={this.handleChange} />
-        </Form.Group>
+        <DemographicDataEdit
+          fields={fields}
+          apartmentTypesOptions={apartmentTypesOptions}
+          heatingTypesOptions={heatingTypesOptions}
+          waterTypesOptions={waterTypesOptions}
+          handleChange={this.handleChange.bind(this)} />
+        <Divider hidden />
         <Button disabled={!isValid || isFetching} color='teal' fluid size='large'>
           <Icon name='save' size='small' />
           Guardar

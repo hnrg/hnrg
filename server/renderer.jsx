@@ -25,6 +25,7 @@ const render = html => `
           <meta property="og:site_name" content="Hospital Gutiérrez"/>
           <meta property="og:description" content="Plataforma web para el Hospital Gutiérrez"/>
           <meta property="og:image" content="https://grupo5.proyecto2017.linti.unlp.edu.ar/web/assets/images/icon.png"/>
+          <script src="//www.gstatic.com/charts/loader.js"></script>
           <title>Hospital de Niños Ricardo Gutiérrez</title>
         </head>
         <body>
