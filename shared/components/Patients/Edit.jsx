@@ -1,6 +1,5 @@
 import moment from 'moment';
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {
   Button,
   Divider,
@@ -84,7 +83,7 @@ class Edit extends Component {
       fields.refrigerator,
       fields.electricity,
       fields.pet,
-      _fields.apartmentType,
+      fields.apartmentType,
       fields.heatingType,
       fields.waterType,
       null
