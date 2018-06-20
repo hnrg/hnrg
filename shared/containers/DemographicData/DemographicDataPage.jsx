@@ -11,8 +11,6 @@ import * as waterTypesActions from 'reducers/actions/water-types-actions';
 
 import Footer from 'components/Footer';
 import TopMenu from 'components/TopMenu';
-//import DemographicDataAdd from 'components/DemographicData/Add';
-//import DemographicDataEdit from 'components/DemographicData/Edit';
 import DemographicDataList from 'components/DemographicData/List';
 
 
