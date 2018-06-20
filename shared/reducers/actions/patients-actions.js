@@ -74,12 +74,12 @@ export function getPatientFailure(error) {
  * controls which form is displayed to the patient
  * as in login, register, logout or reset password
  */
-export function getPatients(pageNumber, firtsName, lastName, documentType, documentNumber, sessionToken) {
+export function getPatients(pageNumber, firtsName, lastName, documentType, documentNumber, demographicData, sessionToken) {
   return (dispatch) => {
     dispatch(getPatientsRequest());
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
-      .then(token => patientsRequest.init(token).getPatients(pageNumber, firtsName, lastName, documentType, documentNumber))
+      .then(token => patientsRequest.init(token).getPatients(pageNumber, firtsName, lastName, documentType, documentNumber, demographicData))
       .then((data) => {
         dispatch(getPatientsSuccess(data));
       })
@@ -162,6 +162,12 @@ export function updatePatient(
   medicalInsurance,
   documentType,
   documentNumber,
+  refrigerator,
+  electricity,
+  pet,
+  apartamentType,
+  hetingType,
+  waterType,
   sessionToken,
 ) {
   return (dispatch) => {
@@ -178,6 +184,12 @@ export function updatePatient(
           medicalInsurance,
           documentType,
           documentNumber,
+          refrigerator,
+          electricity,
+          pet,
+          apartamentType,
+          hetingType,
+          waterType,
         }))
       .then(() => {
         dispatch(patientUpdateSuccess());

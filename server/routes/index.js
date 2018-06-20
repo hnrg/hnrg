@@ -2,7 +2,6 @@ const apartamentType = require('./apartament-type.routes');
 const appointments = require('./appointment.routes');
 const auth = require('./auth.routes');
 const configurations = require('./configuration.routes');
-const demographicData = require('./demographic-data.routes');
 const documentTypes = require('./document-types.routes');
 const healthControl = require('./health-control.routes');
 const heatingType = require('./heating-type.routes');
@@ -19,7 +18,6 @@ module.exports = {
   appointments,
   auth,
   configurations,
-  demographicData,
   documentTypes,
   healthControl,
   heatingType,

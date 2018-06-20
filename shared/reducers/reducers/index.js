@@ -5,7 +5,6 @@ import { reducer as formReducer } from 'redux-form';
 import apartamentTypesReducer from './apartament-types';
 import authReducer from './auth';
 import configurationReducer from './configuration';
-import demographicDataReducer from './demographic-data';
 import documentTypesReducer from './document-types';
 import globalReducer from './global';
 import profileReducer from './profile';
@@ -23,7 +22,6 @@ export default combineReducers({
   apartamentTypes: apartamentTypesReducer,
   auth: authReducer,
   configuration: configurationReducer,
-  demographicData: demographicDataReducer,
   documentTypes: documentTypesReducer,
   global: globalReducer,
   profile: profileReducer,

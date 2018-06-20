@@ -1,4 +1,5 @@
 const Patient = require('../models/patient');
+const DemographicData = require('../models/demographic-data');
 
 const permissionsCheck = require('../modules/permissions-check');
 
@@ -17,6 +18,7 @@ exports.getPatients = async function getPatients(req, res, next) {
     const lastName = new RegExp(req.query.lastName || '', 'i');
     const documentNumber = req.query.documentNumber || 0;
     const documentType = req.query.documentType;
+    const demographicData = req.query.demographicData || null;
     const { pageNumber, configuration } = req;
     const { webpage } = configuration;
     const { amountPerPage } = webpage;
@@ -32,6 +34,11 @@ exports.getPatients = async function getPatients(req, res, next) {
 
     if (documentType) {
       where.documentType = documentType;
+    }
+
+
+    if (demographicData !== null) {
+      where.demographicData = demographicData ? { $ne: null } : { $eq: null };
     }
 
     await Patient.count(where)
@@ -251,7 +258,37 @@ exports.updatePatient = async function updatePatient(req, res, next) {
       .exec((err, patient) => {
         if (err || patient == null) {
           res.status(422).json({ error: 'No patient was found with that id.' });
-          throw next(err);
+          return;
+        }
+
+        if (req.body.demographicData
+            && req.body.demographicData.refrigerator
+            && req.body.demographicData.electricity
+            && req.body.demographicData.pet
+            && req.body.demographicData.apartamentType
+            && req.body.demographicData.heatingType
+            && req.body.demographicData.waterType
+        ) {
+          if (patient.demographicData) {
+            DemographicData.findByIdAndUpdate(patient.demographicData, req.body.demographicData)
+              .exec(($err, demographicData) => {
+                if ($err) {
+                  throw $err;
+                }
+
+                return res.status(200).json({ patient });
+              });
+          } else {
+            demographicData = new DemographicData(req.body.demographicData);
+            demographicData.save(($err, saved) => {
+              if ($err) {
+                throw $err;
+              }
+              patient.demographicData = saved._id;
+
+              return res.status(200).json({ patient });
+            });
+          }
         }
 
         return res.status(200).json({ patient });

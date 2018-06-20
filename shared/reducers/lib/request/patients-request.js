@@ -10,7 +10,7 @@ export default class PatientsRequest {
     return this;
   }
 
-  getPatients(pageNumber = 0, firstName = '', lastName = '', documentType = null, documentNumber = null) {
+  getPatients(pageNumber = 0, firstName = '', lastName = '', documentType = null, documentNumber = null, demographicData = null) {
     return axios.get(
       '/api/patients',
       {
@@ -20,6 +20,7 @@ export default class PatientsRequest {
           lastName: lastName.trim(),
           documentType,
           documentNumber,
+          demographicData,
         },
         headers: {
           Authorization: this._sessionToken,
@@ -86,7 +87,21 @@ export default class PatientsRequest {
   }
 
   updatePatient(originalPatient, {
-    firstName, lastName, address, phone, birthday, sex, medicalInsurance, documentType, documentNumber,
+    firstName,
+    lastName,
+    address,
+    phone,
+    birthday,
+    sex,
+    medicalInsurance,
+    documentType,
+    documentNumber,
+    refrigerator,
+    electricity,
+    pet,
+    apartamentType,
+    hetingType,
+    waterType,
   }) {
     return axios.post(`/api/patients/${originalPatient}`, {
       patient: {
@@ -99,6 +114,14 @@ export default class PatientsRequest {
         medicalInsurance,
         documentType,
         documentNumber,
+      },
+      demographicData: {
+        refrigerator,
+        electricity,
+        pet,
+        apartamentType,
+        hetingType,
+        waterType,
       },
     }, {
       headers: {
