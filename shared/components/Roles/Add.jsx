@@ -4,6 +4,7 @@ import {
   Button,
   Form,
   Icon,
+  Message,
 } from 'semantic-ui-react';
 
 const options = (permissions) => {
@@ -80,34 +81,44 @@ class Add extends Component {
 
   render() {
     const { fields, isValid, isFetching, permissions } = this.state;
+    const { error, success } = this.props;
 
     return(
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Group>
-          <Form.Input
-            label={fields.nameErrorMsg || 'Nombre'}
-            name='name'
-            placeholder='Nombre'
-            width={16}
-            onChange={this.handleChange}
-            value={fields.name}
-            error={fields.nameHasError} />
-          <Form.Select
-            label={fields.permissionsErrorMsg || 'Permisos'}
-            name='permissions'
-            placeholder='Permisos'
-            width={16}
-            multiple
-            onChange={this.handleChange}
-            value={fields.permissions || []}
-            options={options(permissions)}
-            error={fields.permissionsHasError} />
-        </Form.Group>
-        <Button disabled={!isValid || isFetching} color='teal' fluid size='large'>
-          <Icon name='save' size='small' />
-          Guardar
-        </Button>
-      </Form>
+      <div>
+        {success && <Message positive>
+          <Message.Header>La operación fué realizada con éxito.</Message.Header>
+        </Message>}
+        {error && <Message negative>
+          <Message.Header>Existen errores</Message.Header>
+          <p>{error}</p>
+        </Message>}
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group>
+            <Form.Input
+              label={fields.nameErrorMsg || 'Nombre'}
+              name='name'
+              placeholder='Nombre'
+              width={16}
+              onChange={this.handleChange}
+              value={fields.name}
+              error={fields.nameHasError} />
+            <Form.Select
+              label={fields.permissionsErrorMsg || 'Permisos'}
+              name='permissions'
+              placeholder='Permisos'
+              width={16}
+              multiple
+              onChange={this.handleChange}
+              value={fields.permissions || []}
+              options={options(permissions)}
+              error={fields.permissionsHasError} />
+          </Form.Group>
+          <Button disabled={!isValid || isFetching} color='teal' fluid size='large'>
+            <Icon name='save' size='small' />
+            Guardar
+          </Button>
+        </Form>
+      </div>
     );
   }
 }

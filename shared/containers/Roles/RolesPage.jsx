@@ -20,7 +20,7 @@ import RolEdit from 'components/Roles/Edit';
 import RolesList from 'components/Roles/List';
 import RolShow from 'components/Roles/Show';
 
-const panes = ({ loading, originalRol, fields, isValid, isFetching, permissions }, actions) => [
+const panes = ({ loading, originalRol, fields, isValid, isFetching, permissions, error, success }, actions) => [
   {
     menuItem: { key: 'rol', icon: 'certificate', content: 'Ver rol' },
     render: () => (
@@ -39,6 +39,8 @@ const panes = ({ loading, originalRol, fields, isValid, isFetching, permissions 
         <RolEdit
           rol={originalRol}
           permissions={permissions}
+          error={error}
+          success={success}
           fields={fields}
           isValid={isValid}
           isFetching={isFetching}
@@ -226,6 +228,8 @@ class RolesContainer extends Component {
       fields={this.state.fields}
       isValid={this.state.isValid}
       isFetching={this.state.isFetching}
+      error={this.state.error}
+      success={this.state.success}
       onMount={this.props.actions.onRolFormClear}
       onFormFieldChange={this.props.actions.onRolFormFieldChange}
       addRol={this.props.actions.addRol} />
