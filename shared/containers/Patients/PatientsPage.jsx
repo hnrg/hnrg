@@ -13,6 +13,10 @@ import {
 import * as patientsActions from 'reducers/actions/patients-actions';
 import * as medicalInsurancesActions from 'reducers/actions/medical-insurances-actions';
 import * as documentTypesActions from 'reducers/actions/document-types-actions';
+import * as apartamentTypesActions from 'reducers/actions/apartament-types-actions';
+import * as heatingTypesActions from 'reducers/actions/heating-types-actions';
+import * as waterTypesActions from 'reducers/actions/water-types-actions';
+
 
 import Footer from 'components/Footer';
 import TopMenu from 'components/TopMenu';
@@ -22,7 +26,7 @@ import PatientEdit from 'components/Patients/Edit';
 import PatientsList from 'components/Patients/List';
 
 
-const panes = ({ loading, patients, documentTypes, medicalInsurances }, actions) => [
+const panes = ({ loading, patients, documentTypes, medicalInsurances, apartamentTypes, heatingTypes, waterTypes }, actions) => [
   {
     menuItem: { key: 'patient', icon: 'heartbeat', content: ' Ver paciente' },
     render: () => <Tab.Pane loading={loading} padded='very'><PatientShow patient={patients.originalPatient} /></Tab.Pane>
@@ -39,7 +43,10 @@ const panes = ({ loading, patients, documentTypes, medicalInsurances }, actions)
           onFormFieldChange={actions.onPatientFormFieldChange}
           updatePatient={actions.updatePatient}
           documentTypes={documentTypes.documentTypes}
-          medicalInsurances={medicalInsurances.medicalInsurances} />
+          medicalInsurances={medicalInsurances.medicalInsurances}
+          apartamentTypes={apartamentTypes.apartamentTypes}
+          heatingTypes={heatingTypes.heatingTypes}
+          waterTypes={waterTypes.waterTypes} />
       </Tab.Pane>
     ),
   },
@@ -51,6 +58,7 @@ class PatientsContainer extends Component {
     super(props);
 
     this.state = {
+      ...this.props,
       loading: true,
       currentView: 'patientsList',
       patients: {
@@ -61,27 +69,13 @@ class PatientsContainer extends Component {
         documentType: null,
         documentNumber: null,
       },
-      medicalInsurances: {
-        ...this.props.medicalInsurances,
-      },
-      documentTypes: {
-        ...this.props.documentTypes,
-      },
     };
   }
 
   componentWillReceiveProps(props) {
     this.setState({
+      ...props,
       loading: props.patients.fields.documentNumber === null,
-      patients: {
-        ...props.patients,
-      },
-      medicalInsurances: {
-        ...props.medicalInsurances,
-      },
-      documentTypes: {
-        ...props.documentTypes,
-      },
     });
   }
 
@@ -104,6 +98,9 @@ class PatientsContainer extends Component {
     if (!this.props.match.params.id) {
       this.props.actions.getDocumentTypes();
       this.props.actions.getMedicalInsurances();
+      this.props.actions.getApartamentTypes();
+      this.props.actions.getHeatingTypes();
+      this.props.actions.getWaterTypes();
     }
 
     if (!this.props.match.params.id && this.state.patients.patients === null) {
@@ -114,16 +111,11 @@ class PatientsContainer extends Component {
     }
 
     this.setState({
+      ...this.props,
       loading: false,
       patients: {
         ...this.state.patients,
         ...this.props.patients,
-      },
-      medicalInsurances: {
-        ...this.props.medicalInsurances,
-      },
-      documentTypes: {
-        ...this.props.documentTypes,
       },
     });
   }
@@ -212,6 +204,9 @@ function mapStateToProps(state) {
     patients: state.patients,
     documentTypes: state.documentTypes,
     medicalInsurances: state.medicalInsurances,
+    apartamentTypes: state.apartamentTypes,
+    heatingTypes: state.heatingTypes,
+    waterTypes: state.waterTypes,
   };
 }
 
@@ -221,6 +216,9 @@ function mapDispatchToProps(dispatch) {
       ...patientsActions,
       ...medicalInsurancesActions,
       ...documentTypesActions,
+      ...apartamentTypesActions,
+      ...heatingTypesActions,
+      ...waterTypesActions,
     }, dispatch)
   };
 }
