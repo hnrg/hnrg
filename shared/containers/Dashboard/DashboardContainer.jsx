@@ -15,6 +15,7 @@ import SettingsPage from 'containers/Settings';
 import StatisticsPage from 'containers/Statistics';
 import UsersPage from 'containers/Users';
 import PatientsPage from 'containers/Patients';
+import DemographicDataPage from 'containers/DemographicData';
 
 import './styles.css';
 
@@ -76,6 +77,7 @@ class DashboardContainer extends Component {
             <Route path={`${match.path}/settings`} component={SettingsPage} />
             <Route path={`${match.path}/users/:username?`} component={UsersPage} />
             <Route path={`${match.path}/patients/:id?`} component={PatientsPage} />
+            <Route path={`${match.path}/demographic-data/:id?`} component={DemographicDataPage} />
             <Route path={`${match.path}/roles/:name?`} component={RolesPage} />
           </Switch>
         </Layout>
@@ -91,7 +93,7 @@ function mapStateToProps(state) {
     global: {
       currentUser: state.global.currentUser,
       currentState: state.global.currentState,
-      showState: state.global.showState
+      showState: state.global.showState,
     }
   };
 }
@@ -101,7 +103,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       ...authActions,
       ...profileActions,
-      ...globalActions
+      ...globalActions,
     }, dispatch)
   };
 }
