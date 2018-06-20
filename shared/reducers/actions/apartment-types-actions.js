@@ -7,6 +7,8 @@ import {
 import { apartmentTypesRequest } from 'reducers/lib/request/apartment-types-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
+import { errorHandler } from 'helpers/error-handler';
+
 /**
  * ## retreiving profile actions
  */
@@ -46,7 +48,7 @@ export function getApartmentTypes(pageNumber, sessionToken) {
         dispatch(getApartmentTypesSuccess(data.apartmentTypes));
       })
       .catch((error) => {
-        dispatch(getApartmentTypesFailure(error));
+        dispatch(getApartmentTypesFailure(errorHandler(error)));
       });
   };
 }

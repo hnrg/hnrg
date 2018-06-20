@@ -27,6 +27,7 @@ import {
   ON_USER_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
+import { errorHandler } from 'helpers/error-handler';
 import { usersRequest } from 'reducers/lib/request/users-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
@@ -60,7 +61,7 @@ export function getUsers(pageNumber, username, active, sessionToken) {
         dispatch(getUsersSuccess(data));
       })
       .catch((error) => {
-        dispatch(getUsersFailure(error.response.data.error));
+        dispatch(getUsersFailure(errorHandler(error)));
       });
   };
 }
@@ -103,7 +104,7 @@ export function getUser(username, sessionToken) {
         dispatch(getUserSuccess(data.user));
       })
       .catch((error) => {
-        dispatch(getUserFailure(error.response.data.error));
+        dispatch(getUserFailure(errorHandler(error)));
       });
   };
 }
@@ -166,7 +167,7 @@ export function updateUser(originalUsername, username, email, firstName, lastNam
         dispatch(getUser(username));
       })
       .catch((error) => {
-        dispatch(userUpdateFailure(error.response.data.error));
+        dispatch(userUpdateFailure(errorHandler(error)));
       });
   };
 }
@@ -216,7 +217,7 @@ export function addUser(username, email, password, firstName, lastName, sessionT
         dispatch(userAddSuccess());
       })
       .catch((error) => {
-        dispatch(userAddFailure(error.response.data.error));
+        dispatch(userAddFailure(errorHandler(error)));
       });
   };
 }
@@ -258,7 +259,7 @@ export function deleteUser(username, sessionToken) {
         dispatch(getUsers());
       })
       .catch((error) => {
-        dispatch(userDeleteFailure(error.response.data.error));
+        dispatch(userDeleteFailure(errorHandler(error)));
       });
   };
 }
@@ -300,7 +301,7 @@ export function enableUser(username, sessionToken) {
         dispatch(getUsers());
       })
       .catch((error) => {
-        dispatch(userEnableFailure(error.response.data.error));
+        dispatch(userEnableFailure(errorHandler(error)));
       });
   };
 }
