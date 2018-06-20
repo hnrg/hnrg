@@ -67,6 +67,12 @@ class Sidebar extends Component {
             Roles
           </TextIcon>
         </Menu.Item>
+        <Menu.Item as={Link} to={'/dashboard/analytics/demographic-data'} name='analytics-demographic-data'
+                   active={activeItem === 'analytics-demographic-data'}>
+          <TextIcon hideText={this.props.smallMenu} color={activeItem == 'analytics-demographic-data' ? 'red' : undefined } name='chart bar'>
+            Estadísticas
+          </TextIcon>
+        </Menu.Item>
       </Menu>
     );
   }
