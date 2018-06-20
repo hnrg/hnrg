@@ -1,5 +1,5 @@
 import fieldValidation from 'reducers/lib/field-validation/patients';
-import formValidation from './patients-form';
+import formValidation from 'reducers/lib/form-validation/patients';
 
 import {
   GET_PATIENTS_REQUEST,
@@ -125,6 +125,21 @@ export default function patientsReducer(state = InitialState, action) {
         error: null,
       };
 
+      if (action.payload.demographicData !== null) {
+        nextPatientState = {
+          ...nextPatientState,
+          fields: {
+            ...nextPatientState.state.fields,
+            refrigerator: action.payload.demographicData.refrigerator,
+            electricity: action.payload.demographicData.electricity,
+            pet: action.payload.demographicData.pet,
+            apartmentType: action.payload.demographicData.apartmentType,
+            heatingType: action.payload.demographicData.heatingType,
+            waterType: action.payload.demographicData.waterType,
+          },
+        };
+      }
+
       return fieldValidation(nextPatientState, action);
     }
 
@@ -142,7 +157,7 @@ export default function patientsReducer(state = InitialState, action) {
           addressHasError: false,
           addressErrorMsg: '',
           phone: '',
-          phoneHasError: false,
+          phoneNHasError: false,
           phoneErrorMsg: '',
           birthday: '',
           birthdayHasError: false,
@@ -150,15 +165,39 @@ export default function patientsReducer(state = InitialState, action) {
           sex: '',
           sexHasError: false,
           sexErrorMsg: '',
+          demographicData: null,
+          demographicDataHasError: false,
+          demographicDataErrorMsg: '',
           medicalInsurance: null,
           medicalInsuranceHasError: false,
           medicalInsuranceErrorMsg: '',
           documentType: null,
           documentTypeHasError: false,
           documentTypeErrorMsg: '',
-          documentNumber: null,
+          documentNumber: 0,
           documentNumberHasError: false,
           documentNumberErrorMsg: '',
+          refrigerator: null,
+          refrigeratorHasError: false,
+          refrigeratorErrorMsg: '',
+          electricity: null,
+          electricityHasError: false,
+          electricityErrorMsg: '',
+          pet: null,
+          petHasError: false,
+          petErrorMsg: '',
+          apartmentType: null,
+          apartmentTypeHasError: false,
+          apartmentTypeErrorMsg: '',
+          heatingType: null,
+          heatingTypeHasError: false,
+          heatingTypeErrorMsg: '',
+          waterType: null,
+          waterTypeHasError: false,
+          waterTypeErrorMsg: '',
+          deleted: null,
+          deletedHasError: false,
+          deletedErrorMsg: '',
         },
       };
     }
