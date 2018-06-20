@@ -95,7 +95,7 @@ class Show extends Component {
           <Grid.Row>
             <Grid.Column style={{paddingBottom: '20px'}} computer={5} largeScreen={5} tablet={16} mobile={16}>
               <Header as='h4' content='Obra social'/>
-              {medicalInsurance && medicalInsurance.name}
+              {medicalInsurance && medicalInsurance.name || '---'}
             </Grid.Column>
             <Grid.Column style={{paddingBottom: '20px'}} computer={6} largeScreen={6} tablet={16} mobile={16}>
               <Header as='h4' content='Tipo de documento'/>
