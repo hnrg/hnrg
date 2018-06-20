@@ -58,7 +58,12 @@ exports.getPatients = async function getPatients(req, res, next) {
         const patients = Patient.find(where)
           .limit(amountPerPage)
           .skip(amountPerPage * pageNumber)
-          .populate('demographicData')
+          .populate({
+            path: 'demographicData',
+            populate: {
+              path: "apartmentType heatingType waterType"
+            },
+          })
           .populate('medicalInsurance')
           .populate('documentType')
           .exec(($err, patients) => {
