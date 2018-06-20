@@ -158,7 +158,12 @@ exports.getPatient = async function getPatient(req, res, next) {
 
     await Patient.findById(req.params.id)
       .where('deleted').equals(false)
-      .populate('demographicData')
+      .populate({
+        path: 'demographicData',
+        populate: {
+          path: "apartmentType heatingType waterType"
+        },
+      })
       .populate('medicalInsurance')
       .populate('documentType')
       .exec((err, patient) => {
@@ -266,14 +271,7 @@ exports.updatePatient = async function updatePatient(req, res, next) {
           return;
         }
 
-        if (req.body.demographicData
-            && req.body.demographicData.refrigerator
-            && req.body.demographicData.electricity
-            && req.body.demographicData.pet
-            && req.body.demographicData.apartmentType
-            && req.body.demographicData.heatingType
-            && req.body.demographicData.waterType
-        ) {
+        if (req.body.demographicData) {
           if (patient.demographicData) {
             DemographicData.findByIdAndUpdate(patient.demographicData, req.body.demographicData)
               .exec(($err, demographicData) => {
@@ -291,12 +289,18 @@ exports.updatePatient = async function updatePatient(req, res, next) {
               }
               patient.demographicData = saved._id;
 
-              return res.status(200).json({ patient });
+              patient.save(($$err, $saved) => {
+                if ($$err) {
+                  throw $$err;
+                }
+
+                return res.status(200).json({ patient: $saved });
+              });
             });
           }
+        } else {
+          return res.status(200).json({ patient });
         }
-
-        return res.status(200).json({ patient });
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
