@@ -82,6 +82,10 @@ exports.addRol = async function addRol(req, res) {
         $in: rol.permissions,
       },
     }, (error, permissions) => {
+      if (error) {
+        throw (error);
+      }
+
       if (!permissions) {
         return res.status(403);
       }
@@ -236,15 +240,41 @@ exports.updateRol = async function updateRol(req, res) {
   try {
     permissionsCheck(req.user, 'rol_update');
 
-    await Rol.findOneAndUpdate({ name: req.params.name }, req.body.rol)
-      .exec((err, rol) => {
-        if (err || rol == null) {
-          res.status(422).json({ error: 'No rol was found with that id.' });
-          return;
-        }
+    const { rol } = req.body;
 
-        return res.status(200).json({ rol });
-      });
+    if (!rol.name) {
+      return res.status(400).end();
+    }
+
+    await Permission.find({
+      name: {
+        $in: rol.permissions,
+      },
+    }, (error, permissions) => {
+      if (!permissions) {
+        return res.status(403);
+      }
+
+      if (error) {
+        throw (error);
+      }
+
+      Rol.findOneAndUpdate({ name: req.params.name }, {
+        name: rol.name,
+        permissions: permissions.map(p => p._id),
+      }).exec((err, rol) => {
+          if (err) {
+            throw (err);
+          }
+
+          if (rol == null) {
+            res.status(422).json({ error: 'No rol was found with that name.' });
+            return;
+          }
+
+          return res.status(200).json({ rol });
+        });
+    });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
