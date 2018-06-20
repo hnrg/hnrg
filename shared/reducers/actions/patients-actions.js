@@ -23,6 +23,7 @@ import {
   ON_PATIENT_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
+import { errorHandler } from 'helpers/error-handler';
 import { patientsRequest } from 'reducers/lib/request/patients-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
@@ -84,7 +85,7 @@ export function getPatients(pageNumber, firtsName, lastName, documentType, docum
         dispatch(getPatientsSuccess(data));
       })
       .catch((error) => {
-        dispatch(getPatientsFailure(error.response.data.error));
+        dispatch(getPatientsFailure(errorHandler(error)));
       });
   };
 }
@@ -105,7 +106,7 @@ export function getPatient(patient, sessionToken) {
       })
       .catch((error) => {
         console.log(error);
-        dispatch(getPatientFailure(error.response.data.error));
+        dispatch(getPatientFailure(errorHandler(error)));
       });
   };
 }
@@ -198,7 +199,7 @@ export function updatePatient(
       })
       .catch((error) => {
         console.log(error);
-        dispatch(patientUpdateFailure(error.response.data.error));
+        dispatch(patientUpdateFailure(errorHandler(error)));
       });
   };
 }
@@ -263,7 +264,7 @@ export function addPatient(
         dispatch(patientAddSuccess());
       })
       .catch((error) => {
-        dispatch(patientAddFailure(error.response.data.error));
+        dispatch(patientAddFailure(errorHandler(error)));
       });
   };
 }
@@ -305,8 +306,7 @@ export function deletePatient(patientId, sessionToken) {
         dispatch(getPatients());
       })
       .catch((error) => {
-        dispatch(patientDeleteFailure(error.response.data.error));
+        dispatch(patientDeleteFailure(errorHandler(error)));
       });
   };
 }
-

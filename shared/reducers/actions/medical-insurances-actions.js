@@ -4,6 +4,7 @@ import {
   GET_MEDICAL_INSURANCES_FAILURE,
 } from 'reducers/constants';
 
+import { errorHandler } from 'helpers/error-handler';
 import { medicalInsurancesRequest } from 'reducers/lib/request/medical-insurances-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
@@ -46,7 +47,7 @@ export function getMedicalInsurances(pageNumber, sessionToken) {
         dispatch(getMedicalInsurancesSuccess(data.medicalInsurances));
       })
       .catch((error) => {
-        dispatch(getMedicalInsurancesFailure(error.response.data.error));
+        dispatch(getMedicalInsurancesFailure(errorHandler(error)));
       });
   };
 }

@@ -4,6 +4,7 @@ import {
   GET_PERMISSIONS_FAILURE,
 } from 'reducers/constants';
 
+import { errorHandler } from 'helpers/error-handler';
 import { permissionsRequest } from 'reducers/lib/request/permissions-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
@@ -46,7 +47,7 @@ export function getPermissions(sessionToken) {
         dispatch(getPermissionsSuccess(data.permissions));
       })
       .catch((error) => {
-        dispatch(getPermissionsFailure(error.response.data.error));
+        dispatch(getPermissionsFailure(errorHandler(error)));
       });
   };
 }

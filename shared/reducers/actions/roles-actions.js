@@ -31,6 +31,7 @@ import {
   ON_ROL_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
+import { errorHandler } from 'helpers/error-handler';
 import { rolesRequest } from 'reducers/lib/request/roles-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
@@ -92,7 +93,7 @@ export function getRoles(pageNumber, name, deleted, sessionToken) {
         dispatch(getRolesSuccess(data));
       })
       .catch((error) => {
-        dispatch(getRolesFailure(error.response.data.error));
+        dispatch(getRolesFailure(errorHandler(error)));
       });
   };
 }
@@ -107,7 +108,7 @@ export function getRol(rolname, sessionToken) {
         dispatch(getRolSuccess(data.rol));
       })
       .catch((error) => {
-        dispatch(getRolFailure(error.response.data.error));
+        dispatch(getRolFailure(errorHandler(error)));
       });
   };
 }
@@ -168,7 +169,7 @@ export function addRol(name, permissions, sessionToken) {
       })
       .catch((error) => {
         console.log(error);
-        dispatch(rolAddFailure(error.response.data.error));
+        dispatch(rolAddFailure(errorHandler(error)));
       });
   };
 }
@@ -216,7 +217,7 @@ export function updateRol(originalRolname, name, permissions, sessionToken) {
         dispatch(getRol(name));
       })
       .catch((error) => {
-        dispatch(rolUpdateFailure(error.response.data.error));
+        dispatch(rolUpdateFailure(errorHandler(error)));
       });
   };
 }
@@ -250,7 +251,7 @@ export function deleteRol(name, sessionToken) {
         dispatch(getRoles());
       })
       .catch((error) => {
-        dispatch(rolDeleteFailure(error.response.data.error));
+        dispatch(rolDeleteFailure(errorHandler(error)));
       });
   };
 }
@@ -284,7 +285,7 @@ export function enableRol(name, sessionToken) {
         dispatch(getRoles());
       })
       .catch((error) => {
-        dispatch(rolEnableFailure(error.response.data.error));
+        dispatch(rolEnableFailure(errorHandler(error)));
       });
   };
 }
@@ -318,7 +319,7 @@ export function deleteRolPermission(rolname, permission, sessionToken) {
         dispatch(getRol(rolname));
       })
       .catch((error) => {
-        dispatch(rolPermissionDeleteFailure(error.response.data.error));
+        dispatch(rolPermissionDeleteFailure(errorHandler(error)));
       });
   };
 }

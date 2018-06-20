@@ -10,6 +10,7 @@ import {
   ON_PROFILE_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
+import { errorHandler } from 'helpers/error-handler';
 import { profileRequest } from 'reducers/lib/request/profile-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
@@ -51,7 +52,7 @@ export function getProfile(sessionToken) {
         dispatch(getProfileSuccess(data.user));
       })
       .catch((error) => {
-        dispatch(getProfileFailure(error.response.data.error));
+        dispatch(getProfileFailure(errorHandler(error)));
       });
   };
 }
@@ -108,7 +109,7 @@ export function updateProfile(originalUsername, username, email, firstName, last
         dispatch(getProfile());
       })
       .catch((error) => {
-        dispatch(profileUpdateFailure(error.response.data.error));
+        dispatch(profileUpdateFailure(errorHandler(error)));
       });
   };
 }

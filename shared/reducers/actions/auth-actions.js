@@ -2,6 +2,7 @@ import _ from 'underscore';
 
 import { authRequest } from 'reducers/lib/request/auth-request';
 import { authToken } from 'reducers/lib/store/auth-token';
+import { errorHandler } from 'helpers/error-handler';
 
 import {
   SESSION_TOKEN_REQUEST,
@@ -161,7 +162,7 @@ export function getSessionToken() {
         }
       })
       .catch((error) => {
-        dispatch(sessionTokenRequestFailure(error.response.data.error));
+        dispatch(sessionTokenRequestFailure(errorHandler(error)));
         dispatch(loginState());
       });
   };
@@ -228,7 +229,7 @@ export function logout() {
       })
       .catch((error) => {
         dispatch(loginState());
-        dispatch(logoutFailure(error.response.data.error));
+        dispatch(logoutFailure(errorHandler(error)));
       });
   };
 }
@@ -258,7 +259,7 @@ export function login({ email, password }) {
           dispatch(logoutState());
         }))
       .catch((error) => {
-        dispatch(loginFailure(error.response.data));
+        dispatch(loginFailure(errorHandler(error)));
       });
   };
 }

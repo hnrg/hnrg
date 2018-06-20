@@ -1,10 +1,3 @@
-
-
-/**
- * ## Imports
- *
- * The actions supported
- */
 import {
   SET_SESSION_TOKEN,
   SET_STORE,

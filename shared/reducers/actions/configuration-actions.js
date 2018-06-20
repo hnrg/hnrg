@@ -10,6 +10,7 @@ import {
   ON_CONFIGURATION_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
+import { errorHandler } from 'helpers/error-handler';
 import { configurationRequest } from 'reducers/lib/request/configuration-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
@@ -49,7 +50,7 @@ export function getConfiguration() {
         dispatch(getConfigurationSuccess(data.configuration));
       })
       .catch((error) => {
-        dispatch(getConfigurationFailure(error.response.data.error || error.response.data));
+        dispatch(getConfigurationFailure(errorHandler(error)));
       });
   };
 }
@@ -120,7 +121,7 @@ export function addConfiguration(
         dispatch(getConfiguration());
       })
       .catch((error) => {
-        dispatch(configurationAddFailure(error.response.data.error || error.response.data));
+        dispatch(configurationAddFailure(errorHandler(error)));
       });
   };
 }

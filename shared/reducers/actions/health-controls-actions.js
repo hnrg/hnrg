@@ -27,6 +27,7 @@ import {
   ON_HEALTH_CONTROL_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
+import { errorHandler } from 'helpers/error-handler';
 import { healthControlsRequest } from 'reducers/lib/request/healthControls-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
@@ -88,7 +89,7 @@ export function getHealthControls(pageNumber, sessionToken) {
         dispatch(getHealthControlsSuccess(data));
       })
       .catch((error) => {
-        dispatch(getHealthControlsFailure(error.response.data.error));
+        dispatch(getHealthControlsFailure(errorHandler(error)));
       });
   };
 }
@@ -103,7 +104,7 @@ export function getHealthControl(healthControl, sessionToken) {
         dispatch(getHealthControlSuccess(data.rol));
       })
       .catch((error) => {
-        dispatch(getHealthControlFailure(error.response.data.error));
+        dispatch(getHealthControlFailure(errorHandler(error)));
       });
   };
 }
@@ -188,7 +189,7 @@ export function addHealthControl(
       })
       .catch((error) => {
         console.log(error);
-        dispatch(healthControlAddFailure(error.response.data.error));
+        dispatch(healthControlAddFailure(errorHandler(error)));
       });
   };
 }
@@ -261,7 +262,7 @@ export function updateHealthControl(
         dispatch(getHealthControl(originalHealthControl));
       })
       .catch((error) => {
-        dispatch(healthControlUpdateFailure(error.response.data.error));
+        dispatch(healthControlUpdateFailure(errorHandler(error)));
       });
   };
 }
@@ -295,7 +296,7 @@ export function deleteHealthControl(healthControl, sessionToken) {
         dispatch(getHealthControls());
       })
       .catch((error) => {
-        dispatch(healthControlDeleteFailure(error.response.data.error));
+        dispatch(healthControlDeleteFailure(errorHandler(error)));
       });
   };
 }
@@ -329,7 +330,7 @@ export function enableHealthControl(healthControl, sessionToken) {
         dispatch(getHealthControls());
       })
       .catch((error) => {
-        dispatch(healthControlEnableFailure(error.response.data.error));
+        dispatch(healthControlEnableFailure(errorHandler(error)));
       });
   };
 }
