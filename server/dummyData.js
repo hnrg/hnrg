@@ -39,6 +39,7 @@ const dummyData = async function dummyData() {
       'configuracion_new',
       'configuracion_show',
       'configuracion_update',
+      'dashboard_analytics',
     ];
 
     Permission.create(permissions.map(permission => new Permission({ name: permission })));
