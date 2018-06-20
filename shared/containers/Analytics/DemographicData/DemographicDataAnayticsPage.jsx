@@ -7,9 +7,12 @@ import {
   Header,
   Segment,
 } from 'semantic-ui-react';
-import { PieChart } from 'react-chartkick'
+import ReactChartkick, { PieChart } from 'react-chartkick'
+import Chart from 'chart.js'
 
 import * as analyticsActions from 'reducers/actions/analytics-actions';
+
+ReactChartkick.addAdapter(Chart)
 
 class AnalyticsContainer extends Component {
   constructor(props) {
@@ -66,7 +69,7 @@ class AnalyticsContainer extends Component {
     return (
       <Segment textAlign='center'>
         <Header as='h2' content='Estadísticas generales sobre datos demográficos' />
-        <PieChart data={generalData} />
+        <PieChart data={generalData} download='general-data' />
 
         <Divider horizontal>Datos más específicos</Divider>
 
@@ -74,27 +77,27 @@ class AnalyticsContainer extends Component {
           <Grid.Row>
             <Grid.Column style={{paddingBottom: '20px'}} computer={8} largeScreen={8} tablet={16} mobile={16}>
               <Header as='h4' content='Tienen refrigerador' />
-              <PieChart data={refrigeratorData} />
+              <PieChart data={refrigeratorData} download='refrigerator-data' />
             </Grid.Column>
             <Grid.Column style={{paddingBottom: '20px'}} computer={8} largeScreen={8} tablet={16} mobile={16}>
               <Header as='h4' content='Tienen electricidad' />
-              <PieChart data={electricityData} />
+              <PieChart data={electricityData} download='electricity-data' />
             </Grid.Column>
             <Grid.Column style={{paddingBottom: '20px'}} computer={8} largeScreen={8} tablet={16} mobile={16}>
               <Header as='h4' content='Tienen mascota' />
-              <PieChart data={petData} />
+              <PieChart data={petData} download='pet-data' />
             </Grid.Column>
             <Grid.Column style={{paddingBottom: '20px'}} computer={8} largeScreen={8} tablet={16} mobile={16}>
               <Header as='h4' content='Tipos de viviendas' />
-              <PieChart data={apartmentType} />
+              <PieChart data={apartmentType} download='apartamentType-data' />
             </Grid.Column>
             <Grid.Column style={{paddingBottom: '20px'}} computer={8} largeScreen={8} tablet={16} mobile={16}>
               <Header as='h4' content='Tipos de calefacción' />
-              <PieChart data={heatingType} />
+              <PieChart data={heatingType} download='heatingType-data' />
             </Grid.Column>
             <Grid.Column style={{paddingBottom: '20px'}} computer={8} largeScreen={8} tablet={16} mobile={16}>
               <Header as='h4' content='Tipos de agua' />
-              <PieChart data={waterType} />
+              <PieChart data={waterType} download='waterType-data' />
             </Grid.Column>
           </Grid.Row>
         </Grid>
