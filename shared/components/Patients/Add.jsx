@@ -170,6 +170,7 @@ class Add extends Component {
               options={documentTypesOptions}
               error={fields.documentTypeHasError} />
             <Form.Input
+              type='number'
               label={fields.documentNumberErrorMsg || 'Número de documento'}
               name='documentNumber'
               placeholder='Número de documento'
