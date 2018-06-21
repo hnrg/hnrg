@@ -27,6 +27,10 @@ import {
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
 
+  AUTHENTICATE_REQUEST,
+  AUTHENTICATE_SUCCESS,
+  AUTHENTICATE_FAILURE,
+
   SET_STATE,
 } from 'reducers/constants';
 
@@ -42,6 +46,7 @@ export default function (state = InitialState, action) {
      * set the form to fetching and clear any errors
      */
     case SESSION_TOKEN_REQUEST:
+    case AUTHENTICATE_REQUEST:
     case LOGOUT_REQUEST:
     case LOGIN_REQUEST:
     case RESET_PASSWORD_REQUEST:
@@ -112,6 +117,11 @@ export default function (state = InitialState, action) {
        */
     case SESSION_TOKEN_SUCCESS:
     case SESSION_TOKEN_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+      };
+
     case LOGOUT_SUCCESS:
       return {
         ...state,
@@ -120,6 +130,7 @@ export default function (state = InitialState, action) {
       };
 
     case LOGIN_SUCCESS:
+    case AUTHENTICATE_SUCCESS:
       return {
         ...state,
         isFetching: false,
@@ -133,6 +144,7 @@ export default function (state = InitialState, action) {
        */
     case LOGOUT_FAILURE:
     case LOGIN_FAILURE:
+    case AUTHENTICATE_FAILURE:
     case RESET_PASSWORD_FAILURE:
       return {
         ...state,

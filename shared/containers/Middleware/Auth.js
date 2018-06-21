@@ -8,8 +8,14 @@ import * as authActions from 'reducers/actions/auth-actions';
 
 export default function requireAuth(ComposedComponent) {
   class Authentication extends Component {
+    componentWillMount() {
+      if (this.props.auth.authenticated === null) {
+        this.props.actions.authenticate();
+      }
+    }
+
     render() {
-      return (this.props.auth.authenticated) ?
+      return (this.props.auth.authenticated === null ||this.props.auth.authenticated) ?
         <ComposedComponent {...this.props} /> :
         <Redirect to={{ pathname: '/login' }} />;
     }

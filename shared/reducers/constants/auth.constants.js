@@ -19,3 +19,7 @@ export const RESET_PASSWORD_SUCCESS = 'reset-password-success';
 export const RESET_PASSWORD_FAILURE = 'reset-password-failure';
 export const FORGOT_PASSWORD = 'forgot-password';
 export const LOGIN = 'login';
+
+export const AUTHENTICATE_REQUEST = 'authenticate-request';
+export const AUTHENTICATE_SUCCESS = 'authenticate-success';
+export const AUTHENTICATE_FAILURE = 'authenticate-failure';
