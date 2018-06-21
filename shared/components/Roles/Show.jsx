@@ -18,34 +18,8 @@ import {
 import icon from 'static/icons/icon.png';
 
 class Show extends Component {
-  constructor(props) {
-    super(props);
-
-    const { rol } = this.props;
-
-    this.state = {
-      rol,
-    };
-  }
-
-  componentWillReceiveProps(props) {
-    const { rol } = props;
-
-    this.setState({
-      rol,
-    });
-  }
-
-  componentDidMount() {
-    const { rol } = this.props;
-
-    this.setState({
-      rol,
-    });
-  }
-
   render() {
-    const { rol } = this.state;
+    const { rol } = this.props;
 
     return(
       <div>

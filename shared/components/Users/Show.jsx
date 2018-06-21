@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import moment from 'moment-timezone';
+import { dateToString } from 'helpers/date';
 import {
   Button,
   Divider,
@@ -17,34 +18,8 @@ import {
 import icon from 'static/icons/icon.png';
 
 class Show extends Component {
-  constructor(props) {
-    super(props);
-
-    const { user } = this.props;
-
-    this.state = {
-      user,
-    };
-  }
-
-  componentWillReceiveProps(props) {
-    const { user } = props;
-
-    this.setState({
-      user,
-    });
-  }
-
-  componentDidMount() {
-    const { user } = this.props;
-
-    this.setState({
-      user,
-    });
-  }
-
   getRoles() {
-    const { user } = this.state;
+    const { user } = this.props;
 
     return(
       <List divided verticalAlign='middle'>
@@ -63,10 +38,7 @@ class Show extends Component {
   }
 
   render() {
-    const { user } = this.state;
-
-    const createdAt = moment(user.createdAt);
-    createdAt.locale('es');
+    const { user } = this.props;
 
     return(
       <center>
@@ -89,7 +61,7 @@ class Show extends Component {
             </Grid.Column>
             <Grid.Column style={{padding: '0 0 15px 0'}} computer={5} largeScreen={5} tablet={16} mobile={16}>
               <Header as='h4' content='Fecha de Ingreso'/>
-              {createdAt.format('LLLL')}
+              {dateToString(user.createdAt, 'LLLL')}
             </Grid.Column>
           </Grid.Row>
         </Grid>

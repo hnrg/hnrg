@@ -4,6 +4,7 @@ import _ from 'lodash';
 import moment from 'moment-timezone';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { dateToString } from 'helpers/date';
 import {
   Container,
   Divider,
@@ -14,6 +15,7 @@ import {
   Segment,
   Tab
 } from 'semantic-ui-react';
+
 
 import * as configurationActions from 'reducers/actions/configuration-actions';
 
@@ -102,15 +104,12 @@ class ConfigurationContainer extends Component {
     const {current, fields, isValid, isFetching, confirmSubmit, error, success} = this.state;
     const {user, updatedAt} = current;
 
-    const lastModified = moment(updatedAt);
-    lastModified.locale('es');
-
     return (
       <Segment>
         <Header as='h3'>
           Última actualización
           <Header.Subheader>
-            El usuario {user ? user.username : ''} actualizó la configuration del sistema por última vez el día {lastModified.format('LLLL')}.
+            El usuario {user ? user.username : ''} actualizó la configuration del sistema por última vez el día {dateToString(updatedAt, 'LLLL')}.
           </Header.Subheader>
         </Header>
         <Divider hidden />
