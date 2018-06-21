@@ -35,7 +35,7 @@ import {
  * @param {Object} state - initialState
  * @param {Object} action - type and payload
  */
-export default function (state = InitialState, action) {
+export default function(state = InitialState, action) {
   switch (action.type) {
     /**
      * ### Requests start
@@ -45,35 +45,27 @@ export default function (state = InitialState, action) {
     case LOGOUT_REQUEST:
     case LOGIN_REQUEST:
     case RESET_PASSWORD_REQUEST:
-    {
-      const nextState = {
-        ...state,
-        isFetching: true,
-        error: null,
-      };
+      {
+        const nextState = {
+          ...state,
+          isFetching: true,
+          error: null,
+        };
 
-      return nextState;
-    }
+        return nextState;
+      }
 
-    /**
+      /**
        * ### Logout state
        * The logged in user logs out
        * Clear the form's error and all the fields
        */
-    case LOGOUT: {
-      const { fields } = state;
-      return {
-        ...state,
-        error: null,
-        fields: {
-          ...fields,
-          email: '',
-          password: '',
-        },
-      };
-    }
+    case LOGOUT_SUCCESS:
+      {
+        return InitialState;
+      }
 
-    /**
+      /**
        * ### Loggin in state
        * The user isn't logged in, and needs to
        * login, register or reset password
@@ -81,14 +73,14 @@ export default function (state = InitialState, action) {
        * Set the form state and clear any errors
        */
     case LOGIN:
-    {
-      return formValidation({
-        ...state,
-        error: null,
-      });
-    }
+      {
+        return formValidation({
+          ...state,
+          error: null,
+        });
+      }
 
-    /**
+      /**
        * ### Auth form field change
        *
        * Set the form's field with the value
@@ -97,21 +89,24 @@ export default function (state = InitialState, action) {
        * the formValidation
        */
     case ON_AUTH_FORM_FIELD_CHANGE:
-    {
-      const { field, value } = action.payload;
+      {
+        const {
+          field,
+          value
+        } = action.payload;
 
-      const nextState = {
-        ...state,
-        error: null,
-        fields: {
-          ...state.fields,
-          [field]: value,
-        }
-      };
+        const nextState = {
+          ...state,
+          error: null,
+          fields: {
+            ...state.fields,
+            [field]: value,
+          }
+        };
 
-      return formValidation(fieldValidation(nextState, action), action);
-    }
-    /**
+        return formValidation(fieldValidation(nextState, action), action);
+      }
+      /**
        * ### Requests end, good or bad
        * Set the fetching flag so the forms will be enabled
        */
@@ -151,26 +146,31 @@ export default function (state = InitialState, action) {
        *
        * Set all the field values from the payload
        */
-    case SET_STATE: {
-      const { auth } = JSON.parse(action.payload);
-      const { fields } = auth;
+    case SET_STATE:
+      {
+        const {
+          auth
+        } = JSON.parse(action.payload);
+        const {
+          fields
+        } = auth;
 
-      return {
-        ...state,
-        disabled: auth.disabled,
-        error: auth.error,
-        authenticated: auth.authenticated,
-        isValid: auth.isValid,
-        isFetching: auth.isFetching,
-        fields: {
-          ...fields,
-          email: auth.email,
-          emailHasError: auth.emailHasError,
-          password: auth.password,
-          passwordHasError: auth.passwordHasError,
-        },
-      };
-    }
+        return {
+          ...state,
+          disabled: auth.disabled,
+          error: auth.error,
+          authenticated: auth.authenticated,
+          isValid: auth.isValid,
+          isFetching: auth.isFetching,
+          fields: {
+            ...fields,
+            email: auth.email,
+            emailHasError: auth.emailHasError,
+            password: auth.password,
+            passwordHasError: auth.passwordHasError,
+          },
+        };
+      }
 
     case DELETE_TOKEN_REQUEST:
     case DELETE_TOKEN_SUCCESS:

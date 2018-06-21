@@ -38,87 +38,95 @@ export default function configurationReducer(state = InitialState, action) {
      */
     case CONFIGURATION_ADD_REQUEST:
     case GET_CONFIGURATION_REQUEST:
-      return { ...state, isFetching: true, error: null };
+      return { ...state,
+        isFetching: true,
+        error: null
+      };
 
     case CONFIGURATION_ADD_SUCCESS:
-    {
-      return { ...state, isFetching: false, success: true };
-    }
+      {
+        return { ...state,
+          isFetching: false,
+          success: true
+        };
+      }
 
-    /**
-     * ### Request ends successfully
-     *
-     * the fetching is done
-     *
-     * Validate the data to make sure it's all good and someone didn't
-     * mung it up through some other mechanism
-     */
-    case GET_CONFIGURATION_SUCCESS: {
-      nextConfigurationState = {
-        ...state,
-        current: {
-          ...state.current,
-          name: action.payload.webpage.name,
-          amountPerPage: action.payload.webpage.amountPerPage,
-          email: action.payload.webpage.email,
-          description: action.payload.webpage.description,
-          from: action.payload.appointments.from,
-          delta: action.payload.appointments.delta,
-          amount: action.payload.appointments.amount,
-          maintenance: action.payload.maintenance,
-          user: action.payload.user,
-          createdAt: action.payload.createdAt,
-          updatedAt: action.payload.updatedAt,
-        },
-        fields: {
-          ...state.fields,
-          name: action.payload.webpage.name,
-          amountPerPage: action.payload.webpage.amountPerPage,
-          email: action.payload.webpage.email,
-          description: action.payload.webpage.description,
-          from: action.payload.appointments.from,
-          delta: action.payload.appointments.delta,
-          amount: action.payload.appointments.amount,
-          maintenance: action.payload.maintenance,
-        },
-        isFetching: false,
-        error: null,
-      };
+      /**
+       * ### Request ends successfully
+       *
+       * the fetching is done
+       *
+       * Validate the data to make sure it's all good and someone didn't
+       * mung it up through some other mechanism
+       */
+    case GET_CONFIGURATION_SUCCESS:
+      {
+        nextConfigurationState = {
+          ...state,
+          current: {
+            ...state.current,
+            name: action.payload.webpage.name,
+            amountPerPage: action.payload.webpage.amountPerPage,
+            email: action.payload.webpage.email,
+            description: action.payload.webpage.description,
+            from: action.payload.appointments.from,
+            delta: action.payload.appointments.delta,
+            amount: action.payload.appointments.amount,
+            maintenance: action.payload.maintenance,
+            user: action.payload.user,
+            createdAt: action.payload.createdAt,
+            updatedAt: action.payload.updatedAt,
+          },
+          fields: {
+            ...state.fields,
+            name: action.payload.webpage.name,
+            amountPerPage: action.payload.webpage.amountPerPage,
+            email: action.payload.webpage.email,
+            description: action.payload.webpage.description,
+            from: action.payload.appointments.from,
+            delta: action.payload.appointments.delta,
+            amount: action.payload.appointments.amount,
+            maintenance: action.payload.maintenance,
+          },
+          isFetching: false,
+          error: null,
+        };
 
-      return formValidation(fieldValidation(nextConfigurationState, action), action);
-    }
+        return formValidation(fieldValidation(nextConfigurationState, action), action);
+      }
 
-    case ON_CONFIGURATION_FORM_FIELD_CHANGE: {
-      const { field, value } = action.payload;
+    case ON_CONFIGURATION_FORM_FIELD_CHANGE:
+      {
+        const {
+          field,
+          value
+        } = action.payload;
 
-      nextConfigurationState = {
-        ...state,
-        success: null,
-        fields: {
-          ...state.fields,
-          [field]: value,
-        },
-      };
+        nextConfigurationState = {
+          ...state,
+          success: null,
+          fields: {
+            ...state.fields,
+            [field]: value,
+          },
+        };
 
-      return formValidation(fieldValidation(nextConfigurationState, action), action);
-    }
+        return formValidation(fieldValidation(nextConfigurationState, action), action);
+      }
 
-    /**
-     * User logged out, so reset form fields and original configuration.
-     *
-     */
+      /**
+       * User logged out, so reset form fields and original configuration.
+       *
+       */
     case LOGOUT_SUCCESS:
-      return {
-        ...state,
-        email: '',
-        error: null,
-        success: null,
-      };
+      {
+        return InitialState;
+      }
 
-    /**
-     * ### Request fails
-     * we're done fetching and the error needs to be displayed to the user
-     */
+      /**
+       * ### Request fails
+       * we're done fetching and the error needs to be displayed to the user
+       */
     case CONFIGURATION_ADD_FAILURE:
     case GET_CONFIGURATION_FAILURE:
       return {
@@ -128,52 +136,58 @@ export default function configurationReducer(state = InitialState, action) {
         success: null,
       };
 
-    /**
-     * ### set the state
-     *
-     * This is in support of Hot Loading - take the payload
-     * and set the values into the state
-     *
-     */
-    case SET_STATE: {
-      const { configuration } = JSON.parse(action.payload);
-      const { current, fields } = state;
+      /**
+       * ### set the state
+       *
+       * This is in support of Hot Loading - take the payload
+       * and set the values into the state
+       *
+       */
+    case SET_STATE:
+      {
+        const {
+          configuration
+        } = JSON.parse(action.payload);
+        const {
+          current,
+          fields
+        } = state;
 
-      return {
-        ...state,
-        disabled: configuration.disabled,
-        error: configuration.error,
-        success: configuration.success,
-        isValid: configuration.isValid,
-        isFetching: configuration.isFetching,
-        configurations: configuration.configurations,
-        current: {
-          ...current,
-          name: configuration.current.webpage.name,
-          amountPerPage: configuration.current.webpage.amountPerPage,
-          email: configuration.current.webpage.email,
-          description: configuration.current.webpage.description,
-          from: configuration.current.appointments.from,
-          delta: configuration.current.appointments.delta,
-          amount: configuration.current.appointments.amount,
-          maintenance: configuration.current.maintenance,
-          user: configuration.current.user,
-          createdAt: configuration.current.createdAt,
-          updatedAt: configuration.current.updatedAt,
-        },
-        fields: {
-          ...fields,
-          name: configuration.fields.webpage.name,
-          amountPerPage: configuration.fields.webpage.amountPerPage,
-          email: configuration.fields.webpage.email,
-          description: configuration.fields.webpage.description,
-          from: configuration.fields.appointments.from,
-          delta: configuration.fields.appointments.delta,
-          amount: configuration.fields.appointments.amount,
-          maintenance: configuration.fields.maintenance,
-        },
-      };
-    }
+        return {
+          ...state,
+          disabled: configuration.disabled,
+          error: configuration.error,
+          success: configuration.success,
+          isValid: configuration.isValid,
+          isFetching: configuration.isFetching,
+          configurations: configuration.configurations,
+          current: {
+            ...current,
+            name: configuration.current.webpage.name,
+            amountPerPage: configuration.current.webpage.amountPerPage,
+            email: configuration.current.webpage.email,
+            description: configuration.current.webpage.description,
+            from: configuration.current.appointments.from,
+            delta: configuration.current.appointments.delta,
+            amount: configuration.current.appointments.amount,
+            maintenance: configuration.current.maintenance,
+            user: configuration.current.user,
+            createdAt: configuration.current.createdAt,
+            updatedAt: configuration.current.updatedAt,
+          },
+          fields: {
+            ...fields,
+            name: configuration.fields.webpage.name,
+            amountPerPage: configuration.fields.webpage.amountPerPage,
+            email: configuration.fields.webpage.email,
+            description: configuration.fields.webpage.description,
+            from: configuration.fields.appointments.from,
+            delta: configuration.fields.appointments.delta,
+            amount: configuration.fields.appointments.amount,
+            maintenance: configuration.fields.maintenance,
+          },
+        };
+      }
 
     default:
       return state;
