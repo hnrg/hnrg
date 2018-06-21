@@ -159,7 +159,7 @@ const dummyData = async function dummyData() {
         User.create({
           email: 'su@hnrg.com',
           username: 'su',
-          password: 'su',
+          password: 'hnrg-su',
           active: true,
           roles: [rol],
         });
