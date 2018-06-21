@@ -8,7 +8,6 @@ export default {
     phone: '',
     birthday: null,
     sex: null,
-    demographicData: null,
     medicalInsurance: null,
     documentType: null,
     documentNumber: 0,
