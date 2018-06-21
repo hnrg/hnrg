@@ -127,6 +127,7 @@ class Add extends Component {
               value={fields.email}
               error={fields.emailHasError} />
             <Form.Input
+              type='password'
               label={fields.passwordErrorMsg || 'Contraseña'}
               name='password'
               placeholder='Contraseña'
