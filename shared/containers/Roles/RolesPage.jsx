@@ -25,15 +25,18 @@ import RolEdit from 'components/Roles/Edit';
 import RolesList from 'components/Roles/List';
 import RolShow from 'components/Roles/Show';
 
-const panes = ({ loading, roles, permissions }, actions) => [
+const panes = ({ loading, roles, permissions, granted }, actions) => [
   {
     menuItem: { key: 'rol', icon: 'certificate', content: 'Ver rol' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        <RolShow
-          rol={roles.originalRol}
-          permissions={permissions.permissions}
-          deletePermissionAction={actions.deletePermissionAction} />
+        { granted.show ?
+          <RolShow
+            rol={roles.originalRol}
+            permissions={permissions.permissions}
+            deletePermissionAction={actions.deletePermissionAction} /> :
+          <Redirect to={{ pathname: '/forbidden' }} />
+        }
       </Tab.Pane>
     ),
   },
@@ -41,16 +44,19 @@ const panes = ({ loading, roles, permissions }, actions) => [
     menuItem: { key: 'edit', icon: 'edit', content: 'Editar rol' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        <RolEdit
-          rol={roles.originalRol}
-          permissions={permissions.permissions}
-          error={roles.error}
-          success={roles.success}
-          fields={roles.fields}
-          isValid={roles.isValid}
-          isFetching={roles.isFetching}
-          onFormFieldChange={actions.onRolFormFieldChange}
-          updateRol={actions.updateRol} />
+        { granted.update ?
+          <RolEdit
+            rol={roles.originalRol}
+            permissions={permissions.permissions}
+            error={roles.error}
+            success={roles.success}
+            fields={roles.fields}
+            isValid={roles.isValid}
+            isFetching={roles.isFetching}
+            onFormFieldChange={actions.onRolFormFieldChange}
+            updateRol={actions.updateRol} /> :
+          <Redirect to={{ pathname: '/forbidden' }} />
+        }
       </Tab.Pane>
     ),
   },
@@ -66,7 +72,7 @@ class RolesContainer extends Component {
       rolname: '',
       deleted: false,
       currentView: 'rolesList',
-      isGranted: {
+      granted: {
         new: null,
         update: null,
         destroy: null,
@@ -88,7 +94,7 @@ class RolesContainer extends Component {
       permissions: props.permissions,
       profile: props.profile,
       roles: props.roles,
-      isGranted: {
+      granted: {
         new: permissionsCheck(originalProfile, ['rol_new']),
         update: permissionsCheck(originalProfile, ['rol_update']),
         destroy: permissionsCheck(originalProfile, ['rol_destroy']),
@@ -106,7 +112,7 @@ class RolesContainer extends Component {
     }
 
     this.setState({
-      isGranted: {
+      granted: {
         new: permissionsCheck(originalProfile, ['rol_new']),
         update: permissionsCheck(originalProfile, ['rol_update']),
         destroy: permissionsCheck(originalProfile, ['rol_destroy']),
@@ -117,7 +123,7 @@ class RolesContainer extends Component {
   }
 
   componentDidMount() {
-    const { roles, profile, rolname, pageNumber, deleted, isGranted, currentView } = this.state;
+    const { roles, profile, rolname, pageNumber, deleted, granted, currentView } = this.state;
     const { permissions } = this.state.permissions;
     const { originalProfile } = profile;
     const { originalRol } = roles;
@@ -126,12 +132,12 @@ class RolesContainer extends Component {
       this.props.actions.getPermissions();
     }
 
-    if (isGranted.index && !this.props.match.params.name && roles.roles === null) {
+    if (granted.index && !this.props.match.params.name && roles.roles === null) {
       this.props.actions.getRoles(pageNumber, rolname, deleted);
       return;
     }
 
-    if (isGranted.show && this.props.match.params.name && (originalRol.name === '' || this.props.match.params.name !== originalRol.name)) {
+    if (granted.show && this.props.match.params.name && (originalRol.name === '' || this.props.match.params.name !== originalRol.name)) {
       this.props.actions.getRol(this.props.match.params.name);
       return;
     }
@@ -141,7 +147,7 @@ class RolesContainer extends Component {
       permissions: this.props.permissions,
       profile: this.props.profile,
       roles: this.props.roles,
-      isGranted: {
+      granted: {
         new: permissionsCheck(originalProfile, ['rol_new']),
         update: permissionsCheck(originalProfile, ['rol_update']),
         destroy: permissionsCheck(originalProfile, ['rol_destroy']),
@@ -200,9 +206,9 @@ class RolesContainer extends Component {
 
   rolesList() {
     const { actions, match } = this.props;
-    const { pageNumber, roles, isGranted } = this.state;
+    const { pageNumber, roles, granted } = this.state;
 
-    if (isGranted.index === null || isGranted.index) {
+    if (granted.index === null || granted.index) {
       return <RolesList
           url={match.url}
           roles={roles.roles}
@@ -211,6 +217,7 @@ class RolesContainer extends Component {
           count={roles.count}
           error={roles.error}
           success={roles.success}
+          granted={granted}
           deleteAction={this.deleteAction.bind(this)}
           enableAction={this.enableAction.bind(this)}
           onAddButtonClick={this.onAddButtonClick.bind(this)}
@@ -223,9 +230,9 @@ class RolesContainer extends Component {
   }
 
   rolCreate() {
-    const { permissions, roles, isGranted } = this.state;
+    const { permissions, roles, granted } = this.state;
 
-    return isGranted.new ?
+    return granted.new ?
       <RolAdd
         permissions={permissions.permissions}
         fields={roles.fields}
