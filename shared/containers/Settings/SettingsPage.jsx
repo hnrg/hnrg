@@ -109,7 +109,7 @@ class ConfigurationContainer extends Component {
         <Header as='h3'>
           Última actualización
           <Header.Subheader>
-            El usuario {user ? user.username : ''} actualizó la configuration del sistema por última vez el día {dateToString(updatedAt, 'LLLL')}.
+            El usuario <strong>{user ? user.username : ''}</strong> actualizó la configuration del sistema por última vez el día {dateToString(updatedAt, 'LLLL')}.
           </Header.Subheader>
         </Header>
         <Divider hidden />
@@ -126,6 +126,7 @@ class ConfigurationContainer extends Component {
           </Header>
           <Form.Group widths='equal'>
             <Form.Input
+              required
               fluid
               label={fields.nameErrorMsg || 'Nombre'}
               placeholder='Nombre'
@@ -134,6 +135,7 @@ class ConfigurationContainer extends Component {
               error={fields.nameHasError}
               onChange={this.handleChange.bind(this)} />
             <Form.Input
+              required
               fluid
               label={fields.emailErrorMsg || 'Mail de contacto'}
               placeholder='Mail de contacto'
@@ -142,6 +144,7 @@ class ConfigurationContainer extends Component {
               error={fields.emailHasError}
               onChange={this.handleChange.bind(this)} />
             <Form.Input
+              required
               fluid
               type='number'
               label={fields.amountPerPageErrorMsg || 'Cantidad por página'}
@@ -161,6 +164,7 @@ class ConfigurationContainer extends Component {
               onChange={this.handleChange.bind(this)} />
           </Form.Group>
           <Form.TextArea
+            required
             label={fields.descriptionErrorMsg || 'Descripción'}
             placeholder='Descripción...'
             name='description'
@@ -173,6 +177,7 @@ class ConfigurationContainer extends Component {
           </Header>
           <Form.Group inline widths='equal'>
             <Form.Input
+              required
               fluid
               type='number'
               label={fields.fromErrorMsg || 'Comienzo de turnos'}
@@ -182,6 +187,7 @@ class ConfigurationContainer extends Component {
               error={fields.fromHasError}
               onChange={this.handleChange.bind(this)} />
             <Form.Input
+              required
               fluid
               type='number'
               label={fields.deltaErrorMsg || 'Intervalo entre turnos'}
@@ -191,6 +197,7 @@ class ConfigurationContainer extends Component {
               error={fields.deltaHasError}
               onChange={this.handleChange.bind(this)} />
             <Form.Input
+              required
               fluid
               type='number'
               label={fields.amountErrorMsg || 'Cantidad de turnos por día'}
