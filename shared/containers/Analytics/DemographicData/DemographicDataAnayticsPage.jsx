@@ -16,7 +16,7 @@ ReactChartkick.addAdapter(Chart)
 
 class AnalyticsContainer extends Component {
   componentDidMount() {
-    if (this.props.analytics.demographicDataAnalytics === null) {
+    if (this.props.analytics.demographicDataAnalytics.data.apartmentType === null) {
       this.props.actions.getDemographicDataAnalytics();
     }
   }
