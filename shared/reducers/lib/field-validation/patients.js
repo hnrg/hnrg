@@ -11,34 +11,38 @@
 import validate from 'validate.js';
 import _ from 'underscore';
 
+const namesRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/;
+
 const firstNameConstraints = {
   firstName: {
+    presence: true,
     format: {
-      pattern: /[a-zA-Z ]+/,
+      pattern: namesRegex,
       flags: 'i',
-      message: 'solo puede contener letras',
+      message: '^El nombre solo puede contener letras',
     },
     length: {
       minimum: 2,
       maximum: 50,
-      tooShort: 'debe tener al menos %{count} o más',
-      tooLong: 'debe tener menos de %{count}',
+      tooShort: '^El nombre debe tener al menos %{count} o más',
+      tooLong: '^El nombre debe tener menos de %{count}',
     },
   }
 };
 
 const lastNameConstraints = {
   lastName: {
+    presence:  true,
     format: {
-      pattern: /[a-zA-Z ]+/,
+      pattern: namesRegex,
       flags: 'i',
-      message: 'solo puede contener letras',
+      message: '^El apellido solo puede contener letras',
     },
     length: {
       minimum: 2,
       maximum: 50,
-      tooShort: 'debe tener al menos %{count} o más',
-      tooLong: 'debe tener menos de %{count}',
+      tooShort: '^El apellido debe tener al menos %{count} o más',
+      tooLong: '^El apellido debe tener menos de %{count}',
     },
   }
 };
@@ -48,8 +52,8 @@ const addressConstraints = {
     length: {
       minimum: 2,
       maximum: 75,
-      tooShort: 'debe tener al menos %{count} o más',
-      tooLong: 'debe tener menos de %{count}',
+      tooShort: '^La dirección debe tener al menos %{count} o más',
+      tooLong: '^La dirección debe tener menos de %{count}',
     },
   }
 };
@@ -59,13 +63,14 @@ const phoneConstraints = {
     format: {
       pattern: /^\+?[0-9]{1,}[0-9\-]{6,15}$/,
       flags: 'g',
-      message: 'formato válido use solo números o el caracter "+"',
+      message: '^Formato de teléfono invalido',
     },
   },
 };
 
 const birthdayConstraints = {
   birthday: {
+    presence: true,
     datetime: {
       dateOnly: true,
     },
@@ -74,10 +79,15 @@ const birthdayConstraints = {
 
 const documentNumberConstraints = {
   documentNumber: {
+    presence: true,
     numericality: {
       onlyInteger: true,
-      greaterThan: 10000000,
+      greaterThan: 1000000,
       lessThanOrEqualTo: 100000000,
+      notInteger: '^El número de documento solo puede contener números',
+      notValid: '^El númmero de documento es invalido',
+      notGreaterThan: '^El número de documento ingresado es muy chico',
+      notLessThanOrEqualTo: '^El número de documento ingresado es muy grande',
     },
   },
 };
@@ -93,11 +103,12 @@ export default function (state, action) {
   switch (field) {
     case('firstName'):
     {
-      const validFirstName = _.isUndefined(validate({
-        firstName: value,
-      }, firstNameConstraints));
 
-      if (validFirstName) {
+      const validation = validate({
+        firstName: value,
+      }, firstNameConstraints);
+
+      if (_.isUndefined(validation)) {
         return {
           ...state,
           fields: {
@@ -108,24 +119,23 @@ export default function (state, action) {
         };
       }
 
-      console.log(validFirstName);
       return {
         ...state,
         fields: {
           ...state.fields,
           firstNameHasError: true,
-          firstNameErrorMsg: 'El nombre es incorrecto',
+          firstNameErrorMsg: validation[field][0],
         },
       };
     }
 
     case('lastName'):
     {
-      const validLastName = _.isUndefined(validate({
+      const validation = validate({
         lastName: value,
-      }, lastNameConstraints));
+      }, lastNameConstraints);
 
-      if (validLastName) {
+      if (_.isUndefined(validation)) {
         return {
           ...state,
           fields: {
@@ -141,18 +151,18 @@ export default function (state, action) {
         fields: {
           ...state.fields,
           lastNameHasError: true,
-          lastNameErrorMsg: 'El apellido es incorrecto',
+          lastNameErrorMsg: validation[field][0],
         },
       };
     }
 
     case('address'):
     {
-      const validAddress = _.isUndefined(validate({
+      const validation = validate({
         address: value,
-      }, addressConstraints));
+      }, addressConstraints);
 
-      if (validAddress) {
+      if (_.isUndefined(validation)) {
         return {
           ...state,
           fields: {
@@ -168,18 +178,18 @@ export default function (state, action) {
         fields: {
           ...state.fields,
           addressHasError: true,
-          addressErrorMsg: 'La dirección es incorrecta',
+          addressErrorMsg: validation[field][0],
         },
       };
     }
 
     case('phone'):
     {
-      const validPhone = _.isUndefined(validate({
+      const validation = validate({
         phone: value,
-      }, phoneConstraints));
+      }, phoneConstraints);
 
-      if (validPhone) {
+      if (_.isUndefined(validation)) {
         return {
           ...state,
           fields: {
@@ -195,18 +205,18 @@ export default function (state, action) {
         fields: {
           ...state.fields,
           phoneHasError: true,
-          phoneErrorMsg: 'El teléfono es incorrecto',
+          phoneErrorMsg: validation[field][0],
         },
       };
     }
 
     case('birthday'):
     {
-      const validBirthday = _.isUndefined(validate({
+      const validation = validate({
         birthday: value,
-      }, birthdayConstraints));
+      }, birthdayConstraints);
 
-      if (validBirthday) {
+      if (_.isUndefined(validation)) {
         return {
           ...state,
           fields: {
@@ -222,18 +232,18 @@ export default function (state, action) {
         fields: {
           ...state.fields,
           birthdayHasError: true,
-          birthdayErrorMsg: 'La fecha es incorrecta',
+          birthdayErrorMsg: validation[field][0],
         },
       };
     }
 
     case('documentNumber'):
     {
-      const validDocumentNumber = _.isUndefined(validate({
+      const validation= validate({
         documentNumber: value,
-      }, documentNumberConstraints));
+      }, documentNumberConstraints);
 
-      if (validDocumentNumber) {
+      if (_.isUndefined(validation)) {
         return {
           ...state,
           fields: {
@@ -249,7 +259,7 @@ export default function (state, action) {
         fields: {
           ...state.fields,
           documentNumberHasError: true,
-          documentNumberErrorMsg: 'Número de documento invalido',
+          documentNumberErrorMsg: validation[field][0],
         },
       };
     }
