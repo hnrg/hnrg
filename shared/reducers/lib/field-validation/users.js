@@ -58,8 +58,9 @@ const lastNameConstraints = {
  */
 const emailConstraints = {
   from: {
+    presence: true,
     email: {
-      message: "^El mail debe ser de la forma `nombre@dominio.com`",
+      message: '^El mail debe ser de la forma `nombre@dominio.com`',
     },
   },
 };

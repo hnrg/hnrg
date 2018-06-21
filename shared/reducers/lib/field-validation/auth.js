@@ -22,7 +22,10 @@ import _ from 'underscore';
  */
 const emailConstraints = {
   from: {
-    email: true,
+    presence: true,
+    email: {
+      message: '^El mail debe ser de la forma `nombre@dominio.com`',
+    },
   },
 };
 
@@ -30,13 +33,20 @@ const emailConstraints = {
  * ## password validation rule
  * read the message... ;)
  */
-const passwordPattern = '(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z])';
+const passwordPattern = /[a-zA-Z0-9_\-&$+*]+/;
 const passwordConstraints = {
   password: {
     presence: true,
+    format: {
+      pattern: passwordPattern,
+      flags: 'i',
+      message: '^La contraseña es incorrecta',
+    },
     length: {
-      minimum: 2,
-      message: 'must be at least 2 characters',
+      minimum: 5,
+      maximum: 30,
+      tooShort: '^La contraseña debe tener al menos %{count}',
+      tooLong: '^La contraseña debe tener menos de %{count}',
     },
   },
 };
@@ -56,11 +66,11 @@ export default function (state, action) {
        */
     case ('email'):
     {
-      const validEmail = _.isUndefined(validate({
+      const validation = validate({
         from: value,
-      }, emailConstraints));
+      }, emailConstraints);
 
-      if (validEmail) {
+      if (_.isUndefined(validation)) {
         return {
           ...state,
           fields: {
@@ -76,7 +86,7 @@ export default function (state, action) {
         fields: {
           ...state.fields,
           emailHasError: true,
-          emailErrorMsg: 'El email debe ser de la forma `example@domain`',
+          emailErrorMsg: validation['from'][0],
         },
       };
     }
@@ -87,11 +97,11 @@ export default function (state, action) {
        */
     case ('password'):
     {
-      const validPassword = _.isUndefined(validate({
+      const validation = validate({
         password: value,
-      }, passwordConstraints));
+      }, passwordConstraints);
 
-      if (validPassword) {
+      if (_.isUndefined(validation)) {
         return {
           ...state,
           fields: {
@@ -107,7 +117,7 @@ export default function (state, action) {
         fields: {
           ...state.fields,
           passwordHasError: true,
-          passwordErrorMsg: 'La contraseña tiene carácteres inválidos',
+          passwordErrorMsg: validation[field][0],
         },
       };
     }

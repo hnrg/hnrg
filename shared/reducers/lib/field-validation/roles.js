@@ -20,12 +20,18 @@ import _ from 'underscore';
  * ## name validation rule
  * read the message.. ;)
  */
-const namePattern = /^[a-zA-Z0-9]{6,15}$/;
 const nameConstraints = {
   name: {
     format: {
-      pattern: namePattern,
+      pattern: /^[a-zA-Z0-9]+$/,
       flags: 'i',
+      message: 'El nombre solo puede contener letras y números',
+    },
+    length: {
+      minimum: 1,
+      maximum: 20,
+      tooShort: '^El nombre debe tener al menos %{count} caracteres',
+      tooLong: '^El nombre debe tener menos de %{count} caracteres',
     },
   },
 };
@@ -45,11 +51,11 @@ export default function (state, action) {
      */
     case ('name'):
     {
-      const validName = _.isUndefined(validate({
+      const validation = validate({
         name: value,
-      }, nameConstraints));
+      }, nameConstraints);
 
-      if (validName) {
+      if (_.isUndefined(validation)) {
         return {
           ...state,
           fields: {
@@ -65,7 +71,7 @@ export default function (state, action) {
         fields: {
           ...state.fields,
           nameHasError: true,
-          nameErrorMsg: 'El name tiene carácteres inválidos',
+          nameErrorMsg: validation[field][0],
         },
       };
     }

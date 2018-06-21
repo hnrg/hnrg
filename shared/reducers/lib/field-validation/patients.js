@@ -85,7 +85,7 @@ const documentNumberConstraints = {
       greaterThan: 1000000,
       lessThanOrEqualTo: 100000000,
       notInteger: '^El número de documento solo puede contener números',
-      notValid: '^El númmero de documento es invalido',
+      notValid: '^El número de documento es invalido',
       notGreaterThan: '^El número de documento ingresado es muy chico',
       notLessThanOrEqualTo: '^El número de documento ingresado es muy grande',
     },
@@ -263,7 +263,8 @@ export default function (state, action) {
         },
       };
     }
-  }
 
-  return state;
+    default:
+      return state;
+  }
 }
