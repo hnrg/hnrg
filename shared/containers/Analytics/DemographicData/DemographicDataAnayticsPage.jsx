@@ -15,22 +15,10 @@ import * as analyticsActions from 'reducers/actions/analytics-actions';
 ReactChartkick.addAdapter(Chart)
 
 class AnalyticsContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentWillReceiveProps(props) {
-    this.setState({
-      ...props,
-    });
-  }
-
   componentDidMount() {
-    this.props.actions.getDemographicDataAnalytics();
-
-    this.setState({
-      ...this.props,
-    });
+    if (this.props.analytics.demographicDataAnalytics === null) {
+      this.props.actions.getDemographicDataAnalytics();
+    }
   }
 
   render() {
