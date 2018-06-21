@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { bindActionCreators } from 'redux';
@@ -6,6 +7,7 @@ import { connect } from 'react-redux';
 import {
   Container,
   Grid,
+  Message,
   Segment,
   Tab
 } from 'semantic-ui-react';
@@ -14,6 +16,8 @@ import * as permissionsActions from 'reducers/actions/permissions-actions';
 import * as profileActions from 'reducers/actions/profile-actions';
 import * as rolesActions from 'reducers/actions/roles-actions';
 
+import { permissionsCheck } from 'helpers/permissions-check';
+
 import Footer from 'components/Footer';
 import TopMenu from 'components/TopMenu';
 import RolAdd from 'components/Roles/Add';
@@ -21,15 +25,18 @@ import RolEdit from 'components/Roles/Edit';
 import RolesList from 'components/Roles/List';
 import RolShow from 'components/Roles/Show';
 
-const panes = ({ loading, roles, permissions }, actions) => [
+const panes = ({ loading, roles, permissions, granted }, actions) => [
   {
     menuItem: { key: 'rol', icon: 'certificate', content: 'Ver rol' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        <RolShow
-          rol={roles.originalRol}
-          permissions={permissions.permissions}
-          deletePermissionAction={actions.deletePermissionAction} />
+        { granted.show ?
+          <RolShow
+            rol={roles.originalRol}
+            permissions={permissions.permissions}
+            deletePermissionAction={actions.deletePermissionAction} /> :
+          <Redirect to={{ pathname: '/forbidden' }} />
+        }
       </Tab.Pane>
     ),
   },
@@ -37,16 +44,19 @@ const panes = ({ loading, roles, permissions }, actions) => [
     menuItem: { key: 'edit', icon: 'edit', content: 'Editar rol' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        <RolEdit
-          rol={roles.originalRol}
-          permissions={permissions.permissions}
-          error={roles.error}
-          success={roles.success}
-          fields={roles.fields}
-          isValid={roles.isValid}
-          isFetching={roles.isFetching}
-          onFormFieldChange={actions.onRolFormFieldChange}
-          updateRol={actions.updateRol} />
+        { granted.update ?
+          <RolEdit
+            rol={roles.originalRol}
+            permissions={permissions.permissions}
+            error={roles.error}
+            success={roles.success}
+            fields={roles.fields}
+            isValid={roles.isValid}
+            isFetching={roles.isFetching}
+            onFormFieldChange={actions.onRolFormFieldChange}
+            updateRol={actions.updateRol} /> :
+          <Redirect to={{ pathname: '/forbidden' }} />
+        }
       </Tab.Pane>
     ),
   },
@@ -62,6 +72,13 @@ class RolesContainer extends Component {
       rolname: '',
       deleted: false,
       currentView: 'rolesList',
+      granted: {
+        new: null,
+        update: null,
+        destroy: null,
+        show: null,
+        index: null,
+      },
       permissions: this.props.permissions,
       profile: this.props.profile,
       roles: this.props.roles,
@@ -70,37 +87,58 @@ class RolesContainer extends Component {
 
   componentWillReceiveProps(props) {
     const { fields } = props.roles;
+    const { originalProfile } = props.profile;
 
     this.setState({
       loading: fields.name === '',
       permissions: props.permissions,
       profile: props.profile,
       roles: props.roles,
+      granted: {
+        new: permissionsCheck(originalProfile, ['rol_new']),
+        update: permissionsCheck(originalProfile, ['rol_update']),
+        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
+        show: permissionsCheck(originalProfile, ['rol_show']),
+        index: permissionsCheck(originalProfile, ['rol_index']),
+      },
+    });
+  }
+
+  componentWillMount() {
+    const { originalProfile } = this.state.profile;
+
+    if (originalProfile.username === '') {
+      this.props.actions.getProfile();
+    }
+
+    this.setState({
+      granted: {
+        new: permissionsCheck(originalProfile, ['rol_new']),
+        update: permissionsCheck(originalProfile, ['rol_update']),
+        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
+        show: permissionsCheck(originalProfile, ['rol_show']),
+        index: permissionsCheck(originalProfile, ['rol_index']),
+      },
     });
   }
 
   componentDidMount() {
-    const { roles, profile, rolname, pageNumber, deleted } = this.state;
-    const { originalRol } = roles;
+    const { roles, profile, rolname, pageNumber, deleted, granted, currentView } = this.state;
     const { permissions } = this.state.permissions;
+    const { originalProfile } = profile;
+    const { originalRol } = roles;
 
-    if (profile.originalProfile.username === '') {
-      this.props.actions.getProfile();
-      return;
-    }
-
-    if (this.props.match.params.name && (originalRol.name === '' || this.props.match.params.name !== originalRol.name)) {
-      this.props.actions.getRol(this.props.match.params.name);
-      return;
-    }
-
-    if (!this.props.match.params.name && permissions === null) {
+    if (permissions === null) {
       this.props.actions.getPermissions();
+    }
+
+    if (granted.index && !this.props.match.params.name && roles.roles === null) {
+      this.props.actions.getRoles(pageNumber, rolname, deleted);
       return;
     }
 
-    if (!this.props.match.params.name && roles.roles === null) {
-      this.props.actions.getRoles(pageNumber, rolname, deleted);
+    if (granted.show && this.props.match.params.name && (originalRol.name === '' || this.props.match.params.name !== originalRol.name)) {
+      this.props.actions.getRol(this.props.match.params.name);
       return;
     }
 
@@ -109,7 +147,15 @@ class RolesContainer extends Component {
       permissions: this.props.permissions,
       profile: this.props.profile,
       roles: this.props.roles,
+      granted: {
+        new: permissionsCheck(originalProfile, ['rol_new']),
+        update: permissionsCheck(originalProfile, ['rol_update']),
+        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
+        show: permissionsCheck(originalProfile, ['rol_show']),
+        index: permissionsCheck(originalProfile, ['rol_index']),
+      },
     });
+
   }
 
   onSearchFieldChange(e, {name, value}) {
@@ -160,35 +206,44 @@ class RolesContainer extends Component {
 
   rolesList() {
     const { actions, match } = this.props;
-    const { pageNumber, roles } = this.state;
+    const { pageNumber, roles, granted } = this.state;
 
-    return <RolesList
-      url={match.url}
-      roles={roles.roles}
-      pageNumber={pageNumber}
-      totalCount={roles.totalCount}
-      count={roles.count}
-      error={roles.error}
-      success={roles.success}
-      deleteAction={this.deleteAction.bind(this)}
-      enableAction={this.enableAction.bind(this)}
-      onAddButtonClick={this.onAddButtonClick.bind(this)}
-      onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
+    if (granted.index === null || granted.index) {
+      return <RolesList
+          url={match.url}
+          roles={roles.roles}
+          pageNumber={pageNumber}
+          totalCount={roles.totalCount}
+          count={roles.count}
+          error={roles.error}
+          success={roles.success}
+          granted={granted}
+          deleteAction={this.deleteAction.bind(this)}
+          enableAction={this.enableAction.bind(this)}
+          onAddButtonClick={this.onAddButtonClick.bind(this)}
+          onSearchFieldChange={this.onSearchFieldChange.bind(this)} />;
+    }
+
+    this.setState({
+      currentView: 'rolCreate',
+    });
   }
 
   rolCreate() {
-    const { permissions, roles } = this.state;
+    const { permissions, roles, granted } = this.state;
 
-    return <RolAdd
-      permissions={permissions.permissions}
-      fields={roles.fields}
-      isValid={roles.isValid}
-      isFetching={roles.isFetching}
-      error={roles.error}
-      success={roles.success}
-      onMount={this.props.actions.onRolFormClear}
-      onFormFieldChange={this.props.actions.onRolFormFieldChange}
-      addRol={this.props.actions.addRol} />
+    return granted.new ?
+      <RolAdd
+        permissions={permissions.permissions}
+        fields={roles.fields}
+        isValid={roles.isValid}
+        isFetching={roles.isFetching}
+        error={roles.error}
+        success={roles.success}
+        onMount={this.props.actions.onRolFormClear}
+        onFormFieldChange={this.props.actions.onRolFormFieldChange}
+        addRol={this.props.actions.addRol} /> :
+      <Redirect to={{ pathname: '/forbidden' }} />;
   }
 
   render() {

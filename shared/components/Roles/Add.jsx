@@ -8,7 +8,7 @@ import {
 } from 'semantic-ui-react';
 
 const options = (permissions) => {
-  return permissions.map(permission => {
+  return Array.from(permissions || []).map(permission => {
     return {
       key: permission,
       value: permission,
@@ -27,7 +27,7 @@ class Add extends Component {
       isValid: this.props.isValid,
       isFetching: this.props.isFetching,
       fields: this.props.fields,
-      permissions: this.props.permissions.map(p => p.name),
+      permissions: Array.from(this.props.permissions || []).map(p => p.name),
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -41,7 +41,7 @@ class Add extends Component {
       fields,
       isValid,
       isFetching,
-      permissions: permissions.map(p => p.name),
+      permissions: Array.from(permissions || []).map(p => p.name),
     });
   }
 
@@ -52,7 +52,7 @@ class Add extends Component {
       fields,
       isValid,
       isFetching,
-      permissions: permissions.map(p => p.name),
+      permissions: Array.from(permissions || []).map(p => p.name),
     });
   }
 

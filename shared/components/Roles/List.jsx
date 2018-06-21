@@ -117,10 +117,10 @@ class RolesList extends Component {
                   {
                     !rol.deleted ?
                     <div>
-                      <Button circular size='tiny' color='teal' as={Link} to={`${this.props.url}/${rol.name}`} icon='edit' title={`Ver ${rol.name}`} />
-                      <Button circular size='tiny' color='red' icon='remove' title={`Eliminar ${rol.name}`} onClick={this.handleStrategy(this.props.deleteAction(rol.name))} />
+                      <Button circular size='tiny' disabled={!this.props.granted.show} color='teal' as={Link} to={`${this.props.url}/${rol.name}`} icon='edit' title={`Ver ${rol.name}`} />
+                      <Button circular size='tiny' disabled={!this.props.granted.destroy} color='red' icon='remove' title={`Eliminar ${rol.name}`} onClick={this.handleStrategy(this.props.deleteAction(rol.name))} />
                     </div> :
-                    <Button circular size='tiny' color='blue' icon='add' title={`Habilitar rol ${rol.name}`} onClick={this.handleStrategy(this.props.enableAction(rol.name))} />
+                    <Button circular size='tiny' disabled={!this.props.granted.update} color='blue' icon='add' title={`Habilitar rol ${rol.name}`} onClick={this.handleStrategy(this.props.enableAction(rol.name))} />
                   }
                 </Table.Cell>
               </Table.Row>
