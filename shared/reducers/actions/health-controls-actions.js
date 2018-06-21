@@ -28,7 +28,7 @@ import {
 } from 'reducers/constants';
 
 import { errorHandler } from 'helpers/error-handler';
-import { healthControlsRequest } from 'reducers/lib/request/healthControls-request';
+import { healthControlsRequest } from 'reducers/lib/request/health-controls-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
 /**
@@ -101,7 +101,7 @@ export function getHealthControl(healthControl, sessionToken) {
     return authToken.getSessionToken(sessionToken)
       .then(token => healthControlsRequest.init(token).getHealthControl(healthControl))
       .then((data) => {
-        dispatch(getHealthControlSuccess(data.rol));
+        dispatch(getHealthControlSuccess(data.healthControl));
       })
       .catch((error) => {
         dispatch(getHealthControlFailure(errorHandler(error)));

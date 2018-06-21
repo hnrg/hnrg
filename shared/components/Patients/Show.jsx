@@ -11,34 +11,8 @@ import {
 import icon from 'static/icons/icon.png';
 
 class Show extends Component {
-  constructor(props) {
-    super(props);
-
-    const { patient } = this.props;
-
-    this.state = {
-      patient,
-    };
-  }
-
-  componentWillReceiveProps(props) {
-    const { patient } = props;
-
-    this.setState({
-      patient,
-    });
-  }
-
-  componentDidMount() {
-    const { patient } = this.props;
-
-    this.setState({
-      patient,
-    });
-  }
-
   showDemographicData() {
-    const { demographicData } = this.state.patient;
+    const { demographicData } = this.props.patient;
     if (demographicData) {
       return (
         <Grid>
@@ -77,9 +51,9 @@ class Show extends Component {
   }
 
   render() {
-    const { firstName, lastName, address, phone, sex, medicalInsurance, documentType, documentNumber } = this.state.patient;
+    const { firstName, lastName, address, phone, sex, medicalInsurance, documentType, documentNumber } = this.props.patient;
 
-    const birthday = moment(this.state.patient.birthday);
+    const birthday = moment(this.props.patient.birthday);
     birthday.locale('es');
 
     return(

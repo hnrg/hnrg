@@ -1,3 +1,6 @@
+import fieldValidation from 'reducers/lib/field-validation/roles';
+import formValidation from 'reducers/lib/form-validation/roles';
+
 import {
   GET_HEALTH_CONTROLS_REQUEST,
   GET_HEALTH_CONTROLS_SUCCESS,
@@ -140,10 +143,10 @@ export default function healthControlsReducer(state = InitialState, action) {
         fields: {
           ...state.fields,
           date: action.payload.date,
-          weight: action.payload.weight,
-          pc: action.payload.pc,
-          ppc: action.payload.ppc,
-          height: action.payload.height,
+          weight: action.payload.weight.$numberDecimal,
+          pc: action.payload.pc.$numberDecimal,
+          ppc: action.payload.ppc.$numberDecimal,
+          height: action.payload.height.$numberDecimal,
           completeVaccines: action.payload.completeVaccines,
           vaccinesObservations: action.payload.vaccinesObservations,
           maturationObservations: action.payload.maturationObservations,
@@ -155,10 +158,10 @@ export default function healthControlsReducer(state = InitialState, action) {
         originalHealthControl: {
           ...state.originalHealthControl,
           date: action.payload.date,
-          weight: action.payload.weight,
-          pc: action.payload.pc,
-          ppc: action.payload.ppc,
-          height: action.payload.height,
+          weight: action.payload.weight.$numberDecimal,
+          pc: action.payload.pc.$numberDecimal,
+          ppc: action.payload.ppc.$numberDecimal,
+          height: action.payload.height.$numberDecimal,
           completeVaccines: action.payload.completeVaccines,
           vaccinesObservations: action.payload.vaccinesObservations,
           maturationObservations: action.payload.maturationObservations,

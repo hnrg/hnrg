@@ -24,6 +24,11 @@ user.findOne({}).exec((err, data) => {
     commonPhysicalExamination: false,
     active: true,
     patient: pat.id,
+    date: Date.now(),
+    vaccinesObservations: 'Observacion',
+    maturationObservations: 'Obser',
+    physicalExaminationObservations: 'Observacionm',
+    generalObservations: 'asdasd',
     pc: "50.7",
     ppc: "50.3",
     height: "30.5",
@@ -33,7 +38,5 @@ user.findOne({}).exec((err, data) => {
   doc.save();
   pat.save();
   pat2.save();
-  pat3.save();
   hc.save();
 });
-

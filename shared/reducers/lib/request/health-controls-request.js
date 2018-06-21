@@ -1,7 +1,7 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-export default class HealthControlesRequest {
+export default class HealthControlsRequest {
   init(token = null) {
     this._sessionToken = _.isNull(token)
       ? null
@@ -10,7 +10,7 @@ export default class HealthControlesRequest {
     return this;
   }
 
-  getHealthControles(pageNumber = 0) {
+  getHealthControls(pageNumber = 0) {
     return axios.get('/api/health-controls', {
       params: {
         pageNumber,
@@ -23,7 +23,7 @@ export default class HealthControlesRequest {
         const data = response.data;
 
         return {
-          health-controls: data.healthControls,
+          healthControls: data.healthControls,
           count: data.count,
           totalCount: data.total_count,
         };
@@ -171,4 +171,4 @@ export default class HealthControlesRequest {
 }
 
 // The singleton variable
-export const health-controlsRequest = new HealthControlesRequest();
+export const healthControlsRequest = new HealthControlsRequest();

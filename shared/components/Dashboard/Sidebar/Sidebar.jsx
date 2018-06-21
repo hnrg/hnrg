@@ -61,15 +61,22 @@ class Sidebar extends Component {
           </TextIcon>
         </Menu.Item>
 
+        <Menu.Item as={Link} to={'/dashboard/health-controls'} name='health-controls'
+                   active={activeItem === 'health-controls'}>
+          <TextIcon hideText={this.props.smallMenu} color={activeItem == 'health-controls' ? 'violet' : undefined } name='tasks'>
+            Historia Clínica
+          </TextIcon>
+        </Menu.Item>
+
         <Menu.Item as={Link} to={'/dashboard/roles'} name='roles'
                    active={activeItem === 'roles'}>
           <TextIcon hideText={this.props.smallMenu} color={activeItem == 'roles' ? 'yellow' : undefined } name='certificate'>
             Roles
           </TextIcon>
         </Menu.Item>
-        <Menu.Item as={Link} to={'/dashboard/analytics/demographic-data'} name='analytics-demographic-data'
-                   active={activeItem === 'analytics-demographic-data'}>
-          <TextIcon hideText={this.props.smallMenu} color={activeItem == 'analytics-demographic-data' ? 'red' : undefined } name='chart bar'>
+        <Menu.Item as={Link} to={'/dashboard/analytics/demographic-data'} name='analytics'
+                   active={activeItem === 'analytics'}>
+          <TextIcon hideText={this.props.smallMenu} color={activeItem == 'analytics' ? 'red' : undefined } name='chart bar'>
             Estadísticas
           </TextIcon>
         </Menu.Item>

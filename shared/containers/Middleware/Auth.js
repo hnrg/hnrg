@@ -15,7 +15,7 @@ export default function requireAuth(ComposedComponent) {
     }
 
     render() {
-      return (this.props.auth.authenticated === null ||this.props.auth.authenticated) ?
+      return (this.props.auth.authenticated === null || this.props.auth.authenticated) ?
         <ComposedComponent {...this.props} /> :
         <Redirect to={{ pathname: '/login' }} />;
     }

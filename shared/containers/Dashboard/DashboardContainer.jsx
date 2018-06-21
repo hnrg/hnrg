@@ -10,6 +10,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import Layout from 'components/Dashboard/Layout';
+import HealthControlsPage from 'containers/HealthControls';
 import RolesPage from 'containers/Roles';
 import SettingsPage from 'containers/Settings';
 import StatisticsPage from 'containers/Statistics';
@@ -75,13 +76,14 @@ class DashboardContainer extends Component {
           activeItem={activeItem}>
           <Switch>
             <Route exact path={`${match.path}`} component={StatisticsPage} />
-            <Route path={`${match.path}/settings`} component={SettingsPage} />
-            <Route path={`${match.path}/users/:username?`} component={UsersPage} />
-            <Route path={`${match.path}/patients/:id?`} component={PatientsPage} />
-            <Route path={`${match.path}/demographic-data/:id?`} component={DemographicDataPage} />
             <Route path={`${match.path}/analytics/demographic-data`} component={DemographicDataAnalyticsPage} />
             <Route path={`${match.path}/analytics/health-controls`} component={StatisticsPage} />
+            <Route path={`${match.path}/demographic-data/:id?`} component={DemographicDataPage} />
+            <Route path={`${match.path}/health-controls/:id?`} component={HealthControlsPage} />
+            <Route path={`${match.path}/patients/:id?`} component={PatientsPage} />
             <Route path={`${match.path}/roles/:name?`} component={RolesPage} />
+            <Route path={`${match.path}/settings`} component={SettingsPage} />
+            <Route path={`${match.path}/users/:username?`} component={UsersPage} />
           </Switch>
         </Layout>
       </div>
