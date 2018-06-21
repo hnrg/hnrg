@@ -18,7 +18,7 @@ export default {
       apartmentType: null,
       heatingType: null,
       waterType: null,
-    }
+    },
   },
   disabled: false,
   error: null,

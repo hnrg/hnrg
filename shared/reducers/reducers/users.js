@@ -60,18 +60,23 @@ export default function usersReducer(state = InitialState, action) {
     case USER_ENABLE_REQUEST:
     case USER_UPDATE_REQUEST:
     {
-      return { ...state, isFetching: true, error: null, };
+      return {
+        ...state,
+        isFetching: true,
+        error: null,
+      };
     }
 
     /**
-     * ### Request ends successfully
-     *
-     * the fetching is done, set the UI fields and the originalRoles
-     *
-     * Validate the data to make sure it's all good and someone didn't
-     * mung it up through some other mechanism
-     */
-    case GET_USERS_SUCCESS: {
+       * ### Request ends successfully
+       *
+       * the fetching is done, set the UI fields and the originalRoles
+       *
+       * Validate the data to make sure it's all good and someone didn't
+       * mung it up through some other mechanism
+       */
+    case GET_USERS_SUCCESS:
+    {
       return {
         ...state,
         users: action.payload.users,
@@ -99,14 +104,15 @@ export default function usersReducer(state = InitialState, action) {
     }
 
     /**
-     * ### Request ends successfully
-     *
-     * the fetching is done, set the UI fields and the originalUser
-     *
-     * Validate the data to make sure it's all good and someone didn't
-     * mung it up through some other mechanism
-     */
-    case GET_USER_SUCCESS: {
+       * ### Request ends successfully
+       *
+       * the fetching is done, set the UI fields and the originalUser
+       *
+       * Validate the data to make sure it's all good and someone didn't
+       * mung it up through some other mechanism
+       */
+    case GET_USER_SUCCESS:
+    {
       nextUserState = {
         ...state,
         fields: {
@@ -136,7 +142,8 @@ export default function usersReducer(state = InitialState, action) {
       return formValidation(fieldValidation(nextUserState, action), action);
     }
 
-    case ON_USER_FORM_CLEAR: {
+    case ON_USER_FORM_CLEAR:
+    {
       return {
         ...state,
         error: null,
@@ -161,8 +168,12 @@ export default function usersReducer(state = InitialState, action) {
       };
     }
 
-    case ON_USER_FORM_FIELD_CHANGE: {
-      const { field, value } = action.payload;
+    case ON_USER_FORM_FIELD_CHANGE:
+    {
+      const {
+        field,
+        value,
+      } = action.payload;
 
       nextUserState = {
         ...state,
@@ -178,24 +189,18 @@ export default function usersReducer(state = InitialState, action) {
     }
 
     /**
-     * User logged out, so reset form fields and original users.
-     *
-     */
-    case LOGOUT_SUCCESS: {
-      nextUserState = {
-        ...state,
-        email: '',
-        error: null,
-        success: null,
-      };
-
-      return formValidation(nextUserState, action);
+       * User logged out, so reset form fields and original users.
+       *
+       */
+    case LOGOUT_SUCCESS:
+    {
+      return InitialState;
     }
 
     /**
-     * ### Request fails
-     * we're done fetching and the error needs to be displayed to the user
-     */
+       * ### Request fails
+       * we're done fetching and the error needs to be displayed to the user
+       */
     case GET_USERS_FAILURE:
     case GET_USER_FAILURE:
     case USER_ADD_FAILURE:
@@ -212,15 +217,21 @@ export default function usersReducer(state = InitialState, action) {
     }
 
     /**
-     * ### set the state
-     *
-     * This is in support of Hot Loading - take the payload
-     * and set the values into the state
-     *
-     */
-    case SET_STATE: {
-      const { users } = JSON.parse(action.payload);
-      const { fields, originalUser } = state;
+       * ### set the state
+       *
+       * This is in support of Hot Loading - take the payload
+       * and set the values into the state
+       *
+       */
+    case SET_STATE:
+    {
+      const {
+        users,
+      } = JSON.parse(action.payload);
+      const {
+        fields,
+        originalUser,
+      } = state;
 
       return {
         ...state,
@@ -260,7 +271,8 @@ export default function usersReducer(state = InitialState, action) {
       };
     }
 
-    default: {
+    default:
+    {
       return state;
     }
   }

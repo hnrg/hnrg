@@ -39,22 +39,32 @@ export default function profileReducer(state = InitialState, action) {
     case GET_PROFILE_REQUEST:
     case PROFILE_UPDATE_REQUEST:
     {
-      return { ...state, isFetching: true, error: null };
+      return {
+        ...state,
+        isFetching: true,
+        error: null,
+      };
     }
 
-    case PROFILE_UPDATE_SUCCESS: {
-      return { ...state, isFetching: false, success: true, };
+    case PROFILE_UPDATE_SUCCESS:
+    {
+      return {
+        ...state,
+        isFetching: false,
+        success: true,
+      };
     }
 
     /**
-     * ### Request ends successfully
-     *
-     * the fetching is done, set the UI fields and the originalProfile
-     *
-     * Validate the data to make sure it's all good and someone didn't
-     * mung it up through some other mechanism
-     */
-    case GET_PROFILE_SUCCESS: {
+       * ### Request ends successfully
+       *
+       * the fetching is done, set the UI fields and the originalProfile
+       *
+       * Validate the data to make sure it's all good and someone didn't
+       * mung it up through some other mechanism
+       */
+    case GET_PROFILE_SUCCESS:
+    {
       nextProfileState = {
         ...state,
         fields: {
@@ -86,8 +96,12 @@ export default function profileReducer(state = InitialState, action) {
       return formValidation(fieldValidation(nextProfileState, action), action);
     }
 
-    case ON_PROFILE_FORM_FIELD_CHANGE: {
-      const { field, value } = action.payload;
+    case ON_PROFILE_FORM_FIELD_CHANGE:
+    {
+      const {
+        field,
+        value,
+      } = action.payload;
 
       nextProfileState = {
         ...state,
@@ -102,24 +116,18 @@ export default function profileReducer(state = InitialState, action) {
     }
 
     /**
-     * User logged out, so reset form fields and original profile.
-     *
-     */
-    case LOGOUT_SUCCESS: {
-      nextProfileState = {
-        ...state,
-        email: '',
-        error: null,
-        success: null,
-      };
-
-      return formValidation(nextProfileState, action);
+       * User logged out, so reset form fields and original profile.
+       *
+       */
+    case LOGOUT_SUCCESS:
+    {
+      return InitialState;
     }
 
     /**
-     * ### Request fails
-     * we're done fetching and the error needs to be displayed to the user
-     */
+       * ### Request fails
+       * we're done fetching and the error needs to be displayed to the user
+       */
     case GET_PROFILE_FAILURE:
     case PROFILE_UPDATE_FAILURE:
     {
@@ -132,15 +140,21 @@ export default function profileReducer(state = InitialState, action) {
     }
 
     /**
-     * ### set the state
-     *
-     * This is in support of Hot Loading - take the payload
-     * and set the values into the state
-     *
-     */
-    case SET_STATE: {
-      const { profile } = JSON.parse(action.payload);
-      const { fields, originalProfile } = state;
+       * ### set the state
+       *
+       * This is in support of Hot Loading - take the payload
+       * and set the values into the state
+       *
+       */
+    case SET_STATE:
+    {
+      const {
+        profile,
+      } = JSON.parse(action.payload);
+      const {
+        fields,
+        originalProfile,
+      } = state;
 
       return {
         ...state,
@@ -177,7 +191,8 @@ export default function profileReducer(state = InitialState, action) {
       };
     }
 
-    default: {
+    default:
+    {
       return state;
     }
   }

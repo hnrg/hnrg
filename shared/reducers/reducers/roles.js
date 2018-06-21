@@ -65,18 +65,23 @@ export default function rolesReducer(state = InitialState, action) {
     case ROL_PERMISSION_DELETE_REQUEST:
     case ROL_UPDATE_REQUEST:
     {
-      return { ...state, isFetching: true, error: null };
+      return {
+        ...state,
+        isFetching: true,
+        error: null,
+      };
     }
 
     /**
-     * ### Request ends successfully
-     *
-     * the fetching is done, set the UI fields and the originalRol
-     *
-     * Validate the data to make sure it's all good and someone didn't
-     * mung it up through some other mechanism
-     */
-    case GET_ROLES_SUCCESS: {
+       * ### Request ends successfully
+       *
+       * the fetching is done, set the UI fields and the originalRol
+       *
+       * Validate the data to make sure it's all good and someone didn't
+       * mung it up through some other mechanism
+       */
+    case GET_ROLES_SUCCESS:
+    {
       return {
         ...state,
         totalCount: action.payload.totalCount,
@@ -104,22 +109,18 @@ export default function rolesReducer(state = InitialState, action) {
     }
 
     /**
-     * Rol logged out, so reset form fields and original rol.
-     *
-     */
-    case LOGOUT_SUCCESS: {
-      return nextRolState = {
-        ...state,
-        roles: [],
-        error: null,
-        success: null,
-      };
+       * Rol logged out, so reset form fields and original rol.
+       *
+       */
+    case LOGOUT_SUCCESS:
+    {
+      return InitialState;
     }
 
     /**
-     * ### Request fails
-     * we're done fetching and the error needs to be displayed to the user
-     */
+       * ### Request fails
+       * we're done fetching and the error needs to be displayed to the user
+       */
     case GET_ROLES_FAILURE:
     case GET_ROL_FAILURE:
     case ROL_ADD_FAILURE:
@@ -136,7 +137,8 @@ export default function rolesReducer(state = InitialState, action) {
       };
     }
 
-    case GET_ROL_SUCCESS: {
+    case GET_ROL_SUCCESS:
+    {
       nextRolState = {
         ...state,
         fields: {
@@ -156,7 +158,8 @@ export default function rolesReducer(state = InitialState, action) {
       return fieldValidation(nextRolState, action);
     }
 
-    case ON_ROL_FORM_CLEAR: {
+    case ON_ROL_FORM_CLEAR:
+    {
       return {
         ...state,
         error: null,
@@ -165,12 +168,16 @@ export default function rolesReducer(state = InitialState, action) {
           ...state.fields,
           name: '',
           permissions: null,
-        }
+        },
       };
     }
 
-    case ON_ROL_FORM_FIELD_CHANGE: {
-      const { field, value } = action.payload;
+    case ON_ROL_FORM_FIELD_CHANGE:
+    {
+      const {
+        field,
+        value,
+      } = action.payload;
 
       nextRolState = {
         ...state,
@@ -185,14 +192,17 @@ export default function rolesReducer(state = InitialState, action) {
     }
 
     /**
-     * ### set the state
-     *
-     * This is in support of Hot Loading - take the payload
-     * and set the values into the state
-     *
-     */
-    case SET_STATE: {
-      const { roles } = JSON.parse(action.payload);
+       * ### set the state
+       *
+       * This is in support of Hot Loading - take the payload
+       * and set the values into the state
+       *
+       */
+    case SET_STATE:
+    {
+      const {
+        roles,
+      } = JSON.parse(action.payload);
 
       return {
         ...state,
@@ -209,7 +219,8 @@ export default function rolesReducer(state = InitialState, action) {
       };
     }
 
-    default: {
+    default:
+    {
       return state;
     }
   }

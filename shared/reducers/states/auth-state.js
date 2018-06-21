@@ -1,7 +1,7 @@
 export default {
   disabled: false,
   error: null,
-  authenticated: false,
+  authenticated: null,
   isValid: false,
   isFetching: false,
   fields: {

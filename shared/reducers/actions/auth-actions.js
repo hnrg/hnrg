@@ -29,6 +29,10 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
+
+  AUTHENTICATE_REQUEST,
+  AUTHENTICATE_SUCCESS,
+  AUTHENTICATE_FAILURE,
 } from 'reducers/constants';
 
 
@@ -300,4 +304,47 @@ export function resetPasswordFailure(error) {
  */
 export function resetPassword(email) {
 
+}
+
+/**
+ * ## retreiving profile actions
+ */
+export function authenticateRequest() {
+  return {
+    type: AUTHENTICATE_REQUEST,
+  };
+}
+
+export function authenticateSuccess(user) {
+  return {
+    type: AUTHENTICATE_SUCCESS,
+    payload: user,
+  };
+}
+
+export function authenticateFailure(error) {
+  return {
+    type: AUTHENTICATE_FAILURE,
+    payload: error,
+  };
+}
+
+/**
+ * ## State actions
+ * controls which form is displayed to the user
+ * as in login, register, logout or reset password
+ */
+export function authenticate(sessionToken) {
+  return (dispatch) => {
+    dispatch(authenticateRequest());
+    // store or get a sessionToken
+    return authToken.getSessionToken(sessionToken)
+      .then(token => authRequest.init(token).authenticate())
+      .then((data) => {
+        dispatch(authenticateSuccess(data.user));
+      })
+      .catch((error) => {
+        dispatch(authenticateFailure(errorHandler(error)));
+      });
+  };
 }

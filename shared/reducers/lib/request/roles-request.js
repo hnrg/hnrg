@@ -55,7 +55,7 @@ export default class RolesRequest {
     name,
     permissions,
   }) {
-    return axios.post(`/api/roles`, {
+    return axios.post('/api/roles', {
       rol: {
         name,
         permissions,

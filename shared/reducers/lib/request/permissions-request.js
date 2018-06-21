@@ -19,7 +19,7 @@ export default class PermissionsRequest {
       if (response.status === 200 || response.status === 201) {
         return response.data;
       }
-      
+
       throw (response.data.error);
     }).catch((error) => {
       throw error;

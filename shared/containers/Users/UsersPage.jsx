@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { bindActionCreators } from 'redux';
@@ -10,31 +11,42 @@ import {
   Tab
 } from 'semantic-ui-react';
 
+import * as profileActions from 'reducers/actions/profile-actions';
 import * as usersActions from 'reducers/actions/users-actions';
+
+import { permissionsCheck } from 'helpers/permissions-check';
 
 import UserAdd from 'components/Users/Add';
 import UserShow from 'components/Users/Show';
 import UserEdit from 'components/Users/Edit';
 import UsersList from 'components/Users/List';
 
-const panes = ({ loading, originalUser, fields, isValid, isFetching, error, success }, actions) => [
+const panes = ({ loading, users, granted }, actions) => [
   {
     menuItem: { key: 'user', icon: 'user', content: 'Ver perfil' },
-    render: () => <Tab.Pane loading={loading} padded='very'><UserShow user={originalUser} /></Tab.Pane>
+    render: () => <Tab.Pane loading={loading} padded='very'>
+      { granted.show ?
+        <UserShow user={users.originalUser} /> :
+        <Redirect to={{ pathname: '/forbidden' }} />
+      }
+    </Tab.Pane>
   },
   {
     menuItem: { key: 'edit', icon: 'edit', content: 'Editar perfil' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        <UserEdit
-          user={originalUser}
-          fields={fields}
-          error={error}
-          success={success}
-          isValid={isValid}
-          isFetching={isFetching}
-          onFormFieldChange={actions.onUserFormFieldChange}
-          updateUser={actions.updateUser} />
+        { granted.update ?
+          <UserEdit
+            user={users.originalUser}
+            fields={users.fields}
+            error={users.error}
+            success={users.success}
+            isValid={users.isValid}
+            isFetching={users.isFetching}
+            onFormFieldChange={actions.onUserFormFieldChange}
+            updateUser={actions.updateUser} /> :
+          <Redirect to={{ pathname: '/forbidden' }} />
+        }
       </Tab.Pane>
     ),
   },
@@ -44,64 +56,62 @@ class UsersContainer extends Component {
   constructor(props) {
     super(props);
 
-    const {
-      originalUser,
-      fields,
-      error,
-      success,
-      isFetching,
-      isValid,
-      users,
-      totalCount,
-      count,
-    } = this.props.users;
-
     this.state = {
       loading: true,
       currentView: 'usersList',
       pageNumber: 0,
       username: '',
       active: true,
-      users,
-      totalCount,
-      count,
-      originalUser,
-      fields,
-      error,
-      success,
-      isValid,
-      isFetching,
+      granted: {
+        new: null,
+        update: null,
+        destroy: null,
+        show: null,
+        index: null,
+      },
+      profile: this.props.profile,
+      users: this.props.users,
     };
   }
 
   componentWillReceiveProps(props) {
-    const {
-      originalUser,
-      fields,
-      isFetching,
-      isValid,
-      users,
-      error,
-      success,
-      totalCount,
-      count,
-    } = props.users;
+    const { users, profile } = props;
+    const { originalProfile } = profile;
 
     this.setState({
-      loading: fields.username === '',
-      originalUser,
-      fields,
-      isValid,
-      isFetching,
+      loading: users.fields.username === '',
+      granted: {
+        new: permissionsCheck(originalProfile, ['rol_new']),
+        update: permissionsCheck(originalProfile, ['rol_update']),
+        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
+        show: permissionsCheck(originalProfile, ['rol_show']),
+        index: permissionsCheck(originalProfile, ['rol_index']),
+      },
       users,
-      error,
-      success,
-      totalCount,
-      count,
+    });
+  }
+
+  componentWillMount() {
+    const { originalProfile } = this.state.profile;
+
+    if (originalProfile.username === '') {
+      this.props.actions.getProfile();
+    }
+
+    this.setState({
+      granted: {
+        new: permissionsCheck(originalProfile, ['rol_new']),
+        update: permissionsCheck(originalProfile, ['rol_update']),
+        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
+        show: permissionsCheck(originalProfile, ['rol_show']),
+        index: permissionsCheck(originalProfile, ['rol_index']),
+      },
     });
   }
 
   componentDidMount() {
+    const { granted } = this.state;
+
     const {
       originalUser,
       fields,
@@ -114,12 +124,14 @@ class UsersContainer extends Component {
       count,
     } = this.props.users;
 
-    if (this.props.match.params.username && (originalUser.username === '' || this.props.match.params.username !== originalUser.username)) {
+    const {originalProfile} = this.props.profile;
+
+    if (granted.show && this.props.match.params.username && (originalUser.username === '' || this.props.match.params.username !== originalUser.username)) {
       this.props.actions.getUser(this.props.match.params.username);
       return;
     }
 
-    if (!this.props.match.params.username && this.state.users === null) {
+    if (granted.index && !this.props.match.params.username && users === null) {
       const { pageNumber, username, active } = this.state;
 
       this.props.actions.getUsers(pageNumber, username, active);
@@ -128,15 +140,14 @@ class UsersContainer extends Component {
 
     this.setState({
       loading: false,
-      originalUser,
-      fields,
-      isValid,
-      isFetching,
-      users,
-      error,
-      success,
-      totalCount,
-      count,
+      users: this.props.users,
+      granted: {
+        new: permissionsCheck(originalProfile, ['rol_new']),
+        update: permissionsCheck(originalProfile, ['rol_update']),
+        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
+        show: permissionsCheck(originalProfile, ['rol_show']),
+        index: permissionsCheck(originalProfile, ['rol_index']),
+      },
     });
   }
 
@@ -180,38 +191,44 @@ class UsersContainer extends Component {
 
   usersList() {
     const { actions, match } = this.props;
+    const { users, granted } = this.state;
 
-    return (
-      <UsersList
-        url={match.url}
-        users={this.state.users}
-        pageNumber={this.state.pageNumber}
-        totalCount={this.state.totalCount}
-        count={this.state.count}
-        error={this.state.error}
-        success={this.state.success}
-        onAddButtonClick={this.onAddButtonClick.bind(this)}
-        deleteAction={this.deleteAction.bind(this)}
-        enableAction={this.enableAction.bind(this)}
-        onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
-      );
+    if (granted.index === null || granted.index) {
+      return <UsersList
+          url={match.url}
+          users={users.users}
+          pageNumber={users.pageNumber}
+          totalCount={users.totalCount}
+          count={users.count}
+          error={users.error}
+          success={users.success}
+          granted={granted}
+          onAddButtonClick={this.onAddButtonClick.bind(this)}
+          deleteAction={this.deleteAction.bind(this)}
+          enableAction={this.enableAction.bind(this)}
+          onSearchFieldChange={this.onSearchFieldChange.bind(this)} />;
+    }
+
+    this.setState({
+      currentView: 'userCreate',
+    });
   }
 
   userCreate() {
-    const { fields, isValid, isFetching, error, success } = this.state;
+    const { users, granted } = this.state;
     const { actions } = this.props;
 
-    return (
+    return granted.new ?
       <UserAdd
-        error={error}
-        success={success}
-        fields={fields}
-        isValid={isValid}
-        isFetching={isFetching}
+        error={users.error}
+        success={users.success}
+        fields={users.fields}
+        isValid={users.isValid}
+        isFetching={users.isFetching}
         onMount={actions.onUserFormClear}
         onFormFieldChange={actions.onUserFormFieldChange}
-        addUser={actions.addUser} />
-    );
+        addUser={actions.addUser} /> :
+      <Redirect to={{ pathname: '/forbidden' }} />;
   }
 
   render() {
@@ -232,13 +249,15 @@ class UsersContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    users: state.users
+    profile: state.profile,
+    users: state.users,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
+      ...profileActions,
       ...usersActions,
     }, dispatch)
   };

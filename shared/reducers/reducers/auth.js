@@ -27,6 +27,10 @@ import {
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
 
+  AUTHENTICATE_REQUEST,
+  AUTHENTICATE_SUCCESS,
+  AUTHENTICATE_FAILURE,
+
   SET_STATE,
 } from 'reducers/constants';
 
@@ -42,6 +46,7 @@ export default function (state = InitialState, action) {
      * set the form to fetching and clear any errors
      */
     case SESSION_TOKEN_REQUEST:
+    case AUTHENTICATE_REQUEST:
     case LOGOUT_REQUEST:
     case LOGIN_REQUEST:
     case RESET_PASSWORD_REQUEST:
@@ -60,17 +65,9 @@ export default function (state = InitialState, action) {
        * The logged in user logs out
        * Clear the form's error and all the fields
        */
-    case LOGOUT: {
-      const { fields } = state;
-      return {
-        ...state,
-        error: null,
-        fields: {
-          ...fields,
-          email: '',
-          password: '',
-        },
-      };
+    case LOGOUT_SUCCESS:
+    {
+      return InitialState;
     }
 
     /**
@@ -98,7 +95,10 @@ export default function (state = InitialState, action) {
        */
     case ON_AUTH_FORM_FIELD_CHANGE:
     {
-      const { field, value } = action.payload;
+      const {
+        field,
+        value,
+      } = action.payload;
 
       const nextState = {
         ...state,
@@ -106,7 +106,7 @@ export default function (state = InitialState, action) {
         fields: {
           ...state.fields,
           [field]: value,
-        }
+        },
       };
 
       return formValidation(fieldValidation(nextState, action), action);
@@ -117,6 +117,11 @@ export default function (state = InitialState, action) {
        */
     case SESSION_TOKEN_SUCCESS:
     case SESSION_TOKEN_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+      };
+
     case LOGOUT_SUCCESS:
       return {
         ...state,
@@ -125,6 +130,7 @@ export default function (state = InitialState, action) {
       };
 
     case LOGIN_SUCCESS:
+    case AUTHENTICATE_SUCCESS:
       return {
         ...state,
         isFetching: false,
@@ -138,6 +144,7 @@ export default function (state = InitialState, action) {
        */
     case LOGOUT_FAILURE:
     case LOGIN_FAILURE:
+    case AUTHENTICATE_FAILURE:
     case RESET_PASSWORD_FAILURE:
       return {
         ...state,
@@ -151,9 +158,14 @@ export default function (state = InitialState, action) {
        *
        * Set all the field values from the payload
        */
-    case SET_STATE: {
-      const { auth } = JSON.parse(action.payload);
-      const { fields } = auth;
+    case SET_STATE:
+    {
+      const {
+        auth,
+      } = JSON.parse(action.payload);
+      const {
+        fields,
+      } = auth;
 
       return {
         ...state,

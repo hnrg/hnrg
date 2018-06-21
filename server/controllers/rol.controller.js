@@ -169,28 +169,28 @@ exports.deleteRol = async function deleteRol(req, res) {
           active: true,
           roles: {
             $elemMatch: {
-              $in: [rol._id]
-            }
+              $in: [rol._id],
+            },
           },
         })
-        .exec(($err, count) => {
-          if ($err) {
-            throw ($err);
-          }
-
-          if (count > 0) {
-            res.status(422).json({ error: 'No se puede borrar el rol ya que existen usuarios que lo tienen' });
-            return;
-          }
-
-          rol.deleted = true;
-          rol.save(($$err, saved) => {
-            if ($$err) {
-              throw ($$err);
+          .exec(($err, count) => {
+            if ($err) {
+              throw ($err);
             }
-            res.status(200).end();
+
+            if (count > 0) {
+              res.status(422).json({ error: 'No se puede borrar el rol ya que existen usuarios que lo tienen' });
+              return;
+            }
+
+            rol.deleted = true;
+            rol.save(($$err, saved) => {
+              if ($$err) {
+                throw ($$err);
+              }
+              res.status(200).end();
+            });
           });
-        });
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
@@ -240,7 +240,7 @@ exports.updateRol = async function updateRol(req, res) {
   try {
     permissionsCheck(req.user, 'rol_update');
 
-    var data = {};
+    const data = {};
     const { rol } = req.body;
 
     await Permission.find({
@@ -255,23 +255,23 @@ exports.updateRol = async function updateRol(req, res) {
       if (error) {
         throw (error);
       }
-      
+
       if (rol.name) { data.name = rol.name; }
       if (rol.permissions) { data.permissions = permissions.map(p => p._id); }
-      if (rol.deleted !== undefined) { data.deleted = rol.deleted }
+      if (rol.deleted !== undefined) { data.deleted = rol.deleted; }
 
       Rol.findOneAndUpdate({ name: req.params.name }, data).exec((err, rol) => {
-          if (err) {
-            throw (err);
-          }
+        if (err) {
+          throw (err);
+        }
 
-          if (rol == null) {
-            res.status(422).json({ error: 'No se encontró ningún rol con ese nombre' });
-            return;
-          }
+        if (rol == null) {
+          res.status(422).json({ error: 'No se encontró ningún rol con ese nombre' });
+          return;
+        }
 
-          return res.status(200).json({ rol });
-        });
+        return res.status(200).json({ rol });
+      });
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {

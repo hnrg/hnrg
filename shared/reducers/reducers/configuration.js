@@ -38,22 +38,31 @@ export default function configurationReducer(state = InitialState, action) {
      */
     case CONFIGURATION_ADD_REQUEST:
     case GET_CONFIGURATION_REQUEST:
-      return { ...state, isFetching: true, error: null };
+      return {
+        ...state,
+        isFetching: true,
+        error: null,
+      };
 
     case CONFIGURATION_ADD_SUCCESS:
     {
-      return { ...state, isFetching: false, success: true };
+      return {
+        ...state,
+        isFetching: false,
+        success: true,
+      };
     }
 
     /**
-     * ### Request ends successfully
-     *
-     * the fetching is done
-     *
-     * Validate the data to make sure it's all good and someone didn't
-     * mung it up through some other mechanism
-     */
-    case GET_CONFIGURATION_SUCCESS: {
+       * ### Request ends successfully
+       *
+       * the fetching is done
+       *
+       * Validate the data to make sure it's all good and someone didn't
+       * mung it up through some other mechanism
+       */
+    case GET_CONFIGURATION_SUCCESS:
+    {
       nextConfigurationState = {
         ...state,
         current: {
@@ -88,8 +97,12 @@ export default function configurationReducer(state = InitialState, action) {
       return formValidation(fieldValidation(nextConfigurationState, action), action);
     }
 
-    case ON_CONFIGURATION_FORM_FIELD_CHANGE: {
-      const { field, value } = action.payload;
+    case ON_CONFIGURATION_FORM_FIELD_CHANGE:
+    {
+      const {
+        field,
+        value,
+      } = action.payload;
 
       nextConfigurationState = {
         ...state,
@@ -104,21 +117,18 @@ export default function configurationReducer(state = InitialState, action) {
     }
 
     /**
-     * User logged out, so reset form fields and original configuration.
-     *
-     */
+       * User logged out, so reset form fields and original configuration.
+       *
+       */
     case LOGOUT_SUCCESS:
-      return {
-        ...state,
-        email: '',
-        error: null,
-        success: null,
-      };
+    {
+      return InitialState;
+    }
 
     /**
-     * ### Request fails
-     * we're done fetching and the error needs to be displayed to the user
-     */
+       * ### Request fails
+       * we're done fetching and the error needs to be displayed to the user
+       */
     case CONFIGURATION_ADD_FAILURE:
     case GET_CONFIGURATION_FAILURE:
       return {
@@ -128,16 +138,22 @@ export default function configurationReducer(state = InitialState, action) {
         success: null,
       };
 
-    /**
-     * ### set the state
-     *
-     * This is in support of Hot Loading - take the payload
-     * and set the values into the state
-     *
-     */
-    case SET_STATE: {
-      const { configuration } = JSON.parse(action.payload);
-      const { current, fields } = state;
+      /**
+       * ### set the state
+       *
+       * This is in support of Hot Loading - take the payload
+       * and set the values into the state
+       *
+       */
+    case SET_STATE:
+    {
+      const {
+        configuration,
+      } = JSON.parse(action.payload);
+      const {
+        current,
+        fields,
+      } = state;
 
       return {
         ...state,

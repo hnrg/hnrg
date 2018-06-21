@@ -27,7 +27,7 @@ const firstNameConstraints = {
       tooShort: '^El nombre debe tener al menos %{count} o más',
       tooLong: '^El nombre debe tener menos de %{count}',
     },
-  }
+  },
 };
 
 const lastNameConstraints = {
@@ -44,7 +44,7 @@ const lastNameConstraints = {
       tooShort: '^El apellido debe tener al menos %{count} o más',
       tooLong: '^El apellido debe tener menos de %{count}',
     },
-  }
+  },
 };
 
 const addressConstraints = {
@@ -55,7 +55,7 @@ const addressConstraints = {
       tooShort: '^La dirección debe tener al menos %{count} o más',
       tooLong: '^La dirección debe tener menos de %{count}',
     },
-  }
+  },
 };
 
 const phoneConstraints = {
@@ -101,7 +101,7 @@ export default function (state, action) {
   const { field, value } = action.payload;
 
   switch (field) {
-    case('firstName'):
+    case ('firstName'):
     {
 
       const validation = validate({
@@ -129,7 +129,7 @@ export default function (state, action) {
       };
     }
 
-    case('lastName'):
+    case ('lastName'):
     {
       const validation = validate({
         lastName: value,
@@ -156,7 +156,7 @@ export default function (state, action) {
       };
     }
 
-    case('address'):
+    case ('address'):
     {
       const validation = validate({
         address: value,
@@ -183,7 +183,7 @@ export default function (state, action) {
       };
     }
 
-    case('phone'):
+    case ('phone'):
     {
       const validation = validate({
         phone: value,
@@ -210,7 +210,7 @@ export default function (state, action) {
       };
     }
 
-    case('birthday'):
+    case ('birthday'):
     {
       const validation = validate({
         birthday: value,
@@ -237,7 +237,7 @@ export default function (state, action) {
       };
     }
 
-    case('documentNumber'):
+    case ('documentNumber'):
     {
       const validation= validate({
         documentNumber: value,

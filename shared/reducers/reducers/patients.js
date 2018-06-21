@@ -55,18 +55,23 @@ export default function patientsReducer(state = InitialState, action) {
     case PATIENT_UPDATE_REQUEST:
     case PATIENT_DELETE_REQUEST:
     {
-      return { ...state, isFetching: true, error: null };
+      return {
+        ...state,
+        isFetching: true,
+        error: null,
+      };
     }
 
     /**
-     * ### Request ends successfully
-     *
-     * the fetching is done, set the UI fields and the originalPatient
-     *
-     * Validate the data to make sure it's all good and someone didn't
-     * mung it up through some other mechanism
-     */
-    case GET_PATIENTS_SUCCESS: {
+       * ### Request ends successfully
+       *
+       * the fetching is done, set the UI fields and the originalPatient
+       *
+       * Validate the data to make sure it's all good and someone didn't
+       * mung it up through some other mechanism
+       */
+    case GET_PATIENTS_SUCCESS:
+    {
       return {
         ...state,
         totalCount: action.payload.totalCount,
@@ -90,7 +95,8 @@ export default function patientsReducer(state = InitialState, action) {
       };
     }
 
-    case GET_PATIENT_SUCCESS: {
+    case GET_PATIENT_SUCCESS:
+    {
       nextPatientState = {
         ...state,
         fields: {
@@ -110,7 +116,7 @@ export default function patientsReducer(state = InitialState, action) {
           id: action.payload._id,
           firstName: action.payload.firstName,
           lastName: action.payload.lastName,
-          fullName: action.payload.firstName + ' ' + action.payload.lastName,
+          fullName: `${action.payload.firstName} ${action.payload.lastName}`,
           address: action.payload.address,
           phone: action.payload.phone,
           birthday: action.payload.birthday,
@@ -143,7 +149,8 @@ export default function patientsReducer(state = InitialState, action) {
       return fieldValidation(nextPatientState, action);
     }
 
-    case ON_PATIENT_FORM_CLEAR: {
+    case ON_PATIENT_FORM_CLEAR:
+    {
       return {
         ...state,
         fields: {
@@ -202,8 +209,12 @@ export default function patientsReducer(state = InitialState, action) {
       };
     }
 
-    case ON_PATIENT_FORM_FIELD_CHANGE: {
-      const { field, value } = action.payload;
+    case ON_PATIENT_FORM_FIELD_CHANGE:
+    {
+      const {
+        field,
+        value,
+      } = action.payload;
 
       nextPatientState = {
         ...state,
@@ -217,21 +228,18 @@ export default function patientsReducer(state = InitialState, action) {
     }
 
     /**
-     * User logged out, so reset form fields and original patient.
-     *
-     */
-    case LOGOUT_SUCCESS: {
-      return nextPatientState = {
-        ...state,
-        patients: [],
-        error: null,
-      };
+       * User logged out, so reset form fields and original patient.
+       *
+       */
+    case LOGOUT_SUCCESS:
+    {
+      return InitialState;
     }
 
     /**
-     * ### Request fails
-     * we're done fetching and the error needs to be displayed to the user
-     */
+       * ### Request fails
+       * we're done fetching and the error needs to be displayed to the user
+       */
     case GET_PATIENTS_FAILURE:
     case GET_PATIENT_FAILURE:
     case PATIENT_ADD_FAILURE:
@@ -246,14 +254,17 @@ export default function patientsReducer(state = InitialState, action) {
     }
 
     /**
-     * ### set the state
-     *
-     * This is in support of Hot Loading - take the payload
-     * and set the values into the state
-     *
-     */
-    case SET_STATE: {
-      const { patients } = JSON.parse(action.payload);
+       * ### set the state
+       *
+       * This is in support of Hot Loading - take the payload
+       * and set the values into the state
+       *
+       */
+    case SET_STATE:
+    {
+      const {
+        patients,
+      } = JSON.parse(action.payload);
 
       return {
         ...state,
@@ -269,7 +280,8 @@ export default function patientsReducer(state = InitialState, action) {
       };
     }
 
-    default: {
+    default:
+    {
       return state;
     }
   }

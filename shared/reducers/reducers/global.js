@@ -25,49 +25,64 @@ export default function globalReducer(state = InitialState, action) {
      * ### Save the sessionToken
      */
     case SET_SESSION_TOKEN:
-      return { ...state, currentUser: action.payload };
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
 
-    /**
-     * ### Save the payload in the store
-     *
-     * This payload is the ```currentUser``` object returned by
-     * the server.  It contains the ```sessionToken```
-     * which will be needed for some calls to the server
-     */
+      /**
+       * ### Save the payload in the store
+       *
+       * This payload is the ```currentUser``` object returned by
+       * the server.  It contains the ```sessionToken```
+       * which will be needed for some calls to the server
+       */
     case LOGIN_SUCCESS:
     case GET_PROFILE_SUCCESS:
-      return { ...state, currentUser: action.payload };
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
 
     case SESSION_TOKEN_SUCCESS:
-      return { ...state, currentUser: action.payload };
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
 
-    /**
-     * ### Clear currentUser
-     *
-     */
+      /**
+       * ### Clear currentUser
+       *
+       */
     case LOGOUT_SUCCESS:
-      return { ...state, currentUser: null };
+    {
+      return InitialState;
+    }
 
     /**
-     * ### sets the payload into the store
-     *
-     * *Note* this is for support of Hot Loading - the payload is the
-     * ```store``` itself.
-     *
-     */
+       * ### sets the payload into the store
+       *
+       * *Note* this is for support of Hot Loading - the payload is the
+       * ```store``` itself.
+       *
+       */
     case SET_STORE:
-      return { ...state, store: action.payload };
+      return {
+        ...state,
+        store: action.payload,
+      };
 
-    /**
-     * ### Get the current state from the store
-     *
-     * The Redux ```store``` provides the state object.
-     * We convert each key to JSON and set it in the state
-     *
-     * *Note*: the global state removes the ```store```, otherwise,
-     * when trying to convert to JSON, it will be recursive and fail
-     */
-    case GET_STATE: {
+      /**
+       * ### Get the current state from the store
+       *
+       * The Redux ```store``` provides the state object.
+       * We convert each key to JSON and set it in the state
+       *
+       * *Note*: the global state removes the ```store```, otherwise,
+       * when trying to convert to JSON, it will be recursive and fail
+       */
+    case GET_STATE:
+    {
       const _state = state.store.getState();
 
       if (action.payload) {
@@ -90,17 +105,23 @@ export default function globalReducer(state = InitialState, action) {
           currentUser: newState,
         };
       }
-      return { ...state, showState: action.payload };
+      return {
+        ...state,
+        showState: action.payload,
+      };
     }
 
     /**
-     * ### Set the state
-     *
-     * This is in support of Hot Loading
-     *
-     */
-    case SET_STATE: {
-      const { global } = JSON.parse(action.payload);
+       * ### Set the state
+       *
+       * This is in support of Hot Loading
+       *
+       */
+    case SET_STATE:
+    {
+      const {
+        global,
+      } = JSON.parse(action.payload);
 
       return {
         ...state,
