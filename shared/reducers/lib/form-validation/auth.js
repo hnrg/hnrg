@@ -1,4 +1,4 @@
-export default function(state) {
+export default function (state) {
   if (state.fields.email !== '' &&
       state.fields.password !== '' &&
       !state.fields.emailHasError &&

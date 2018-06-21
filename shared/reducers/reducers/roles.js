@@ -64,14 +64,15 @@ export default function rolesReducer(state = InitialState, action) {
     case ROL_ENABLE_REQUEST:
     case ROL_PERMISSION_DELETE_REQUEST:
     case ROL_UPDATE_REQUEST:
-      {
-        return { ...state,
-          isFetching: true,
-          error: null
-        };
-      }
+    {
+      return {
+        ...state,
+        isFetching: true,
+        error: null,
+      };
+    }
 
-      /**
+    /**
        * ### Request ends successfully
        *
        * the fetching is done, set the UI fields and the originalRol
@@ -80,43 +81,43 @@ export default function rolesReducer(state = InitialState, action) {
        * mung it up through some other mechanism
        */
     case GET_ROLES_SUCCESS:
-      {
-        return {
-          ...state,
-          totalCount: action.payload.totalCount,
-          count: action.payload.count,
-          roles: action.payload.roles,
-          isFetching: false,
-          error: null,
-        };
-      }
+    {
+      return {
+        ...state,
+        totalCount: action.payload.totalCount,
+        count: action.payload.count,
+        roles: action.payload.roles,
+        isFetching: false,
+        error: null,
+      };
+    }
 
     case ROL_ADD_SUCCESS:
     case ROL_DELETE_SUCCESS:
     case ROL_ENABLE_SUCCESS:
     case ROL_PERMISSION_DELETE_SUCCESS:
     case ROL_UPDATE_SUCCESS:
-      {
-        return {
-          ...state,
-          isFetching: false,
-          totalCount: 0,
-          count: 0,
-          roles: null,
-          success: true,
-        };
-      }
+    {
+      return {
+        ...state,
+        isFetching: false,
+        totalCount: 0,
+        count: 0,
+        roles: null,
+        success: true,
+      };
+    }
 
-      /**
+    /**
        * Rol logged out, so reset form fields and original rol.
        *
        */
     case LOGOUT_SUCCESS:
-      {
-        return InitialState;
-      }
+    {
+      return InitialState;
+    }
 
-      /**
+    /**
        * ### Request fails
        * we're done fetching and the error needs to be displayed to the user
        */
@@ -127,70 +128,70 @@ export default function rolesReducer(state = InitialState, action) {
     case ROL_ENABLE_FAILURE:
     case ROL_PERMISSION_DELETE_FAILURE:
     case ROL_UPDATE_FAILURE:
-      {
-        return {
-          ...state,
-          isFetching: false,
-          error: action.payload,
-          success: null,
-        };
-      }
+    {
+      return {
+        ...state,
+        isFetching: false,
+        error: action.payload,
+        success: null,
+      };
+    }
 
     case GET_ROL_SUCCESS:
-      {
-        nextRolState = {
-          ...state,
-          fields: {
-            ...state.fields,
-            name: action.payload.name,
-            permissions: action.payload.permissions.map(p => p.name),
-          },
-          originalRol: {
-            ...state.originalRol,
-            name: action.payload.name,
-            permissions: action.payload.permissions,
-          },
-          isFetching: false,
-          error: null,
-        };
+    {
+      nextRolState = {
+        ...state,
+        fields: {
+          ...state.fields,
+          name: action.payload.name,
+          permissions: action.payload.permissions.map(p => p.name),
+        },
+        originalRol: {
+          ...state.originalRol,
+          name: action.payload.name,
+          permissions: action.payload.permissions,
+        },
+        isFetching: false,
+        error: null,
+      };
 
-        return fieldValidation(nextRolState, action);
-      }
+      return fieldValidation(nextRolState, action);
+    }
 
     case ON_ROL_FORM_CLEAR:
-      {
-        return {
-          ...state,
-          error: null,
-          success: null,
-          fields: {
-            ...state.fields,
-            name: '',
-            permissions: null,
-          }
-        };
-      }
+    {
+      return {
+        ...state,
+        error: null,
+        success: null,
+        fields: {
+          ...state.fields,
+          name: '',
+          permissions: null,
+        },
+      };
+    }
 
     case ON_ROL_FORM_FIELD_CHANGE:
-      {
-        const {
-          field,
-          value
-        } = action.payload;
+    {
+      const {
+        field,
+        value,
+      } = action.payload;
 
-        nextRolState = {
-          ...state,
-          success: null,
-          fields: {
-            ...state.fields,
-            [field]: value,
-          },
-        };
+      nextRolState = {
+        ...state,
+        success: null,
+        fields: {
+          ...state.fields,
+          [field]: value,
+        },
+      };
 
-        return formValidation(fieldValidation(nextRolState, action), action);
-      }
+      return formValidation(fieldValidation(nextRolState, action), action);
+    }
 
-      /**
+    /**
        * ### set the state
        *
        * This is in support of Hot Loading - take the payload
@@ -198,29 +199,29 @@ export default function rolesReducer(state = InitialState, action) {
        *
        */
     case SET_STATE:
-      {
-        const {
-          roles
-        } = JSON.parse(action.payload);
+    {
+      const {
+        roles,
+      } = JSON.parse(action.payload);
 
-        return {
-          ...state,
-          disabled: roles.disabled,
-          error: roles.error,
-          success: roles.success,
-          isValid: roles.isValid,
-          isFetching: roles.isFetching,
-          originalRol: roles.originalRol,
-          fields: roles.fields,
-          totalCount: roles.totalCount,
-          count: roles.count,
-          roles: roles.roles,
-        };
-      }
+      return {
+        ...state,
+        disabled: roles.disabled,
+        error: roles.error,
+        success: roles.success,
+        isValid: roles.isValid,
+        isFetching: roles.isFetching,
+        originalRol: roles.originalRol,
+        fields: roles.fields,
+        totalCount: roles.totalCount,
+        count: roles.count,
+        roles: roles.roles,
+      };
+    }
 
     default:
-      {
-        return state;
-      }
+    {
+      return state;
+    }
   }
 }

@@ -62,7 +62,7 @@ exports.getPatients = async function getPatients(req, res, next) {
           .populate({
             path: 'demographicData',
             populate: {
-              path: "apartmentType heatingType waterType"
+              path: 'apartmentType heatingType waterType',
             },
           })
           .populate('medicalInsurance')
@@ -162,7 +162,7 @@ exports.getPatient = async function getPatient(req, res, next) {
       .populate({
         path: 'demographicData',
         populate: {
-          path: "apartmentType heatingType waterType"
+          path: 'apartmentType heatingType waterType',
         },
       })
       .populate('medicalInsurance')
@@ -325,51 +325,51 @@ exports.getDemographicDataAnalytics = async function getDemographicDataAnalytics
         .populate({
           path: 'demographicData',
           populate: {
-            path: "apartmentType heatingType waterType"
+            path: 'apartmentType heatingType waterType',
           },
         })
         .exec(($err, patients) => {
-        if ($err) {
-          throw $err;
-        }
-
-        let patientsWithDemographicData = patients.length;
-
-        let patientsWithRefrigerator = patients.filter( patient => patient.demographicData.regrigerator ).length;
-        let patientsWithElectricity = patients.filter( patient => patient.demographicData.electricity ).length;
-        let patientsWithPet = patients.filter( patient => patient.demographicData.pet ).length;
-
-        let apartmentTypeCount = _.countBy(patients, "demographicData.apartmentType.name");
-        let heatingTypeCount = _.countBy(patients, "demographicData.heatingType.name");
-        let waterTypeCount = _.countBy(patients, "demographicData.waterType.name");
-
-        return res.status(200).json({
-          demographicsDataAnalytics: {
-            totalCount,
-            patientsWithDemographicData,
-            data: {
-              refrigerator: {
-                count: patientsWithRefrigerator,
-                without: (patientsWithDemographicData - patientsWithRefrigerator)
-              },
-              electricity: {
-                count: patientsWithElectricity,
-                without: (patientsWithDemographicData - patientsWithElectricity),
-              },
-              pet: {
-                count: patientsWithPet,
-                without: (patientsWithDemographicData - patientsWithElectricity),
-              },
-              apartmentType: apartmentTypeCount,
-              heatingType: heatingTypeCount,
-              waterType: waterTypeCount,
-            },
+          if ($err) {
+            throw $err;
           }
+
+          const patientsWithDemographicData = patients.length;
+
+          const patientsWithRefrigerator = patients.filter(patient => patient.demographicData.regrigerator).length;
+          const patientsWithElectricity = patients.filter(patient => patient.demographicData.electricity).length;
+          const patientsWithPet = patients.filter(patient => patient.demographicData.pet).length;
+
+          const apartmentTypeCount = _.countBy(patients, 'demographicData.apartmentType.name');
+          const heatingTypeCount = _.countBy(patients, 'demographicData.heatingType.name');
+          const waterTypeCount = _.countBy(patients, 'demographicData.waterType.name');
+
+          return res.status(200).json({
+            demographicsDataAnalytics: {
+              totalCount,
+              patientsWithDemographicData,
+              data: {
+                refrigerator: {
+                  count: patientsWithRefrigerator,
+                  without: (patientsWithDemographicData - patientsWithRefrigerator),
+                },
+                electricity: {
+                  count: patientsWithElectricity,
+                  without: (patientsWithDemographicData - patientsWithElectricity),
+                },
+                pet: {
+                  count: patientsWithPet,
+                  without: (patientsWithDemographicData - patientsWithElectricity),
+                },
+                apartmentType: apartmentTypeCount,
+                heatingType: heatingTypeCount,
+                waterType: waterTypeCount,
+              },
+            },
+          });
         });
-      });
     });
   } catch (e) {
-    if (e.name == 'NotAllowedError' ) {
+    if (e.name == 'NotAllowedError') {
       return res.status(403).send(e);
     }
 

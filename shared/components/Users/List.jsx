@@ -114,10 +114,10 @@ class UsersList extends Component {
                   {
                     (user.active) ?
                     <div>
-                      <Button circular size='tiny' color='teal' as={Link} to={`${this.props.url}/${user.username}`} icon='user' title={`Ver ${user.username}`} />
-                      <Button circular size='tiny' color='red' icon='remove user' title={`Eliminar ${user.username}`} onClick={this.handleStrategy(this.props.deleteAction(user.username))} />
+                      <Button circular size='tiny' disabled={!this.props.granted.show} color='teal' as={Link} to={`${this.props.url}/${user.username}`} icon='user' title={`Ver ${user.username}`} />
+                      <Button circular size='tiny' disabled={!this.props.granted.destroy} color='red' icon='remove user' title={`Eliminar ${user.username}`} onClick={this.handleStrategy(this.props.deleteAction(user.username))} />
                     </div>:
-                    <Button circular size='tiny' color='blue' icon='add user' title={`Habilitar ${user.username}`} onClick={this.handleStrategy(this.props.enableAction(user.username))} />
+                    <Button circular size='tiny' disabled={!this.props.granted.update} color='blue' icon='add user' title={`Habilitar ${user.username}`} onClick={this.handleStrategy(this.props.enableAction(user.username))} />
                   }
                 </Table.Cell>
               </Table.Row>

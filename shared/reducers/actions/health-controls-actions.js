@@ -164,7 +164,7 @@ export function addHealthControl(
   physicalExaminationObservations,
   feeding,
   generalObservations,
-  sessionToken
+  sessionToken,
 ) {
   return (dispatch) => {
     dispatch(healthControlAddRequest());
@@ -237,7 +237,7 @@ export function updateHealthControl(
   physicalExaminationObservations,
   feeding,
   generalObservations,
-  sessionToken
+  sessionToken,
 ) {
   return (dispatch) => {
     dispatch(healthControlUpdateRequest());

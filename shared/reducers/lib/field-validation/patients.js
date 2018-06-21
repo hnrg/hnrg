@@ -24,7 +24,7 @@ const firstNameConstraints = {
       tooShort: 'debe tener al menos %{count} o más',
       tooLong: 'debe tener menos de %{count}',
     },
-  }
+  },
 };
 
 const lastNameConstraints = {
@@ -40,7 +40,7 @@ const lastNameConstraints = {
       tooShort: 'debe tener al menos %{count} o más',
       tooLong: 'debe tener menos de %{count}',
     },
-  }
+  },
 };
 
 const addressConstraints = {
@@ -51,7 +51,7 @@ const addressConstraints = {
       tooShort: 'debe tener al menos %{count} o más',
       tooLong: 'debe tener menos de %{count}',
     },
-  }
+  },
 };
 
 const phoneConstraints = {
@@ -91,7 +91,7 @@ export default function (state, action) {
   const { field, value } = action.payload;
 
   switch (field) {
-    case('firstName'):
+    case ('firstName'):
     {
       const validFirstName = _.isUndefined(validate({
         firstName: value,
@@ -119,7 +119,7 @@ export default function (state, action) {
       };
     }
 
-    case('lastName'):
+    case ('lastName'):
     {
       const validLastName = _.isUndefined(validate({
         lastName: value,
@@ -146,7 +146,7 @@ export default function (state, action) {
       };
     }
 
-    case('address'):
+    case ('address'):
     {
       const validAddress = _.isUndefined(validate({
         address: value,
@@ -173,7 +173,7 @@ export default function (state, action) {
       };
     }
 
-    case('phone'):
+    case ('phone'):
     {
       const validPhone = _.isUndefined(validate({
         phone: value,
@@ -200,7 +200,7 @@ export default function (state, action) {
       };
     }
 
-    case('birthday'):
+    case ('birthday'):
     {
       const validBirthday = _.isUndefined(validate({
         birthday: value,
@@ -227,7 +227,7 @@ export default function (state, action) {
       };
     }
 
-    case('documentNumber'):
+    case ('documentNumber'):
     {
       const validDocumentNumber = _.isUndefined(validate({
         documentNumber: value,

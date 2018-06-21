@@ -20,7 +20,7 @@ import InitialState from 'reducers/states/permissions-state';
  * @param {Object} action - type and payload
  */
 export default function permissionsReducer(state = InitialState, action) {
-  let nextPermissionState = null;
+  const nextPermissionState = null;
 
   switch (action.type) {
     /**
@@ -28,14 +28,15 @@ export default function permissionsReducer(state = InitialState, action) {
      * set the form to fetching and clear any errors
      */
     case GET_PERMISSIONS_REQUEST:
-      {
-        return { ...state,
-          isFetching: true,
-          error: null
-        };
-      }
+    {
+      return {
+        ...state,
+        isFetching: true,
+        error: null,
+      };
+    }
 
-      /**
+    /**
        * ### Request ends successfully
        *
        * the fetching is done, set the UI fields and the originalPermissions
@@ -44,57 +45,57 @@ export default function permissionsReducer(state = InitialState, action) {
        * mung it up through some other mechanism
        */
     case GET_PERMISSIONS_SUCCESS:
-      {
-        return {
-          ...state,
-          permissions: action.payload,
-          isFetching: false,
-          error: null,
-        };
-      }
+    {
+      return {
+        ...state,
+        permissions: action.payload,
+        isFetching: false,
+        error: null,
+      };
+    }
 
-      /**
+    /**
        * User logged out, so reset form fields and original permission.
        *
        */
     case LOGOUT_SUCCESS:
-      {
-        return InitialState;
-      }
+    {
+      return InitialState;
+    }
 
-      /**
+    /**
        * ### Request fails
        * we're done fetching and the error needs to be displayed to the user
        */
     case GET_PERMISSIONS_FAILURE:
-      {
-        return {
-          ...state,
-          isFetching: false,
-          error: action.payload,
-        };
-      }
+    {
+      return {
+        ...state,
+        isFetching: false,
+        error: action.payload,
+      };
+    }
 
 
     case SET_STATE:
-      {
-        const {
-          permissions
-        } = JSON.parse(action.payload);
+    {
+      const {
+        permissions,
+      } = JSON.parse(action.payload);
 
-        return {
-          ...state,
-          disabled: permissions.disabled,
-          error: permissions.error,
-          isValid: permissions.isValid,
-          isFetching: permissions.isFetching,
-          permissions: permissions.permissions,
-        };
-      }
+      return {
+        ...state,
+        disabled: permissions.disabled,
+        error: permissions.error,
+        isValid: permissions.isValid,
+        isFetching: permissions.isFetching,
+        permissions: permissions.permissions,
+      };
+    }
 
     default:
-      {
-        return state;
-      }
+    {
+      return state;
+    }
   }
 }

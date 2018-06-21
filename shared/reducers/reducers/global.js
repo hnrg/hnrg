@@ -25,8 +25,9 @@ export default function globalReducer(state = InitialState, action) {
      * ### Save the sessionToken
      */
     case SET_SESSION_TOKEN:
-      return { ...state,
-        currentUser: action.payload
+      return {
+        ...state,
+        currentUser: action.payload,
       };
 
       /**
@@ -38,13 +39,15 @@ export default function globalReducer(state = InitialState, action) {
        */
     case LOGIN_SUCCESS:
     case GET_PROFILE_SUCCESS:
-      return { ...state,
-        currentUser: action.payload
+      return {
+        ...state,
+        currentUser: action.payload,
       };
 
     case SESSION_TOKEN_SUCCESS:
-      return { ...state,
-        currentUser: action.payload
+      return {
+        ...state,
+        currentUser: action.payload,
       };
 
       /**
@@ -52,11 +55,11 @@ export default function globalReducer(state = InitialState, action) {
        *
        */
     case LOGOUT_SUCCESS:
-      {
-        return InitialState;
-      }
+    {
+      return InitialState;
+    }
 
-      /**
+    /**
        * ### sets the payload into the store
        *
        * *Note* this is for support of Hot Loading - the payload is the
@@ -64,8 +67,9 @@ export default function globalReducer(state = InitialState, action) {
        *
        */
     case SET_STORE:
-      return { ...state,
-        store: action.payload
+      return {
+        ...state,
+        store: action.payload,
       };
 
       /**
@@ -78,52 +82,53 @@ export default function globalReducer(state = InitialState, action) {
        * when trying to convert to JSON, it will be recursive and fail
        */
     case GET_STATE:
-      {
-        const _state = state.store.getState();
+    {
+      const _state = state.store.getState();
 
-        if (action.payload) {
-          const newState = {};
-          newState.profile = _state.profile;
+      if (action.payload) {
+        const newState = {};
+        newState.profile = _state.profile;
 
-          // Make sure global doesn't have the previous currentState
-          // let _noCurrentState =  _state.global.set('currentState',null);
-          // let _noStore = _noCurrentState.set('store',null);
-          const _global = _state.global;
-          newState.global = {
-            ..._global,
-            currentState: null,
-            store: null,
-          };
+        // Make sure global doesn't have the previous currentState
+        // let _noCurrentState =  _state.global.set('currentState',null);
+        // let _noStore = _noCurrentState.set('store',null);
+        const _global = _state.global;
+        newState.global = {
+          ..._global,
+          currentState: null,
+          store: null,
+        };
 
-          return {
-            ...state,
-            showState: action.payload,
-            currentUser: newState,
-          };
-        }
-        return { ...state,
-          showState: action.payload
+        return {
+          ...state,
+          showState: action.payload,
+          currentUser: newState,
         };
       }
+      return {
+        ...state,
+        showState: action.payload,
+      };
+    }
 
-      /**
+    /**
        * ### Set the state
        *
        * This is in support of Hot Loading
        *
        */
     case SET_STATE:
-      {
-        const {
-          global
-        } = JSON.parse(action.payload);
+    {
+      const {
+        global,
+      } = JSON.parse(action.payload);
 
-        return {
-          ...state,
-          currentUser: global.currentUser,
-          showState: false,
-        };
-      }
+      return {
+        ...state,
+        currentUser: global.currentUser,
+        showState: false,
+      };
+    }
 
     default:
       return state;
