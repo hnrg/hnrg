@@ -134,6 +134,7 @@ class PatientsList extends Component {
                     circular
                     size='tiny'
                     color='teal'
+                    disabled={!this.props.granted.show}
                     as={Link}
                     to={`${props.url}/${patient._id}`}
                     icon='heartbeat'
@@ -143,6 +144,7 @@ class PatientsList extends Component {
                     size='tiny'
                     color='red'
                     icon='remove user'
+                    disabled={!this.props.granted.destroy}
                     title={`Eliminar ${patient.firstName} ${patient.lastName}`}
                     onClick={this.open.bind(this)}
                     patient={patient} />

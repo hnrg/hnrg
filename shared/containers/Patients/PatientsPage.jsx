@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { bindActionCreators } from 'redux';
@@ -10,6 +11,7 @@ import {
   Tab
 } from 'semantic-ui-react';
 
+import * as profileActions from 'reducers/actions/profile-actions';
 import * as patientsActions from 'reducers/actions/patients-actions';
 import * as medicalInsurancesActions from 'reducers/actions/medical-insurances-actions';
 import * as documentTypesActions from 'reducers/actions/document-types-actions';
@@ -17,6 +19,7 @@ import * as apartmentTypesActions from 'reducers/actions/apartment-types-actions
 import * as heatingTypesActions from 'reducers/actions/heating-types-actions';
 import * as waterTypesActions from 'reducers/actions/water-types-actions';
 
+import { permissionsCheck } from 'helpers/permissions-check';
 
 import Footer from 'components/Footer';
 import TopMenu from 'components/TopMenu';
@@ -26,27 +29,35 @@ import PatientEdit from 'components/Patients/Edit';
 import PatientsList from 'components/Patients/List';
 
 
-const panes = ({ loading, patients }, actions) => [
+const panes = ({ loading, patients, granted, documentTypes, medicalInsurances, apartmentTypes, heatingTypes, waterTypes }, actions) => [
   {
     menuItem: { key: 'patient', icon: 'heartbeat', content: ' Ver paciente' },
-    render: () => <Tab.Pane loading={loading} padded='very'><PatientShow patient={patients.originalPatient} /></Tab.Pane>
+    render: () => <Tab.Pane loading={loading} padded='very'>
+      { granted.show ?
+        <PatientShow patient={patients.originalPatient} /> :
+        <Redirect to={{ pathname: '/forbidden' }} />
+      }
+    </Tab.Pane>
   },
   {
     menuItem: { key: 'edit', icon: 'edit', content: 'Editar paciente' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        <PatientEdit
-          patient={patients.originalPatient}
-          fields={patients.fields}
-          isValid={patients.isValid}
-          isFetching={patients.isFetching}
-          onFormFieldChange={actions.onPatientFormFieldChange}
-          updatePatient={actions.updatePatient}
-          documentTypes={documentTypes.documentTypes}
-          medicalInsurances={medicalInsurances.medicalInsurances}
-          apartmentTypes={apartmentTypes.apartmentTypes}
-          heatingTypes={heatingTypes.heatingTypes}
-          waterTypes={waterTypes.waterTypes} />
+        { granted.update ?
+          <PatientEdit
+            patient={patients.originalPatient}
+            fields={patients.fields}
+            isValid={patients.isValid}
+            isFetching={patients.isFetching}
+            onFormFieldChange={actions.onPatientFormFieldChange}
+            updatePatient={actions.updatePatient}
+            documentTypes={documentTypes.documentTypes}
+            medicalInsurances={medicalInsurances.medicalInsurances}
+            apartmentTypes={apartmentTypes.apartmentTypes}
+            heatingTypes={heatingTypes.heatingTypes}
+            waterTypes={waterTypes.waterTypes} /> :
+          <Redirect to={{ pathname: '/forbidden' }} />
+        }
       </Tab.Pane>
     ),
   },
@@ -61,6 +72,14 @@ class PatientsContainer extends Component {
       ...this.props,
       loading: true,
       currentView: 'patientsList',
+      granted: {
+        new: null,
+        update: null,
+        destroy: null,
+        show: null,
+        index: null,
+      },
+      profile: this.props.profile,
       patients: {
         ...this.props.patients,
         pageNumber: 0,
@@ -73,13 +92,43 @@ class PatientsContainer extends Component {
   }
 
   componentWillReceiveProps(props) {
+    const { originalProfile } = props.profile;
+
     this.setState({
       ...props,
       loading: props.patients.fields.documentNumber === null,
+      granted: {
+        new: permissionsCheck(originalProfile, ['rol_new']),
+        update: permissionsCheck(originalProfile, ['rol_update']),
+        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
+        show: permissionsCheck(originalProfile, ['rol_show']),
+        index: permissionsCheck(originalProfile, ['rol_index']),
+      },
+    });
+  }
+
+  componentWillMount() {
+    const { originalProfile } = this.state.profile;
+
+    if (originalProfile.username === '') {
+      this.props.actions.getProfile();
+    }
+
+    this.setState({
+      granted: {
+        new: permissionsCheck(originalProfile, ['rol_new']),
+        update: permissionsCheck(originalProfile, ['rol_update']),
+        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
+        show: permissionsCheck(originalProfile, ['rol_show']),
+        index: permissionsCheck(originalProfile, ['rol_index']),
+      },
     });
   }
 
   componentDidMount() {
+    const { granted } = this.state;
+    const { originalProfile } = this.props.profile;
+
     const {
       originalPatient,
       fields,
@@ -90,7 +139,7 @@ class PatientsContainer extends Component {
       count,
     } = this.props.patients;
 
-    if (this.props.match.params.id && (originalPatient.id === '' || this.props.match.params.id !== originalPatient.id)) {
+    if (granted.show && this.props.match.params.id && (originalPatient.id === '' || this.props.match.params.id !== originalPatient.id)) {
       this.props.actions.getPatient(this.props.match.params.id);
       return;
     }
@@ -103,7 +152,7 @@ class PatientsContainer extends Component {
       this.props.actions.getWaterTypes();
     }
 
-    if (!this.props.match.params.id && this.state.patients.patients === null) {
+    if (granted.index && !this.props.match.params.id && this.state.patients.patients === null) {
       const { pageNumber, firstName, lastName, documentType, documentNumber } = this.state.patients;
 
       this.props.actions.getPatients(pageNumber, firstName, lastName, documentType, documentNumber);
@@ -116,6 +165,13 @@ class PatientsContainer extends Component {
       patients: {
         ...this.state.patients,
         ...this.props.patients,
+      },
+      granted: {
+        new: permissionsCheck(originalProfile, ['rol_new']),
+        update: permissionsCheck(originalProfile, ['rol_update']),
+        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
+        show: permissionsCheck(originalProfile, ['rol_show']),
+        index: permissionsCheck(originalProfile, ['rol_index']),
       },
     });
   }
@@ -149,38 +205,48 @@ class PatientsContainer extends Component {
   }
 
   patientsList() {
-    const { match } = this.props;
-    return (
-      <PatientsList
-        url={match.url}
-        patients={this.state.patients.patients}
-        documentTypes={this.state.documentTypes.documentTypes}
-        pageNumber={this.state.patients.pageNumber}
-        totalCount={this.state.patients.totalCount}
-        count={this.state.patients.count}
-        onAddButtonClick={this.onAddButtonClick.bind(this)}
-        deleteAction={this.props.actions.deletePatient}
-        onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
-    );
+    const { actions, match } = this.props;
+    const { granted } = this.state;
+
+    if (granted.index === null || granted.index) {
+      return (
+        <PatientsList
+          url={match.url}
+          patients={this.state.patients.patients}
+          documentTypes={this.state.documentTypes.documentTypes}
+          pageNumber={this.state.patients.pageNumber}
+          totalCount={this.state.patients.totalCount}
+          count={this.state.patients.count}
+          granted={granted}
+          onAddButtonClick={this.onAddButtonClick.bind(this)}
+          deleteAction={this.props.actions.deletePatient}
+          onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
+      );
+
+    }
+
+    this.setState({
+      currentView: 'patientCreate',
+    });
   }
 
   patientCreate() {
     const { originalPatient, fields, isValid, isFetching, error } = this.state.patients;
     const { actions } = this.props;
 
-    return (
-        <PatientAdd
-          patient={originalPatient}
-          error={error}
-          fields={fields}
-          isValid={isValid}
-          documentTypes={this.state.documentTypes.documentTypes}
-          medicalInsurances={this.state.medicalInsurances.medicalInsurances}
-          isFetching={isFetching}
-          onMount={actions.onPatientFormClear}
-          onFormFieldChange={actions.onPatientFormFieldChange}
-          addPatient={actions.addPatient} />
-    );
+    return granted.new ?
+      <PatientAdd
+        patient={originalPatient}
+        error={error}
+        fields={fields}
+        isValid={isValid}
+        documentTypes={this.state.documentTypes.documentTypes}
+        medicalInsurances={this.state.medicalInsurances.medicalInsurances}
+        isFetching={isFetching}
+        onMount={actions.onPatientFormClear}
+        onFormFieldChange={actions.onPatientFormFieldChange}
+        addPatient={actions.addPatient} /> :
+      <Redirect to={{ pathname: '/forbidden' }} />;
   }
 
   render() {
@@ -201,6 +267,7 @@ class PatientsContainer extends Component {
 
 function mapStateToProps(state) {
   return {
+    profile: state.profile,
     patients: state.patients,
     documentTypes: state.documentTypes,
     medicalInsurances: state.medicalInsurances,
@@ -213,6 +280,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
+      ...profileActions,
       ...patientsActions,
       ...medicalInsurancesActions,
       ...documentTypesActions,
