@@ -20,6 +20,7 @@ export default {
       waterType: null,
     },
   },
+  healthControls: null,
   disabled: false,
   error: null,
   isValid: false,

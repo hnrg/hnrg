@@ -3,6 +3,10 @@ import {
   GET_DEMOGRAPHIC_DATA_ANALYTICS_SUCCESS,
   GET_DEMOGRAPHIC_DATA_ANALYTICS_FAILURE,
 
+  GET_HEALTH_CONTROLS_ANALYTICS_REQUEST,
+  GET_HEALTH_CONTROLS_ANALYTICS_SUCCESS,
+  GET_HEALTH_CONTROLS_ANALYTICS_FAILURE,
+
   LOGOUT_SUCCESS,
 
   SET_STATE,
@@ -27,6 +31,7 @@ export default function analyticsReducer(state = InitialState, action) {
      * ### Request starts
      * set the form to fetching and clear any errors
      */
+    case GET_HEALTH_CONTROLS_ANALYTICS_REQUEST:
     case GET_DEMOGRAPHIC_DATA_ANALYTICS_REQUEST:
     {
       return {
@@ -44,6 +49,16 @@ export default function analyticsReducer(state = InitialState, action) {
        * Validate the data to make sure it's all good and someone didn't
        * mung it up through some other mechanism
        */
+    case GET_HEALTH_CONTROLS_ANALYTICS_SUCCESS:
+    {
+      return {
+        ...state,
+        healthControls: action.payload,
+        isFetching: false,
+        error: null,
+      };
+    }
+
     case GET_DEMOGRAPHIC_DATA_ANALYTICS_SUCCESS:
     {
       return {
@@ -67,6 +82,7 @@ export default function analyticsReducer(state = InitialState, action) {
        * ### Request fails
        * we're done fetching and the error needs to be displayed to the user
        */
+    case GET_HEALTH_CONTROLS_ANALYTICS_FAILURE:
     case GET_DEMOGRAPHIC_DATA_ANALYTICS_FAILURE:
     {
       return {
@@ -90,6 +106,7 @@ export default function analyticsReducer(state = InitialState, action) {
         isValid: analytics.isValid,
         isFetching: analytics.isFetching,
         demographicDataAnalytics: analytics.demographicDataAnalytics,
+        healthControls: analytics.healthControls,
       };
     }
 

@@ -227,28 +227,25 @@ exports.deletePatient = async function deletePatient(req, res) {
 };
 
 function ageCalculate(actual, birthday) {
-  return moment(actual).diff(moment(birthday), 'days')/7;
+  return moment(actual).diff(moment(birthday), 'days', true)/7;
 }
 
 function ppcStrategy(patient, healthControls) {
-  return healthControls.map(d => [
-    ageCalculate(healthControl.date, patient.birthday),
-    healthControl.ppc
-  ]);
+  return healthControls.map(d => ({
+    [ageCalculate(healthControl.date, patient.birthday)]: healthControl.ppc,
+  }));
 }
 
 function weightStrategy(patient, healthControls) {
-  return healthControls.map(d => [
-    ageCalculate(healthControl.date, patient.birthday),
-    healthControl.weight
-  ]);
+  return healthControls.map(d => ({
+    [ageCalculate(healthControl.date, patient.birthday)]: healthControl.weight,
+  }));
 }
 
 function heightStrategy(patient, healthControls) {
-  return healthControls.map(d => [
-    healthControl.height,
-    healthControl.weight
-  ]);
+  return healthControls.map(d => ({
+    [healthControl.height]: healthControl.weight,
+  }));
 }
 
 exports.getPatientHealthControls = async function getPatientHealthControls(req, res, next) {
