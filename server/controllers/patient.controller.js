@@ -227,25 +227,26 @@ exports.deletePatient = async function deletePatient(req, res) {
 };
 
 function ageCalculate(actual, birthday) {
-  return moment(actual).diff(moment(birthday), 'days', true)/7;
+  return moment(actual).diff(moment(birthday), 'days')/7;
 }
 
 function ppcStrategy(patient, healthControls) {
-  return healthControls.map(d => ({
-    [ageCalculate(healthControl.date, patient.birthday)]: healthControl.ppc,
-  }));
+  return healthControls.map(healthControl => ([
+    {$numberDecimal: ageCalculate(healthControl.date, patient.birthday)}, healthControl.ppc
+  ]));
 }
 
 function weightStrategy(patient, healthControls) {
-  return healthControls.map(d => ({
-    [ageCalculate(healthControl.date, patient.birthday)]: healthControl.weight,
-  }));
+  return healthControls.map(healthControl => ([
+    {$numberDecimal: ageCalculate(healthControl.date, patient.birthday)}, healthControl.weight
+  ]));
 }
 
 function heightStrategy(patient, healthControls) {
-  return healthControls.map(d => ({
-    [healthControl.height]: healthControl.weight,
-  }));
+  return healthControls.map(healthControl => {
+    let {height, weight} = healthControl;
+    return [height, weight];
+  });
 }
 
 exports.getPatientHealthControls = async function getPatientHealthControls(req, res, next) {
@@ -269,24 +270,27 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
     await Patient.findById(req.params.id)
       .where('deleted').equals(false)
       .exec((err, patient) => {
-        if (err || patient == null) {
+        if (err) {
+          throw err;
+        }
+
+        if (patient == null) {
           res.status(422).json({ error: 'No se encontró ningún paciente con ese id' });
-          throw next(err);
         }
 
         HealthControl.find({ patient: patient._id, active: true })
           .limit(amountPerPage)
           .skip(amountPerPage * pageNumber)
           .exec(($err, healthControls) => {
-            if (err || healthControls == null) {
-              next(err);
+            if ($err) {
+              throw (err);
             }
 
             /* TODO modificar utilizando req.params.type */
 
             res.status(200).json({
               healthControls: {
-                name: patient.fullName(),
+                name: `${patient.firstName} ${patient.lastName} - ${patient.documentNumber}`,
                 data: strategy[req.params.type](patient, healthControls),
               }
             });

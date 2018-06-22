@@ -78,7 +78,7 @@ class DashboardContainer extends Component {
           <Switch>
             <Route exact path={`${match.path}`} component={StatisticsPage} />
             <Route path={`${match.path}/analytics/demographic-data`} component={DemographicDataAnalyticsPage} />
-            <Route path={`${match.path}/analytics/health-controls/:patient/:type?`} component={HealthControlsAnalyticsPage} />
+            <Route path={`${match.path}/analytics/health-controls/:patient`} component={HealthControlsAnalyticsPage} />
             <Route path={`${match.path}/demographic-data/:id?`} component={DemographicDataPage} />
             <Route path={`${match.path}/health-controls/:param?/:id?`} component={HealthControlsPage} />
             <Route path={`${match.path}/patients/:id?`} component={PatientsPage} />

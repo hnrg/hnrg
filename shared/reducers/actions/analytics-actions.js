@@ -90,7 +90,7 @@ export function getHealthControlsAnalytics(patient, type, sessionToken) {
     return authToken.getSessionToken(sessionToken)
       .then(token => analyticsRequest.init(token).getHealthControlsAnalytics(patient, type))
       .then((data) => {
-        dispatch(getHealthControlsAnalyticsSuccess(data.healthControlsAnalytics));
+        dispatch(getHealthControlsAnalyticsSuccess(data.healthControls));
       })
       .catch((error) => {
         dispatch(getHealthControlsAnalyticsFailure(errorHandler(error)));

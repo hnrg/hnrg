@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -8,31 +9,38 @@ import {
   Header,
   Segment,
 } from 'semantic-ui-react';
-import ReactChartkick, { LineChart } from 'react-chartkick'
-import Chart from 'chart.js'
+import ReactChartkick, { LineChart } from 'react-chartkick';
+import Chart from 'chart.js';
 
 import * as analyticsActions from 'reducers/actions/analytics-actions';
 
-ReactChartkick.addAdapter(Chart)
+ReactChartkick.addAdapter(Chart);
 
 class AnalyticsContainer extends Component {
-  componentWillMount() {
-    const { patient, type } = this.props.match.params;
+  handleClick(type) {
+    const self = this;
 
-    this.props.actions.getHealthControlsAnalytics(patient, type);
+    return function() {
+      const { patient } = self.props.match.params;
+
+      self.props.actions.getHealthControlsAnalytics(patient, type);
+    }
   }
 
   render() {
+    const { patient } = this.props.match.params;
+    console.log(this.props.match);
+
     return (
-      <div>
+      <Segment>
         <Button.Group widths='3'>
-          <Button>Curva de Crecimiento</Button>
-          <Button>Curva de Talla</Button>
-          <Button>Curva de PPC</Button>
+          <Button onClick={this.handleClick('height')}>Curva de Crecimiento</Button>
+          <Button onClick={this.handleClick('weight')}>Curva de Talla</Button>
+          <Button onClick={this.handleClick('ppc')}>Curva de PPC</Button>
         </Button.Group>
         <Divider hidden />
-        <LineChart data={[this.props.analytics.healthControls]} />
-      </div>
+        {this.props.analytics.healthControls && <LineChart data={[this.props.analytics.healthControls]} />}
+      </Segment>
     );
   }
 }
