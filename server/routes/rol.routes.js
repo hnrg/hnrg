@@ -11,6 +11,8 @@ const router = Router();
 
 router.route('/roles').get(requireAuth, configurationMiddleware, RolController.getRoles);
 
+router.route('/roles/all').get(requireAuth, configurationMiddleware, RolController.getRolesName);
+
 router.route('/roles').post(requireAuth, configurationMiddleware, RolController.addRol);
 
 router.route('/roles/:name').get(requireAuth, configurationMiddleware, RolController.getRol);

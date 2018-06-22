@@ -1,4 +1,8 @@
 import {
+  GET_ALL_ROLES_REQUEST,
+  GET_ALL_ROLES_SUCCESS,
+  GET_ALL_ROLES_FAILURE,
+
   GET_ROLES_REQUEST,
   GET_ROLES_SUCCESS,
   GET_ROLES_FAILURE,
@@ -38,6 +42,49 @@ import { authToken } from 'reducers/lib/store/auth-token';
 /**
  * ## retreiving profile actions
  */
+export function getAllRolesRequest() {
+  return {
+    type: GET_ALL_ROLES_REQUEST,
+  };
+}
+
+export function getAllRolesSuccess(data) {
+  return {
+    type: GET_ALL_ROLES_SUCCESS,
+    payload: data,
+  };
+}
+
+export function getAllRolesFailure(error) {
+  return {
+    type: GET_ALL_ROLES_FAILURE,
+    payload: error,
+  };
+}
+
+/**
+ * ## State actions
+ * controls which form is displayed to the rol
+ * as in login, register, logout or reset password
+ */
+export function getAllRoles(sessionToken) {
+  return (dispatch) => {
+    dispatch(getAllRolesRequest());
+    // store or get a sessionToken
+    return authToken.getSessionToken(sessionToken)
+      .then(token => rolesRequest.init(token).getAllRoles())
+      .then((data) => {
+        dispatch(getAllRolesSuccess(data.roles));
+      })
+      .catch((error) => {
+        dispatch(getAllRolesFailure(errorHandler(error)));
+      });
+  };
+}
+
+/**
+ * ## retreiving profile actions
+ */
 export function getRolesRequest() {
   return {
     type: GET_ROLES_REQUEST,
@@ -54,26 +101,6 @@ export function getRolesSuccess(data) {
 export function getRolesFailure(error) {
   return {
     type: GET_ROLES_FAILURE,
-    payload: error,
-  };
-}
-
-export function getRolRequest() {
-  return {
-    type: GET_ROL_REQUEST,
-  };
-}
-
-export function getRolSuccess(rol) {
-  return {
-    type: GET_ROL_SUCCESS,
-    payload: rol,
-  };
-}
-
-export function getRolFailure(error) {
-  return {
-    type: GET_ROL_FAILURE,
     payload: error,
   };
 }
@@ -95,6 +122,26 @@ export function getRoles(pageNumber, name, deleted, sessionToken) {
       .catch((error) => {
         dispatch(getRolesFailure(errorHandler(error)));
       });
+  };
+}
+
+export function getRolRequest() {
+  return {
+    type: GET_ROL_REQUEST,
+  };
+}
+
+export function getRolSuccess(rol) {
+  return {
+    type: GET_ROL_SUCCESS,
+    payload: rol,
+  };
+}
+
+export function getRolFailure(error) {
+  return {
+    type: GET_ROL_FAILURE,
+    payload: error,
   };
 }
 

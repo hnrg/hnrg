@@ -12,6 +12,7 @@ import {
 } from 'semantic-ui-react';
 
 import * as profileActions from 'reducers/actions/profile-actions';
+import * as rolesActions from 'reducers/actions/roles-actions';
 import * as usersActions from 'reducers/actions/users-actions';
 
 import { permissionsCheck } from 'helpers/permissions-check';
@@ -21,12 +22,21 @@ import UserShow from 'components/Users/Show';
 import UserEdit from 'components/Users/Edit';
 import UsersList from 'components/Users/List';
 
-const panes = ({ loading, users, granted }, actions) => [
+const panes = ({ loading, users, granted, roles }, actions) => [
   {
     menuItem: { key: 'user', icon: 'user', content: 'Ver perfil' },
     render: () => <Tab.Pane loading={loading} padded='very'>
       { granted.show ?
-        <UserShow user={users.originalUser} /> :
+        <UserShow
+          user={users.originalUser}
+          roles={roles.allRoles}
+          fields={users.fields}
+          error={users.error}
+          success={users.success}
+          isValid={users.isValid}
+          isFetching={users.isFetching}
+          onFormFieldChange={actions.onUserFormFieldChange}
+          updateUser={actions.updateUser} /> :
         <Redirect to={{ pathname: '/forbidden' }} />
       }
     </Tab.Pane>
@@ -70,6 +80,7 @@ class UsersContainer extends Component {
         index: null,
       },
       profile: this.props.profile,
+      roles: this.props.roles,
       users: this.props.users,
     };
   }
@@ -93,12 +104,18 @@ class UsersContainer extends Component {
 
   componentWillMount() {
     const { originalProfile } = this.state.profile;
+    const { allRoles } = this.state.roles;
 
     if (originalProfile.username === '') {
       this.props.actions.getProfile();
     }
 
+    if (allRoles === null) {
+      this.props.actions.getAllRoles();
+    }
+
     this.setState({
+      roles: this.props.roles,
       granted: {
         new: permissionsCheck(originalProfile, ['rol_new']),
         update: permissionsCheck(originalProfile, ['rol_update']),
@@ -250,6 +267,7 @@ class UsersContainer extends Component {
 function mapStateToProps(state) {
   return {
     profile: state.profile,
+    roles: state.roles,
     users: state.users,
   };
 }
@@ -259,6 +277,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       ...profileActions,
       ...usersActions,
+      ...rolesActions,
     }, dispatch)
   };
 }

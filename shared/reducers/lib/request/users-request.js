@@ -111,13 +111,14 @@ export default class UsersRequest {
   }
 
   updateUser(originalUsername, {
-    username, email, firstName, lastName, password,
+    username, email, firstName, lastName, password, roles,
   }) {
     let user = {
       username,
       email,
       firstName,
       lastName,
+      roles,
     };
 
     if (password) { user.password = password; }

@@ -151,7 +151,7 @@ export function userUpdateFailure(data) {
  * the data as now persisted on the serverx
  *
  */
-export function updateUser(originalUsername, username, email, firstName, lastName, password, sessionToken) {
+export function updateUser(originalUsername, username, email, firstName, lastName, password, roles, sessionToken) {
   return (dispatch) => {
     dispatch(userUpdateRequest());
     return authToken.getSessionToken(sessionToken)
@@ -162,6 +162,7 @@ export function updateUser(originalUsername, username, email, firstName, lastNam
           firstName,
           lastName,
           password,
+          roles,
         }))
       .then(() => {
         dispatch(userUpdateSuccess());

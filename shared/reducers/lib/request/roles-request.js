@@ -10,6 +10,22 @@ export default class RolesRequest {
     return this;
   }
 
+  getAllRoles() {
+    return axios.get('/api/roles/all', {
+      headers: {
+        Authorization: this._sessionToken,
+      },
+    }).then((response) => {
+      if (response.status === 200 || response.status === 201) {
+        return response.data;
+      }
+
+      throw (response.data.error);
+    }).catch((error) => {
+      throw error;
+    });
+  }
+
   getRoles(pageNumber = 0, name = '', deleted = false) {
     return axios.get('/api/roles', {
       params: {

@@ -7,6 +7,7 @@ export default {
   totalCount: 0,
   count: 0,
   roles: null,
+  allRoles: null,
   disabled: false,
   error: null,
   success: null,

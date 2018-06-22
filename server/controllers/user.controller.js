@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Rol = require('../models/rol');
 
 const permissionsCheck = require('../modules/permissions-check');
 
@@ -186,15 +187,35 @@ exports.updateUser = async function updateUser(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_update');
 
-    await User.findOneAndUpdate({ username: req.params.username }, req.body.user)
-      .exec((err, user) => {
-        if (err || user == null) {
-          res.status(422).json({ error: 'No se encontró ningún user con ese id' });
-          throw (err);
-        }
+    var data = {};
 
-        return res.status(200).json({ user });
-      });
+    await Rol.find({
+      name: {
+        $in: req.body.user.roles
+      }
+    }).exec((error, roles) => {
+      if (req.body.user.roles && !roles) {
+        return res.status(403);
+      }
+
+      if (error) {
+        throw (error);
+      }
+
+      data = req.body.user;
+
+      if (req.body.user.roles) { data.roles = roles.map(r => r._id); }
+
+      User.findOneAndUpdate({ username: req.params.username }, data)
+        .exec((err, user) => {
+          if (err || user == null) {
+            res.status(422).json({ error: 'No se encontró ningún user con ese id' });
+            throw (err);
+          }
+
+          return res.status(200).json({ user });
+        });
+    });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);

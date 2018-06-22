@@ -34,5 +34,8 @@ export default {
     lastName: '',
     lastNameHasError: false,
     lastNameErrorMsg: '',
+    roles: null,
+    rolesHasError: false,
+    rolesErrorMsg: '',
   },
 };

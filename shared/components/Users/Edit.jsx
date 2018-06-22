@@ -73,6 +73,7 @@ class Edit extends Component {
       fields.firstName,
       fields.lastName,
       fields.password,
+      fields.roles,
       null
     );
   }

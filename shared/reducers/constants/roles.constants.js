@@ -1,3 +1,7 @@
+export const GET_ALL_ROLES_REQUEST = 'get-all-roles-request';
+export const GET_ALL_ROLES_SUCCESS = 'get-all-roles-success';
+export const GET_ALL_ROLES_FAILURE = 'get-all-roles-failure';
+
 export const GET_ROLES_REQUEST = 'get-roles-request';
 export const GET_ROLES_SUCCESS = 'get-roles-success';
 export const GET_ROLES_FAILURE = 'get-roles-failure';

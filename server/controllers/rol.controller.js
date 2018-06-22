@@ -12,6 +12,32 @@ const User = require('../models/user');
  * @param res
  * @returns void
  */
+exports.getRolesName = async function getRolesName(req, res) {
+  try {
+    await Rol.find({ deleted: false })
+      .populate('permissions')
+      .exec(($err, roles) => {
+        if ($err) {
+          throw ($err);
+        }
+
+        res.status(200).send({ roles });
+      });
+  } catch (e) {
+    if (e.name === 'NotAllowedError') {
+      return res.status(403).send(e);
+    }
+
+    res.status(500).send(e);
+  }
+};
+
+/**
+ * Get all roles
+ * @param req
+ * @param res
+ * @returns void
+ */
 exports.getRoles = async function getRoles(req, res) {
   try {
     permissionsCheck(req.user, 'rol_index');

@@ -6,18 +6,77 @@ import { dateToString } from 'helpers/date';
 import {
   Button,
   Divider,
+  Form,
   Grid,
   Header,
   Icon,
   Image,
   Label,
   List,
+  Menu,
   Modal,
+  Tab,
 } from 'semantic-ui-react';
 
 import icon from 'static/icons/icon.png';
 
+const options = (roles) => {
+  return roles.map(rol => {
+    return {
+      key: rol,
+      value: rol,
+      text: rol,
+    };
+  });
+};
+
 class Show extends Component {
+  handleChange(e, {name, value}) {
+    this.props.onFormFieldChange(name, value);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    const { user, fields } = this.props;
+
+    this.props.updateUser(
+      user.username,
+      fields.username,
+      fields.email,
+      fields.firstName,
+      fields.lastName,
+      fields.password,
+      fields.roles,
+      null
+    );
+  }
+
+  editRoles() {
+    const { fields, isValid, isFetching, roles } = this.props;
+
+    return (
+      <Form onSubmit={this.handleSubmit.bind(this)}>
+        <Form.Group>
+          <Form.Select
+            label={fields.rolesErrorMsg || 'Permisos'}
+            name='roles'
+            placeholder='Permisos'
+            width={16}
+            multiple
+            onChange={this.handleChange.bind(this)}
+            value={fields.roles}
+            options={options(roles)}
+            error={fields.rolesHasError} />
+        </Form.Group>
+        <Button disabled={!isValid || isFetching} color='teal' fluid size='large'>
+          <Icon name='save' size='small' />
+          Guardar
+        </Button>
+      </Form>
+    );
+  }
+
   getRoles() {
     const { user } = this.props;
 
@@ -70,9 +129,25 @@ class Show extends Component {
           size='tiny'
           dimmer='blurring'
           trigger={<Button circular color='blue' icon='certificate' title={`Ver roles de ${user.username}`} />}>
-          <Modal.Header>Roles de {user.username}</Modal.Header>
           <Modal.Content>
-            {this.getRoles()}
+            <Tab
+              menu={{ secondary: true }}
+              panes={[
+                { menuItem: (
+                    <Menu.Item key='roles'>
+                      Roles <Label>{user.roles && user.roles.length}</Label>
+                    </Menu.Item>
+                  ),
+                  render: () => <Tab.Pane attached={false}>{this.getRoles()}</Tab.Pane>
+                },
+                { menuItem: (
+                    <Menu.Item key='roles-edit'>
+                      Editar
+                    </Menu.Item>
+                  ),
+                  render: () => <Tab.Pane attached={false}>{this.editRoles()}</Tab.Pane>
+                },
+              ]} />
           </Modal.Content>
         </Modal>
         <Button circular color='blue' icon='bar chart' title='Ver pacientes de pediatras' />

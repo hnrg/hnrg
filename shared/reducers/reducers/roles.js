@@ -2,6 +2,10 @@ import fieldValidation from 'reducers/lib/field-validation/roles';
 import formValidation from 'reducers/lib/form-validation/roles';
 
 import {
+  GET_ALL_ROLES_REQUEST,
+  GET_ALL_ROLES_SUCCESS,
+  GET_ALL_ROLES_FAILURE,
+
   GET_ROLES_REQUEST,
   GET_ROLES_SUCCESS,
   GET_ROLES_FAILURE,
@@ -57,6 +61,7 @@ export default function rolesReducer(state = InitialState, action) {
      * ### Request starts
      * set the form to fetching and clear any errors
      */
+    case GET_ALL_ROLES_REQUEST:
     case GET_ROLES_REQUEST:
     case GET_ROL_REQUEST:
     case ROL_ADD_REQUEST:
@@ -73,13 +78,13 @@ export default function rolesReducer(state = InitialState, action) {
     }
 
     /**
-       * ### Request ends successfully
-       *
-       * the fetching is done, set the UI fields and the originalRol
-       *
-       * Validate the data to make sure it's all good and someone didn't
-       * mung it up through some other mechanism
-       */
+     * ### Request ends successfully
+     *
+     * the fetching is done, set the UI fields and the originalRol
+     *
+     * Validate the data to make sure it's all good and someone didn't
+     * mung it up through some other mechanism
+     */
     case GET_ROLES_SUCCESS:
     {
       return {
@@ -87,6 +92,16 @@ export default function rolesReducer(state = InitialState, action) {
         totalCount: action.payload.totalCount,
         count: action.payload.count,
         roles: action.payload.roles,
+        isFetching: false,
+        error: null,
+      };
+    }
+
+    case GET_ALL_ROLES_SUCCESS:
+    {
+      return {
+        ...state,
+        allRoles: action.payload.map(r => r.name),
         isFetching: false,
         error: null,
       };
@@ -109,18 +124,19 @@ export default function rolesReducer(state = InitialState, action) {
     }
 
     /**
-       * Rol logged out, so reset form fields and original rol.
-       *
-       */
+     * Rol logged out, so reset form fields and original rol.
+     *
+     */
     case LOGOUT_SUCCESS:
     {
       return InitialState;
     }
 
     /**
-       * ### Request fails
-       * we're done fetching and the error needs to be displayed to the user
-       */
+     * ### Request fails
+     * we're done fetching and the error needs to be displayed to the user
+     */
+    case GET_ALL_ROLES_FAILURE:
     case GET_ROLES_FAILURE:
     case GET_ROL_FAILURE:
     case ROL_ADD_FAILURE:
@@ -192,12 +208,12 @@ export default function rolesReducer(state = InitialState, action) {
     }
 
     /**
-       * ### set the state
-       *
-       * This is in support of Hot Loading - take the payload
-       * and set the values into the state
-       *
-       */
+     * ### set the state
+     *
+     * This is in support of Hot Loading - take the payload
+     * and set the values into the state
+     *
+     */
     case SET_STATE:
     {
       const {
@@ -216,6 +232,7 @@ export default function rolesReducer(state = InitialState, action) {
         totalCount: roles.totalCount,
         count: roles.count,
         roles: roles.roles,
+        allRoles: roles.allRoles,
       };
     }
 
