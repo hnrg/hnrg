@@ -28,6 +28,7 @@ const panes = ({ loading, users, granted, roles }, actions) => [
     render: () => <Tab.Pane loading={loading} padded='very'>
       { granted.show ?
         <UserShow
+          rolesEditShow={true}
           user={users.originalUser}
           roles={roles.allRoles}
           fields={users.fields}

@@ -97,7 +97,7 @@ class Show extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, rolesEditShow } = this.props;
 
     return(
       <center>
@@ -130,24 +130,37 @@ class Show extends Component {
           dimmer='blurring'
           trigger={<Button circular color='blue' icon='certificate' title={`Ver roles de ${user.username}`} />}>
           <Modal.Content>
-            <Tab
-              menu={{ secondary: true }}
-              panes={[
-                { menuItem: (
-                    <Menu.Item key='roles'>
-                      Roles <Label>{user.roles && user.roles.length}</Label>
-                    </Menu.Item>
-                  ),
-                  render: () => <Tab.Pane attached={false}>{this.getRoles()}</Tab.Pane>
-                },
-                { menuItem: (
-                    <Menu.Item key='roles-edit'>
-                      Editar
-                    </Menu.Item>
-                  ),
-                  render: () => <Tab.Pane attached={false}>{this.editRoles()}</Tab.Pane>
-                },
-              ]} />
+            {rolesEditShow ?
+              <Tab
+                menu={{ secondary: true }}
+                panes={[
+                  { menuItem: (
+                      <Menu.Item key='roles'>
+                        Roles <Label>{user.roles && user.roles.length}</Label>
+                      </Menu.Item>
+                    ),
+                    render: () => <Tab.Pane attached={false}>{this.getRoles()}</Tab.Pane>
+                  },
+                  { menuItem: (
+                      <Menu.Item key='roles-edit'>
+                        Editar
+                      </Menu.Item>
+                    ),
+                    render: () => <Tab.Pane attached={false}>{this.editRoles()}</Tab.Pane>
+                  },
+                ]} /> :
+                <Tab
+                  menu={{ secondary: true }}
+                  panes={[
+                    { menuItem: (
+                        <Menu.Item key='roles'>
+                          Roles <Label>{user.roles && user.roles.length}</Label>
+                        </Menu.Item>
+                      ),
+                      render: () => <Tab.Pane attached={false}>{this.getRoles()}</Tab.Pane>
+                    }
+                  ]} />
+              }
           </Modal.Content>
         </Modal>
         <Button circular color='blue' icon='bar chart' title='Ver pacientes de pediatras' />
