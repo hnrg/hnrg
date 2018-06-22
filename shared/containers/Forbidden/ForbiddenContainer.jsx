@@ -16,7 +16,6 @@ class ForbiddenContainer extends Component {
   render() {
     const { configuration } = this.props;
     const { email } = configuration.current;
-    console.log(email);
     return (
       <Container textAlign='center'>
         <Segment>
