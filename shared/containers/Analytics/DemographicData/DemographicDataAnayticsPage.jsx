@@ -7,12 +7,12 @@ import {
   Header,
   Segment,
 } from 'semantic-ui-react';
-import ReactChartkick, { PieChart } from 'react-chartkick'
-import Chart from 'chart.js'
+import ReactChartkick, { PieChart } from 'react-chartkick';
+import Chart from 'chart.js';
 
 import * as analyticsActions from 'reducers/actions/analytics-actions';
 
-ReactChartkick.addAdapter(Chart)
+ReactChartkick.addAdapter(Chart);
 
 class AnalyticsContainer extends Component {
   componentDidMount() {
@@ -92,7 +92,7 @@ class AnalyticsContainer extends Component {
         <PieChart data={generalData} download='general-data' />
 
         <Divider horizontal>Datos más específicos</Divider>
-        { patientsWithDemographicData > 0 ? 
+        { patientsWithDemographicData > 0 ?
           this.showGraphs(demographicDataAnalytics.data) :
           <Header as='h4' content='No hay datos para mostrar' />
         }

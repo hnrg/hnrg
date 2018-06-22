@@ -49,6 +49,9 @@ const serverConfig = {
           },
         ],
       }, {
+        test: /\.json$/,
+        loader: 'json-loader'
+      }, {
         test: /\.(eot|png|jpg|svg|[ot]tf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file-loader',
       },
