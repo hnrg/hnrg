@@ -1,5 +1,5 @@
-import fieldValidation from 'reducers/lib/field-validation/roles';
-import formValidation from 'reducers/lib/form-validation/roles';
+import fieldValidation from 'reducers/lib/field-validation/health-controls';
+import formValidation from 'reducers/lib/form-validation/health-controls';
 
 import {
   GET_HEALTH_CONTROLS_REQUEST,
@@ -136,6 +136,32 @@ export default function healthControlsReducer(state = InitialState, action) {
       };
     }
 
+    case ON_HEALTH_CONTROL_FORM_CLEAR:
+    {
+      return {
+        ...InitialState,
+      };
+    }
+
+    case ON_HEALTH_CONTROL_FORM_FIELD_CHANGE:
+    {
+      const {
+        field,
+        value,
+      } = action.payload;
+
+      nextHealthControlState = {
+        ...state,
+        success: null,
+        fields: {
+          ...state.fields,
+          [field]: value,
+        },
+      };
+
+      return formValidation(fieldValidation(nextHealthControlState, action), action);
+    }
+
     case GET_HEALTH_CONTROL_SUCCESS:
     {
       nextHealthControlState = {
@@ -148,27 +174,30 @@ export default function healthControlsReducer(state = InitialState, action) {
           ppc: action.payload.ppc.$numberDecimal,
           height: action.payload.height.$numberDecimal,
           completeVaccines: action.payload.completeVaccines,
-          vaccinesObservations: action.payload.vaccinesObservations,
-          maturationObservations: action.payload.maturationObservations,
+          vaccinesObservations: action.payload.vaccinesObservations || '',
+          accordingMaturationContext: action.payload.accordingMaturationContext,
+          maturationObservations: action.payload.maturationObservations || '',
           commonPhysicalExamination: action.payload.commonPhysicalExamination,
-          physicalExaminationObservations: action.payload.physicalExaminationObservations,
-          feeding: action.payload.feeding,
-          generalObservations: action.payload.generalObservations,
+          physicalExaminationObservations: action.payload.physicalExaminationObservations || '',
+          feeding: action.payload.feeding || '',
+          generalObservations: action.payload.generalObservations || '',
         },
         originalHealthControl: {
           ...state.originalHealthControl,
+          id: action.payload._id,
           date: action.payload.date,
           weight: action.payload.weight.$numberDecimal,
           pc: action.payload.pc.$numberDecimal,
           ppc: action.payload.ppc.$numberDecimal,
           height: action.payload.height.$numberDecimal,
           completeVaccines: action.payload.completeVaccines,
-          vaccinesObservations: action.payload.vaccinesObservations,
-          maturationObservations: action.payload.maturationObservations,
+          vaccinesObservations: action.payload.vaccinesObservations || '',
+          accordingMaturationContext: action.payload.accordingMaturationContext,
+          maturationObservations: action.payload.maturationObservations || '',
           commonPhysicalExamination: action.payload.commonPhysicalExamination,
-          physicalExaminationObservations: action.payload.physicalExaminationObservations,
-          feeding: action.payload.feeding,
-          generalObservations: action.payload.generalObservations,
+          physicalExaminationObservations: action.payload.physicalExaminationObservations || '',
+          feeding: action.payload.feeding || '',
+          generalObservations: action.payload.generalObservations || '',
           patient: action.payload.patient,
           user: action.payload.user,
           active: action.payload.active,

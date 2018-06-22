@@ -27,7 +27,7 @@ import HealthControlShow from 'components/HealthControls/Show';
 
 const panes = ({ loading, healthControls, granted }, actions) => [
   {
-    menuItem: { key: 'rol', icon: 'certificate', content: 'Ver rol' },
+    menuItem: { key: 'healthControl', icon: 'certificate', content: 'Ver control de salud' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
         { granted.show ?
@@ -40,7 +40,7 @@ const panes = ({ loading, healthControls, granted }, actions) => [
     ),
   },
   {
-    menuItem: { key: 'edit', icon: 'edit', content: 'Editar rol' },
+    menuItem: { key: 'edit', icon: 'edit', content: 'Editar control de salud' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
         { granted.update ?

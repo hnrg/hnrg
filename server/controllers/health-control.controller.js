@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const HealthControl = require('../models/health-control');
 
 const permissionsCheck = require('../modules/permissions-check');
@@ -78,7 +80,14 @@ exports.addHealthControl = async function addHealthControl(req, res) {
       return res.status(400).end();
     }
 
-    const newHealthControl = new HealthControl(healthControl);
+    const newHealthControl = new HealthControl({
+      ...healthControl,
+      weight: mongoose.Types.Decimal128.fromString(healthControl.weight),
+      height: mongoose.Types.Decimal128.fromString(healthControl.height),
+      pc: mongoose.Types.Decimal128.fromString(healthControl.pc),
+      ppc: mongoose.Types.Decimal128.fromString(healthControl.ppc),
+    });
+
     const saved = await newHealthControl.save();
 
     return res.status(200).send({ healthControl: saved });
@@ -161,7 +170,13 @@ exports.updateHealthControl = async function updateHealthControl(req, res) {
     permissionsCheck(req.user, 'control_salud_update');
 
     /* FIXME hc wouldnt be updated. create newone */
-    await healthControl.findByIdAndUpdate(req.params.id, req.body.healthControl)
+    await HealthControl.findByIdAndUpdate(req.params.id, {
+      ...req.body.healthControl,
+      weight: mongoose.Types.Decimal128.fromString(req.body.healthControl.weight),
+      height: mongoose.Types.Decimal128.fromString(req.body.healthControl.height),
+      pc: mongoose.Types.Decimal128.fromString(req.body.healthControl.pc),
+      ppc: mongoose.Types.Decimal128.fromString(req.body.healthControl.ppc),
+    })
       .exec((error, healthControl) => {
         if (error || healthControl == null) {
           res.status(422).json({ error: 'Control de salud no encontrado para ese id' });
@@ -171,12 +186,13 @@ exports.updateHealthControl = async function updateHealthControl(req, res) {
         return res.status(200).json({ healthControl });
       });
   } catch (e) {
+    console.log(e);
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
     }
 
     if (e.name === 'CastError') {
-      return res.sendStatus(400);
+      return res.status(400).send(e);
     }
 
     return res.status(500).send(e);
