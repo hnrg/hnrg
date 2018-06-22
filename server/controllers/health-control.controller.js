@@ -76,12 +76,13 @@ exports.addHealthControl = async function addHealthControl(req, res) {
         !healthControl.ppc ||
         !healthControl.height ||
         !healthControl.patient ||
-        !healthControl.user) {
+        !healthControl.patient) {
       return res.status(400).end();
     }
 
     const newHealthControl = new HealthControl({
       ...healthControl,
+      user: req.user._id,
       weight: mongoose.Types.Decimal128.fromString(healthControl.weight),
       height: mongoose.Types.Decimal128.fromString(healthControl.height),
       pc: mongoose.Types.Decimal128.fromString(healthControl.pc),
@@ -172,6 +173,7 @@ exports.updateHealthControl = async function updateHealthControl(req, res) {
     /* FIXME hc wouldnt be updated. create newone */
     await HealthControl.findByIdAndUpdate(req.params.id, {
       ...req.body.healthControl,
+      user: req.user._id,
       weight: mongoose.Types.Decimal128.fromString(req.body.healthControl.weight),
       height: mongoose.Types.Decimal128.fromString(req.body.healthControl.height),
       pc: mongoose.Types.Decimal128.fromString(req.body.healthControl.pc),

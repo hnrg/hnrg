@@ -152,6 +152,7 @@ export function healthControlAddFailure(data) {
  *
  */
 export function addHealthControl(
+  patient,
   date,
   weight,
   pc,
@@ -172,6 +173,7 @@ export function addHealthControl(
     return authToken.getSessionToken(sessionToken)
       .then(token => healthControlsRequest.init(token)
         .addHealthControl({
+          patient,
           date,
           weight,
           pc,

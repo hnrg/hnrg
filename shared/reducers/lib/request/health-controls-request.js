@@ -50,6 +50,7 @@ export default class HealthControlsRequest {
   }
 
   addHealthControl({
+    patient,
     date,
     weight,
     pc,
@@ -66,6 +67,7 @@ export default class HealthControlsRequest {
   }) {
     return axios.post(`/api/health-controls`, {
       healthControl: {
+        patient,
         date,
         weight,
         pc,

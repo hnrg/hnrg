@@ -63,13 +63,6 @@ class HealthControlsList extends Component {
     return(
       <Segment>
         <Header as='h2' content='Listado de Controles de Salud' />
-        <Button
-          color='teal'
-          icon='add'
-          title='Agregar control de salud'
-          content='Registrar control de salud'
-          onClick={this.props.onAddButtonClick} />
-        <Divider hidden />
         {this.props.success && this.state.visible && <Message positive onDismiss={this.handleDismiss.bind(this)}>
           <Message.Header>La operación fué realizada con éxito.</Message.Header>
         </Message>}
