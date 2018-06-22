@@ -26,7 +26,7 @@ const panes = ({ loading, users, granted, roles }, actions) => [
   {
     menuItem: { key: 'user', icon: 'user', content: 'Ver perfil' },
     render: () => <Tab.Pane loading={loading} padded='very'>
-      { granted.show ?
+      { granted.show === null || granted.show ?
         <UserShow
           rolesEditShow={true}
           user={users.originalUser}
@@ -46,7 +46,7 @@ const panes = ({ loading, users, granted, roles }, actions) => [
     menuItem: { key: 'edit', icon: 'edit', content: 'Editar perfil' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        { granted.update ?
+        { granted.update === null || granted.update ?
           <UserEdit
             user={users.originalUser}
             fields={users.fields}
@@ -236,7 +236,7 @@ class UsersContainer extends Component {
     const { users, granted } = this.state;
     const { actions } = this.props;
 
-    return granted.new ?
+    return granted.new === null || granted.new ?
       <UserAdd
         error={users.error}
         success={users.success}

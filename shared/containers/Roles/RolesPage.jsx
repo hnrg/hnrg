@@ -30,7 +30,7 @@ const panes = ({ loading, roles, permissions, granted }, actions) => [
     menuItem: { key: 'rol', icon: 'certificate', content: 'Ver rol' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        { granted.show ?
+        { granted.show === null || granted.show ?
           <RolShow
             rol={roles.originalRol}
             permissions={permissions.permissions}
@@ -44,7 +44,7 @@ const panes = ({ loading, roles, permissions, granted }, actions) => [
     menuItem: { key: 'edit', icon: 'edit', content: 'Editar rol' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        { granted.update ?
+        { granted.update === null || granted.update ?
           <RolEdit
             rol={roles.originalRol}
             permissions={permissions.permissions}
@@ -232,7 +232,7 @@ class RolesContainer extends Component {
   rolCreate() {
     const { permissions, roles, granted } = this.state;
 
-    return granted.new ?
+    return granted.new === null || granted.new ?
       <RolAdd
         permissions={permissions.permissions}
         fields={roles.fields}

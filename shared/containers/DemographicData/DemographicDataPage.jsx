@@ -31,6 +31,25 @@ class DemographicDataContainer extends Component {
     });
   }
 
+  componentWillMount() {
+    if (!this.props.match.params.id) {
+      const { pageNumber } = this.state.patients;
+
+      this.props.actions.getPatients(
+          pageNumber,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          true,
+      );
+    }
+
+    this.setState({
+      patients: this.props.patients,
+    });
+  }
+
   componentDidMount() {
     const {
       originalPatient,
@@ -46,20 +65,6 @@ class DemographicDataContainer extends Component {
       this.props.actions.getApartmentTypes();
       this.props.actions.getHeatingTypes();
       this.props.actions.getWaterTypes();
-    }
-
-    if (!this.props.match.params.id && this.state.patients.patients === null) {
-      const { pageNumber } = this.state.patients;
-
-      this.props.actions.getPatients(
-          pageNumber,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          true,
-      );
-      return;
     }
 
     this.setState({

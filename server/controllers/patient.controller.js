@@ -40,10 +40,10 @@ exports.getPatients = async function getPatients(req, res, next) {
       where.documentType = documentType;
     }
 
-
     if (demographicData !== null) {
       where.demographicData = demographicData ? { $ne: null } : { $eq: null };
     }
+    console.log(where);
 
     await Patient.count(where)
       .exec((err, totalCount) => {

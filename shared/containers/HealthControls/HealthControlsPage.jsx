@@ -30,7 +30,7 @@ const panes = ({ loading, healthControls, granted }, actions) => [
     menuItem: { key: 'healthControl', icon: 'certificate', content: 'Ver control de salud' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        { granted.show ?
+        { granted.show === null || granted.show ?
           <HealthControlShow
             healthControl={healthControls.originalHealthControl}
             deletePermissionAction={actions.deletePermissionAction} /> :
@@ -43,7 +43,7 @@ const panes = ({ loading, healthControls, granted }, actions) => [
     menuItem: { key: 'edit', icon: 'edit', content: 'Editar control de salud' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        { granted.update ?
+        { granted.update === null || granted.update ?
           <HealthControlEdit
             healthControl={healthControls.originalHealthControl}
             error={healthControls.error}
@@ -208,7 +208,7 @@ class HealthControlsContainer extends Component {
       return <Redirect to={{ pathname: '/not-found' }} />;
     }
 
-    return granted.new ?
+    return granted.new === null || granted.new ?
       <HealthControlAdd
         patient={this.props.match.params.id}
         fields={healthControls.fields}
