@@ -26,7 +26,7 @@ import PatientEdit from 'components/Patients/Edit';
 import PatientsList from 'components/Patients/List';
 
 
-const panes = ({ loading, patients, documentTypes, medicalInsurances, apartmentTypes, heatingTypes, waterTypes }, actions) => [
+const panes = ({ loading, patients }, actions) => [
   {
     menuItem: { key: 'patient', icon: 'heartbeat', content: ' Ver paciente' },
     render: () => <Tab.Pane loading={loading} padded='very'><PatientShow patient={patients.originalPatient} /></Tab.Pane>
