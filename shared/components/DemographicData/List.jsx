@@ -12,7 +12,6 @@ import {
 
 
 const DemographicDataList = (props) => {
-    console.log(props);
     const totalPages = !props.count ? 0 : props.totalCount / props.count;
     return(
       <Segment>

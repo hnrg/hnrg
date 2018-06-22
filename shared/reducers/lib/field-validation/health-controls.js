@@ -18,16 +18,6 @@ import _ from 'underscore';
 import moment from 'moment';
 import { dateToString } from 'helpers/date';
 
-const dateConstraints = {
-  date: {
-    presence: true,
-    datetime: {
-      latest: moment(),
-      message: `^La fecha %{value} no puede ser mayor a ${dateToString(moment(), 'LL')}`,
-    },
-  },
-};
-
 const weightConstraints = {
   weight: {
     presence: true,
@@ -72,8 +62,8 @@ const heightConstraints = {
   height: {
     presence: true,
     numericality: {
-      greaterThan: 200,
-      lessThanOrEqualTo: ,
+      greaterThan: 10,
+      lessThanOrEqualTo: 200,
       notValid: '^La talla solo admite números',
       notGreaterThan: '^La talla no puede ser menor a %{count}',
       notLessThanOrEqualTo: '^La talla ingresado es demasiado grande',
@@ -151,33 +141,6 @@ export default function (state, action) {
   const { field, value } = action.payload;
 
   switch (field) {
-    case ('date'):
-    {
-     const validation = validate({
-        date: value,
-      }, dateConstraints);
-
-      if (_.isUndefined(validation)) {
-        return {
-          ...state,
-          fields: {
-            ...state.fields,
-            dateHasError: false,
-            dateErrorMsg: '',
-          },
-        };
-      }
-
-      return {
-        ...state,
-        fields: {
-          ...state.fields,
-          dateHasError: true,
-          dateeErrorMsg: validation[field][0],
-        },
-      };
-    }
-
     case ('weight'):
     {
      const validation = validate({

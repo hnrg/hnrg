@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import moment from 'moment-timezone';
+import { Link } from 'react-router-dom';
 import {
+  Button,
   Divider,
   Grid,
   Header,
@@ -93,6 +95,7 @@ class Show extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
+        <Button as={Link} to={`/dashboard/health-controls/patient/${this.props.patient.id}`} circular color='blue' icon='tasks' title='Agregar control de salud' />
         <Divider horizontal>Datos demográficos</Divider>
         {this.showDemographicData()}
         <Divider hidden />

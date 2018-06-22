@@ -27,7 +27,7 @@ import HealthControlShow from 'components/HealthControls/Show';
 
 const panes = ({ loading, healthControls, granted }, actions) => [
   {
-    menuItem: { key: 'rol', icon: 'certificate', content: 'Ver rol' },
+    menuItem: { key: 'healthControl', icon: 'certificate', content: 'Ver control de salud' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
         { granted.show ?
@@ -40,7 +40,7 @@ const panes = ({ loading, healthControls, granted }, actions) => [
     ),
   },
   {
-    menuItem: { key: 'edit', icon: 'edit', content: 'Editar rol' },
+    menuItem: { key: 'edit', icon: 'edit', content: 'Editar control de salud' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
         { granted.update ?
@@ -121,15 +121,15 @@ class HealthControlsContainer extends Component {
     const { originalProfile } = profile;
     const { originalHealthControl } = healthControls;
 
-    if (granted.index && !this.props.match.params.id && healthControls.healthControls === null) {
+    if (granted.index && !this.props.match.params.param && healthControls.healthControls === null) {
       this.props.actions.getHealthControls(pageNumber);
       return;
     }
 
-    if (granted.show && this.props.match.params.id &&
-      (originalHealthControl.name === '' || this.props.match.params.id !== originalHealthControl.name)
+    if (granted.show && this.props.match.params.param && this.props.match.params.param !== 'patient' &&
+      (originalHealthControl.name === '' || this.props.match.params.param !== originalHealthControl.name)
     ) {
-      this.props.actions.getHealthControl(this.props.match.params.id);
+      this.props.actions.getHealthControl(this.props.match.params.param);
       return;
     }
 
@@ -174,7 +174,7 @@ class HealthControlsContainer extends Component {
 
   onAddButtonClick() {
     this.setState({
-      currentView: 'rolCreate',
+      currentView: 'healthControlCreate',
     });
   }
 
@@ -182,7 +182,7 @@ class HealthControlsContainer extends Component {
     const { actions, match } = this.props;
     const { pageNumber, healthControls, granted } = this.state;
 
-    if (granted.index === null || granted.index) {
+    if (this.props.match.params.param !== 'patient' && (granted.index === null || granted.index)) {
       return <HealthControlsList
           url={match.url}
           healthControls={healthControls.healthControls}
@@ -193,20 +193,24 @@ class HealthControlsContainer extends Component {
           success={healthControls.success}
           granted={granted}
           deleteAction={this.deleteAction.bind(this)}
-          enableAction={this.enableAction.bind(this)}
-          onAddButtonClick={this.onAddButtonClick.bind(this)} />;
+          enableAction={this.enableAction.bind(this)} />
     }
 
     this.setState({
-      currentView: 'rolCreate',
+      currentView: 'healthControlCreate',
     });
   }
 
-  rolCreate() {
+  healthControlCreate() {
     const { permissions, healthControls, granted } = this.state;
+
+    if (!this.props.match.params.id) {
+      return <Redirect to={{ pathname: '/not-found' }} />;
+    }
 
     return granted.new ?
       <HealthControlAdd
+        patient={this.props.match.params.id}
         fields={healthControls.fields}
         isValid={healthControls.isValid}
         isFetching={healthControls.isFetching}
@@ -223,11 +227,10 @@ class HealthControlsContainer extends Component {
     const { actions, match } = this.props;
 
     actions.deletePermissionAction = this.deletePermissionAction.bind(this);
-
     return (
       <div>
         {
-          this.props.match.params.id ?
+          this.props.match.params.param && this.props.match.params.param !== 'patient' ?
           <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} /> :
           this[currentView]()
         }

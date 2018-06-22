@@ -1,5 +1,5 @@
 export default function formValidation(state) {
-  const isValid = (
+  const isValid =
     state.fields.date !== '' &&
     state.fields.weight !== null &&
     state.fields.pc !== null &&
@@ -10,7 +10,7 @@ export default function formValidation(state) {
     state.fields.maturationObservations !== '' &&
     state.fields.commonPhysicalExamination !== null &&
     state.fields.physicalExaminationObservations !== '' &&
-    state.fields.feeding !== null &&
+    state.fields.feeding !== '' &&
     state.fields.generalObservations !== '' &&
     !state.fields.dateHasError &&
     !state.fields.weightHasError &&
@@ -35,8 +35,7 @@ export default function formValidation(state) {
      state.fields.commonPhysicalExamination !== state.originalHealthControl.commonPhysicalExamination ||
      state.fields.physicalExaminationObservations !== state.originalHealthControl.physicalExaminationObservations ||
      state.fields.feeding !== state.originalHealthControl.feeding ||
-     state.fields.generalObservations !== state.originalHealthControl.generalObservations
-  );
+     state.fields.generalObservations !== state.originalHealthControl.generalObservations);
 
   return {
     ...state,

@@ -152,6 +152,7 @@ export function healthControlAddFailure(data) {
  *
  */
 export function addHealthControl(
+  patient,
   date,
   weight,
   pc,
@@ -159,6 +160,7 @@ export function addHealthControl(
   height,
   completeVaccines,
   vaccinesObservations,
+  accordingMaturationContext,
   maturationObservations,
   commonPhysicalExamination,
   physicalExaminationObservations,
@@ -171,6 +173,7 @@ export function addHealthControl(
     return authToken.getSessionToken(sessionToken)
       .then(token => healthControlsRequest.init(token)
         .addHealthControl({
+          patient,
           date,
           weight,
           pc,
@@ -178,6 +181,7 @@ export function addHealthControl(
           height,
           completeVaccines,
           vaccinesObservations,
+          accordingMaturationContext,
           maturationObservations,
           commonPhysicalExamination,
           physicalExaminationObservations,
@@ -188,7 +192,6 @@ export function addHealthControl(
         dispatch(healthControlAddSuccess());
       })
       .catch((error) => {
-        console.log(error);
         dispatch(healthControlAddFailure(errorHandler(error)));
       });
   };
@@ -232,6 +235,7 @@ export function updateHealthControl(
   height,
   completeVaccines,
   vaccinesObservations,
+  accordingMaturationContext,
   maturationObservations,
   commonPhysicalExamination,
   physicalExaminationObservations,
@@ -251,6 +255,7 @@ export function updateHealthControl(
           height,
           completeVaccines,
           vaccinesObservations,
+          accordingMaturationContext,
           maturationObservations,
           commonPhysicalExamination,
           physicalExaminationObservations,

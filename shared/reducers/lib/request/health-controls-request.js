@@ -50,6 +50,7 @@ export default class HealthControlsRequest {
   }
 
   addHealthControl({
+    patient,
     date,
     weight,
     pc,
@@ -57,6 +58,7 @@ export default class HealthControlsRequest {
     height,
     completeVaccines,
     vaccinesObservations,
+    accordingMaturationContext,
     maturationObservations,
     commonPhysicalExamination,
     physicalExaminationObservations,
@@ -65,6 +67,7 @@ export default class HealthControlsRequest {
   }) {
     return axios.post(`/api/health-controls`, {
       healthControl: {
+        patient,
         date,
         weight,
         pc,
@@ -72,6 +75,7 @@ export default class HealthControlsRequest {
         height,
         completeVaccines,
         vaccinesObservations,
+        accordingMaturationContext,
         maturationObservations,
         commonPhysicalExamination,
         physicalExaminationObservations,
@@ -134,6 +138,7 @@ export default class HealthControlsRequest {
     height,
     completeVaccines,
     vaccinesObservations,
+    accordingMaturationContext,
     maturationObservations,
     commonPhysicalExamination,
     physicalExaminationObservations,
@@ -149,6 +154,7 @@ export default class HealthControlsRequest {
         height,
         completeVaccines,
         vaccinesObservations,
+        accordingMaturationContext,
         maturationObservations,
         commonPhysicalExamination,
         physicalExaminationObservations,

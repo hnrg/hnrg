@@ -68,15 +68,6 @@ const phoneConstraints = {
   },
 };
 
-const birthdayConstraints = {
-  birthday: {
-    presence: true,
-    datetime: {
-      dateOnly: true,
-    },
-  },
-};
-
 const documentNumberConstraints = {
   documentNumber: {
     presence: true,
@@ -206,33 +197,6 @@ export default function (state, action) {
           ...state.fields,
           phoneHasError: true,
           phoneErrorMsg: validation[field][0],
-        },
-      };
-    }
-
-    case ('birthday'):
-    {
-      const validation = validate({
-        birthday: value,
-      }, birthdayConstraints);
-
-      if (_.isUndefined(validation)) {
-        return {
-          ...state,
-          fields: {
-            ...state.fields,
-            birthdayHasError: false,
-            birthdayErrorMsg: '',
-          },
-        };
-      }
-
-      return {
-        ...state,
-        fields: {
-          ...state.fields,
-          birthdayHasError: true,
-          birthdayErrorMsg: validation[field][0],
         },
       };
     }

@@ -33,13 +33,14 @@ class Show extends Component {
         </Header>
         <Divider hidden />
         <Grid>
+          <Divider horizontal>Medidas</Divider>
           <Grid.Row>
             <Grid.Column style={{margin: '0 0 5px 0', padding: '0 0 15px 0'}} computer={4} largeScreen={4} tablet={4} mobile={16}>
               <Header as='h4' content='Peso'/>
               {`${healthControl.weight} gr`}
             </Grid.Column>
             <Grid.Column style={{margin: '0 0 5px 0', padding: '0 0 15px 0'}} computer={4} largeScreen={4} tablet={4} mobile={16}>
-              <Header as='h4' content='Email'/>
+              <Header as='h4' content='Talla'/>
               {`${healthControl.height} cm`}
             </Grid.Column>
             <Grid.Column style={{margin: '0 0 5px 0', padding: '0 0 15px 0'}} computer={4} largeScreen={4} tablet={4} mobile={16}>
@@ -50,49 +51,54 @@ class Show extends Component {
               <Header as='h4' content='Perímetro Percentil cefálico'/>
               {`${healthControl.ppc} cm`}
             </Grid.Column>
-            <Divider hidden />
-            <Grid.Column style={{margin: '0 0 5px 0', padding: '0 0 15px 0'}} computer={4} largeScreen={4} tablet={4} mobile={16}>
+          </Grid.Row>
+          <Divider horizontal>Chequeos realizados</Divider>
+          <Grid.Row>
+            <Grid.Column style={{margin: '0 0 5px 0', padding: '0 0 15px 0'}} computer={5} largeScreen={5} tablet={5} mobile={16}>
               <Header as='h4' content='Vacunas completas'/>
-              <Header as='h5' content={healthControl.completeVaccines ? 'Si' : 'No'} />
+              {healthControl.completeVaccines ? 'Si' : 'No'}
             </Grid.Column>
-            <Grid.Column style={{margin: '0 5px 5px 5px', padding: '0 0 15px 0'}} computer={10} largeScreen={10} tablet={10} mobile={16}>
-              <Header as='h4' content='Observaciones'/>
+            <Grid.Column style={{margin: '0 0 5px 0', padding: '0 0 15px 0'}} computer={6} largeScreen={6} tablet={6} mobile={16}>
+            <Header as='h4' content='Maduración acorde'/>
+            {healthControl.accordingMaturationContext ? 'Si' : 'No'}
+            </Grid.Column>
+            <Grid.Column style={{margin: '0 0 5px 0', padding: '0 0 15px 0'}} computer={5} largeScreen={5} tablet={5} mobile={16}>
+            <Header as='h4' content='Examen físico común'/>
+            {healthControl.commonPhysicalExamination ? 'Si' : 'No'}
+            </Grid.Column>
+          </Grid.Row>
+          <Divider horizontal>Observaciones</Divider>
+          <Grid.Row>
+            <Grid.Column style={{padding: '0 0 15px 0'}} computer={16} largeScreen={16} tablet={16} mobile={16}>
+              <Header as='h4' content='Vacunas completas'/>
               <Form>
-                <TextArea disabled autoHeight placeholder='Observaciones...' style={{margin: '-10px 0px'}} rows={2} value={healthControl.vaccinesObservations} />
+                <TextArea disabled autoHeight placeholder='Observaciones...' style={{margin: '-10px 0px 5px 0px'}} rows={2} value={healthControl.vaccinesObservations} />
               </Form>
             </Grid.Column>
-            <Grid.Column style={{margin: '0 0 5px 0', padding: '0 0 15px 0'}} computer={4} largeScreen={4} tablet={4} mobile={16}>
-              <Header as='h4' content='Maduración acorde'/>
-              <Header as='h5' content={healthControl.accordingMaturationContext ? 'Si' : 'No'} />
-            </Grid.Column>
-            <Grid.Column style={{margin: '0 5px 5px 5px', padding: '0 0 15px 0'}} computer={10} largeScreen={10} tablet={10} mobile={16}>
-              <Header as='h4' content='Observaciones'/>
+            <Grid.Column style={{padding: '0 0 15px 0'}} computer={16} largeScreen={16} tablet={16} mobile={16}>
+              <Header as='h4' content='Maduración'/>
               <Form>
-                <TextArea disabled autoHeight placeholder='Observaciones...' style={{margin: '-10px 0px'}} rows={2} value={healthControl.maturationObservations} />
+                <TextArea disabled autoHeight placeholder='Observaciones...' style={{margin: '-10px 0px 5px 0px'}} rows={2} value={healthControl.maturationObservations} />
               </Form>
             </Grid.Column>
-            <Grid.Column style={{margin: '0 0 5px 0', padding: '0 0 15px 0'}} computer={4} largeScreen={4} tablet={4} mobile={16}>
+            <Grid.Column style={{padding: '0 0 15px 0'}} computer={16} largeScreen={16} tablet={16} mobile={16}>
               <Header as='h4' content='Examen físico común'/>
-              <Header as='h5' content={healthControl.commonPhysicalExamination ? 'Si' : 'No'} />
-            </Grid.Column>
-            <Grid.Column style={{margin: '0 5px 5px 5px', padding: '0 0 15px 0'}} computer={10} largeScreen={10} tablet={10} mobile={16}>
-              <Header as='h4' content='Observaciones'/>
               <Form>
-                <TextArea disabled autoHeight placeholder='Observaciones...' style={{margin: '-10px 0px'}} rows={2} value={healthControl.physicalExaminationObservations} />
+                <TextArea disabled autoHeight placeholder='Observaciones...' style={{margin: '-10px 0px 5px 0px'}} rows={2} value={healthControl.physicalExaminationObservations} />
               </Form>
             </Grid.Column>
             <Divider hidden />
-            <Grid.Column style={{margin: '0 5px 5px 5px', padding: '0 0 15px 0'}} computer={8} largeScreen={8} tablet={8} mobile={16}>
+            <Grid.Column style={{padding: '0 0 15px 0'}} computer={16} largeScreen={16} tablet={16} mobile={16}>
               <Header as='h4' content='Alimentación'/>
               <Form>
-                <TextArea disabled autoHeight placeholder='Observaciones...' style={{margin: '-10px 0px'}} rows={2} value={healthControl.feeding} />
+                <TextArea disabled autoHeight placeholder='Observaciones...' style={{margin: '-10px 0px 5px 0px'}} rows={2} value={healthControl.feeding} />
               </Form>
             </Grid.Column>
             <Divider vertical hidden />
-            <Grid.Column style={{margin: '0 5px 5px 5px', padding: '0 0 15px 0'}} computer={8} largeScreen={8} tablet={8} mobile={16}>
-              <Header as='h4' content='Observaciones generales'/>
+            <Grid.Column style={{padding: '0 0 15px 0'}} computer={16} largeScreen={16} tablet={16} mobile={16}>
+              <Header as='h4' content='Generales'/>
               <Form>
-                <TextArea disabled autoHeight placeholder='Observaciones...' style={{margin: '-10px 0px'}} rows={2} value={healthControl.generalObservations} />
+                <TextArea disabled autoHeight placeholder='Observaciones...' style={{margin: '-10px 0px 5px 0px'}} rows={2} value={healthControl.generalObservations} />
               </Form>
             </Grid.Column>
           </Grid.Row>

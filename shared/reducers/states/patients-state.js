@@ -75,8 +75,5 @@ export default {
     waterType: null,
     waterTypeHasError: false,
     waterTypeErrorMsg: '',
-    deleted: null,
-    deletedHasError: false,
-    deletedErrorMsg: '',
   },
 };
