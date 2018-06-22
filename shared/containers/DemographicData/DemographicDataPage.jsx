@@ -71,7 +71,6 @@ class DemographicDataContainer extends Component {
   render() {
     const { actions, match } = this.props;
 
-    console.log(this.state);
     return (
       <DemographicDataList
         url={match.url}

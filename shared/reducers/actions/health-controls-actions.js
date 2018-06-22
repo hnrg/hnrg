@@ -192,7 +192,6 @@ export function addHealthControl(
         dispatch(healthControlAddSuccess());
       })
       .catch((error) => {
-        console.log(error);
         dispatch(healthControlAddFailure(errorHandler(error)));
       });
   };

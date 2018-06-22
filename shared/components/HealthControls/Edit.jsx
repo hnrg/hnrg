@@ -69,7 +69,6 @@ class Edit extends Component {
     e.preventDefault();
 
     const { healthControl, fields } = this.state;
-    console.log(healthControl);
 
     this.props.updateHealthControl(
       healthControl.id,

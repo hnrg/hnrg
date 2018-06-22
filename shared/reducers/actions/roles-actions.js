@@ -168,7 +168,6 @@ export function addRol(name, permissions, sessionToken) {
         dispatch(rolAddSuccess());
       })
       .catch((error) => {
-        console.log(error);
         dispatch(rolAddFailure(errorHandler(error)));
       });
   };

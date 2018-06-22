@@ -154,7 +154,6 @@ exports.deleteHealthControl = async function deleteHealthControl(req, res) {
         return res.status(200).end();
       });
   } catch (e) {
-    console.log(e);
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
     }
@@ -189,7 +188,6 @@ exports.updateHealthControl = async function updateHealthControl(req, res) {
         return res.status(200).json({ healthControl });
       });
   } catch (e) {
-    console.log(e);
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
     }

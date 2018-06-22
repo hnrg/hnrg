@@ -1,6 +1,9 @@
 const _ = require('lodash');
-const Patient = require('../models/patient');
+const moment = require('moment-timezone');
+
 const DemographicData = require('../models/demographic-data');
+const HealthControl = require('../models/health-control');
+const Patient = require('../models/patient');
 
 const permissionsCheck = require('../modules/permissions-check');
 
@@ -223,6 +226,31 @@ exports.deletePatient = async function deletePatient(req, res) {
   }
 };
 
+function ageCalculate(actual, birthday) {
+  return moment(actual).diff(moment(birthday), 'days')/7;
+}
+
+function ppcStrategy(patient, healthControls) {
+  return healthControls.map(d => [
+    ageCalculate(healthControl.date, patient.birthday),
+    healthControl.ppc
+  ]);
+}
+
+function weightStrategy(patient, healthControls) {
+  return healthControls.map(d => [
+    ageCalculate(healthControl.date, patient.birthday),
+    healthControl.weight
+  ]);
+}
+
+function heightStrategy(patient, healthControls) {
+  return healthControls.map(d => [
+    healthControl.height,
+    healthControl.weight
+  ]);
+}
+
 exports.getPatientHealthControls = async function getPatientHealthControls(req, res, next) {
   try {
     permissionsCheck(req.user, 'paciente_show');
@@ -234,6 +262,12 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
     if (!['ppc', 'weight', 'height'].find(e => e === req.params.type)) {
       return res.status(422).json({ error: 'El tipo especificado es incorrecto' });
     }
+
+    const strategy = {
+      ppc: ppcStrategy,
+      weight: weightStrategy,
+      height: heightStrategy,
+    };
 
     await Patient.findById(req.params.id)
       .where('deleted').equals(false)
@@ -253,7 +287,12 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
 
             /* TODO modificar utilizando req.params.type */
 
-            res.status(200).json({ healthControls });
+            res.status(200).json({
+              healthControls: {
+                name: patient.fullName(),
+                data: strategy[req.params.type](patient, healthControls),
+              }
+            });
           });
       });
   } catch (e) {

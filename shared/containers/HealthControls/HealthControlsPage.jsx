@@ -227,7 +227,6 @@ class HealthControlsContainer extends Component {
     const { actions, match } = this.props;
 
     actions.deletePermissionAction = this.deletePermissionAction.bind(this);
-    console.log(this.props);
     return (
       <div>
         {

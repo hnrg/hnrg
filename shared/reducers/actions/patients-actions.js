@@ -105,7 +105,6 @@ export function getPatient(patient, sessionToken) {
         dispatch(getPatientSuccess(data.patient));
       })
       .catch((error) => {
-        console.log(error);
         dispatch(getPatientFailure(errorHandler(error)));
       });
   };
@@ -198,7 +197,6 @@ export function updatePatient(
         dispatch(getPatient(originalPatient));
       })
       .catch((error) => {
-        console.log(error);
         dispatch(patientUpdateFailure(errorHandler(error)));
       });
   };
