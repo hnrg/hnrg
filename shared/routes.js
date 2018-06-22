@@ -11,6 +11,7 @@ import DashboardPage from 'containers/Dashboard';
 import ProfilePage from 'containers/Profile';
 import HomePage from 'containers/Home';
 import NotFoundPage from 'containers/NotFound';
+import ForbiddenPage from 'containers/Forbidden';
 
 // auth pages
 import LoginPage from 'containers/Auth/Login';
@@ -31,6 +32,7 @@ const Routes = () => (
         <Route path="/login" component={LoginPage} />
         <Route path="/logout" component={LogoutPage} />
         <Route path="/not-found" component={NotFoundPage} />
+        <Route path="/forbidden" component={ForbiddenPage} />
         <Redirect to="/not-found" />
       </Switch>
     </App>
