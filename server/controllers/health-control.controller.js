@@ -144,7 +144,7 @@ exports.deleteHealthControl = async function deleteHealthControl(req, res) {
   try {
     permissionsCheck(req.user, 'control_salud_destroy');
 
-    await healthControl.findByIdAndUpdate(req.params.id, { active: false })
+    await HealthControl.findByIdAndUpdate(req.params.id, { active: false })
       .exec((error, healthControl) => {
         if (error || healthControl == null) {
           res.status(422).json({ error: 'Control de salud no encontrado para ese id' });
@@ -154,6 +154,7 @@ exports.deleteHealthControl = async function deleteHealthControl(req, res) {
         return res.status(200).end();
       });
   } catch (e) {
+    console.log(e);
     if (e.name === 'NotAllowedError') {
       return res.status(403).send(e);
     }

@@ -231,6 +231,10 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
     const { webpage } = configuration;
     const { amountPerPage } = webpage;
 
+    if (!['ppc', 'weight', 'height'].find(e => e === req.params.type)) {
+      return res.status(422).json({ error: 'El tipo especificado es incorrecto' });
+    }
+
     await Patient.findById(req.params.id)
       .where('deleted').equals(false)
       .exec((err, patient) => {
