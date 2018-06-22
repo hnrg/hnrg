@@ -93,7 +93,7 @@ export function profileUpdateFailure(data) {
  * the data as now persisted on the serverx
  *
  */
-export function updateProfile(originalUsername, username, email, firstName, lastName, sessionToken) {
+export function updateProfile(originalUsername, username, email, firstName, lastName, password, sessionToken) {
   return (dispatch) => {
     dispatch(profileUpdateRequest());
     return authToken.getSessionToken(sessionToken)
@@ -103,6 +103,7 @@ export function updateProfile(originalUsername, username, email, firstName, last
           email,
           firstName,
           lastName,
+          password,
         }))
       .then(() => {
         dispatch(profileUpdateSuccess());

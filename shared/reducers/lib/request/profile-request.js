@@ -26,15 +26,19 @@ export default class ProfileRequest {
   }
 
   updateProfile({
-    username, email, firstName, lastName,
+    username, email, firstName, lastName, password
   }) {
+    let user = {
+      username,
+      email,
+      firstName,
+      lastName,
+    };
+
+    if (password) { user.password = password; }
+
     return axios.post('/api/auth/me', {
-      user: {
-        username,
-        email,
-        firstName,
-        lastName,
-      },
+      user,
     }, {
       headers: {
         Authorization: this._sessionToken,

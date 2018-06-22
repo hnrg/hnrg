@@ -72,6 +72,7 @@ class Edit extends Component {
       fields.email,
       fields.firstName,
       fields.lastName,
+      fields.password,
       null
     );
   }
@@ -126,6 +127,7 @@ class Edit extends Component {
             value={fields.email}
             error={fields.emailHasError} />
           <Form.Input
+            type='password'
             label={fields.passwordErrorMsg || 'Contraseña'}
             name='password'
             placeholder='Contraseña'

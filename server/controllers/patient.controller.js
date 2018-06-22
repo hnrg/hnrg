@@ -48,7 +48,7 @@ exports.getPatients = async function getPatients(req, res, next) {
     await Patient.count(where)
       .exec((err, totalCount) => {
         if (err) {
-          throw next(err);
+          throw (err);
         }
 
         if (!totalCount) {
@@ -72,7 +72,7 @@ exports.getPatients = async function getPatients(req, res, next) {
           .populate('documentType')
           .exec(($err, patients) => {
             if ($err) {
-              throw next($err);
+              throw ($err);
             }
 
             res.status(200).send({
@@ -118,7 +118,7 @@ exports.addPatient = async function addPatient(req, res, next) {
     }).exec((err, patient) => {
       if (err) {
         res.sendStatus(422);
-        throw next(err);
+        throw (err);
       }
 
       if (patient) {
@@ -176,7 +176,7 @@ exports.getPatient = async function getPatient(req, res, next) {
         }
 
         if (err) {
-          throw next(err);
+          throw (err);
         }
 
         res.status(200).json({ patient });
@@ -208,7 +208,7 @@ exports.deletePatient = async function deletePatient(req, res) {
       .exec((err, patient) => {
         if (err || patient == null) {
           res.status(422).json({ error: 'No se encontró ningún paciente con ese id' });
-          throw next(err);
+          throw (err);
         }
 
         res.sendStatus(200);

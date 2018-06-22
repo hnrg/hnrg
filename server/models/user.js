@@ -46,30 +46,36 @@ const userSchema = new Schema({
   timestamps: true,
 });
 
-userSchema.pre('save', function (next) {
+function pre(next) {
   const user = this;
 
   bcrypt.genSalt(10, (err, salt) => {
     if (err) {
-      return next(err);
+      throw err;
     }
 
-    bcrypt.hash(user.password, salt, null, (err, hash) => {
-      if (err) {
-        return next(err);
+    bcrypt.hash(user.password, salt, null, ($err, hash) => {
+      if ($err) {
+        throw $err;
       }
 
       user.password = hash;
       next();
     });
   });
-});
+}
+
+userSchema.pre('save', pre);
+userSchema.pre('update', pre);
+userSchema.pre('findByIdAndUpdate', pre);
+userSchema.pre('findOneAndUpdate', pre);
 
 userSchema.methods.comparePassword = function (candidatePassword, callback) {
   bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     if (err) {
       return callback(err);
     }
+    
     callback(null, isMatch);
   });
 };

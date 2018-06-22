@@ -111,15 +111,19 @@ export default class UsersRequest {
   }
 
   updateUser(originalUsername, {
-    username, email, firstName, lastName,
+    username, email, firstName, lastName, password,
   }) {
+    let user = {
+      username,
+      email,
+      firstName,
+      lastName,
+    };
+
+    if (password) { user.password = password; }
+
     return axios.post(`/api/users/${originalUsername}`, {
-      user: {
-        username,
-        email,
-        firstName,
-        lastName,
-      },
+      user,
     }, {
       headers: {
         Authorization: this._sessionToken,
