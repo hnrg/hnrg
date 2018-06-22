@@ -26,10 +26,13 @@ Permite obtener los turnos disponibles para la fecha actual.
 
 Respuesta correcta con turnos disponibles,
 
+.. code-block:: bash
+
     $ curl grupo74.proyecto2017.linti.unlp.edu.ar/api/turnos
 
 
-.. code-block::
+.. code-block:: js
+
     HTTP/1.1 200 OK
     {
         "appointments": [
@@ -48,10 +51,13 @@ Permite obtener los turnos disponibles para la fecha dada.
 
 Respuesta correcta con turnos disponibles,
 
+.. code-block:: bash
+
     $ curl grupo74.proyecto2017.linti.unlp.edu.ar/api/turnos/YYYY-MM-DD
 
 
-.. code-block::
+.. code-block:: js
+
     HTTP/1.1 200 OK
     {
         "appointments": [
@@ -64,16 +70,22 @@ Respuesta correcta con turnos disponibles,
 
 Respuesta erronea por fecha vencida,
 
+.. code-block:: bash
+
   $ curl grupo74.proyecto2017.linti.unlp.edu.ar/api/turnos/2017-MM-DD
 
-.. code-block::
+.. code-block:: js
+
     HTTP/1.1 204 NO CONTENT
 
 Respuesta erronea por error genérico,
 
+.. code-block:: bash
+
   $ curl grupo74.proyecto2017.linti.unlp.edu.ar/api/turnos/una-frase
 
-.. code-block:: bash
+.. code-block:: js
+
     HTTP/1.1 500 Internal Server Error
 
 -   Reservar un turno
@@ -89,9 +101,12 @@ Donde:
 
 Respuesta correcta con turno reservado,
 
+.. code-block:: bash
+
   $ curl grupo74.proyecto2017.linti.unlp.edu.ar/api/turnos/40000000/fecah/YYYY-MM-DD/hora/HH:mm
 
-.. code-block:: bash
+.. code-block:: js
+
     HTTP/1.1 201 Created
     {
         "appointment": {
@@ -102,24 +117,33 @@ Respuesta correcta con turno reservado,
 
 Respuesta erronea por falta de parámetros, o fecha/hora inválida
 
+.. code-block:: bash
+
   $ curl grupo74.proyecto2017.linti.unlp.edu.ar/api/turnos/no-doc/fecah/una-frase/hora/
 
-.. code-block::
+.. code-block:: js
+
     HTTP/1.1 400 BAD REQUEST
 
 Respuesta erronea por turno ya tomado
 
+.. code-block:: bash
+
   $ curl grupo74.proyecto2017.linti.unlp.edu.ar/api/turnos/40000000/fecah/YYYY-MM-DD/hora/HH:mm
 
-.. code-block::
+.. code-block:: js
+
     HTTP/1.1 422 UNPROCESSABLE ENTITY
 
 
 Respuesta erronea por error genérico,
 
+.. code-block:: bash
+
   $ curl grupo74.proyecto2017.linti.unlp.edu.ar/api/turnos/una-frase
 
-.. code-block::
+.. code-block:: js
+
     HTTP/1.1 500 Internal Server Error
 
 
@@ -131,14 +155,20 @@ Permite eliminar un turno dado su id
 
 Respuesta correcta con un turno eliminado,
 
+.. code-block:: bash
+
   $ curl -XDELETE grupo74.proyecto2017.linti.unlp.edu.ar/api/turnos/id
 
-.. code-block::
+.. code-block:: js
+
     HTTP/1.1 200 OK
 
 Respuesta erronea por error genérico,
 
+.. code-block:: bash
+
   $ curl -XDELETE grupo74.proyecto2017.linti.unlp.edu.ar/api/turnos/id
 
-.. code-block::
+.. code-block:: js
+
     HTTP/1.1 500 Internal Server Error
