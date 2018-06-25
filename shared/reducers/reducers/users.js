@@ -84,7 +84,6 @@ export default function usersReducer(state = InitialState, action) {
         totalCount: action.payload.totalCount,
         isFetching: false,
         error: null,
-        success: null,
       };
     }
 
