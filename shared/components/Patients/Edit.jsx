@@ -11,68 +11,21 @@ import {
 import DemographicDataEdit from 'components/DemographicData/Edit';
 
 class Edit extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isValid: this.props.isValid,
-      isFetching: this.props.isFetching,
-      originalPatient: this.props.patient,
-      fields: this.props.fields,
-      error: this.props.error,
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentWillReceiveProps(props) {
-    const { patient, fields, isValid, isFetching, error } = props;
-
-    this.setState({
-      originalPatient: patient,
-      fields,
-      isValid,
-      isFetching,
-      error,
-    });
-  }
-
-  componentDidMount() {
-    const { patient, fields, isValid, isFetching, error, } = this.props;
-
-    this.setState({
-      originalPatient: patient,
-      fields,
-      isValid,
-      isFetching,
-      error,
-    });
-  }
-
   handleChange(e, {name, value}) {
     const newValue = [ 'refrigerator', 'electricity', 'pet' ].find(e => e == name) ?
-      !this.state.fields[name] :
+      !this.props.fields[name] :
       value;
 
     this.props.onFormFieldChange(name, newValue);
-
-    this.setState({
-      ...this.state,
-      fields: {
-        ...this.state.fields,
-        [name]: value,
-      }
-    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
-    const { originalPatient, fields } = this.state;
+    const { patient, fields } = this.props;
 
     this.props.updatePatient(
-      originalPatient.id,
+      patient.id,
       fields.firstName,
       fields.lastName,
       fields.address,
@@ -93,7 +46,7 @@ class Edit extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching, error } = this.state;
+    const { fields, isValid, isFetching, error } = this.props;
 
     const sexOptions = [
       { key: "m", value: "Masculino", icon: 'man',text: "Masculino" },

@@ -8,66 +8,17 @@ import {
 } from 'semantic-ui-react';
 
 class Edit extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isValid: this.props.isValid,
-      isFetching: this.props.isFetching,
-      originalUser: this.props.user,
-      fields: this.props.fields,
-      error: this.props.error,
-      success: this.props.success,
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentWillReceiveProps(props) {
-    const { user, fields, isValid, isFetching, error, success } = props;
-
-    this.setState({
-      originalUser: user,
-      fields,
-      isValid,
-      isFetching,
-      error,
-      success,
-    });
-  }
-
-  componentDidMount() {
-    const { user, fields, isValid, isFetching, error, success, } = this.props;
-
-    this.setState({
-      originalUser: user,
-      fields,
-      isValid,
-      isFetching,
-      error,
-      success,
-    });
-  }
-
   handleChange(e, {name, value}) {
     this.props.onFormFieldChange(name, value);
-
-    this.setState({
-      fields: {
-        ...this.state.fields,
-        [name]: value,
-      },
-    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
-    const { originalUser, fields } = this.state;
+    const { user, fields } = this.props;
 
     this.props.updateUser(
-      originalUser.username,
+      user.username,
       fields.username,
       fields.email,
       fields.firstName,
@@ -79,7 +30,7 @@ class Edit extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching, error, success } = this.state;
+    const { fields, isValid, isFetching, error, success } = this.props;
 
     return(
       <Form onSubmit={this.handleSubmit}>

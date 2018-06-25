@@ -12,58 +12,16 @@ class Add extends Component {
     super(props);
 
     this.props.onMount();
-
-    this.state = {
-      isValid: this.props.isValid,
-      isFetching: this.props.isFetching,
-      originalPatient: this.props.patient,
-      fields: this.props.fields,
-      error: this.props.error,
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentWillReceiveProps(props) {
-    const { patient, fields, isValid, isFetching, error } = props;
-
-    this.setState({
-      originalPatient: patient,
-      fields,
-      isValid,
-      isFetching,
-      error,
-    });
-  }
-
-  componentDidMount() {
-    const { patient, fields, isValid, isFetching, error } = this.props;
-
-    this.setState({
-      originalPatient: patient,
-      fields,
-      isValid,
-      isFetching,
-      error,
-    });
   }
 
   handleChange(e, {name, value}) {
     this.props.onFormFieldChange(name, value);
-
-    this.setState({
-      fields: {
-        ...this.state.fields,
-        [name]: value,
-      },
-    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
-    const { originalPatient, fields } = this.state;
+    const { fields } = this.props;
 
     this.props.addPatient(
       fields.firstName,
@@ -80,7 +38,7 @@ class Add extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching, error } = this.state;
+    const { fields, isValid, isFetching, error, success } = this.props;
 
     const sexOptions = [
       { key: "m", value: "Masculino", icon: 'man',text: "Masculino" },
@@ -98,11 +56,14 @@ class Add extends Component {
 
     return(
       <Segment padded>
+        {success && <Message positive>
+          <Message.Header>La operación fué realizada con éxito.</Message.Header>
+        </Message>}
         {error && <Message negative>
           <Message.Header>Existen errores</Message.Header>
           <p>{error}</p>
         </Message>}
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit.bind(this)}>
           <Form.Group>
             <Form.Input
               label={fields.firstNameErrorMsg || 'Nombre'}
@@ -110,7 +71,7 @@ class Add extends Component {
               placeholder='Nombre'
               required
               width={8}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.firstName || ''}
               error={fields.firstNameHasError} />
             <Form.Input
@@ -119,7 +80,7 @@ class Add extends Component {
               placeholder='Apellido'
               required
               width={8}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.lastName || ''}
               error={fields.lastNameHasError} />
           </Form.Group>
@@ -129,7 +90,7 @@ class Add extends Component {
               name='address'
               placeholder='Direccion'
               width={4}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.address || ''}
               error={fields.addressHasError} />
             <Form.Input
@@ -137,7 +98,7 @@ class Add extends Component {
               name='phone'
               placeholder='Teléfono'
               width={4}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.phone || ''}
               error={fields.phoneHasError} />
             <Form.Input
@@ -147,7 +108,7 @@ class Add extends Component {
               placeholder='Fecha de nacimiento'
               required
               width={4}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.birthday || ''}
               error={fields.birthdayHasError} />
             <Form.Select
@@ -155,7 +116,7 @@ class Add extends Component {
               name='sex'
               placeholder='Sexo'
               width={4}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               options={sexOptions}
               error={fields.sexHasError} />
           </Form.Group>
@@ -166,7 +127,7 @@ class Add extends Component {
               placeholder='Tipo de documento'
               required
               width={5}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               options={documentTypesOptions}
               error={fields.documentTypeHasError} />
             <Form.Input
@@ -176,7 +137,7 @@ class Add extends Component {
               placeholder='Número de documento'
               required
               width={6}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.documentNumber || ''}
               error={fields.documentNumberHasError} />
             <Form.Select
@@ -185,7 +146,7 @@ class Add extends Component {
               placeholder='Obra social'
               required
               width={5}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               options={medicalInsurancesOptions}
               error={fields.medicalInsuranceHasError} />
           </Form.Group>
