@@ -46,6 +46,8 @@ const panes = ({ loading, patients, granted, documentTypes, medicalInsurances, a
         { granted.updated === null || granted.update ?
           <PatientEdit
             patient={patients.originalPatient}
+            error={patients.error}
+            success={patients.success}
             fields={patients.fields}
             isValid={patients.isValid}
             isFetching={patients.isFetching}
@@ -219,6 +221,8 @@ class PatientsContainer extends Component {
         <PatientsList
           url={match.url}
           patients={this.state.patients.patients}
+          error={this.state.patients.error}
+          success={this.state.patients.success}
           documentTypes={this.state.documentTypes.documentTypes}
           pageNumber={this.state.patients.pageNumber}
           totalCount={this.state.patients.totalCount}
@@ -233,7 +237,7 @@ class PatientsContainer extends Component {
   }
 
   patientCreate() {
-    const { originalPatient, fields, isValid, isFetching, error } = this.state.patients;
+    const { originalPatient, fields, isValid, isFetching, error, success } = this.state.patients;
     const { granted } = this.state;
     const { actions } = this.props;
 
@@ -241,6 +245,7 @@ class PatientsContainer extends Component {
       <PatientAdd
         patient={originalPatient}
         error={error}
+        success={success}
         fields={fields}
         isValid={isValid}
         documentTypes={this.state.documentTypes.documentTypes}

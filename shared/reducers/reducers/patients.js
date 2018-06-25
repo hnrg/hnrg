@@ -92,6 +92,7 @@ export default function patientsReducer(state = InitialState, action) {
         totalCount: 0,
         count: 0,
         patients: null,
+        success: true,
       };
     }
 
@@ -151,62 +152,7 @@ export default function patientsReducer(state = InitialState, action) {
 
     case ON_PATIENT_FORM_CLEAR:
     {
-      return {
-        ...state,
-        fields: {
-          firstName: '',
-          firstNameHasError: false,
-          firstNameErrorMsg: '',
-          lastName: '',
-          lastNameHasError: false,
-          lastNameErrorMsg: '',
-          address: '',
-          addressHasError: false,
-          addressErrorMsg: '',
-          phone: '',
-          phoneNHasError: false,
-          phoneErrorMsg: '',
-          birthday: '',
-          birthdayHasError: false,
-          birthdayErrorMsg: '',
-          sex: '',
-          sexHasError: false,
-          sexErrorMsg: '',
-          demographicData: null,
-          demographicDataHasError: false,
-          demographicDataErrorMsg: '',
-          medicalInsurance: null,
-          medicalInsuranceHasError: false,
-          medicalInsuranceErrorMsg: '',
-          documentType: null,
-          documentTypeHasError: false,
-          documentTypeErrorMsg: '',
-          documentNumber: 0,
-          documentNumberHasError: false,
-          documentNumberErrorMsg: '',
-          refrigerator: null,
-          refrigeratorHasError: false,
-          refrigeratorErrorMsg: '',
-          electricity: null,
-          electricityHasError: false,
-          electricityErrorMsg: '',
-          pet: null,
-          petHasError: false,
-          petErrorMsg: '',
-          apartmentType: null,
-          apartmentTypeHasError: false,
-          apartmentTypeErrorMsg: '',
-          heatingType: null,
-          heatingTypeHasError: false,
-          heatingTypeErrorMsg: '',
-          waterType: null,
-          waterTypeHasError: false,
-          waterTypeErrorMsg: '',
-          deleted: null,
-          deletedHasError: false,
-          deletedErrorMsg: '',
-        },
-      };
+      return InitialState;
     }
 
     case ON_PATIENT_FORM_FIELD_CHANGE:
@@ -218,6 +164,8 @@ export default function patientsReducer(state = InitialState, action) {
 
       nextPatientState = {
         ...state,
+        error: null,
+        success: null,
         fields: {
           ...state.fields,
           [field]: value,
@@ -250,6 +198,7 @@ export default function patientsReducer(state = InitialState, action) {
         ...state,
         isFetching: false,
         error: action.payload,
+        success: null,
       };
     }
 
@@ -270,6 +219,7 @@ export default function patientsReducer(state = InitialState, action) {
         ...state,
         disabled: patients.disabled,
         error: patients.error,
+        success: patients.success,
         isValid: patients.isValid,
         isFetching: patients.isFetching,
         patients: patients.patients,
