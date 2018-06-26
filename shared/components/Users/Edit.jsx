@@ -33,7 +33,7 @@ class Edit extends Component {
     const { fields, isValid, isFetching, error, success } = this.props;
 
     return(
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit.bind(this)}>
         {success && <Message positive>
           <Message.Header>La operación fué realizada con éxito.</Message.Header>
         </Message>}
@@ -47,7 +47,7 @@ class Edit extends Component {
             name='firstName'
             placeholder='Nombre'
             width={8}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={fields.firstName}
             error={fields.firstNameHasError} />
           <Form.Input
@@ -55,7 +55,7 @@ class Edit extends Component {
             name='lastName'
             placeholder='Apellido'
             width={8}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={fields.lastName}
             error={fields.lastNameHasError} />
         </Form.Group>
@@ -66,7 +66,7 @@ class Edit extends Component {
             required
             placeholder='Nombre de Usuario'
             width={5}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={fields.username}
             error={fields.usernameHasError} />
           <Form.Input
@@ -75,7 +75,7 @@ class Edit extends Component {
             required
             placeholder='Email'
             width={6}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={fields.email}
             error={fields.emailHasError} />
           <Form.Input
@@ -84,7 +84,7 @@ class Edit extends Component {
             name='password'
             placeholder='Contraseña'
             width={5}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={fields.password}
             error={fields.passwordHasError} />
         </Form.Group>

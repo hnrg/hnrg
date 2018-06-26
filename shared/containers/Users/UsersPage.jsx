@@ -79,10 +79,7 @@ class UsersContainer extends Component {
         destroy: null,
         show: null,
         index: null,
-      },
-      profile: this.props.profile,
-      roles: this.props.roles,
-      users: this.props.users,
+      }
     };
   }
 
@@ -104,8 +101,8 @@ class UsersContainer extends Component {
   }
 
   componentWillMount() {
-    const { originalProfile } = this.state.profile;
-    const { allRoles } = this.state.roles;
+    const { originalProfile } = this.props.profile;
+    const { allRoles } = this.props.roles;
 
     if (originalProfile.username === '') {
       this.props.actions.getProfile();
@@ -116,7 +113,6 @@ class UsersContainer extends Component {
     }
 
     this.setState({
-      roles: this.props.roles,
       granted: {
         new: permissionsCheck(originalProfile, ['rol_new']),
         update: permissionsCheck(originalProfile, ['rol_update']),
@@ -142,7 +138,7 @@ class UsersContainer extends Component {
       count,
     } = this.props.users;
 
-    const {originalProfile} = this.props.profile;
+    const { originalProfile } = this.props.profile;
 
     if (granted.show && this.props.match.params.username && (originalUser.username === '' || this.props.match.params.username !== originalUser.username)) {
       this.props.actions.getUser(this.props.match.params.username);
@@ -158,7 +154,6 @@ class UsersContainer extends Component {
 
     this.setState({
       loading: false,
-      users: this.props.users,
       granted: {
         new: permissionsCheck(originalProfile, ['rol_new']),
         update: permissionsCheck(originalProfile, ['rol_update']),
@@ -208,8 +203,8 @@ class UsersContainer extends Component {
   }
 
   usersList() {
-    const { actions, match } = this.props;
-    const { users, granted } = this.state;
+    const { actions, match, users } = this.props;
+    const { granted } = this.state;
 
     if (granted.index === null || granted.index) {
       return <UsersList
@@ -233,8 +228,8 @@ class UsersContainer extends Component {
   }
 
   userCreate() {
-    const { users, granted } = this.state;
-    const { actions } = this.props;
+    const { granted } = this.state;
+    const { actions, users } = this.props;
 
     return granted.new === null || granted.new ?
       <UserAdd
@@ -257,7 +252,7 @@ class UsersContainer extends Component {
       <div>
         {
           this.props.match.params.username ?
-          <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} /> :
+          <Tab menu={{ secondary: true, pointing: true }} panes={panes({...this.state, ...this.props}, actions)} /> :
           this[currentView]()
         }
       </div>

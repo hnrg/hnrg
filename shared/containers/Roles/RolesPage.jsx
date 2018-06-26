@@ -79,9 +79,6 @@ class RolesContainer extends Component {
         show: null,
         index: null,
       },
-      permissions: this.props.permissions,
-      profile: this.props.profile,
-      roles: this.props.roles,
     };
   }
 
@@ -91,9 +88,6 @@ class RolesContainer extends Component {
 
     this.setState({
       loading: fields.name === '',
-      permissions: props.permissions,
-      profile: props.profile,
-      roles: props.roles,
       granted: {
         new: permissionsCheck(originalProfile, ['rol_new']),
         update: permissionsCheck(originalProfile, ['rol_update']),
@@ -105,7 +99,7 @@ class RolesContainer extends Component {
   }
 
   componentWillMount() {
-    const { originalProfile } = this.state.profile;
+    const { originalProfile } = this.props.profile;
 
     if (originalProfile.username === '') {
       this.props.actions.getProfile();
@@ -123,8 +117,9 @@ class RolesContainer extends Component {
   }
 
   componentDidMount() {
-    const { roles, profile, rolname, pageNumber, deleted, granted, currentView } = this.state;
-    const { permissions } = this.state.permissions;
+    const { rolname, pageNumber, deleted, granted, currentView } = this.state;
+    const { roles, profile, } = this.props;
+    const { permissions } = this.props.permissions;
     const { originalProfile } = profile;
     const { originalRol } = roles;
 
@@ -144,9 +139,6 @@ class RolesContainer extends Component {
 
     this.setState({
       loading: false,
-      permissions: this.props.permissions,
-      profile: this.props.profile,
-      roles: this.props.roles,
       granted: {
         new: permissionsCheck(originalProfile, ['rol_new']),
         update: permissionsCheck(originalProfile, ['rol_update']),
@@ -205,8 +197,8 @@ class RolesContainer extends Component {
   }
 
   rolesList() {
-    const { actions, match } = this.props;
-    const { pageNumber, roles, granted } = this.state;
+    const { actions, match, roles, } = this.props;
+    const { pageNumber, granted } = this.state;
 
     if (granted.index === null || granted.index) {
       return <RolesList
@@ -230,7 +222,8 @@ class RolesContainer extends Component {
   }
 
   rolCreate() {
-    const { permissions, roles, granted } = this.state;
+    const { granted } = this.state;
+    const { permissions, roles, } = this.props;
 
     return granted.new === null || granted.new ?
       <RolAdd
@@ -256,7 +249,7 @@ class RolesContainer extends Component {
       <div>
         {
           this.props.match.params.name ?
-          <Tab menu={{ secondary: true, pointing: true }} panes={panes(this.state, actions)} /> :
+          <Tab menu={{ secondary: true, pointing: true }} panes={panes({...this.state, ...this.props}, actions)} /> :
           this[currentView]()
         }
       </div>
