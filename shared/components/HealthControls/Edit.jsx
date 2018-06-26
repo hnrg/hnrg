@@ -15,37 +15,8 @@ class Edit extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isValid: this.props.isValid,
-      isFetching: this.props.isFetching,
-      healthControl: this.props.healthControl,
-      fields: this.props.fields,
-    };
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentWillReceiveProps(props) {
-    const { healthControl, fields, isValid, isFetching } = props;
-
-    this.setState({
-      healthControl: healthControl,
-      fields,
-      isValid,
-      isFetching,
-    });
-  }
-
-  componentDidMount() {
-    const { healthControl, fields, isValid, isFetching } = this.props;
-
-    this.setState({
-      healthControl: healthControl,
-      fields,
-      isValid,
-      isFetching,
-    });
   }
 
   handleChange(e, {name, value}) {
@@ -53,22 +24,15 @@ class Edit extends Component {
       'completeVaccines',
       'accordingMaturationContext',
       'commonPhysicalExamination'
-    ].find(e => e == name) ? !this.state.fields[name] : value;
+    ].find(e => e == name) ? !this.props.fields[name] : value;
 
     this.props.onFormFieldChange(name, newValue);
-
-    this.setState({
-      fields: {
-        ...this.state.fields,
-        [name]: newValue,
-      },
-    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
-    const { healthControl, fields } = this.state;
+    const { healthControl, fields } = this.props;
 
     this.props.updateHealthControl(
       healthControl.id,
@@ -90,7 +54,7 @@ class Edit extends Component {
   }
 
   render() {
-    const { healthControl, fields, isValid, isFetching } = this.state;
+    const { healthControl, fields, isValid, isFetching } = this.props;
     const { error, success } = this.props;
 
     return(
