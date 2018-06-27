@@ -10,57 +10,13 @@ import * as authActions from 'reducers/actions/auth-actions';
 import './styles.css';
 
 class LoginContainer extends Component {
-  constructor(props, context) {
-    super(props, context);
-
-    const { fields, isFetching, isValid, error, authenticated, } = this.props.auth;
-
-    this.state = {
-      fields,
-      authenticated,
-      isValid,
-      isFetching,
-      error,
-    };
-  }
-
-  componentWillReceiveProps(props) {
-    const { fields, isFetching, isValid, error, authenticated, } = props.auth;
-
-    this.setState({
-      fields,
-      authenticated,
-      isValid,
-      isFetching,
-      error,
-    });
-  }
-
-  componentDidMount() {
-    const { fields, isFetching, isValid, error, authenticated, } = this.props.auth;
-
-    this.setState({
-      fields,
-      authenticated,
-      isValid,
-      isFetching,
-      error,
-    });
-  }
-
   handleChange(e, { name, value }) {
     this.props.actions.onAuthFormFieldChange(name, value);
-
-    this.setState({
-      fields: {
-        ...this.state.fields,
-        [name]: value,
-      }
-    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
+    
     const { fields, isValid, isFetching } = this.props.auth;
 
     if (!isValid || isFetching) {
@@ -71,7 +27,7 @@ class LoginContainer extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching, error, authenticated, } = this.state;
+    const { fields, isValid, isFetching, error, authenticated, } = this.props.auth;
 
     return authenticated ?
       <Redirect to={{ pathname: '/dashboard' }} /> :

@@ -84,7 +84,6 @@ export default function usersReducer(state = InitialState, action) {
         totalCount: action.payload.totalCount,
         isFetching: false,
         error: null,
-        success: null,
       };
     }
 
@@ -145,28 +144,7 @@ export default function usersReducer(state = InitialState, action) {
 
     case ON_USER_FORM_CLEAR:
     {
-      return {
-        ...state,
-        error: null,
-        success: null,
-        fields: {
-          username: '',
-          usernameHasError: false,
-          usernameErrorMsg: '',
-          email: '',
-          emailHasError: false,
-          emailErrorMsg: '',
-          password: '',
-          passwordHasError: false,
-          passwordErrorMsg: '',
-          firstName: '',
-          firstNameHasError: false,
-          firstNameErrorMsg: '',
-          lastName: '',
-          lastNameHasError: false,
-          lastNameErrorMsg: '',
-        },
-      };
+      return InitialState;
     }
 
     case ON_USER_FORM_FIELD_CHANGE:

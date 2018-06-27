@@ -13,58 +13,16 @@ class Add extends Component {
     super(props);
 
     this.props.onMount();
-
-    this.state = {
-      isValid: this.props.isValid,
-      isFetching: this.props.isFetching,
-      fields: this.props.fields,
-      error: this.props.error,
-      success: this.props.success,
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentWillReceiveProps(props) {
-    const { fields, isValid, isFetching, error, success } = props;
-
-    this.setState({
-      fields,
-      isValid,
-      isFetching,
-      error,
-      success,
-    });
-  }
-
-  componentDidMount() {
-    const { fields, isValid, isFetching, error, success } = this.props;
-
-    this.setState({
-      fields,
-      isValid,
-      isFetching,
-      error,
-      success,
-    });
   }
 
   handleChange(e, {name, value}) {
     this.props.onFormFieldChange(name, value);
-
-    this.setState({
-      fields: {
-        ...this.state.fields,
-        [name]: value,
-      },
-    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
-    const { fields } = this.state;
+    const { fields } = this.props;
 
     this.props.addUser(
       fields.username,
@@ -77,7 +35,7 @@ class Add extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching, error, success } = this.state;
+    const { fields, isValid, isFetching, error, success } = this.props;
 
     return(
       <Segment padded>
@@ -88,14 +46,14 @@ class Add extends Component {
           <Message.Header>Existen errores</Message.Header>
           <p>{error}</p>
         </Message>}
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit.bind(this)}>
           <Form.Group>
             <Form.Input
               label={fields.firstNameErrorMsg || 'Nombre'}
               name='firstName'
               placeholder='Nombre'
               width={8}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.firstName}
               error={fields.firstNameHasError} />
             <Form.Input
@@ -103,7 +61,7 @@ class Add extends Component {
               name='lastName'
               placeholder='Apellido'
               width={8}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.lastName}
               error={fields.lastNameHasError} />
           </Form.Group>
@@ -114,7 +72,7 @@ class Add extends Component {
               required
               placeholder='Nombre de Usuario'
               width={5}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.username}
               error={fields.usernameHasError} />
             <Form.Input
@@ -123,7 +81,7 @@ class Add extends Component {
               required
               placeholder='Email'
               width={6}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.email}
               error={fields.emailHasError} />
             <Form.Input
@@ -132,7 +90,7 @@ class Add extends Component {
               name='password'
               placeholder='Contraseña'
               width={5}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.password}
               error={fields.passwordHasError} />
           </Form.Group>

@@ -43,9 +43,11 @@ const panes = ({ loading, patients, granted, documentTypes, medicalInsurances, a
     menuItem: { key: 'edit', icon: 'edit', content: 'Editar paciente' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        { granted.update ?
+        { granted.updated === null || granted.update ?
           <PatientEdit
             patient={patients.originalPatient}
+            error={patients.error}
+            success={patients.success}
             fields={patients.fields}
             isValid={patients.isValid}
             isFetching={patients.isFetching}
@@ -98,11 +100,11 @@ class PatientsContainer extends Component {
       ...props,
       loading: props.patients.fields.documentNumber === null,
       granted: {
-        new: permissionsCheck(originalProfile, ['rol_new']),
-        update: permissionsCheck(originalProfile, ['rol_update']),
-        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
-        show: permissionsCheck(originalProfile, ['rol_show']),
-        index: permissionsCheck(originalProfile, ['rol_index']),
+        new: permissionsCheck(originalProfile, ['paciente_new']),
+        update: permissionsCheck(originalProfile, ['paciente_update']),
+        destroy: permissionsCheck(originalProfile, ['paciente_destroy']),
+        show: permissionsCheck(originalProfile, ['paciente_show']),
+        index: permissionsCheck(originalProfile, ['paciente_index']),
       },
     });
   }
@@ -116,11 +118,11 @@ class PatientsContainer extends Component {
 
     this.setState({
       granted: {
-        new: permissionsCheck(originalProfile, ['rol_new']),
-        update: permissionsCheck(originalProfile, ['rol_update']),
-        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
-        show: permissionsCheck(originalProfile, ['rol_show']),
-        index: permissionsCheck(originalProfile, ['rol_index']),
+        new: permissionsCheck(originalProfile, ['paciente_new']),
+        update: permissionsCheck(originalProfile, ['paciente_update']),
+        destroy: permissionsCheck(originalProfile, ['paciente_destroy']),
+        show: permissionsCheck(originalProfile, ['paciente_show']),
+        index: permissionsCheck(originalProfile, ['paciente_index']),
       },
     });
   }
@@ -152,7 +154,7 @@ class PatientsContainer extends Component {
       this.props.actions.getWaterTypes();
     }
 
-    if (granted.index && !this.props.match.params.id && this.state.patients.patients === null) {
+    if (granted.index && !this.props.match.params.id) {
       const { pageNumber, firstName, lastName, documentType, documentNumber } = this.state.patients;
 
       this.props.actions.getPatients(pageNumber, firstName, lastName, documentType, documentNumber);
@@ -167,13 +169,19 @@ class PatientsContainer extends Component {
         ...this.props.patients,
       },
       granted: {
-        new: permissionsCheck(originalProfile, ['rol_new']),
-        update: permissionsCheck(originalProfile, ['rol_update']),
-        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
-        show: permissionsCheck(originalProfile, ['rol_show']),
-        index: permissionsCheck(originalProfile, ['rol_index']),
+        new: permissionsCheck(originalProfile, ['paciente_new']),
+        update: permissionsCheck(originalProfile, ['paciente_update']),
+        destroy: permissionsCheck(originalProfile, ['paciente_destroy']),
+        show: permissionsCheck(originalProfile, ['paciente_show']),
+        index: permissionsCheck(originalProfile, ['paciente_index']),
       },
     });
+
+    if (granted.index !== null && !granted.index) {
+      this.setState({
+        currentView: 'patientCreate',
+      });
+    }
   }
 
   onSearchFieldChange(e, {name, value}) {
@@ -213,6 +221,8 @@ class PatientsContainer extends Component {
         <PatientsList
           url={match.url}
           patients={this.state.patients.patients}
+          error={this.state.patients.error}
+          success={this.state.patients.success}
           documentTypes={this.state.documentTypes.documentTypes}
           pageNumber={this.state.patients.pageNumber}
           totalCount={this.state.patients.totalCount}
@@ -224,20 +234,18 @@ class PatientsContainer extends Component {
       );
 
     }
-
-    this.setState({
-      currentView: 'patientCreate',
-    });
   }
 
   patientCreate() {
-    const { originalPatient, fields, isValid, isFetching, error } = this.state.patients;
+    const { originalPatient, fields, isValid, isFetching, error, success } = this.state.patients;
+    const { granted } = this.state;
     const { actions } = this.props;
 
-    return granted.new ?
+    return granted.new === null || granted.new ?
       <PatientAdd
         patient={originalPatient}
         error={error}
+        success={success}
         fields={fields}
         isValid={isValid}
         documentTypes={this.state.documentTypes.documentTypes}

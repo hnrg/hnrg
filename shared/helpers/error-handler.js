@@ -19,5 +19,7 @@ export function errorHandler(error) {
     return error.response.data.error;
   }
 
-  return 'No se puede mostrar información sobre el error actual';
+  return error ?
+    _.toString(error) :
+    'No se puede mostrar información sobre el error actual';
 }

@@ -11,68 +11,21 @@ import {
 import DemographicDataEdit from 'components/DemographicData/Edit';
 
 class Edit extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isValid: this.props.isValid,
-      isFetching: this.props.isFetching,
-      originalPatient: this.props.patient,
-      fields: this.props.fields,
-      error: this.props.error,
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentWillReceiveProps(props) {
-    const { patient, fields, isValid, isFetching, error } = props;
-
-    this.setState({
-      originalPatient: patient,
-      fields,
-      isValid,
-      isFetching,
-      error,
-    });
-  }
-
-  componentDidMount() {
-    const { patient, fields, isValid, isFetching, error, } = this.props;
-
-    this.setState({
-      originalPatient: patient,
-      fields,
-      isValid,
-      isFetching,
-      error,
-    });
-  }
-
   handleChange(e, {name, value}) {
     const newValue = [ 'refrigerator', 'electricity', 'pet' ].find(e => e == name) ?
-      !this.state.fields[name] :
+      !this.props.fields[name] :
       value;
 
     this.props.onFormFieldChange(name, newValue);
-
-    this.setState({
-      ...this.state,
-      fields: {
-        ...this.state.fields,
-        [name]: value,
-      }
-    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
-    const { originalPatient, fields } = this.state;
+    const { patient, fields } = this.props;
 
     this.props.updatePatient(
-      originalPatient.id,
+      patient.id,
       fields.firstName,
       fields.lastName,
       fields.address,
@@ -93,7 +46,7 @@ class Edit extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching, error } = this.state;
+    const { fields, isValid, isFetching, error } = this.props;
 
     const sexOptions = [
       { key: "m", value: "Masculino", icon: 'man',text: "Masculino" },
@@ -122,7 +75,7 @@ class Edit extends Component {
     });
 
     return(
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit.bind(this)}>
         {error && <Message negative>
           <Message.Header>Existen errores</Message.Header>
           <p>{error}</p>
@@ -134,7 +87,7 @@ class Edit extends Component {
             placeholder='Nombre'
             required
             width={8}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={fields.firstName || ''}
             error={fields.firstNameHasError} />
           <Form.Input
@@ -143,7 +96,7 @@ class Edit extends Component {
             placeholder='Apellido'
             required
             width={8}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={fields.lastName || ''}
             error={fields.lastNameHasError} />
         </Form.Group>
@@ -153,7 +106,7 @@ class Edit extends Component {
             name='address'
             placeholder='Direccion'
             width={4}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={fields.address || ''}
             error={fields.addressHasError} />
           <Form.Input
@@ -161,7 +114,7 @@ class Edit extends Component {
             name='phone'
             placeholder='Teléfono'
             width={4}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={fields.phone || ''}
             error={fields.phoneHasError} />
           <Form.Input
@@ -171,7 +124,7 @@ class Edit extends Component {
             placeholder='Fecha de nacimiento'
             required
             width={4}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={moment(fields.birthday).format('YYYY-MM-DD')}
             error={fields.birthdayHasError} />
           <Form.Select
@@ -179,7 +132,7 @@ class Edit extends Component {
             name='sex'
             placeholder='Sexo'
             width={4}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={fields.sex}
             options={sexOptions}
             error={fields.sexHasError} />
@@ -191,7 +144,7 @@ class Edit extends Component {
             placeholder='Tipo de documento'
             required
             width={5}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={fields.documentType ? fields.documentType._id : fields.documentType}
             options={documentTypesOptions}
             error={fields.documentTypeHasError} />
@@ -201,7 +154,7 @@ class Edit extends Component {
             placeholder='Número de documento'
             required
             width={6}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={fields.documentNumber || ''}
             error={fields.documentNumberHasError} />
           <Form.Select
@@ -210,7 +163,7 @@ class Edit extends Component {
             placeholder='Obra social'
             required
             width={5}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
             value={fields.medicalInsurance ? fields.medicalInsurance._id : fields.medicalInsurance}
             options={medicalInsurancesOptions}
             error={fields.medicalInsuranceHasError} />
@@ -221,7 +174,7 @@ class Edit extends Component {
           apartmentTypesOptions={apartmentTypesOptions}
           heatingTypesOptions={heatingTypesOptions}
           waterTypesOptions={waterTypesOptions}
-          handleChange={this.handleChange.bind(this)} />
+          handleChange={this.handleChange.bind(this).bind(this)} />
         <Divider hidden />
         <Button disabled={!isValid || isFetching} color='teal' fluid size='large'>
           <Icon name='save' size='small' />

@@ -24,6 +24,7 @@ export default {
   patients: null,
   disabled: false,
   error: null,
+  success: null,
   isValid: false,
   isFetching: false,
   fields: {

@@ -15,35 +15,7 @@ class Add extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isValid: this.props.isValid,
-      isFetching: this.props.isFetching,
-      healthControl: this.props.healthControl,
-      fields: this.props.fields,
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentWillReceiveProps(props) {
-    const { fields, isValid, isFetching } = props;
-
-    this.setState({
-      fields,
-      isValid,
-      isFetching,
-    });
-  }
-
-  componentDidMount() {
-    const { fields, isValid, isFetching } = this.props;
-
-    this.setState({
-      fields,
-      isValid,
-      isFetching,
-    });
+    this.props.onMount();
   }
 
   handleChange(e, {name, value}) {
@@ -51,22 +23,15 @@ class Add extends Component {
       'completeVaccines',
       'accordingMaturationContext',
       'commonPhysicalExamination'
-    ].find(e => e == name) ? !this.state.fields[name] : value;
+    ].find(e => e == name) ? !this.props.fields[name] : value;
 
     this.props.onFormFieldChange(name, newValue);
-
-    this.setState({
-      fields: {
-        ...this.state.fields,
-        [name]: newValue,
-      },
-    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
-    const { fields } = this.state;
+    const { fields } = this.props;
 
     this.props.addHealthControl(
       this.props.patient,
@@ -88,7 +53,7 @@ class Add extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching } = this.state;
+    const { fields, isValid, isFetching } = this.props;
     const { error, success } = this.props;
 
     return(
@@ -100,7 +65,7 @@ class Add extends Component {
           <Message.Header>Existen errores</Message.Header>
           <p>{error}</p>
         </Message>}
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit.bind(this)}>
           <Form.Group>
             <Form.Input
               type='date'
@@ -109,7 +74,7 @@ class Add extends Component {
               placeholder='Fecha de realización'
               required
               width={4}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={moment(fields.date).format('YYYY-MM-DD')}
               error={fields.dateHasError} />
           </Form.Group>
@@ -120,7 +85,7 @@ class Add extends Component {
               name='weight'
               placeholder='Peso'
               width={4}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.weight}
               error={fields.weightHasError} />
             <Form.Input
@@ -128,7 +93,7 @@ class Add extends Component {
               name='height'
               placeholder='Talla'
               width={4}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.height}
               error={fields.heightHasError} />
             <Form.Input
@@ -136,7 +101,7 @@ class Add extends Component {
               name='pc'
               placeholder='Percentil cefálico'
               width={4}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.pc}
               error={fields.pcHasError} />
             <Form.Input
@@ -144,7 +109,7 @@ class Add extends Component {
               name='ppc'
               placeholder='Perímetro percentil cefálico'
               width={4}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               value={fields.ppc}
               error={fields.ppcHasError} />
           </Form.Group>
@@ -154,7 +119,7 @@ class Add extends Component {
               label={fields.completeVaccinesErrorMsg || 'Vacunas completas'}
               name='completeVaccines'
               width={5}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               checked={fields.completeVaccines}
               value={fields.completeVaccines ? 'on' : 'off'}
               error={fields.completeVaccinesHasError} />
@@ -162,7 +127,7 @@ class Add extends Component {
               label={fields.accordingMaturationContextErrorMsg || 'Maduración acorde'}
               name='accordingMaturationContext'
               width={6}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               checked={fields.accordingMaturationContext}
               value={fields.accordingMaturationContext ? 'on' : 'off'}
               error={fields.accordingMaturationContextHasError} />
@@ -170,7 +135,7 @@ class Add extends Component {
               label={fields.commonPhysicalExaminationErrorMsg || 'Examen físico común'}
               name='commonPhysicalExamination'
               width={5}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this)}
               checked={fields.commonPhysicalExamination}
               value={fields.commonPhysicalExamination ? 'on' : 'off'}
               error={fields.commonPhysicalExaminationHasError} />
@@ -184,7 +149,7 @@ class Add extends Component {
               name='vaccinesObservations'
               value={fields.vaccinesObservations || ''}
               error={fields.vaccinesObservationsHasError}
-              onChange={this.handleChange} />
+              onChange={this.handleChange.bind(this)} />
           </Form.Group>
           <Form.Group>
             <Form.TextArea
@@ -194,7 +159,7 @@ class Add extends Component {
               name='maturationObservations'
               value={fields.maturationObservations || ''}
               error={fields.maturationObservationsHasError}
-              onChange={this.handleChange} />
+              onChange={this.handleChange.bind(this)} />
           </Form.Group>
           <Form.Group>
             <Form.TextArea
@@ -204,7 +169,7 @@ class Add extends Component {
               name='physicalExaminationObservations'
               value={fields.physicalExaminationObservations || ''}
               error={fields.physicalExaminationObservationsHasError}
-              onChange={this.handleChange} />
+              onChange={this.handleChange.bind(this)} />
           </Form.Group>
           <Form.Group>
             <Form.TextArea
@@ -214,7 +179,7 @@ class Add extends Component {
               name='feeding'
               value={fields.feeding || ''}
               error={fields.feedingHasError}
-              onChange={this.handleChange} />
+              onChange={this.handleChange.bind(this)} />
           </Form.Group>
           <Form.Group>
             <Form.TextArea
@@ -224,7 +189,7 @@ class Add extends Component {
               name='generalObservations'
               value={fields.generalObservations || ''}
               error={fields.generalObservationsHasError}
-              onChange={this.handleChange} />
+              onChange={this.handleChange.bind(this)} />
           </Form.Group>
           <Divider hidden />
           <Button disabled={!isValid || isFetching} color='teal' fluid size='large'>
