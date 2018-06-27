@@ -1,4 +1,6 @@
 version: '3'
+volumes:
+  mongo-db:
 services:
   web:
     build:
@@ -21,6 +23,8 @@ services:
       URL: ${URL_BASE}
   db:
     image: mongo:latest
+    volumes:
+      - mongo-db:/data/db
     ports:
     - 27017:27017
   mongo-express:

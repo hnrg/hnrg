@@ -11,7 +11,5 @@ COPY . .
 RUN yarn \
     && yarn build:dev
 
-ENV NODE_ENV production
-
 EXPOSE 8000
 CMD ["yarn", "start"]

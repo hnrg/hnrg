@@ -1,4 +1,6 @@
 version: '3'
+volumes:
+  mongo-db:
 services:
   web:
     build:
@@ -10,8 +12,6 @@ services:
      - redis
     ports:
      - "8000:8000"
-    volumes:
-     - ..:/usr/src/app/
     environment:
       NODE_ENV: production
       MONGO_URL: mongodb://db/hnrg
@@ -21,6 +21,8 @@ services:
       URL: ${URL_BASE}
   db:
     image: mongo:latest
+    volumes:
+      - mongo-db:/data/db
     ports:
       - 27017:27017
   redis:
