@@ -10,6 +10,7 @@ import App from 'containers/App';
 import DashboardPage from 'containers/Dashboard';
 import ProfilePage from 'containers/Profile';
 import HomePage from 'containers/Home';
+import MaintenancePage from 'containers/Maintenance';
 import NotFoundPage from 'containers/NotFound';
 import ForbiddenPage from 'containers/Forbidden';
 
@@ -31,6 +32,7 @@ const Routes = () => (
         <Route path="/home" component={HomePage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/logout" component={LogoutPage} />
+        <Route path="/maintenance" component={MaintenancePage} />
         <Route path="/not-found" component={NotFoundPage} />
         <Route path="/forbidden" component={ForbiddenPage} />
         <Redirect to="/not-found" />

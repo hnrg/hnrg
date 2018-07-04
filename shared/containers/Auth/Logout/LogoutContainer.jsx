@@ -8,15 +8,17 @@ import * as authActions from 'reducers/actions/auth-actions';
 import * as globalActions from 'reducers/actions/global-actions';
 
 class LogoutContainer extends Component {
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+
     this.props.actions.logout();
   }
 
   render() {
     return (
       <div>
-        <h3>Bye!</h3>
-        <Redirect to={{ pathname: '/login' }} />
+        <h3>Cargando...</h3>
+        {!this.props.auth.isFetching && <Redirect to={{ pathname: '/login' }} />}
       </div>
     );
   }
@@ -35,7 +37,7 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({ ...authActions, ...globalActions }, dispatch)
   };

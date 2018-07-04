@@ -122,13 +122,6 @@ export default function (state = InitialState, action) {
         isFetching: false,
       };
 
-    case LOGOUT_SUCCESS:
-      return {
-        ...state,
-        authenticated: false,
-        isFetching: false,
-      };
-
     case LOGIN_SUCCESS:
     case AUTHENTICATE_SUCCESS:
       return {

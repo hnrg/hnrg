@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import _ from 'lodash';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -14,12 +15,9 @@ import * as authActions from 'reducers/actions/auth-actions';
 import * as configurationActions from 'reducers/actions/configuration-actions';
 import * as globalActions from 'reducers/actions/global-actions';
 
-
 function mapStateToProps(state) {
   return {
-    auth: {
-      isFetching: state.auth.isFetching,
-    },
+    auth: state.auth,
     profile: state.profile,
     configuration: {
       current: state.configuration.current,
@@ -52,6 +50,12 @@ class HomeContainer extends Component {
     };
   }
 
+  componentWillMount() {
+    if (this.props.auth.authenticated === null) {
+      this.props.actions.authenticate();
+    }
+  }
+
   componentWillReceiveProps(props) {
     if (_.isEqual(props.configuration.current, this.state.currentConfiguration)
       && _.isEqual(props.global, this.state.global)) {
@@ -61,7 +65,7 @@ class HomeContainer extends Component {
     this.setState({
       currentConfiguration: props.configuration.current,
       global: props.global,
-      isLoggedIn: !!props.global.currentUser,
+      isLoggedIn: this.props.auth.authenticated,
     });
   }
 
@@ -81,14 +85,15 @@ class HomeContainer extends Component {
     this.setState({
       currentConfiguration: current,
       global: this.props.global,
-      isLoggedIn: !!this.props.global.currentUser,
+      isLoggedIn: this.props.auth.authenticated,
     });
   }
 
   render() {
     const { isLoggedIn, cards, currentConfiguration } = this.state;
 
-    return (
+    return currentConfiguration.maintenance ?
+      <Redirect to='/maintenance' /> :
       <div>
         <Navbar {...currentConfiguration} isLoggedIn={isLoggedIn} />
         <Container textAlign='center'>
@@ -100,8 +105,7 @@ class HomeContainer extends Component {
           ))}
         </Container>
         <Footer {...currentConfiguration} />
-      </div>
-    );
+      </div>;
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

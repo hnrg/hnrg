@@ -10,13 +10,19 @@ import * as authActions from 'reducers/actions/auth-actions';
 import './styles.css';
 
 class LoginContainer extends Component {
+  componentWillMount() {
+    if (this.props.auth.authenticated === null) {
+      this.props.actions.authenticate();
+    }
+  }
+
   handleChange(e, { name, value }) {
     this.props.actions.onAuthFormFieldChange(name, value);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    
+
     const { fields, isValid, isFetching } = this.props.auth;
 
     if (!isValid || isFetching) {
@@ -29,7 +35,7 @@ class LoginContainer extends Component {
   render() {
     const { fields, isValid, isFetching, error, authenticated, } = this.props.auth;
 
-    return authenticated ?
+    return !isFetching && authenticated ?
       <Redirect to={{ pathname: '/dashboard' }} /> :
       <div className='login-form'>
         <Grid
