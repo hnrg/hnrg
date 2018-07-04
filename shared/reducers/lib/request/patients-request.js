@@ -103,6 +103,15 @@ export default class PatientsRequest {
     heatingType,
     waterType,
   }) {
+    var demographicData = (apartmentType !== null && heatingType !== null && waterType !== null) ?
+    {
+      refrigerator,
+      electricity,
+      pet,
+      apartmentType,
+      heatingType,
+      waterType,
+    } : undefined;
     return axios.post(`/api/patients/${originalPatient}`, {
       patient: {
         firstName,
@@ -115,14 +124,7 @@ export default class PatientsRequest {
         documentType,
         documentNumber,
       },
-      demographicData: {
-        refrigerator,
-        electricity,
-        pet,
-        apartmentType,
-        heatingType,
-        waterType,
-      },
+      demographicData,
     }, {
       headers: {
         Authorization: this._sessionToken,
