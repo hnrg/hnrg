@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -26,6 +27,7 @@ class MaintenanceContainer extends Component {
             </Header.Content>
           </Header>
           <p>Lo sentimos, pero la página que busca se encuentra en mantenimiento actualmente.</p>
+          <Header as={Link} to='/dashboard' content='dashboard' />
         </Container>
       </div>
     );
