@@ -38,6 +38,7 @@ import {
 import { errorHandler } from 'helpers/error-handler';
 import { rolesRequest } from 'reducers/lib/request/roles-request';
 import { authToken } from 'reducers/lib/store/auth-token';
+import { getProfile } from 'reducers/actions/profile-actions';
 
 /**
  * ## retreiving profile actions
@@ -261,6 +262,7 @@ export function updateRol(originalRolname, name, permissions, sessionToken) {
       .then(() => {
         dispatch(rolUpdateSuccess());
         dispatch(getRol(name));
+        dispatch(getProfile());
       })
       .catch((error) => {
         dispatch(rolUpdateFailure(errorHandler(error)));

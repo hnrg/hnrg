@@ -1,4 +1,8 @@
 export function permissionsCheck(user, permissions) {
+  if (!user.username) {
+    return null;
+  }
+
   const roles = Array.from(user.roles || []);
   let userPermissions = Array.from([]);
   let check = true;

@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as authActions from 'reducers/actions/auth-actions';
+import * as profileActions from 'reducers/actions/profile-actions';
 
 export default function requireAuth(ComposedComponent) {
   class Authentication extends Component {
@@ -24,12 +25,13 @@ export default function requireAuth(ComposedComponent) {
   function mapStateToProps(state) {
     return {
       auth: state.auth,
+      profile: state.profile,
     };
   }
 
   function mapDispatchToProps(dispatch) {
     return {
-      actions: bindActionCreators({ ...authActions }, dispatch),
+      actions: bindActionCreators({ ...authActions, ...profileActions }, dispatch),
     };
   }
 

@@ -49,6 +49,10 @@ class App extends Component {
     super(props, context);
   }
 
+  componentWillMount() {
+    this.props.actions.getConfiguration();
+  }
+
   componentDidMount() {
     this.setTimeout(
       () => {
@@ -63,7 +67,7 @@ class App extends Component {
     return (
       <div>
         {React.cloneElement(this.props.children, { ...this.props })}
-        {process.env.NODE_ENV === 'development' && <DevTools />}
+        {/*process.env.NODE_ENV === 'development' && <DevTools />*/}
       </div>
     );
   }

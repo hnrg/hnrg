@@ -77,7 +77,7 @@ class ProfileContainer extends Component {
     const { originalProfile, fields, isFetching, isValid, error, success, } = this.props.profile;
 
     if (this.props.profile.fields.username === '') {
-      this.props.actions.getProfile(this.props.global.currentUser);
+      this.props.actions.getProfile();
       return;
     }
 

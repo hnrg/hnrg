@@ -232,8 +232,11 @@ class PatientsContainer extends Component {
           deleteAction={this.props.actions.deletePatient}
           onSearchFieldChange={this.onSearchFieldChange.bind(this)} />
       );
-
     }
+
+    this.setState({
+      currentView: 'patientCreate',
+    });
   }
 
   patientCreate() {

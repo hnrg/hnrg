@@ -22,8 +22,8 @@ class MaintenanceContainer extends Component {
           <Header as='h2'>
             <Icon name='warning' />
             <Header.Content>
-              500
-              <Header.Subheader>Internal Server Error</Header.Subheader>
+              503
+              <Header.Subheader>Servicio no Disponible</Header.Subheader>
             </Header.Content>
           </Header>
           <p>Lo sentimos, pero la página que busca se encuentra en mantenimiento actualmente.</p>

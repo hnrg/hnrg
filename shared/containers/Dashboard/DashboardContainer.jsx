@@ -30,33 +30,17 @@ class DashboardContainer extends Component {
   constructor(props) {
     super(props);
 
-    const { originalProfile } = this.props.profile;
-
     this.state = {
-      connectedUser: originalProfile,
       smallMenu: false,
     };
   }
 
-  componentWillReceiveProps(props) {
-    const { originalProfile } = props.profile;
-
-    this.setState({
-      connectedUser: originalProfile,
-    });
-  }
-
-  componentDidMount() {
+  componentWillMount() {
     const { originalProfile } = this.props.profile;
 
     if (originalProfile.username === '') {
-      this.props.actions.getProfile(this.props.global.currentUser);
-      return;
+      this.props.actions.getProfile();
     }
-
-    this.setState({
-      connectedUser: originalProfile,
-    });
   }
 
   toggleSideMenu() {
