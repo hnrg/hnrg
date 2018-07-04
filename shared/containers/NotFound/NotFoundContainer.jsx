@@ -10,6 +10,8 @@ import * as configurationActions from 'reducers/actions/configuration-actions';
 
 class NotFoundContainer extends Component {
   render() {
+    const { configuration } = this.props;
+    const { email } = configuration.current;
     return (
       <Segment textAlign='center'>
         <Header as='h2' content='Error 404'/>
