@@ -5,6 +5,7 @@ import {
   Container,
   Divider,
   Header,
+  Message,
   Pagination,
   Segment,
   Table,
@@ -45,6 +46,9 @@ const DemographicDataList = (props) => {
             ))}
           </Table.Body>
         </Table>
+        {props.patients && props.patients.length === 0 && <Message info>
+          <Message.Header>No hay pacientes con datos demográficos que mostrar</Message.Header>
+        </Message>}
         <Divider hidden />
         <Container textAlign='center'>
           <Pagination

@@ -124,13 +124,16 @@ class UsersList extends Component {
             ))}
           </Table.Body>
         </Table>
+        {this.props.users && this.props.users.length === 0 && <Message info>
+          <Message.Header>No hay usuarios que mostrar</Message.Header>
+        </Message>}
         <Confirm
-        open={this.state.open}
-        onCancel={this.close.bind(this)}
-        onConfirm={this.onConfirm.bind(this)}
-        content={this.state.strategy
-          && '¿Está seguro de que desea realizar la operación?'
-        } />
+          open={this.state.open}
+          onCancel={this.close.bind(this)}
+          onConfirm={this.onConfirm.bind(this)}
+          content={this.state.strategy
+            && '¿Está seguro de que desea realizar la operación?'
+          } />
         <Divider hidden />
         <Container textAlign='center'>
           <Pagination

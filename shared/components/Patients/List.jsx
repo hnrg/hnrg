@@ -160,6 +160,9 @@ class PatientsList extends Component {
               } />
           </Table.Body>
         </Table>
+        {this.props.patients && this.props.patients.length === 0 && <Message info>
+          <Message.Header>No hay pacientes que mostrar</Message.Header>
+        </Message>}
         <Divider hidden />
         <Container textAlign='center'>
           <Pagination
