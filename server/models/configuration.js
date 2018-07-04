@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const User = require('./user');
+require('./user');
 
 const configurationSchema = new Schema({
   webpage: {

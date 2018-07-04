@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const Patient = require('./patient');
-const User = require('./user');
+require('./patient');
+require('./user');
 
 const healthControlSchema = new Schema({
   date: {
