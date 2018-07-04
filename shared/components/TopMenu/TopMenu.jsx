@@ -21,12 +21,14 @@ class TopMenu extends Component {
           </div>
         </Menu.Item>
 
-        {this.props.toggleSideMenu && <Menu.Item
+        {this.props.toggleSideMenu ? <Menu.Item
           className="dashboard no-border"
           onClick={this.props.toggleSideMenu}
         >
           <Icon name="bars" />
-        </Menu.Item>}
+        </Menu.Item> :
+        <Menu.Item as={Link} to='/dashboard'>Dashboard</Menu.Item>
+        }
 
         {/*<Menu.Item className="dashboard no-border drop-left-padding">
           <Input
