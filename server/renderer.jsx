@@ -29,10 +29,18 @@ const render = html => `
           <title>Hospital de Niños Ricardo Gutiérrez</title>
         </head>
         <body>
-            <div id="app">${html}</div>
+            <div id="loading">Cargando...</div>
+            <div id="app" style="display: none;">${html}</div>
             <script src="js/vendor.js"></script>
             <script src="js/app.js"></script>
         </body>
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("app").style="";
+            const loading = document.getElementById("loading");
+            loading.parentElement.removeChild(loading);
+          });
+        </script>
     </html>
 `;
 
