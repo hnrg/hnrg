@@ -1,11 +1,9 @@
-
-
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 
 const { Schema } = mongoose;
 
-const Rol = require('./rol');
+require('./rol');
 
 const userSchema = new Schema({
   email: {
@@ -46,36 +44,31 @@ const userSchema = new Schema({
   timestamps: true,
 });
 
-function pre(next) {
-  const user = this;
-
+function previousStrategy(next) {
   bcrypt.genSalt(10, (err, salt) => {
     if (err) {
       throw err;
     }
 
-    bcrypt.hash(user.password, salt, null, ($err, hash) => {
+    bcrypt.hash(this.password, salt, null, ($err, hash) => {
       if ($err) {
         throw $err;
       }
 
-      user.password = hash;
+      this.password = hash;
       next();
     });
   });
 }
 
-userSchema.pre('save', pre);
-userSchema.pre('update', pre);
-userSchema.pre('findByIdAndUpdate', pre);
-userSchema.pre('findOneAndUpdate', pre);
+userSchema.pre('save', previousStrategy);
 
-userSchema.methods.comparePassword = function (candidatePassword, callback) {
+userSchema.methods.comparePassword = function comparePassword(candidatePassword, callback) {
   bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     if (err) {
       return callback(err);
     }
-    
+
     callback(null, isMatch);
   });
 };

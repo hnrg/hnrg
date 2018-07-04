@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const DemographicData = require('./demographic-data');
-const MedicalInsurance = require('./medical-insurance');
-const DocumentType = require('./document-type');
+require('./demographic-data');
+require('./medical-insurance');
+require('./document-type');
 
 const patientSchema = new Schema({
   firstName: {
