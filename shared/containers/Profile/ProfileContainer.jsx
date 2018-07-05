@@ -59,6 +59,10 @@ class ProfileContainer extends Component {
     };
   }
 
+  componentWillMount() {
+    this.props.actions.getProfile();
+  }
+
   componentWillReceiveProps(props) {
     const { originalProfile, fields, isFetching, isValid, error, success, } = props.profile;
 
