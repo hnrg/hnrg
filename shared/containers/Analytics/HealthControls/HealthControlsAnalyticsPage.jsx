@@ -72,8 +72,8 @@ class AnalyticsContainer extends Component {
     return (
       <Segment>
         <Button.Group widths='3'>
-          <Button onClick={this.handleClick('height')}>Curva de Crecimiento</Button>
-          <Button onClick={this.handleClick('weight')}>Curva de Talla</Button>
+          <Button onClick={this.handleClick('weight')}>Curva de Crecimiento</Button>
+          <Button onClick={this.handleClick('height')}>Curva de Talla</Button>
           <Button onClick={this.handleClick('ppc')}>Curva de PPC</Button>
         </Button.Group>
         <Divider hidden />

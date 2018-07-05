@@ -96,7 +96,7 @@ class Show extends Component {
           </Grid.Row>
         </Grid>
         <Button as={Link} to={`/dashboard/health-controls/patient/${this.props.patient.id}`} circular color='blue' icon='tasks' title='Agregar control de salud' />
-        <Button as={Link} to={`/dashboard/analytics/health-controls/${this.props.patient.id}`} circular color='blue' icon='bars' title='Ver estadisticas de controles de salud' />
+        <Button as={Link} to={`/dashboard/analytics/health-controls/${this.props.patient.id}`} circular color='blue' icon='line chart' title='Ver estadisticas de controles de salud' />
         <Divider horizontal>Datos demográficos</Divider>
         {this.showDemographicData()}
         <Divider hidden />

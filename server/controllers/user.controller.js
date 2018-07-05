@@ -71,7 +71,6 @@ exports.getUser = async function getUser(req, res) {
     permissionsCheck(req.user, 'usuario_show');
 
     const user = await User.findOne({ username: req.params.username })
-      .where('active').equals(true)
       .populate('roles')
       .exec((err, user) => {
         if (err) {

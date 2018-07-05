@@ -125,7 +125,7 @@ class Show extends Component {
           </Grid.Row>
         </Grid>
         <Divider hidden />
-        <Modal
+        {user.active && <Modal
           size='tiny'
           dimmer='blurring'
           trigger={<Button circular color='blue' icon='certificate' title={`Ver roles de ${user.username}`} />}>
@@ -162,8 +162,7 @@ class Show extends Component {
                   ]} />
               }
           </Modal.Content>
-        </Modal>
-        <Button circular color='blue' icon='bar chart' title='Ver pacientes de pediatras' />
+        </Modal>}
         <Divider hidden />
         <Image size='mini' src={icon} />
       </center>

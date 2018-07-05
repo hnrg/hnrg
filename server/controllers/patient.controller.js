@@ -238,7 +238,9 @@ exports.deletePatient = async function deletePatient(req, res) {
 };
 
 function ageCalculate(actual, birthday) {
-  return moment(actual).diff(moment(birthday), 'days')/7;
+  const diff = Math.trunc(moment(actual).diff(moment(birthday), 'days')/7);
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAA", diff);
+  return diff;
 }
 
 function ppcStrategy(patient, healthControls) {

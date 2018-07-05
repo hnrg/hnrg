@@ -81,33 +81,37 @@ class Add extends Component {
           <Header as='h3' content='Medidas' />
           <Form.Group>
             <Form.Input
-              label={fields.weightErrorMsg || 'Peso'}
+              label={fields.weightErrorMsg || 'Peso (Kg)'}
               name='weight'
-              placeholder='Peso'
+              placeholder='Peso...'
+              required
               width={4}
               onChange={this.handleChange.bind(this)}
               value={fields.weight}
               error={fields.weightHasError} />
             <Form.Input
-              label={fields.heightErrorMsg || 'Talla'}
+              label={fields.heightErrorMsg || 'Talla (cm)'}
               name='height'
-              placeholder='Talla'
+              placeholder='Talla...'
+              required
               width={4}
               onChange={this.handleChange.bind(this)}
               value={fields.height}
               error={fields.heightHasError} />
             <Form.Input
-              label={fields.pcErrorMsg || 'Percentil cefálico'}
+              label={fields.pcErrorMsg || 'Percentil cefálico (cm)'}
               name='pc'
-              placeholder='Percentil cefálico'
+              placeholder='Percentil cefálico...'
+              required
               width={4}
               onChange={this.handleChange.bind(this)}
               value={fields.pc}
               error={fields.pcHasError} />
             <Form.Input
-              label={fields.ppcErrorMsg || 'Perímetro percentil cefálico'}
+              label={fields.ppcErrorMsg || 'Perímetro percentil cefálico (cm)'}
               name='ppc'
-              placeholder='Perímetro percentil cefálico'
+              placeholder='Perímetro percentil cefálico...'
+              required
               width={4}
               onChange={this.handleChange.bind(this)}
               value={fields.ppc}

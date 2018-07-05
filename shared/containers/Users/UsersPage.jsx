@@ -206,7 +206,12 @@ class UsersContainer extends Component {
     const self = this;
 
     return function() {
-      self.props.actions.enableUser(username);
+      self.props.actions.enableUser(username)
+        .then(() => {
+          const { pageNumber, username, active } = self.state;
+
+          self.props.actions.getUsers(pageNumber, username, active);
+        });
     };
   }
 

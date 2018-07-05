@@ -193,7 +193,11 @@ class RolesContainer extends Component {
     const self = this;
 
     return function() {
-      self.props.actions.enableRol(rolname);
+      self.props.actions.enableRol(rolname)
+        .then(() => {
+          const { rolname, pageNumber, deleted, } = self.state;
+          self.props.actions.getRoles(pageNumber, rolname, deleted);
+        });
     };
   }
 

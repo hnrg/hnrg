@@ -33,7 +33,7 @@ const panes = ({ loading, patients, granted, documentTypes, medicalInsurances, a
   {
     menuItem: { key: 'patient', icon: 'heartbeat', content: ' Ver paciente' },
     render: () => <Tab.Pane loading={loading} padded='very'>
-      { granted.show ?
+      { granted.show === null || granted.show ?
         <PatientShow patient={patients.originalPatient} /> :
         <Redirect to={{ pathname: '/forbidden' }} />
       }
@@ -43,7 +43,7 @@ const panes = ({ loading, patients, granted, documentTypes, medicalInsurances, a
     menuItem: { key: 'edit', icon: 'edit', content: 'Editar paciente' },
     render: () => (
       <Tab.Pane loading={loading} padded='very'>
-        { granted.updated === null || granted.update ?
+        { granted.update === null || granted.update ?
           <PatientEdit
             patient={patients.originalPatient}
             error={patients.error}
@@ -154,13 +154,11 @@ class PatientsContainer extends Component {
       return;
     }
 
-    if (!this.props.match.params.id) {
-      this.props.actions.getDocumentTypes();
-      this.props.actions.getMedicalInsurances();
-      this.props.actions.getApartmentTypes();
-      this.props.actions.getHeatingTypes();
-      this.props.actions.getWaterTypes();
-    }
+    this.props.actions.getDocumentTypes();
+    this.props.actions.getMedicalInsurances();
+    this.props.actions.getApartmentTypes();
+    this.props.actions.getHeatingTypes();
+    this.props.actions.getWaterTypes();
 
     if (granted.index && !this.props.match.params.id) {
       const { pageNumber, firstName, lastName, documentType, documentNumber } = this.state.patients;
