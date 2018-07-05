@@ -127,12 +127,12 @@ class RolesContainer extends Component {
       this.props.actions.getPermissions();
     }
 
-    if (granted.index && !this.props.match.params.name && roles.roles === null) {
+    if (currentView !== 'rolCreate' && !this.props.match.params.name && roles.roles === null) {
       this.props.actions.getRoles(pageNumber, rolname, deleted);
       return;
     }
 
-    if (granted.show && this.props.match.params.name && (originalRol.name === '' || this.props.match.params.name !== originalRol.name)) {
+    if (this.props.match.params.name && (originalRol.name === '' || this.props.match.params.name !== originalRol.name)) {
       this.props.actions.getRol(this.props.match.params.name);
       return;
     }

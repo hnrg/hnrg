@@ -128,7 +128,7 @@ class PatientsContainer extends Component {
   }
 
   componentDidMount() {
-    const { granted } = this.state;
+    const { granted, currentView } = this.state;
     const { originalProfile } = this.props.profile;
 
     const {
@@ -141,7 +141,7 @@ class PatientsContainer extends Component {
       count,
     } = this.props.patients;
 
-    if (granted.show && this.props.match.params.id && (originalPatient.id === '' || this.props.match.params.id !== originalPatient.id)) {
+    if (this.props.match.params.id && (originalPatient.id === '' || this.props.match.params.id !== originalPatient.id)) {
       this.props.actions.getPatient(this.props.match.params.id);
       return;
     }
@@ -154,7 +154,7 @@ class PatientsContainer extends Component {
       this.props.actions.getWaterTypes();
     }
 
-    if (granted.index && !this.props.match.params.id) {
+    if (currentView !== 'patienCreate' && !this.props.match.params.id) {
       const { pageNumber, firstName, lastName, documentType, documentNumber } = this.state.patients;
 
       this.props.actions.getPatients(pageNumber, firstName, lastName, documentType, documentNumber);

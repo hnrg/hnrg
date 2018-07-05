@@ -121,12 +121,12 @@ class HealthControlsContainer extends Component {
     const { originalProfile } = profile;
     const { originalHealthControl } = healthControls;
 
-    if (granted.index && !this.props.match.params.param && healthControls.healthControls === null) {
+    if (currentView !== 'healthControlCreate' && !this.props.match.params.param && healthControls.healthControls === null) {
       this.props.actions.getHealthControls(pageNumber);
       return;
     }
 
-    if (granted.show && this.props.match.params.param && this.props.match.params.param !== 'patient' &&
+    if (this.props.match.params.param && this.props.match.params.param !== 'patient' &&
       (originalHealthControl.name === '' || this.props.match.params.param !== originalHealthControl.name)
     ) {
       this.props.actions.getHealthControl(this.props.match.params.param);

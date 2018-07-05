@@ -124,7 +124,7 @@ class UsersContainer extends Component {
   }
 
   componentDidMount() {
-    const { granted } = this.state;
+    const { granted, currentView } = this.state;
 
     const {
       originalUser,
@@ -140,12 +140,12 @@ class UsersContainer extends Component {
 
     const { originalProfile } = this.props.profile;
 
-    if (granted.show && this.props.match.params.username && (originalUser.username === '' || this.props.match.params.username !== originalUser.username)) {
+    if (this.props.match.params.username && (originalUser.username === '' || this.props.match.params.username !== originalUser.username)) {
       this.props.actions.getUser(this.props.match.params.username);
       return;
     }
 
-    if (granted.index && !this.props.match.params.username && users === null) {
+    if (currentView !== 'userCreate' && !this.props.match.params.username && users === null) {
       const { pageNumber, username, active } = this.state;
 
       this.props.actions.getUsers(pageNumber, username, active);
