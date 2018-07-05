@@ -28,9 +28,7 @@ class HomeContainer extends Component {
   }
 
   componentWillMount() {
-    if (this.props.auth.authenticated === null) {
-      this.props.actions.authenticate();
-    }
+    this.props.actions.authenticate();
   }
 
   componentWillReceiveProps(props) {
