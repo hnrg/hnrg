@@ -52,7 +52,8 @@ function previousStrategy(next) {
 
     bcrypt.hash(this.password, salt, null, ($err, hash) => {
       if ($err) {
-        throw $err;
+        next($err);
+        return;
       }
 
       this.password = hash;

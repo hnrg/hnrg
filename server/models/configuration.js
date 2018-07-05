@@ -26,7 +26,8 @@ configurationSchema.pre('save', function (next) {
   const { from, delta, amount } = this.appointments;
 
   if (from + amount * delta / 60 > 24) {
-    throw new Error('La cantidad de turnos es invalida.');
+    next(new Error('La cantidad de turnos es invalida.'));
+    return;
   }
 
   next();

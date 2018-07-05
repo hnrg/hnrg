@@ -47,7 +47,8 @@ exports.getPatients = async function getPatients(req, res, next) {
     await Patient.count(where)
       .exec((err, totalCount) => {
         if (err) {
-          throw (err);
+          res.status(422).send({error: err.message});
+          return;
         }
 
         if (!totalCount) {
@@ -71,7 +72,8 @@ exports.getPatients = async function getPatients(req, res, next) {
           .populate('documentType')
           .exec(($err, patients) => {
             if ($err) {
-              throw ($err);
+              res.status(422).send({error: $err.message});
+              return;
             }
 
             res.status(200).send({
@@ -83,7 +85,7 @@ exports.getPatients = async function getPatients(req, res, next) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     res.status(500).send(e);
@@ -116,8 +118,8 @@ exports.addPatient = async function addPatient(req, res, next) {
       birthday,
     }).exec((err, patient) => {
       if (err) {
-        res.sendStatus(422);
-        throw (err);
+        res.status(422).send({error: err.message});
+        return;
       }
 
       if (patient) {
@@ -128,13 +130,21 @@ exports.addPatient = async function addPatient(req, res, next) {
         const updatedPatient = patient;
         updatedPatient.deleted = false;
 
-        updatedPatient.save(($$err, saved) => res.status(200).json({ patient: saved }));
+        updatedPatient.save(($err, saved) => {
+          if ($err) {
+            res.status(422).send({error: $err.message});
+            return;
+          }
+
+          res.status(200).json({ patient: saved })
+        });
       }
 
       const newPatient = new Patient(req.body.patient);
       newPatient.save(($$err, saved) => {
         if ($$err) {
-          throw ($$err);
+          res.status(422).send({error: $$err.message});
+          return;
         }
 
         res.status(201).send({ patient: saved });
@@ -142,7 +152,7 @@ exports.addPatient = async function addPatient(req, res, next) {
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     res.status(500).send(e);
@@ -175,14 +185,15 @@ exports.getPatient = async function getPatient(req, res, next) {
         }
 
         if (err) {
-          throw (err);
+          res.status(422).send({error: err.message});
+          return;
         }
 
         res.status(200).json({ patient });
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     if (e.name === 'CastError') {
@@ -207,14 +218,15 @@ exports.deletePatient = async function deletePatient(req, res) {
       .exec((err, patient) => {
         if (err || patient == null) {
           res.status(422).json({ error: 'No se encontró ningún paciente con ese id' });
-          throw (err);
+          res.status(422).send({error: err.message});
+          return;
         }
 
         res.sendStatus(200);
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     if (e.name === 'CastError') {
@@ -270,7 +282,8 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
       .where('deleted').equals(false)
       .exec((err, patient) => {
         if (err) {
-          throw err;
+          res.status(422).send({error: err.message});
+          return;
         }
 
         if (patient == null) {
@@ -282,7 +295,8 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
           .skip(amountPerPage * pageNumber)
           .exec(($err, healthControls) => {
             if ($err) {
-              throw (err);
+              res.status(422).send({error: err.message});
+              return;
             }
 
             /* TODO modificar utilizando req.params.type */
@@ -297,7 +311,7 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     return res.status(500).send(e);
@@ -320,7 +334,8 @@ exports.updatePatient = async function updatePatient(req, res, next) {
             DemographicData.findByIdAndUpdate(patient.demographicData, req.body.demographicData)
               .exec(($err, demographicData) => {
                 if ($err) {
-                  throw $err;
+                  res.status(422).send({error: $err.message});
+                  return;
                 }
 
                 return res.status(200).json({ patient });
@@ -329,13 +344,15 @@ exports.updatePatient = async function updatePatient(req, res, next) {
             demographicData = new DemographicData(req.body.demographicData);
             demographicData.save(($err, saved) => {
               if ($err) {
-                throw $err;
+                res.status(422).send({error: $err.message});
+                return;
               }
               patient.demographicData = saved._id;
 
               patient.save(($$err, $saved) => {
                 if ($$err) {
-                  throw $$err;
+                  res.status(422).send({error: $$err.message});
+                  return;
                 }
 
                 return res.status(200).json({ patient: $saved });
@@ -348,7 +365,7 @@ exports.updatePatient = async function updatePatient(req, res, next) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     return res.status(500).send(e);
@@ -361,7 +378,8 @@ exports.getDemographicDataAnalytics = async function getDemographicDataAnalytics
 
     Patient.find({}).count().exec((err, totalCount) => {
       if (err) {
-        throw err;
+        res.status(422).send({error: err.message});
+        return;
       }
       Patient.where('demographicData')
         .ne(null)
@@ -373,7 +391,8 @@ exports.getDemographicDataAnalytics = async function getDemographicDataAnalytics
         })
         .exec(($err, patients) => {
           if ($err) {
-            throw $err;
+            res.status(422).send({error: $err.message});
+            return;
           }
 
           const patientsWithDemographicData = patients.length;
@@ -413,7 +432,7 @@ exports.getDemographicDataAnalytics = async function getDemographicDataAnalytics
     });
   } catch (e) {
     if (e.name == 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     return res.status(500).send(e);

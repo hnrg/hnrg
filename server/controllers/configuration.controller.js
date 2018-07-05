@@ -39,6 +39,11 @@ exports.addConfiguration = async function addConfiguration(req, res) {
     const maintenance = configuration.maintenance || null;
 
     await Configuration.findOne().exec((err, oldConfiguration) => {
+      if (err) {
+        res.status(422).send({error: err.message});
+        return;
+      }
+
       webpage = {
         name: webpage.name || oldConfiguration.webpage.name,
         amountPerPage: webpage.amountPerPage || oldConfiguration.webpage.amountPerPage,
@@ -61,7 +66,8 @@ exports.addConfiguration = async function addConfiguration(req, res) {
 
       newConfiguration.save(($err, saved) => {
         if ($err) {
-          throw ($err);
+          res.status(422).send({error: $err.message});
+          return;
         }
 
         res.status(201).send({ configuration: saved });
@@ -69,7 +75,7 @@ exports.addConfiguration = async function addConfiguration(req, res) {
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     res.status(500).send(e);

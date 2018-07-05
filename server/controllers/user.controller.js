@@ -22,7 +22,8 @@ exports.getUsers = async function getUsers(req, res) {
     await User.count({ active, username })
       .exec((err, totalCount) => {
         if (err) {
-          throw (err);
+          res.status(422).send({error: err.message});
+          return;
         }
 
         if (!totalCount) {
@@ -39,7 +40,8 @@ exports.getUsers = async function getUsers(req, res) {
           .populate('roles')
           .exec(($err, users) => {
             if ($err) {
-              throw ($err);
+              res.status(422).send({error: $err.message});
+              return;
             }
 
             res.status(200).send({
@@ -51,7 +53,7 @@ exports.getUsers = async function getUsers(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     res.status(500).send(e);
@@ -73,7 +75,8 @@ exports.getUser = async function getUser(req, res) {
       .populate('roles')
       .exec((err, user) => {
         if (err) {
-          throw (err);
+          res.status(422).send({error: err.message});
+          return;
         }
 
         if (user == null) {
@@ -84,7 +87,7 @@ exports.getUser = async function getUser(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     return res.status(500).send(e);
@@ -116,7 +119,8 @@ exports.addUser = async function addUser(req, res) {
       email,
     }, (err, existingUser) => {
       if (err) {
-        throw (err);
+        res.status(422).send({error: err.message});
+        return;
       }
 
       if (existingUser) {
@@ -127,7 +131,8 @@ exports.addUser = async function addUser(req, res) {
         username,
       }, ($err, $existingUser) => {
         if ($err) {
-          throw ($err);
+          res.status(422).send({error: $err.message});
+          return;
         }
 
         if ($existingUser) {
@@ -141,7 +146,8 @@ exports.addUser = async function addUser(req, res) {
 
         newUser.save(($$err, saved) => {
           if ($$err) {
-            throw ($$err);
+            res.status(422).send({error: $$err.message});
+            return;
           }
 
           res.status(201).send({ user: saved });
@@ -150,7 +156,7 @@ exports.addUser = async function addUser(req, res) {
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     return res.status(500).send(e);
@@ -165,14 +171,14 @@ exports.deleteUser = async function deleteUser(req, res) {
       .exec((err, user) => {
         if (err || user == null) {
           res.status(422).json({ error: 'No se encontró ningún usuario con ese id' });
-          throw (err);
+          return;
         }
 
         return res.status(200).end();
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     if (e.name === 'CastError') {
@@ -193,13 +199,14 @@ exports.updateUser = async function updateUser(req, res) {
       name: {
         $in: req.body.user.roles
       }
-    }).exec((error, roles) => {
+    }).exec((err, roles) => {
       if (req.body.user.roles && !roles) {
         return res.status(403);
       }
 
-      if (error) {
-        throw (error);
+      if (err) {
+        res.status(422).send({error: err.message});
+        return;
       }
 
       data = req.body.user;
@@ -210,7 +217,7 @@ exports.updateUser = async function updateUser(req, res) {
         .exec((err, user) => {
           if (err || user == null) {
             res.status(422).json({ error: 'No se encontró ningún user con ese id' });
-            throw (err);
+            return;
           }
 
           return res.status(200).json({ user });
@@ -218,7 +225,7 @@ exports.updateUser = async function updateUser(req, res) {
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     return res.status(500).send(e);

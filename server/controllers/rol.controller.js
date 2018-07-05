@@ -18,14 +18,15 @@ exports.getRolesName = async function getRolesName(req, res) {
       .populate('permissions')
       .exec(($err, roles) => {
         if ($err) {
-          throw ($err);
+          res.status(422).send({error: $err.message});
+          return;
         }
 
         res.status(200).send({ roles });
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     res.status(500).send(e);
@@ -51,7 +52,8 @@ exports.getRoles = async function getRoles(req, res) {
     await Rol.count({ deleted, name })
       .exec((err, totalCount) => {
         if (err) {
-          throw (err);
+          res.status(422).send({error: err.message});
+          return;
         }
 
         if (!totalCount) {
@@ -68,7 +70,8 @@ exports.getRoles = async function getRoles(req, res) {
           .populate('permissions')
           .exec(($err, roles) => {
             if ($err) {
-              throw ($err);
+              res.status(422).send({error: $err.message});
+              return;
             }
 
             res.status(200).send({
@@ -80,7 +83,7 @@ exports.getRoles = async function getRoles(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     res.status(500).send(e);
@@ -107,9 +110,10 @@ exports.addRol = async function addRol(req, res) {
       name: {
         $in: rol.permissions,
       },
-    }, (error, permissions) => {
-      if (error) {
-        throw (error);
+    }, (err, permissions) => {
+      if (err) {
+        res.status(422).send({error: err.message});
+        return;
       }
 
       if (!permissions) {
@@ -122,7 +126,8 @@ exports.addRol = async function addRol(req, res) {
       });
       newRol.save(($err, saved) => {
         if ($err) {
-          throw ($err);
+          res.status(422).send({error: $err.message});
+          return;
         }
 
         res.status(201).send({ rol: saved });
@@ -130,7 +135,7 @@ exports.addRol = async function addRol(req, res) {
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     res.status(500).send(e);
@@ -152,7 +157,8 @@ exports.getRol = async function getRol(req, res) {
       .populate('permissions')
       .exec((err, rol) => {
         if (err) {
-          throw (err);
+          res.status(422).send({error: err.message});
+          return;
         }
 
         if (rol == null) {
@@ -163,7 +169,7 @@ exports.getRol = async function getRol(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     if (e.name === 'CastError') {
@@ -201,7 +207,8 @@ exports.deleteRol = async function deleteRol(req, res) {
         })
           .exec(($err, count) => {
             if ($err) {
-              throw ($err);
+              res.status(422).send({error: $err.message});
+              return;
             }
 
             if (count > 0) {
@@ -212,7 +219,8 @@ exports.deleteRol = async function deleteRol(req, res) {
             rol.deleted = true;
             rol.save(($$err, saved) => {
               if ($$err) {
-                throw ($$err);
+                res.status(422).send({error: $$err.message});
+                return;
               }
               res.status(200).end();
             });
@@ -220,7 +228,7 @@ exports.deleteRol = async function deleteRol(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     if (e.name === 'CastError') {
@@ -247,7 +255,8 @@ exports.deleteRolPermission = async function deleteRolPermission(req, res) {
 
         rol.save(($err, updated) => {
           if ($err) {
-            throw ($err);
+            res.status(422).send({error: $err.message});
+            return;
           }
 
           res.status(200).json({ rol: updated });
@@ -255,7 +264,7 @@ exports.deleteRolPermission = async function deleteRolPermission(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     res.status(500).send(e);
@@ -273,13 +282,14 @@ exports.updateRol = async function updateRol(req, res) {
       name: {
         $in: rol.permissions,
       },
-    }, (error, permissions) => {
+    }, (err, permissions) => {
       if (rol.permissions && !permissions) {
         return res.status(403);
       }
 
-      if (error) {
-        throw (error);
+      if (err) {
+        res.status(422).send({error: err.message});
+        return;
       }
 
       if (rol.name) { data.name = rol.name; }
@@ -288,7 +298,8 @@ exports.updateRol = async function updateRol(req, res) {
 
       Rol.findOneAndUpdate({ name: req.params.name }, data).exec((err, rol) => {
         if (err) {
-          throw (err);
+          res.status(422).send({error: err.message});
+          return;
         }
 
         if (rol == null) {
@@ -301,7 +312,7 @@ exports.updateRol = async function updateRol(req, res) {
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send(e);
+      return res.status(403).send({error: e.message});
     }
 
     return res.status(500).send(e);
