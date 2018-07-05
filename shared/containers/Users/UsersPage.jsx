@@ -90,11 +90,11 @@ class UsersContainer extends Component {
     this.setState({
       loading: users.fields.username === '',
       granted: {
-        new: permissionsCheck(originalProfile, ['rol_new']),
-        update: permissionsCheck(originalProfile, ['rol_update']),
-        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
-        show: permissionsCheck(originalProfile, ['rol_show']),
-        index: permissionsCheck(originalProfile, ['rol_index']),
+        new: permissionsCheck(originalProfile, ['usuario_new']),
+        update: permissionsCheck(originalProfile, ['usuario_update']),
+        destroy: permissionsCheck(originalProfile, ['usuario_destroy']),
+        show: permissionsCheck(originalProfile, ['usuario_show']),
+        index: permissionsCheck(originalProfile, ['usuario_index']),
       },
       users,
     });
@@ -102,28 +102,31 @@ class UsersContainer extends Component {
 
   componentWillMount() {
     const { originalProfile } = this.props.profile;
-    const { allRoles } = this.props.roles;
 
     if (originalProfile.username === '') {
-      this.props.actions.getProfile();
-    }
+      this.props.actions.getProfile().then(() => {
+        this.fetchData();
+      });
 
-    if (allRoles === null) {
-      this.props.actions.getAllRoles();
+      return;
     }
 
     this.setState({
       granted: {
-        new: permissionsCheck(originalProfile, ['rol_new']),
-        update: permissionsCheck(originalProfile, ['rol_update']),
-        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
-        show: permissionsCheck(originalProfile, ['rol_show']),
-        index: permissionsCheck(originalProfile, ['rol_index']),
+        new: permissionsCheck(originalProfile, ['usuario_new']),
+        update: permissionsCheck(originalProfile, ['usuario_update']),
+        destroy: permissionsCheck(originalProfile, ['usuario_destroy']),
+        show: permissionsCheck(originalProfile, ['usuario_show']),
+        index: permissionsCheck(originalProfile, ['usuario_index']),
       },
     });
   }
 
   componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData() {
     const { granted, currentView } = this.state;
 
     const {
@@ -138,14 +141,19 @@ class UsersContainer extends Component {
       count,
     } = this.props.users;
 
+    const { allRoles } = this.props.roles;
     const { originalProfile } = this.props.profile;
 
-    if (this.props.match.params.username && (originalUser.username === '' || this.props.match.params.username !== originalUser.username)) {
+    if (allRoles === null) {
+      this.props.actions.getAllRoles();
+    }
+
+    if (granted.show && this.props.match.params.username && (originalUser.username === '' || this.props.match.params.username !== originalUser.username)) {
       this.props.actions.getUser(this.props.match.params.username);
       return;
     }
 
-    if (currentView !== 'userCreate' && !this.props.match.params.username && users === null) {
+    if (granted.index && !this.props.match.params.username && users === null) {
       const { pageNumber, username, active } = this.state;
 
       this.props.actions.getUsers(pageNumber, username, active);
@@ -155,11 +163,11 @@ class UsersContainer extends Component {
     this.setState({
       loading: false,
       granted: {
-        new: permissionsCheck(originalProfile, ['rol_new']),
-        update: permissionsCheck(originalProfile, ['rol_update']),
-        destroy: permissionsCheck(originalProfile, ['rol_destroy']),
-        show: permissionsCheck(originalProfile, ['rol_show']),
-        index: permissionsCheck(originalProfile, ['rol_index']),
+        new: permissionsCheck(originalProfile, ['usuario_new']),
+        update: permissionsCheck(originalProfile, ['usuario_update']),
+        destroy: permissionsCheck(originalProfile, ['usuario_destroy']),
+        show: permissionsCheck(originalProfile, ['usuario_show']),
+        index: permissionsCheck(originalProfile, ['usuario_index']),
       },
     });
   }

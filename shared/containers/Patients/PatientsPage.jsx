@@ -113,7 +113,11 @@ class PatientsContainer extends Component {
     const { originalProfile } = this.state.profile;
 
     if (originalProfile.username === '') {
-      this.props.actions.getProfile();
+      this.props.actions.getProfile().then(() => {
+        this.fetchData();
+      });
+
+      return;
     }
 
     this.setState({
@@ -128,6 +132,10 @@ class PatientsContainer extends Component {
   }
 
   componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData() {
     const { granted, currentView } = this.state;
     const { originalProfile } = this.props.profile;
 
@@ -141,7 +149,7 @@ class PatientsContainer extends Component {
       count,
     } = this.props.patients;
 
-    if (this.props.match.params.id && (originalPatient.id === '' || this.props.match.params.id !== originalPatient.id)) {
+    if (granted.show && this.props.match.params.id && (originalPatient.id === '' || this.props.match.params.id !== originalPatient.id)) {
       this.props.actions.getPatient(this.props.match.params.id);
       return;
     }
@@ -154,7 +162,7 @@ class PatientsContainer extends Component {
       this.props.actions.getWaterTypes();
     }
 
-    if (currentView !== 'patienCreate' && !this.props.match.params.id) {
+    if (granted.index && !this.props.match.params.id) {
       const { pageNumber, firstName, lastName, documentType, documentNumber } = this.state.patients;
 
       this.props.actions.getPatients(pageNumber, firstName, lastName, documentType, documentNumber);

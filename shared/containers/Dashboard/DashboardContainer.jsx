@@ -35,14 +35,6 @@ class DashboardContainer extends Component {
     };
   }
 
-  componentWillMount() {
-    const { originalProfile } = this.props.profile;
-
-    if (originalProfile.username === '') {
-      this.props.actions.getProfile();
-    }
-  }
-
   toggleSideMenu() {
     this.setState({
       smallMenu: !this.state.smallMenu,

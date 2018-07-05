@@ -102,7 +102,11 @@ class HealthControlsContainer extends Component {
     const { originalProfile } = this.state.profile;
 
     if (originalProfile.username === '') {
-      this.props.actions.getProfile();
+      this.props.actions.getProfile().then(() => {
+        this.fetchData();
+      });
+
+      return;
     }
 
     this.setState({
@@ -117,17 +121,21 @@ class HealthControlsContainer extends Component {
   }
 
   componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData() {
     const { healthControls, profile, pageNumber, granted, currentView } = this.state;
     const { originalProfile } = profile;
     const { originalHealthControl } = healthControls;
 
-    if (currentView !== 'healthControlCreate' && !this.props.match.params.param && healthControls.healthControls === null) {
+    if (granted.index && !this.props.match.params.param && healthControls.healthControls === null) {
       this.props.actions.getHealthControls(pageNumber);
       return;
     }
 
-    if (this.props.match.params.param && this.props.match.params.param !== 'patient' &&
-      (originalHealthControl.name === '' || this.props.match.params.param !== originalHealthControl.name)
+    if (granted.show && (this.props.match.params.param && this.props.match.params.param !== 'patient' &&
+      (originalHealthControl.name === '' || this.props.match.params.param !== originalHealthControl.name))
     ) {
       this.props.actions.getHealthControl(this.props.match.params.param);
       return;

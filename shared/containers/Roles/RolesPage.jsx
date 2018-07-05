@@ -102,7 +102,11 @@ class RolesContainer extends Component {
     const { originalProfile } = this.props.profile;
 
     if (originalProfile.username === '') {
-      this.props.actions.getProfile();
+      this.props.actions.getProfile().then(() => {
+        this.fetchData();
+      });
+
+      return;
     }
 
     this.setState({
@@ -117,6 +121,10 @@ class RolesContainer extends Component {
   }
 
   componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData() {
     const { rolname, pageNumber, deleted, granted, currentView } = this.state;
     const { roles, profile, } = this.props;
     const { permissions } = this.props.permissions;
@@ -127,12 +135,12 @@ class RolesContainer extends Component {
       this.props.actions.getPermissions();
     }
 
-    if (currentView !== 'rolCreate' && !this.props.match.params.name && roles.roles === null) {
+    if (granted.index && !this.props.match.params.name && roles.roles === null) {
       this.props.actions.getRoles(pageNumber, rolname, deleted);
       return;
     }
 
-    if (this.props.match.params.name && (originalRol.name === '' || this.props.match.params.name !== originalRol.name)) {
+    if (granted.show && this.props.match.params.name && (originalRol.name === '' || this.props.match.params.name !== originalRol.name)) {
       this.props.actions.getRol(this.props.match.params.name);
       return;
     }
@@ -147,7 +155,6 @@ class RolesContainer extends Component {
         index: permissionsCheck(originalProfile, ['rol_index']),
       },
     });
-
   }
 
   onSearchFieldChange(e, {name, value}) {
