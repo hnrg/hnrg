@@ -18,3 +18,7 @@ donde se cuentan con artículos relacionados a:
 - Información de las API
 - Funcionamiento de Redux
 - Funcionamiento de los roles y permisos de la app
+
+Si se encuentra en el código fuente, sin conexión a internet, también cuenta con
+algunos archivo de ayuda (copias de la wiki), en este mismo repositorio, bajo el
+directorio `.gitlab`
