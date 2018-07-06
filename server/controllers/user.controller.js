@@ -238,19 +238,30 @@ exports.updateUser = async function updateUser(req, res) {
 
       if (req.body.user.roles) { data.roles = roles.map(r => r._id); }
 
-      User.findOneAndUpdate({ username: req.params.username }, data)
+      User.findOne({username: req.params.username})
         .exec(($err, user) => {
           if ($err) {
             res.status(422).send({error: $err.message});
             return;
           }
 
-          if (user == null) {
-            res.status(422).json({ error: 'No se encontró ningún user con ese id' });
+          if (!user) {
+            res.status(422).send({ error: 'No se encontró ningún user con ese username' });
             return;
           }
 
-          return res.status(200).json({ user });
+          Object.keys(data).forEach((key) => {
+            user[key] = data[key];
+          });
+
+          user.save(($$err, updated) => {
+            if ($$err) {
+              res.status(422).send({error: $$err.message});
+              return;
+            }
+
+            return res.status(200).send({ user: updated });
+          });
         });
     });
   } catch (e) {

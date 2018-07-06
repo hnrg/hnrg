@@ -8,6 +8,7 @@ export default function formValidation(state) {
     !state.fields.lastNameHasError &&
     (state.fields.username !== state.originalProfile.username ||
      state.fields.email !== state.originalProfile.email ||
+     state.fields.password !== state.originalProfile.password ||
      state.fields.firstName !== state.originalProfile.firstName ||
      state.fields.lastName !== state.originalProfile.lastName)
   );

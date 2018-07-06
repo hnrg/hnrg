@@ -33,17 +33,25 @@ exports.updateProfileAction = async function updateProfileAction(req, res) {
   try {
     const { user } = req;
 
-    User.findByIdAndUpdate(user._id, req.body.user)
-      .exec((err, updatedUser) => {
+    User.findById(user._id)
+      .exec((err, user) => {
         if (err) {
-          return res.status(422).end();
+          res.status(422).send({error: err.message});
+          return;
         }
 
-        if (!updatedUser) {
-          return res.status(404).end();
-        }
+        Object.keys(req.body.user).forEach((key) => {
+          user[key] = req.body.user[key];
+        });
 
-        res.status(201).send({ user: updatedUser });
+        user.save(($err, updated) => {
+          if ($err) {
+            res.status(422).send({error: $err.message});
+            return;
+          }
+
+          return res.status(200).send({ user: updated });
+        });
       });
   } catch (e) {
     res.status(500).send(e);
