@@ -114,45 +114,71 @@ exports.addUser = async function addUser(req, res) {
       return res.status(422).send({ error: 'Debe ingresar una contraseña' });
     }
 
-    User.findOne({
-      email,
-    }, (err, existingUser) => {
-      if (err) {
-        res.status(422).send({error: err.message});
-        return;
-      }
-
-      if (existingUser) {
-        return res.status(422).send({ error: 'El mail que seleccionó ya se encuentra en uso' });
-      }
-
-      User.findOne({
-        username,
-      }, ($err, $existingUser) => {
-        if ($err) {
-          res.status(422).send({error: $err.message});
+    await User.findOne({ email, username, active: false })
+      .exec((err, existingUser) => {
+        if (err) {
+          res.status(422).send({error: err.message});
           return;
         }
 
-        if ($existingUser) {
-          return res.status(422).send({ error: 'That username is already in use.' });
+        if (existingUser) {
+          existingUser.active = true;
+          existingUser.password = password;
+          existingUser.firstName = firstName || existingUser.firstName;
+          existingUser.lastName = lastName || existingUser.lastName;
+
+          existingUser.save(($err, saved) => {
+            if ($err) {
+              res.status(422).send({error: $err.message});
+              return;
+            }
+
+            res.status(201).send({ user: saved });
+          });
+
+          return;
         }
 
-        const newUser = new User({
-          ...user,
-          active: true,
-        });
-
-        newUser.save(($$err, saved) => {
-          if ($$err) {
-            res.status(422).send({error: $$err.message});
+        User.findOne({
+          email,
+        }, ($err, $existingUser) => {
+          if ($err) {
+            res.status(422).send({error: $err.message});
             return;
           }
 
-          res.status(201).send({ user: saved });
+          if ($existingUser) {
+            return res.status(422).send({ error: 'El mail que seleccionó ya se encuentra en uso' });
+          }
+
+          User.findOne({
+            username,
+          }, ($$err, $$existingUser) => {
+            if ($$err) {
+              res.status(422).send({error: $$err.message});
+              return;
+            }
+
+            if ($$existingUser) {
+              return res.status(422).send({ error: 'That username is already in use.' });
+            }
+
+            const newUser = new User({
+              ...user,
+              active: true,
+            });
+
+            newUser.save(($$$err, saved) => {
+              if ($$$err) {
+                res.status(422).send({error: $$$err.message});
+                return;
+              }
+
+              res.status(201).send({ user: saved });
+            });
+          });
         });
       });
-    });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
       return res.status(403).send({error: e.message});
@@ -199,13 +225,13 @@ exports.updateUser = async function updateUser(req, res) {
         $in: req.body.user.roles
       }
     }).exec((err, roles) => {
-      if (req.body.user.roles && !roles) {
-        return res.status(403);
-      }
-
       if (err) {
         res.status(422).send({error: err.message});
         return;
+      }
+
+      if (req.body.user.roles && !roles) {
+        return res.status(403);
       }
 
       data = req.body.user;
@@ -213,8 +239,13 @@ exports.updateUser = async function updateUser(req, res) {
       if (req.body.user.roles) { data.roles = roles.map(r => r._id); }
 
       User.findOneAndUpdate({ username: req.params.username }, data)
-        .exec((err, user) => {
-          if (err || user == null) {
+        .exec(($err, user) => {
+          if ($err) {
+            res.status(422).send({error: $err.message});
+            return;
+          }
+
+          if (user == null) {
             res.status(422).json({ error: 'No se encontró ningún user con ese id' });
             return;
           }
