@@ -87,13 +87,8 @@ class Edit extends Component {
 
     return(
       <div>
-        {success && <Message positive>
-          <Message.Header>La operación fué realizada con éxito.</Message.Header>
-        </Message>}
-        {error && <Message negative>
-          <Message.Header>Existen errores</Message.Header>
-          <p>{error}</p>
-        </Message>}
+        {success && this.state.visible && <Message positive icon='check' content='La operación fué realizada con éxito.' />}
+        {error && this.state.visible && <Message negative icon='warning sign' content={error} />}
         <Form onSubmit={this.handleSubmit}>
           <Form.Group>
             <Form.Input

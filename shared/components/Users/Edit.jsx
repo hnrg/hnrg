@@ -34,13 +34,8 @@ class Edit extends Component {
 
     return(
       <Form onSubmit={this.handleSubmit.bind(this)}>
-        {success && <Message positive>
-          <Message.Header>La operación fué realizada con éxito.</Message.Header>
-        </Message>}
-        {error && <Message negative>
-          <Message.Header>Existen errores</Message.Header>
-          <p>{error}</p>
-        </Message>}
+        {success && <Message positive icon='check' content='La operación fué realizada con éxito.' />}
+        {error && <Message negative icon='warning sign' content={error} />}
         <Form.Group>
           <Form.Input
             label={fields.firstNameErrorMsg || 'Nombre'}

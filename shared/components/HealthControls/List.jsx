@@ -63,13 +63,8 @@ class HealthControlsList extends Component {
     return(
       <Segment>
         <Header as='h2' content='Listado de Controles de Salud' />
-        {this.props.success && this.state.visible && <Message positive onDismiss={this.handleDismiss.bind(this)}>
-          <Message.Header>La operación fué realizada con éxito.</Message.Header>
-        </Message>}
-        {this.props.error && this.state.visible && <Message negative onDismiss={this.handleDismiss.bind(this)}>
-          <Message.Header>Existen errores</Message.Header>
-          <p>{this.props.error}</p>
-        </Message>}
+        {this.props.success && this.state.visible && <Message positive icon='check' onDismiss={this.handleDismiss.bind(this)} content='La operación fué realizada con éxito.' />}
+        {this.props.error && this.state.visible && <Message negative icon='warning sign' onDismiss={this.handleDismiss.bind(this)} content={this.props.error} />}
         <Table padded>
           <Table.Header>
             <Table.Row>

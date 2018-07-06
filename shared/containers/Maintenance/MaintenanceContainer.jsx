@@ -20,7 +20,7 @@ class MaintenanceContainer extends Component {
       <div>
         <Container style={{margin: '95px 0 0 0'}}>
           <Header as='h2'>
-            <Icon name='warning' />
+            <Icon name='warning sign' />
             <Header.Content>
               503
               <Header.Subheader>Servicio no Disponible</Header.Subheader>
