@@ -19,7 +19,7 @@ import * as apartmentTypesActions from 'reducers/actions/apartment-types-actions
 import * as heatingTypesActions from 'reducers/actions/heating-types-actions';
 import * as waterTypesActions from 'reducers/actions/water-types-actions';
 
-import { permissionsCheck } from 'helpers/permissions-check';
+import permissionsCheck from 'helpers/permissions-check';
 
 import Footer from 'components/Footer';
 import TopMenu from 'components/TopMenu';

@@ -15,8 +15,6 @@
  */
 import validate from 'validate.js';
 import _ from 'underscore';
-import moment from 'moment';
-import { dateToString } from 'helpers/date';
 
 const weightConstraints = {
   weight: {

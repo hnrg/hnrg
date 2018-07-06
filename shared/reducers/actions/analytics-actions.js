@@ -8,7 +8,7 @@ import {
   GET_HEALTH_CONTROLS_ANALYTICS_FAILURE,
 } from 'reducers/constants';
 
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 import { analyticsRequest } from 'reducers/lib/request/analytics-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 

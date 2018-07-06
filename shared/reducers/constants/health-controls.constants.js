@@ -18,10 +18,6 @@ export const HEALTH_CONTROL_ENABLE_REQUEST = 'health-control-enable-request';
 export const HEALTH_CONTROL_ENABLE_SUCCESS = 'health-control-enable-success';
 export const HEALTH_CONTROL_ENABLE_FAILURE = 'health-control-enable-failure';
 
-export const HEALTH_CONTROL_PERMISSION_DELETE_REQUEST = 'health-control-permission-delete-request';
-export const HEALTH_CONTROL_PERMISSION_DELETE_SUCCESS = 'health-control-permission-delete-success';
-export const HEALTH_CONTROL_PERMISSION_DELETE_FAILURE = 'health-control-permission-delete-failure';
-
 export const HEALTH_CONTROL_UPDATE_REQUEST = 'health-control-update-request';
 export const HEALTH_CONTROL_UPDATE_SUCCESS = 'health-control-update-success';
 export const HEALTH_CONTROL_UPDATE_FAILURE = 'health-control-update-failure';

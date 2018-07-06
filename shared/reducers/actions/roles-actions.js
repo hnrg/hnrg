@@ -35,7 +35,7 @@ import {
   ON_ROL_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 import { rolesRequest } from 'reducers/lib/request/roles-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 import { getProfile } from 'reducers/actions/profile-actions';

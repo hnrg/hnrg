@@ -10,7 +10,14 @@ export default class PatientsRequest {
     return this;
   }
 
-  getPatients(pageNumber = 0, firstName = '', lastName = '', documentType = null, documentNumber = null, demographicData = null) {
+  getPatients(
+    pageNumber = 0,
+    firstName = '',
+    lastName = '',
+    documentType = null,
+    documentNumber = null,
+    demographicData = null,
+  ) {
     return axios.get(
       '/api/patients',
       {
@@ -28,7 +35,7 @@ export default class PatientsRequest {
       },
     ).then((response) => {
       if (response.status === 200 || response.status === 201) {
-        const data = response.data;
+        const { data } = response;
 
         return {
           patients: data.patients,
@@ -58,7 +65,15 @@ export default class PatientsRequest {
   }
 
   addPatient({
-    firstName, lastName, address, phone, birthday, sex, medicalInsurance, documentType, documentNumber,
+    firstName,
+    lastName,
+    address,
+    phone,
+    birthday,
+    sex,
+    medicalInsurance,
+    documentType,
+    documentNumber,
   }) {
     return axios.post('/api/patients', {
       patient: {

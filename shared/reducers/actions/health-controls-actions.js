@@ -27,7 +27,7 @@ import {
   ON_HEALTH_CONTROL_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 import { healthControlsRequest } from 'reducers/lib/request/health-controls-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 

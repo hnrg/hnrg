@@ -20,8 +20,6 @@ import InitialState from 'reducers/states/medical-insurances-state';
  * @param {Object} action - type and payload
  */
 export default function medicalInsurancesReducer(state = InitialState, action) {
-  const nextMedicalInsuranceState = null;
-
   switch (action.type) {
     /**
      * ### Request starts

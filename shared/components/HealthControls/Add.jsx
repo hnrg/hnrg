@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
-import { dateToString } from 'helpers/date';
+import dateToString from 'helpers/date';
 import {
   Button,
   Divider,

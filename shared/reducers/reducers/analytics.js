@@ -24,8 +24,6 @@ import InitialState from 'reducers/states/analytics-state';
  * @param {Object} action - type and payload
  */
 export default function analyticsReducer(state = InitialState, action) {
-  const nextPermissionState = null;
-
   switch (action.type) {
     /**
      * ### Request starts

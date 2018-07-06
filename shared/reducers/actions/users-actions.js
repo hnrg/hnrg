@@ -27,7 +27,7 @@ import {
   ON_USER_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 import { usersRequest } from 'reducers/lib/request/users-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
@@ -151,7 +151,16 @@ export function userUpdateFailure(data) {
  * the data as now persisted on the serverx
  *
  */
-export function updateUser(originalUsername, username, email, firstName, lastName, password, roles, sessionToken) {
+export function updateUser(
+  originalUsername,
+  username,
+  email,
+  firstName,
+  lastName,
+  password,
+  roles,
+  sessionToken,
+) {
   return (dispatch) => {
     dispatch(userUpdateRequest());
     return authToken.getSessionToken(sessionToken)

@@ -4,7 +4,7 @@ import {
   GET_HEATING_TYPES_FAILURE,
 } from 'reducers/constants';
 
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 import { heatingTypesRequest } from 'reducers/lib/request/heating-types-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 

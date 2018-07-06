@@ -2,7 +2,7 @@ import _ from 'underscore';
 
 import { authRequest } from 'reducers/lib/request/auth-request';
 import { authToken } from 'reducers/lib/store/auth-token';
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 
 import {
   SESSION_TOKEN_REQUEST,
@@ -25,10 +25,6 @@ import {
   LOGIN_FAILURE,
 
   ON_AUTH_FORM_FIELD_CHANGE,
-
-  RESET_PASSWORD_REQUEST,
-  RESET_PASSWORD_SUCCESS,
-  RESET_PASSWORD_FAILURE,
 
   AUTHENTICATE_REQUEST,
   AUTHENTICATE_SUCCESS,
@@ -266,44 +262,6 @@ export function login({ email, password }) {
         dispatch(loginFailure(errorHandler(error)));
       });
   };
-}
-
-/**
- * ## ResetPassword actions
- */
-export function resetPasswordRequest() {
-  return {
-    type: RESET_PASSWORD_REQUEST,
-  };
-}
-
-export function resetPasswordSuccess() {
-  return {
-    type: RESET_PASSWORD_SUCCESS,
-  };
-}
-
-export function resetPasswordFailure(error) {
-  return {
-    type: RESET_PASSWORD_FAILURE,
-    payload: error,
-  };
-}
-
-/**
- * ## ResetPassword
- *
- * @param {string} email - the email address to reset password
- * *Note* There's no feedback to the user whether the email
- * address is valid or not.
- *
- * This functionality depends on the server set
- * up correctly ie, that emails are verified.
- * With that enabled, an email can be sent w/ a
- * form for setting the new password.
- */
-export function resetPassword(email) {
-
 }
 
 /**

@@ -4,7 +4,7 @@ import {
   GET_WATER_TYPES_FAILURE,
 } from 'reducers/constants';
 
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 import { waterTypesRequest } from 'reducers/lib/request/water-types-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 

@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 
-export function dateToString(elem, format) {
+export default function dateToString(elem, format) {
   const date = moment(elem);
   date.locale('es');
 

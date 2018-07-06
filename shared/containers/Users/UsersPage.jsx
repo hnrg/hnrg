@@ -15,7 +15,7 @@ import * as profileActions from 'reducers/actions/profile-actions';
 import * as rolesActions from 'reducers/actions/roles-actions';
 import * as usersActions from 'reducers/actions/users-actions';
 
-import { permissionsCheck } from 'helpers/permissions-check';
+import permissionsCheck from 'helpers/permissions-check';
 
 import UserAdd from 'components/Users/Add';
 import UserShow from 'components/Users/Show';

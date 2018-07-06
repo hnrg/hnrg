@@ -1,9 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const precss = require('precss');
-const postcssImport = require('postcss-import');
-const cssNext = require('postcss-cssnext');
-const cssNested = require('postcss-nested');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -80,5 +76,9 @@ const clientConfig = {
     new webpack.NamedModulesPlugin(),
   ],
 };
+
+if (process.env.NODE_ENV === 'inspect') {
+  clientConfig.plugins.push(new BundleAnalyzerPlugin());
+}
 
 module.exports = clientConfig;

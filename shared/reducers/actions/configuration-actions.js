@@ -10,7 +10,7 @@ import {
   ON_CONFIGURATION_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 import { configurationRequest } from 'reducers/lib/request/configuration-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 

@@ -14,7 +14,7 @@ import {
   Table,
 } from 'semantic-ui-react';
 
-import { dateToString } from 'helpers/date';
+import dateToString from 'helpers/date';
 
 class HealthControlsList extends Component {
   constructor(props) {

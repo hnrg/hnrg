@@ -9,9 +9,7 @@ import {
   DELETE_TOKEN_REQUEST,
   DELETE_TOKEN_SUCCESS,
 
-  LOGOUT,
   LOGIN,
-  FORGOT_PASSWORD,
 
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
@@ -22,10 +20,6 @@ import {
   LOGIN_FAILURE,
 
   ON_AUTH_FORM_FIELD_CHANGE,
-
-  RESET_PASSWORD_REQUEST,
-  RESET_PASSWORD_SUCCESS,
-  RESET_PASSWORD_FAILURE,
 
   AUTHENTICATE_REQUEST,
   AUTHENTICATE_SUCCESS,
@@ -49,7 +43,6 @@ export default function (state = InitialState, action) {
     case AUTHENTICATE_REQUEST:
     case LOGOUT_REQUEST:
     case LOGIN_REQUEST:
-    case RESET_PASSWORD_REQUEST:
     {
       const nextState = {
         ...state,
@@ -138,7 +131,6 @@ export default function (state = InitialState, action) {
     case LOGOUT_FAILURE:
     case LOGIN_FAILURE:
     case AUTHENTICATE_FAILURE:
-    case RESET_PASSWORD_FAILURE:
       return {
         ...state,
         isFetching: false,

@@ -10,7 +10,7 @@ import {
   ON_PROFILE_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 import { profileRequest } from 'reducers/lib/request/profile-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
@@ -93,7 +93,15 @@ export function profileUpdateFailure(data) {
  * the data as now persisted on the serverx
  *
  */
-export function updateProfile(originalUsername, username, email, firstName, lastName, password, sessionToken) {
+export function updateProfile(
+  originalUsername,
+  username,
+  email,
+  firstName,
+  lastName,
+  password,
+  sessionToken,
+) {
   return (dispatch) => {
     dispatch(profileUpdateRequest());
     return authToken.getSessionToken(sessionToken)

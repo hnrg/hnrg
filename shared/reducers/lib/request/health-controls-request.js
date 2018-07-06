@@ -20,7 +20,7 @@ export default class HealthControlsRequest {
       },
     }).then((response) => {
       if (response.status === 200 || response.status === 201) {
-        const data = response.data;
+        const { data } = response;
 
         return {
           healthControls: data.healthControls,

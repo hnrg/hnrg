@@ -4,7 +4,7 @@ import {
   GET_MEDICAL_INSURANCES_FAILURE,
 } from 'reducers/constants';
 
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 import { medicalInsurancesRequest } from 'reducers/lib/request/medical-insurances-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 

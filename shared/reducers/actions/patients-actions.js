@@ -23,7 +23,7 @@ import {
   ON_PATIENT_FORM_FIELD_CHANGE,
 } from 'reducers/constants';
 
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 import { patientsRequest } from 'reducers/lib/request/patients-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
@@ -75,12 +75,27 @@ export function getPatientFailure(error) {
  * controls which form is displayed to the patient
  * as in login, register, logout or reset password
  */
-export function getPatients(pageNumber, firtsName, lastName, documentType, documentNumber, demographicData, sessionToken) {
+export function getPatients(
+  pageNumber,
+  firtsName,
+  lastName,
+  documentType,
+  documentNumber,
+  demographicData,
+  sessionToken,
+) {
   return (dispatch) => {
     dispatch(getPatientsRequest());
     // store or get a sessionToken
     return authToken.getSessionToken(sessionToken)
-      .then(token => patientsRequest.init(token).getPatients(pageNumber, firtsName, lastName, documentType, documentNumber, demographicData))
+      .then(token => patientsRequest.init(token).getPatients(
+        pageNumber,
+        firtsName,
+        lastName,
+        documentType,
+        documentNumber,
+        demographicData,
+      ))
       .then((data) => {
         dispatch(getPatientsSuccess(data));
       })

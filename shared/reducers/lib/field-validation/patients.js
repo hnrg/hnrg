@@ -61,7 +61,7 @@ const addressConstraints = {
 const phoneConstraints = {
   phone: {
     format: {
-      pattern: /^\+?[0-9]{1,}[0-9\-]{6,15}$/,
+      pattern: /^\+?[0-9]{1,}[0-9-]{6,15}$/,
       flags: 'g',
       message: '^Formato de teléfono invalido',
     },

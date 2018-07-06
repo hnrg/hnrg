@@ -20,8 +20,6 @@ import InitialState from 'reducers/states/water-types-state';
  * @param {Object} action - type and payload
  */
 export default function waterTypesReducer(state = InitialState, action) {
-  const nextPermissionState = null;
-
   switch (action.type) {
     /**
      * ### Request starts

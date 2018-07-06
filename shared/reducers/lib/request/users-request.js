@@ -22,7 +22,7 @@ export default class UsersRequest {
       },
     }).then((response) => {
       if (response.status === 200 || response.status === 201) {
-        const data = response.data;
+        const { data } = response;
 
         return {
           users: data.users,

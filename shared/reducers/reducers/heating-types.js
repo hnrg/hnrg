@@ -20,8 +20,6 @@ import InitialState from 'reducers/states/heating-types-state';
  * @param {Object} action - type and payload
  */
 export default function heatingTypesReducer(state = InitialState, action) {
-  const nextPermissionState = null;
-
   switch (action.type) {
     /**
      * ### Request starts

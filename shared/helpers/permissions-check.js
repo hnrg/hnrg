@@ -1,4 +1,6 @@
-export function permissionsCheck(user, permissions) {
+import _ from 'lodash';
+
+export default function permissionsCheck(user, permissions) {
   if (!user.username) {
     return null;
   }

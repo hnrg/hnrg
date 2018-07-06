@@ -4,7 +4,7 @@ import {
   GET_PERMISSIONS_FAILURE,
 } from 'reducers/constants';
 
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 import { permissionsRequest } from 'reducers/lib/request/permissions-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 

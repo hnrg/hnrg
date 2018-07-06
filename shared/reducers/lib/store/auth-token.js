@@ -17,7 +17,10 @@ export class AuthToken {
    * Store the session key
    */
   storeSessionToken(sessionToken) {
-    _.isString(sessionToken) && Cookies.set(this.SESSION_TOKEN_KEY, sessionToken, { path: '/' });
+    if (_.isString(sessionToken)) {
+      Cookies.set(this.SESSION_TOKEN_KEY, sessionToken, { path: '/' });
+    }
+
     return Promise.resolve();
   }
 

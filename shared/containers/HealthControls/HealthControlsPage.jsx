@@ -16,7 +16,7 @@ import * as permissionsActions from 'reducers/actions/permissions-actions';
 import * as profileActions from 'reducers/actions/profile-actions';
 import * as healthControlsActions from 'reducers/actions/health-controls-actions';
 
-import { permissionsCheck } from 'helpers/permissions-check';
+import permissionsCheck from 'helpers/permissions-check';
 
 import Footer from 'components/Footer';
 import TopMenu from 'components/TopMenu';

@@ -4,7 +4,7 @@ import _ from 'lodash';
 import moment from 'moment-timezone';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { dateToString } from 'helpers/date';
+import dateToString from 'helpers/date';
 import {
   Container,
   Divider,

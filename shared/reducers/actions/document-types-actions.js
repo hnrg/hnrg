@@ -4,7 +4,7 @@ import {
   GET_DOCUMENT_TYPES_FAILURE,
 } from 'reducers/constants';
 
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 import { documentTypesRequest } from 'reducers/lib/request/document-types-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 

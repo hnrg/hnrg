@@ -7,7 +7,7 @@ import {
 import { apartmentTypesRequest } from 'reducers/lib/request/apartment-types-request';
 import { authToken } from 'reducers/lib/store/auth-token';
 
-import { errorHandler } from 'helpers/error-handler';
+import errorHandler from 'helpers/error-handler';
 
 /**
  * ## retreiving profile actions

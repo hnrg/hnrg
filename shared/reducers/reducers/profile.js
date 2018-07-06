@@ -71,8 +71,6 @@ export default function profileReducer(state = InitialState, action) {
           ...state.fields,
           email: action.payload.email,
           username: action.payload.username,
-          email: action.payload.email,
-          username: action.payload.username,
           firstName: action.payload.firstName || '',
           lastName: action.payload.lastName || '',
           password: '',
