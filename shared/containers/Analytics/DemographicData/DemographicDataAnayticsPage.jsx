@@ -49,27 +49,27 @@ class AnalyticsContainer extends Component {
         <Grid.Row>
           <Grid.Column style={{paddingBottom: '20px'}} computer={8} largeScreen={8} tablet={16} mobile={16}>
             <Header as='h4' content='Tienen refrigerador' />
-            <PieChart data={refrigeratorData} download='refrigerator-data' />
+            <PieChart data={refrigeratorData} download='datos-refrigerador' />
           </Grid.Column>
           <Grid.Column style={{paddingBottom: '20px'}} computer={8} largeScreen={8} tablet={16} mobile={16}>
             <Header as='h4' content='Tienen electricidad' />
-            <PieChart data={electricityData} download='electricity-data' />
+            <PieChart data={electricityData} download='datos-electricidad' />
           </Grid.Column>
           <Grid.Column style={{paddingBottom: '20px'}} computer={8} largeScreen={8} tablet={16} mobile={16}>
             <Header as='h4' content='Tienen mascota' />
-            <PieChart data={petData} download='pet-data' />
+            <PieChart data={petData} download='datos-mascota' />
           </Grid.Column>
           <Grid.Column style={{paddingBottom: '20px'}} computer={8} largeScreen={8} tablet={16} mobile={16}>
             <Header as='h4' content='Tipos de viviendas' />
-            <PieChart data={apartmentType} download='apartmentType-data' />
+            <PieChart data={apartmentType} download='datos-tipo-de-vivienda' />
           </Grid.Column>
           <Grid.Column style={{paddingBottom: '20px'}} computer={8} largeScreen={8} tablet={16} mobile={16}>
             <Header as='h4' content='Tipos de calefacción' />
-            <PieChart data={heatingType} download='heatingType-data' />
+            <PieChart data={heatingType} download='datos-tipo-de-calefacción' />
           </Grid.Column>
           <Grid.Column style={{paddingBottom: '20px'}} computer={8} largeScreen={8} tablet={16} mobile={16}>
             <Header as='h4' content='Tipos de agua' />
-            <PieChart data={waterType} download='waterType-data' />
+            <PieChart data={waterType} download='datos-tipo-de-agua' />
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -89,7 +89,7 @@ class AnalyticsContainer extends Component {
     return (
       <Segment textAlign='center'>
         <Header as='h2' content='Estadísticas generales sobre datos demográficos' />
-        <PieChart data={generalData} download='general-data' />
+        <PieChart data={generalData} download='datos-generales' />
 
         <Divider horizontal>Datos más específicos</Divider>
         { patientsWithDemographicData > 0 ?

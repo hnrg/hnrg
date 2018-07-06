@@ -60,8 +60,10 @@ class UsersList extends Component {
   }
 
   render() {
-    const totalPages = !this.props.count ? 0 : this.props.totalCount / this.props.count;
-
+    const totalPages = !this.props.count ? 0 : Math.round(this.props.totalCount / this.props.count);
+    console.log(this.props.totalCount);
+    console.log(this.props.count);
+    console.log(totalPages);
     return(
       <Segment>
         <Header as='h2' content='Listado de Usuarios' />

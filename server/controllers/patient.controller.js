@@ -326,7 +326,16 @@ exports.updatePatient = async function updatePatient(req, res, next) {
 
     await Patient.findByIdAndUpdate(req.params.id, req.body.patient)
       .exec((err, patient) => {
-        if (err || patient == null) {
+        if (err) {
+          const message = err.code == 11000 ?
+          'Dos pacientes no pueden tener el mismo tipo y número de documento' :
+          err.message;
+
+          res.status(422).send({error: message});
+          return;
+        }
+
+        if (patient == null) {
           res.status(422).json({ error: 'No se encontró ningún paciente con ese id' });
           return;
         }

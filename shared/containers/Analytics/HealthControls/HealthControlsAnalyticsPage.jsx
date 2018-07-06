@@ -39,6 +39,27 @@ const graphs = {
   },
 };
 
+const axes = {
+  weight: {
+    xtitle: 'Edad (semanas)',
+    ytitle: 'Peso (kg)'
+  },
+  height: {
+    xtitle: 'Longitud (cm)',
+    ytitle: 'Peso (kg)'
+  },
+  ppc: {
+    xtitle: 'Edad (semanas)',
+    ytitle: 'Circunferencia cefálica (cm)'
+  }
+};
+
+const i18n = {
+  weight: 'Peso',
+  height: 'Talla',
+  ppc: 'Ppc',
+};
+
 class AnalyticsContainer extends Component {
   constructor(props) {
     super(props);
@@ -78,6 +99,8 @@ class AnalyticsContainer extends Component {
         </Button.Group>
         <Divider hidden />
         {type && <LineChart
+          {...axes[type]}
+          download={`${originalPatient.fullName} - ${originalPatient.documentType.name} ${originalPatient.documentNumber} - ${i18n[type]}`}
           data={this.props.analytics.healthControls ?
             _.union(graphs[originalPatient.sex == 'Masculino' ? 'male' : 'female'][type], [this.props.analytics.healthControls]):
             graphs[originalPatient.sex == 'Masculino' ? 'male' : 'female'][type]

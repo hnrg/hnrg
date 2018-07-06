@@ -56,7 +56,7 @@ const amountPerPageConstraints = {
       greaterThan: 0,
       lessThanOrEqualTo: 50,
       notInteger: '^La cantidad por página debe ser un número',
-      notValid: '^La cantidad ingresada es invaldia',
+      notValid: '^La cantidad ingresada es invalida',
       notGreaterThan: '^La cantidad por página debe ser al menos %{count}',
       notLessThanOrEqualTo: '^La cantidad por página debe ser menor a %{count}',
     },

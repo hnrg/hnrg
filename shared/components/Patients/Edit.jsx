@@ -46,7 +46,7 @@ class Edit extends Component {
   }
 
   render() {
-    const { fields, isValid, isFetching, error } = this.props;
+    const { fields, isValid, isFetching, error, success } = this.props;
 
     const sexOptions = [
       { key: "m", value: "Masculino", icon: 'man',text: "Masculino" },
@@ -76,6 +76,9 @@ class Edit extends Component {
 
     return(
       <Form onSubmit={this.handleSubmit.bind(this)}>
+        {success && <Message positive>
+          <Message.Header>La operación fué realizada con éxito.</Message.Header>
+        </Message>}
         {error && <Message negative>
           <Message.Header>Existen errores</Message.Header>
           <p>{error}</p>
