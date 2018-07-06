@@ -55,7 +55,7 @@ export default function analyticsReducer(state = InitialState, action) {
         ...state,
         healthControls: {
           name: action.payload.name,
-          data: action.payload.data.map(d => [ d[0].$numberDecimal, d[1].$numberDecimal ]),
+          data: action.payload.data.map(d => [d[0].$numberDecimal, d[1].$numberDecimal]),
         },
         isFetching: false,
         error: null,

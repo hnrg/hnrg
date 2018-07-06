@@ -40,7 +40,7 @@ exports.addConfiguration = async function addConfiguration(req, res) {
 
     await Configuration.findOne().exec((err, oldConfiguration) => {
       if (err) {
-        res.status(422).send({error: err.message});
+        res.status(422).send({ error: err.message });
         return;
       }
 
@@ -66,7 +66,7 @@ exports.addConfiguration = async function addConfiguration(req, res) {
 
       newConfiguration.save(($err, saved) => {
         if ($err) {
-          res.status(422).send({error: $err.message});
+          res.status(422).send({ error: $err.message });
           return;
         }
 
@@ -75,7 +75,7 @@ exports.addConfiguration = async function addConfiguration(req, res) {
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     res.status(500).send(e);

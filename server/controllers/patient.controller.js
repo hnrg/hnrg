@@ -47,7 +47,7 @@ exports.getPatients = async function getPatients(req, res, next) {
     await Patient.count(where)
       .exec((err, totalCount) => {
         if (err) {
-          res.status(422).send({error: err.message});
+          res.status(422).send({ error: err.message });
           return;
         }
 
@@ -72,7 +72,7 @@ exports.getPatients = async function getPatients(req, res, next) {
           .populate('documentType')
           .exec(($err, patients) => {
             if ($err) {
-              res.status(422).send({error: $err.message});
+              res.status(422).send({ error: $err.message });
               return;
             }
 
@@ -85,7 +85,7 @@ exports.getPatients = async function getPatients(req, res, next) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     res.status(500).send(e);
@@ -118,7 +118,7 @@ exports.addPatient = async function addPatient(req, res, next) {
       birthday,
     }).exec((err, patient) => {
       if (err) {
-        res.status(422).send({error: err.message});
+        res.status(422).send({ error: err.message });
         return;
       }
 
@@ -132,18 +132,18 @@ exports.addPatient = async function addPatient(req, res, next) {
 
         updatedPatient.save(($err, saved) => {
           if ($err) {
-            res.status(422).send({error: $err.message});
+            res.status(422).send({ error: $err.message });
             return;
           }
 
-          res.status(200).json({ patient: saved })
+          res.status(200).json({ patient: saved });
         });
       }
 
       const newPatient = new Patient(req.body.patient);
       newPatient.save(($$err, saved) => {
         if ($$err) {
-          res.status(422).send({error: $$err.message});
+          res.status(422).send({ error: $$err.message });
           return;
         }
 
@@ -152,7 +152,7 @@ exports.addPatient = async function addPatient(req, res, next) {
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     res.status(500).send(e);
@@ -185,7 +185,7 @@ exports.getPatient = async function getPatient(req, res, next) {
         }
 
         if (err) {
-          res.status(422).send({error: err.message});
+          res.status(422).send({ error: err.message });
           return;
         }
 
@@ -193,7 +193,7 @@ exports.getPatient = async function getPatient(req, res, next) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     if (e.name === 'CastError') {
@@ -218,7 +218,7 @@ exports.deletePatient = async function deletePatient(req, res) {
       .exec((err, patient) => {
         if (err || patient == null) {
           res.status(422).json({ error: 'No se encontró ningún paciente con ese id' });
-          res.status(422).send({error: err.message});
+          res.status(422).send({ error: err.message });
           return;
         }
 
@@ -226,7 +226,7 @@ exports.deletePatient = async function deletePatient(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     if (e.name === 'CastError') {
@@ -238,26 +238,26 @@ exports.deletePatient = async function deletePatient(req, res) {
 };
 
 function ageCalculate(actual, birthday) {
-  const diff = Math.trunc(moment(actual).diff(moment(birthday), 'days')/7);
-  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAA", diff);
+  const diff = Math.trunc(moment(actual).diff(moment(birthday), 'days') / 7);
+  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAA', diff);
   return diff;
 }
 
 function ppcStrategy(patient, healthControls) {
   return healthControls.map(healthControl => ([
-    {$numberDecimal: ageCalculate(healthControl.date, patient.birthday)}, healthControl.ppc
+    { $numberDecimal: ageCalculate(healthControl.date, patient.birthday) }, healthControl.ppc,
   ]));
 }
 
 function weightStrategy(patient, healthControls) {
   return healthControls.map(healthControl => ([
-    {$numberDecimal: ageCalculate(healthControl.date, patient.birthday)}, healthControl.weight
+    { $numberDecimal: ageCalculate(healthControl.date, patient.birthday) }, healthControl.weight,
   ]));
 }
 
 function heightStrategy(patient, healthControls) {
-  return healthControls.map(healthControl => {
-    let {height, weight} = healthControl;
+  return healthControls.map((healthControl) => {
+    const { height, weight } = healthControl;
     return [height, weight];
   });
 }
@@ -284,7 +284,7 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
       .where('deleted').equals(false)
       .exec((err, patient) => {
         if (err) {
-          res.status(422).send({error: err.message});
+          res.status(422).send({ error: err.message });
           return;
         }
 
@@ -297,7 +297,7 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
           .skip(amountPerPage * pageNumber)
           .exec(($err, healthControls) => {
             if ($err) {
-              res.status(422).send({error: err.message});
+              res.status(422).send({ error: err.message });
               return;
             }
 
@@ -307,13 +307,13 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
               healthControls: {
                 name: `${patient.firstName} ${patient.lastName} - ${patient.documentNumber}`,
                 data: strategy[req.params.type](patient, healthControls),
-              }
+              },
             });
           });
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     return res.status(500).send(e);
@@ -328,10 +328,10 @@ exports.updatePatient = async function updatePatient(req, res, next) {
       .exec((err, patient) => {
         if (err) {
           const message = err.code == 11000 ?
-          'Dos pacientes no pueden tener el mismo tipo y número de documento' :
-          err.message;
+            'Dos pacientes no pueden tener el mismo tipo y número de documento' :
+            err.message;
 
-          res.status(422).send({error: message});
+          res.status(422).send({ error: message });
           return;
         }
 
@@ -345,7 +345,7 @@ exports.updatePatient = async function updatePatient(req, res, next) {
             DemographicData.findByIdAndUpdate(patient.demographicData, req.body.demographicData)
               .exec(($err, demographicData) => {
                 if ($err) {
-                  res.status(422).send({error: $err.message});
+                  res.status(422).send({ error: $err.message });
                   return;
                 }
 
@@ -355,14 +355,14 @@ exports.updatePatient = async function updatePatient(req, res, next) {
             demographicData = new DemographicData(req.body.demographicData);
             demographicData.save(($err, saved) => {
               if ($err) {
-                res.status(422).send({error: $err.message});
+                res.status(422).send({ error: $err.message });
                 return;
               }
               patient.demographicData = saved._id;
 
               patient.save(($$err, $saved) => {
                 if ($$err) {
-                  res.status(422).send({error: $$err.message});
+                  res.status(422).send({ error: $$err.message });
                   return;
                 }
 
@@ -376,7 +376,7 @@ exports.updatePatient = async function updatePatient(req, res, next) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     return res.status(500).send(e);
@@ -389,7 +389,7 @@ exports.getDemographicDataAnalytics = async function getDemographicDataAnalytics
 
     Patient.find({}).count().exec((err, totalCount) => {
       if (err) {
-        res.status(422).send({error: err.message});
+        res.status(422).send({ error: err.message });
         return;
       }
       Patient.where('demographicData')
@@ -402,7 +402,7 @@ exports.getDemographicDataAnalytics = async function getDemographicDataAnalytics
         })
         .exec(($err, patients) => {
           if ($err) {
-            res.status(422).send({error: $err.message});
+            res.status(422).send({ error: $err.message });
             return;
           }
 
@@ -443,7 +443,7 @@ exports.getDemographicDataAnalytics = async function getDemographicDataAnalytics
     });
   } catch (e) {
     if (e.name == 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     return res.status(500).send(e);

@@ -26,9 +26,9 @@ export default class ProfileRequest {
   }
 
   updateProfile({
-    username, email, firstName, lastName, password
+    username, email, firstName, lastName, password,
   }) {
-    let user = {
+    const user = {
       username,
       email,
       firstName,

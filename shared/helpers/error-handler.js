@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 export function errorHandler(error) {
-  console.log("ERROR", error);
+  console.log('ERROR', error);
 
   if (error && _.isString(error)) {
     return error;

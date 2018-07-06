@@ -32,7 +32,7 @@ const firstNameConstraints = {
 
 const lastNameConstraints = {
   lastName: {
-    presence:  true,
+    presence: true,
     format: {
       pattern: namesRegex,
       flags: 'i',
@@ -94,7 +94,6 @@ export default function (state, action) {
   switch (field) {
     case ('firstName'):
     {
-
       const validation = validate({
         firstName: value,
       }, firstNameConstraints);
@@ -203,7 +202,7 @@ export default function (state, action) {
 
     case ('documentNumber'):
     {
-      const validation= validate({
+      const validation = validate({
         documentNumber: value,
       }, documentNumberConstraints);
 

@@ -86,7 +86,7 @@ export default function (state, action) {
         fields: {
           ...state.fields,
           emailHasError: true,
-          emailErrorMsg: validation['from'][0],
+          emailErrorMsg: validation.from[0],
         },
       };
     }

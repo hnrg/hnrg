@@ -36,7 +36,7 @@ exports.updateProfileAction = async function updateProfileAction(req, res) {
     User.findById(user._id)
       .exec((err, user) => {
         if (err) {
-          res.status(422).send({error: err.message});
+          res.status(422).send({ error: err.message });
           return;
         }
 
@@ -46,7 +46,7 @@ exports.updateProfileAction = async function updateProfileAction(req, res) {
 
         user.save(($err, updated) => {
           if ($err) {
-            res.status(422).send({error: $err.message});
+            res.status(422).send({ error: $err.message });
             return;
           }
 

@@ -131,7 +131,6 @@ export default function (state, action) {
   switch (field) {
     case ('name'):
     {
-
       const validation = validate({
         name: value,
       }, nameConstraints);
@@ -183,14 +182,13 @@ export default function (state, action) {
         fields: {
           ...state.fields,
           emailHasError: true,
-          emailErrorMsg: validation['from'][0],
+          emailErrorMsg: validation.from[0],
         },
       };
     }
 
     case ('amountPerPage'):
     {
-
       const validation = validate({
         amountPerPage: value,
       }, amountPerPageConstraints);
@@ -218,7 +216,6 @@ export default function (state, action) {
 
     case ('description'):
     {
-
       const validation = validate({
         description: value,
       }, descriptionConstraints);
@@ -246,7 +243,6 @@ export default function (state, action) {
 
     case ('from'):
     {
-
       const validation = validate({
         from: value,
       }, fromConstraints);
@@ -274,7 +270,6 @@ export default function (state, action) {
 
     case ('delta'):
     {
-
       const validation = validate({
         delta: value,
       }, deltaConstraints);
@@ -302,7 +297,6 @@ export default function (state, action) {
 
     case ('amount'):
     {
-
       const validation = validate({
         amount: value,
       }, amountConstraints);

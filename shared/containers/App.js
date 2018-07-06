@@ -67,7 +67,7 @@ class App extends Component {
     return (
       <div>
         {React.cloneElement(this.props.children, { ...this.props })}
-        {/*process.env.NODE_ENV === 'development' && <DevTools />*/}
+        {/* process.env.NODE_ENV === 'development' && <DevTools /> */}
       </div>
     );
   }

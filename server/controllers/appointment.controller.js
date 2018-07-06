@@ -90,7 +90,7 @@ exports.addAppointment = async function addAppointment(req, res) {
       .count({ date: newDate.toDate() })
       .exec((err, count) => {
         if (err) {
-          res.status(422).send({error: err.message});
+          res.status(422).send({ error: err.message });
           return;
         }
 

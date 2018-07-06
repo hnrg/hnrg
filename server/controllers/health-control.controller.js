@@ -22,7 +22,7 @@ exports.getHealthControls = async function getHealthControls(req, res) {
     await HealthControl.count({ active })
       .exec((err, totalCount) => {
         if (err) {
-          res.status(422).send({error: err.message});
+          res.status(422).send({ error: err.message });
           return;
         }
 
@@ -40,7 +40,7 @@ exports.getHealthControls = async function getHealthControls(req, res) {
           .populate('patient user')
           .exec(($err, healthControls) => {
             if ($err) {
-              res.status(422).send({error: $err.message});
+              res.status(422).send({ error: $err.message });
               return;
             }
 
@@ -53,7 +53,7 @@ exports.getHealthControls = async function getHealthControls(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     res.status(500).send(e);
@@ -96,7 +96,7 @@ exports.addHealthControl = async function addHealthControl(req, res) {
     return res.status(200).send({ healthControl: saved });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     res.status(500).send(e);
@@ -125,7 +125,7 @@ exports.getHealthControl = async function getHealthControl(req, res) {
     res.status(200).json({ healthControl });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     if (e.name === 'CastError') {
@@ -157,7 +157,7 @@ exports.deleteHealthControl = async function deleteHealthControl(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     if (e.name === 'CastError') {
@@ -191,7 +191,7 @@ exports.updateHealthControl = async function updateHealthControl(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     if (e.name === 'CastError') {

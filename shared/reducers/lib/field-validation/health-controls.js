@@ -143,7 +143,7 @@ export default function (state, action) {
   switch (field) {
     case ('weight'):
     {
-     const validation = validate({
+      const validation = validate({
         weight: value,
       }, weightConstraints);
 
@@ -170,7 +170,7 @@ export default function (state, action) {
 
     case ('pc'):
     {
-     const validation = validate({
+      const validation = validate({
         pc: value,
       }, pcConstraints);
 
@@ -197,7 +197,7 @@ export default function (state, action) {
 
     case ('ppc'):
     {
-     const validation = validate({
+      const validation = validate({
         ppc: value,
       }, ppcConstraints);
 
@@ -224,7 +224,7 @@ export default function (state, action) {
 
     case ('height'):
     {
-     const validation = validate({
+      const validation = validate({
         height: value,
       }, heightConstraints);
 
@@ -251,7 +251,7 @@ export default function (state, action) {
 
     case ('vaccinesObservations'):
     {
-     const validation = validate({
+      const validation = validate({
         vaccinesObservations: value,
       }, vaccinesObservationsConstraints);
 
@@ -278,7 +278,7 @@ export default function (state, action) {
 
     case ('maturationObservations'):
     {
-     const validation = validate({
+      const validation = validate({
         maturationObservations: value,
       }, maturationObservationsConstraints);
 
@@ -305,7 +305,7 @@ export default function (state, action) {
 
     case ('physicalExaminationObservations'):
     {
-     const validation = validate({
+      const validation = validate({
         physicalExaminationObservations: value,
       }, physicalExaminationObservationsConstraints);
 
@@ -332,7 +332,7 @@ export default function (state, action) {
 
     case ('feeding'):
     {
-     const validation = validate({
+      const validation = validate({
         feeding: value,
       }, feedingConstraints);
 
@@ -359,7 +359,7 @@ export default function (state, action) {
 
     case ('generalObservations'):
     {
-     const validation = validate({
+      const validation = validate({
         generalObservations: value,
       }, generalObservationsConstraints);
 

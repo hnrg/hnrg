@@ -14,7 +14,7 @@ exports.getWaterTypes = async function getWaterTypes(req, res) {
     res.status(200).send({ waterTypes });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     res.status(500).send(e);

@@ -22,7 +22,7 @@ exports.getUsers = async function getUsers(req, res) {
     await User.count({ active, username })
       .exec((err, totalCount) => {
         if (err) {
-          res.status(422).send({error: err.message});
+          res.status(422).send({ error: err.message });
           return;
         }
 
@@ -40,7 +40,7 @@ exports.getUsers = async function getUsers(req, res) {
           .populate('roles')
           .exec(($err, users) => {
             if ($err) {
-              res.status(422).send({error: $err.message});
+              res.status(422).send({ error: $err.message });
               return;
             }
 
@@ -53,7 +53,7 @@ exports.getUsers = async function getUsers(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     res.status(500).send(e);
@@ -74,7 +74,7 @@ exports.getUser = async function getUser(req, res) {
       .populate('roles')
       .exec((err, user) => {
         if (err) {
-          res.status(422).send({error: err.message});
+          res.status(422).send({ error: err.message });
           return;
         }
 
@@ -86,7 +86,7 @@ exports.getUser = async function getUser(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     return res.status(500).send(e);
@@ -117,7 +117,7 @@ exports.addUser = async function addUser(req, res) {
     await User.findOne({ email, username, active: false })
       .exec((err, existingUser) => {
         if (err) {
-          res.status(422).send({error: err.message});
+          res.status(422).send({ error: err.message });
           return;
         }
 
@@ -129,7 +129,7 @@ exports.addUser = async function addUser(req, res) {
 
           existingUser.save(($err, saved) => {
             if ($err) {
-              res.status(422).send({error: $err.message});
+              res.status(422).send({ error: $err.message });
               return;
             }
 
@@ -143,7 +143,7 @@ exports.addUser = async function addUser(req, res) {
           email,
         }, ($err, $existingUser) => {
           if ($err) {
-            res.status(422).send({error: $err.message});
+            res.status(422).send({ error: $err.message });
             return;
           }
 
@@ -155,7 +155,7 @@ exports.addUser = async function addUser(req, res) {
             username,
           }, ($$err, $$existingUser) => {
             if ($$err) {
-              res.status(422).send({error: $$err.message});
+              res.status(422).send({ error: $$err.message });
               return;
             }
 
@@ -170,7 +170,7 @@ exports.addUser = async function addUser(req, res) {
 
             newUser.save(($$$err, saved) => {
               if ($$$err) {
-                res.status(422).send({error: $$$err.message});
+                res.status(422).send({ error: $$$err.message });
                 return;
               }
 
@@ -181,7 +181,7 @@ exports.addUser = async function addUser(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     return res.status(500).send(e);
@@ -203,7 +203,7 @@ exports.deleteUser = async function deleteUser(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     if (e.name === 'CastError') {
@@ -218,15 +218,15 @@ exports.updateUser = async function updateUser(req, res) {
   try {
     permissionsCheck(req.user, 'usuario_update');
 
-    var data = {};
+    let data = {};
 
     await Rol.find({
       name: {
-        $in: req.body.user.roles
-      }
+        $in: req.body.user.roles,
+      },
     }).exec((err, roles) => {
       if (err) {
-        res.status(422).send({error: err.message});
+        res.status(422).send({ error: err.message });
         return;
       }
 
@@ -238,10 +238,10 @@ exports.updateUser = async function updateUser(req, res) {
 
       if (req.body.user.roles) { data.roles = roles.map(r => r._id); }
 
-      User.findOne({username: req.params.username})
+      User.findOne({ username: req.params.username })
         .exec(($err, user) => {
           if ($err) {
-            res.status(422).send({error: $err.message});
+            res.status(422).send({ error: $err.message });
             return;
           }
 
@@ -256,7 +256,7 @@ exports.updateUser = async function updateUser(req, res) {
 
           user.save(($$err, updated) => {
             if ($$err) {
-              res.status(422).send({error: $$err.message});
+              res.status(422).send({ error: $$err.message });
               return;
             }
 
@@ -266,7 +266,7 @@ exports.updateUser = async function updateUser(req, res) {
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     return res.status(500).send(e);

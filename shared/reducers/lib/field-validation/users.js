@@ -37,7 +37,7 @@ const firstNameConstraints = {
 
 const lastNameConstraints = {
   lastName: {
-    presence:  true,
+    presence: true,
     format: {
       pattern: namesRegex,
       flags: 'i',
@@ -227,7 +227,7 @@ export default function (state, action) {
         fields: {
           ...state.fields,
           emailHasError: true,
-          emailErrorMsg: validation['from'][0],
+          emailErrorMsg: validation.from[0],
         },
       };
     }

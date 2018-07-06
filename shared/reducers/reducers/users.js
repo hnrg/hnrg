@@ -121,7 +121,7 @@ export default function usersReducer(state = InitialState, action) {
           username: action.payload.username,
           firstName: action.payload.firstName || '',
           lastName: action.payload.lastName || '',
-          roles: action.payload.roles.map(p => p.name)
+          roles: action.payload.roles.map(p => p.name),
         },
         originalUser: {
           ...state.originalUser,

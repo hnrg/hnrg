@@ -113,7 +113,7 @@ export default class UsersRequest {
   updateUser(originalUsername, {
     username, email, firstName, lastName, password, roles,
   }) {
-    let user = {
+    const user = {
       username,
       email,
       firstName,

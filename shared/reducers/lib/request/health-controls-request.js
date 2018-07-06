@@ -65,7 +65,7 @@ export default class HealthControlsRequest {
     feeding,
     generalObservations,
   }) {
-    return axios.post(`/api/health-controls`, {
+    return axios.post('/api/health-controls', {
       healthControl: {
         patient,
         date,

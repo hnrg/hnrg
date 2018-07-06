@@ -18,7 +18,7 @@ exports.getRolesName = async function getRolesName(req, res) {
       .populate('permissions')
       .exec(($err, roles) => {
         if ($err) {
-          res.status(422).send({error: $err.message});
+          res.status(422).send({ error: $err.message });
           return;
         }
 
@@ -26,7 +26,7 @@ exports.getRolesName = async function getRolesName(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     res.status(500).send(e);
@@ -52,7 +52,7 @@ exports.getRoles = async function getRoles(req, res) {
     await Rol.count({ deleted, name })
       .exec((err, totalCount) => {
         if (err) {
-          res.status(422).send({error: err.message});
+          res.status(422).send({ error: err.message });
           return;
         }
 
@@ -70,7 +70,7 @@ exports.getRoles = async function getRoles(req, res) {
           .populate('permissions')
           .exec(($err, roles) => {
             if ($err) {
-              res.status(422).send({error: $err.message});
+              res.status(422).send({ error: $err.message });
               return;
             }
 
@@ -83,7 +83,7 @@ exports.getRoles = async function getRoles(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     res.status(500).send(e);
@@ -112,7 +112,7 @@ exports.addRol = async function addRol(req, res) {
       },
     }, (err, permissions) => {
       if (err) {
-        res.status(422).send({error: err.message});
+        res.status(422).send({ error: err.message });
         return;
       }
 
@@ -122,7 +122,7 @@ exports.addRol = async function addRol(req, res) {
 
       Rol.findOne({ name: rol.name }, ($err, existingRole) => {
         if ($err) {
-          res.status(422).send({error: $err.message});
+          res.status(422).send({ error: $err.message });
           return;
         }
 
@@ -130,7 +130,7 @@ exports.addRol = async function addRol(req, res) {
 
         if (existingRole) {
           if (!existingRole.deleted) {
-            res.status(422).send({error: 'El nombre ingresado corresponde a un rol activo'});
+            res.status(422).send({ error: 'El nombre ingresado corresponde a un rol activo' });
             return;
           }
 
@@ -147,17 +147,17 @@ exports.addRol = async function addRol(req, res) {
 
         newRol.save(($$err, saved) => {
           if ($$err) {
-            res.status(422).send({error: $$err.message});
+            res.status(422).send({ error: $$err.message });
             return;
           }
 
           res.status(201).send({ rol: saved });
         });
-      })
+      });
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     res.status(500).send(e);
@@ -179,7 +179,7 @@ exports.getRol = async function getRol(req, res) {
       .populate('permissions')
       .exec((err, rol) => {
         if (err) {
-          res.status(422).send({error: err.message});
+          res.status(422).send({ error: err.message });
           return;
         }
 
@@ -191,7 +191,7 @@ exports.getRol = async function getRol(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     if (e.name === 'CastError') {
@@ -229,7 +229,7 @@ exports.deleteRol = async function deleteRol(req, res) {
         })
           .exec(($err, count) => {
             if ($err) {
-              res.status(422).send({error: $err.message});
+              res.status(422).send({ error: $err.message });
               return;
             }
 
@@ -241,7 +241,7 @@ exports.deleteRol = async function deleteRol(req, res) {
             rol.deleted = true;
             rol.save(($$err, saved) => {
               if ($$err) {
-                res.status(422).send({error: $$err.message});
+                res.status(422).send({ error: $$err.message });
                 return;
               }
               res.status(200).end();
@@ -250,7 +250,7 @@ exports.deleteRol = async function deleteRol(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     if (e.name === 'CastError') {
@@ -277,7 +277,7 @@ exports.deleteRolPermission = async function deleteRolPermission(req, res) {
 
         rol.save(($err, updated) => {
           if ($err) {
-            res.status(422).send({error: $err.message});
+            res.status(422).send({ error: $err.message });
             return;
           }
 
@@ -286,7 +286,7 @@ exports.deleteRolPermission = async function deleteRolPermission(req, res) {
       });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     res.status(500).send(e);
@@ -310,7 +310,7 @@ exports.updateRol = async function updateRol(req, res) {
       }
 
       if (err) {
-        res.status(422).send({error: err.message});
+        res.status(422).send({ error: err.message });
         return;
       }
 
@@ -320,7 +320,7 @@ exports.updateRol = async function updateRol(req, res) {
 
       Rol.findOneAndUpdate({ name: req.params.name }, data).exec((err, rol) => {
         if (err) {
-          res.status(422).send({error: err.message});
+          res.status(422).send({ error: err.message });
           return;
         }
 
@@ -334,7 +334,7 @@ exports.updateRol = async function updateRol(req, res) {
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
-      return res.status(403).send({error: e.message});
+      return res.status(403).send({ error: e.message });
     }
 
     return res.status(500).send(e);
