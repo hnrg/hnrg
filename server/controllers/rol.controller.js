@@ -120,18 +120,40 @@ exports.addRol = async function addRol(req, res) {
         return res.status(403);
       }
 
-      const newRol = new Rol({
-        name: rol.name,
-        permissions: permissions.map(p => p._id),
-      });
-      newRol.save(($err, saved) => {
+      Rol.findOne({ name: rol.name }, ($err, existingRole) => {
         if ($err) {
           res.status(422).send({error: $err.message});
           return;
         }
 
-        res.status(201).send({ rol: saved });
-      });
+        let newRol;
+
+        if (existingRole) {
+          if (!existingRole.deleted) {
+            res.status(422).send({error: 'El nombre ingresado corresponde a un rol activo'});
+            return;
+          }
+
+          newRol = existingRole;
+
+          newRol.deleted = false;
+          newRol.permissions = permissions.map(p => p._id);
+        } else {
+          newRol = new Rol({
+            name: rol.name,
+            permissions: permissions.map(p => p._id),
+          });
+        }
+
+        newRol.save(($$err, saved) => {
+          if ($$err) {
+            res.status(422).send({error: $$err.message});
+            return;
+          }
+
+          res.status(201).send({ rol: saved });
+        });
+      })
     });
   } catch (e) {
     if (e.name === 'NotAllowedError') {
