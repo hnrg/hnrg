@@ -46,7 +46,7 @@ exports.getUsers = async function getUsers(req, res) {
 
             res.status(200).send({
               total_count: totalCount,
-              count: users.length,
+              count: amountPerPage,
               users,
             });
           });

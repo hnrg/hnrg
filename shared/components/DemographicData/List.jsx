@@ -13,7 +13,7 @@ import {
 
 
 const DemographicDataList = (props) => {
-    const totalPages = !props.count ? 0 : props.totalCount / props.count;
+    const totalPages = !props.count ? 0 : Math.ceil(props.totalCount / props.count);
     return(
       <Segment>
         <Header as='h2' content='Listado de Datos demográficos' />

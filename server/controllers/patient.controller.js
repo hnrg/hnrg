@@ -78,7 +78,7 @@ exports.getPatients = async function getPatients(req, res, next) {
 
             res.status(200).send({
               total_count: totalCount,
-              count: patients.length,
+              count: amountPerPage,
               patients,
             });
           });

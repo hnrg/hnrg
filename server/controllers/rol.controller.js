@@ -76,7 +76,7 @@ exports.getRoles = async function getRoles(req, res) {
 
             res.status(200).send({
               total_count: totalCount,
-              count: roles.length,
+              count: amountPerPage,
               roles,
             });
           });

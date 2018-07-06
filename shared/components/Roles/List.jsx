@@ -61,7 +61,7 @@ class RolesList extends Component {
   }
 
   render() {
-    const totalPages = !this.props.count ? 0 : Math.round(this.props.totalCount / this.props.count);
+    const totalPages = !this.props.count ? 0 : Math.ceil(this.props.totalCount / this.props.count);
 
     return(
       <Segment>

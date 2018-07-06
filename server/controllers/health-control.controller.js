@@ -46,7 +46,7 @@ exports.getHealthControls = async function getHealthControls(req, res) {
 
             res.status(200).send({
               total_count: totalCount,
-              count: healthControls.length,
+              count: amountPerPage,
               healthControls,
             });
           });
