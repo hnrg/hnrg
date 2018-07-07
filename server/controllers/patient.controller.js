@@ -239,27 +239,32 @@ exports.deletePatient = async function deletePatient(req, res) {
 
 function ageCalculate(actual, birthday) {
   const diff = Math.trunc(moment(actual).diff(moment(birthday), 'days') / 7);
-  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAA', diff);
   return diff;
 }
 
 function ppcStrategy(patient, healthControls) {
-  return healthControls.map(healthControl => ([
-    { $numberDecimal: ageCalculate(healthControl.date, patient.birthday) }, healthControl.ppc,
-  ]));
+  return healthControls
+    .filter(healthControl => ageCalculate(healthControl.date, patient.birthday) <= 13)
+    .map(healthControl => ([
+      { $numberDecimal: ageCalculate(healthControl.date, patient.birthday) }, healthControl.ppc,
+    ]));
 }
 
 function weightStrategy(patient, healthControls) {
-  return healthControls.map(healthControl => ([
-    { $numberDecimal: ageCalculate(healthControl.date, patient.birthday) }, healthControl.weight,
-  ]));
+  return healthControls
+    .filter(healthControl => ageCalculate(healthControl.date, patient.birthday) <= 13)
+    .map(healthControl => ([
+      { $numberDecimal: ageCalculate(healthControl.date, patient.birthday) }, healthControl.weight,
+    ]));
 }
 
 function heightStrategy(patient, healthControls) {
-  return healthControls.map((healthControl) => {
-    const { height, weight } = healthControl;
-    return [height, weight];
-  });
+  return healthControls
+    .filter(healthControl => ageCalculate(healthControl.date, patient.birthday) <= 13)
+    .map((healthControl) => {
+      const { height, weight } = healthControl;
+      return [height, weight];
+    });
 }
 
 exports.getPatientHealthControls = async function getPatientHealthControls(req, res, next) {
@@ -293,15 +298,11 @@ exports.getPatientHealthControls = async function getPatientHealthControls(req, 
         }
 
         HealthControl.find({ patient: patient._id, active: true })
-          .limit(amountPerPage)
-          .skip(amountPerPage * pageNumber)
           .exec(($err, healthControls) => {
             if ($err) {
               res.status(422).send({ error: err.message });
               return;
             }
-
-            /* TODO modificar utilizando req.params.type */
 
             res.status(200).json({
               healthControls: {

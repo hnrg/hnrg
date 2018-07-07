@@ -197,7 +197,6 @@ const dummyData = async function dummyData() {
       throw err;
     }
 
-    console.log(count);
     if (count > 0) {
       return;
     }
