@@ -65,12 +65,22 @@ class AnalyticsContainer extends Component {
     super(props);
 
     this.state = {
-      type: null,
+      type: 'weight',
     }
   }
 
   componentWillMount() {
     this.props.actions.getPatient(this.props.match.params.patient);
+  }
+
+  componentDidMount() {
+    const { patient } = this.props.match.params;
+    const { type } = this.state;
+
+    this.props.actions.getHealthControlsAnalytics(patient, type);
+    this.setState({
+      type,
+    });
   }
 
   handleClick(type) {
@@ -100,7 +110,7 @@ class AnalyticsContainer extends Component {
         <Divider hidden />
         {type && <LineChart
           {...axes[type]}
-          download={`${originalPatient.fullName} - ${originalPatient.documentType.name} ${originalPatient.documentNumber} - ${i18n[type]}`}
+          download={`${originalPatient.fullName} - ${originalPatient.documentType && originalPatient.documentType.name} ${originalPatient.documentNumber} - ${i18n[type]}`}
           data={this.props.analytics.healthControls ?
             _.union(graphs[originalPatient.sex == 'Masculino' ? 'male' : 'female'][type], [this.props.analytics.healthControls]):
             graphs[originalPatient.sex == 'Masculino' ? 'male' : 'female'][type]
