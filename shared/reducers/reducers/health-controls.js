@@ -107,6 +107,7 @@ export default function healthControlsReducer(state = InitialState, action) {
        *
        */
     case LOGOUT_SUCCESS:
+    case ON_HEALTH_CONTROL_FORM_CLEAR:
     {
       return InitialState;
     }
@@ -127,13 +128,6 @@ export default function healthControlsReducer(state = InitialState, action) {
         isFetching: false,
         error: action.payload,
         success: null,
-      };
-    }
-
-    case ON_HEALTH_CONTROL_FORM_CLEAR:
-    {
-      return {
-        ...InitialState,
       };
     }
 
