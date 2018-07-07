@@ -4,17 +4,24 @@ import {
   Button,
   Divider,
   Form,
+  Label,
   Message,
   Icon,
 } from 'semantic-ui-react';
+
+import { DateInput } from 'semantic-ui-calendar-react';
 
 import DemographicDataEdit from 'components/DemographicData/Edit';
 
 class Edit extends Component {
   handleChange(e, {name, value}) {
-    const newValue = [ 'refrigerator', 'electricity', 'pet' ].find(e => e == name) ?
+    var newValue = [ 'refrigerator', 'electricity', 'pet' ].find(e => e == name) ?
       !this.props.fields[name] :
       value;
+
+    if (name === 'birthday') {
+      newValue = moment(newValue, 'DD-MM-YYYY').format('YYYY-MM-DD');
+    }
 
     this.props.onFormFieldChange(name, newValue);
   }
@@ -115,16 +122,23 @@ class Edit extends Component {
             onChange={this.handleChange.bind(this)}
             value={fields.phone || ''}
             error={fields.phoneHasError} />
-          <Form.Input
-            type='date'
-            label={fields.birthdayErrorMsg || 'Fecha de nacimiento'}
-            name='birthday'
-            placeholder='Fecha de nacimiento'
-            required
-            width={4}
-            onChange={this.handleChange.bind(this)}
-            value={moment(fields.birthday).format('YYYY-MM-DD')}
+          <Form.Field>
+            <Label
+              basic
+              style={{ border: 'none' }}
+              size='medium'
+              content={fields.birthdayErrorMsg || 'Fecha de nacimiento'}
+            />
+            <DateInput
+              name='birthday'
+              placeholder='Fecha de nacimiento'
+              value={moment(fields.birthday).format('DD-MM-YYYY')}
+              closable
+              required
+              popupPosition='bottom right'
+              onChange={this.handleChange.bind(this)}
             error={fields.birthdayHasError} />
+          </Form.Field>
           <Form.Select
             label={fields.sexErrorMsg || 'Sexo'}
             name='sex'

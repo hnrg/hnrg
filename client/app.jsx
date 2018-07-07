@@ -5,6 +5,7 @@ import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 
 import 'semantic-ui-css/semantic.min.css';
+import 'semantic-ui-calendar-react/dist/css/calendar.min.css'
 
 import store from '../shared/store';
 import App from '../shared/routes';

@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
+import moment from 'moment';
 import {
   Button,
   Form,
   Icon,
+  Label,
   Message,
   Segment,
 } from 'semantic-ui-react';
+
+import { DateInput } from 'semantic-ui-calendar-react';
 
 class Add extends Component {
   constructor(props) {
@@ -15,6 +19,10 @@ class Add extends Component {
   }
 
   handleChange(e, {name, value}) {
+    if (name === "birthday") {
+      value = moment(value, 'DD-MM-YYYY').format('YYYY-MM-DD');
+    }
+
     this.props.onFormFieldChange(name, value);
   }
 
@@ -96,16 +104,23 @@ class Add extends Component {
               onChange={this.handleChange.bind(this)}
               value={fields.phone || ''}
               error={fields.phoneHasError} />
-            <Form.Input
-              type='date'
-              label={fields.birthdayErrorMsg || 'Fecha de nacimiento'}
-              name='birthday'
-              placeholder='Fecha de nacimiento'
-              required
-              width={4}
-              onChange={this.handleChange.bind(this)}
-              value={fields.birthday || ''}
-              error={fields.birthdayHasError} />
+            <Form.Field>
+              <Label
+                basic
+                style={{ border: 'none' }}
+                size='medium'
+                content={fields.birthdayErrorMsg || 'Fecha de nacimiento'}
+              />
+              <DateInput
+                name='birthday'
+                placeholder='Fecha de nacimiento'
+                value={!fields.birthday ? '' : moment(fields.birthday).format('DD-MM-YYYY')}
+                closable
+                required
+                popupPosition='bottom right'
+                onChange={this.handleChange.bind(this)}
+                error={fields.birthdayHasError} />
+            </Form.Field>
             <Form.Select
               label={fields.sexErrorMsg || 'Sexo'}
               name='sex'

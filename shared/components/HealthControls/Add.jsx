@@ -9,7 +9,10 @@ import {
   Form,
   Icon,
   Message,
+  Segment,
 } from 'semantic-ui-react';
+
+import { DateInput } from 'semantic-ui-calendar-react';
 
 class Add extends Component {
   constructor(props) {
@@ -19,11 +22,15 @@ class Add extends Component {
   }
 
   handleChange(e, {name, value}) {
-    const newValue = [
+    var newValue = [
       'completeVaccines',
       'accordingMaturationContext',
       'commonPhysicalExamination'
     ].find(e => e == name) ? !this.props.fields[name] : value;
+
+    if (name === "date") {
+      newValue = moment(newValue, 'DD-MM-YYYY').format('YYYY-MM-DD')
+    }
 
     this.props.onFormFieldChange(name, newValue);
   }
@@ -57,21 +64,19 @@ class Add extends Component {
     const { error, success } = this.props;
 
     return(
-      <div>
+      <Segment>
         {success && <Message positive icon='check' content='La operación fué realizada con éxito.' />}
         {error && <Message negative icon='warning sign' content={error} />}
         <Form onSubmit={this.handleSubmit.bind(this)}>
           <Form.Group>
-            <Form.Input
-              type='date'
-              label={fields.dateErrorMsg || 'Fecha de realización'}
+            <DateInput
+              style={{ margin: '0 0 0 7px'}}
               name='date'
               placeholder='Fecha de realización'
-              required
-              width={4}
-              onChange={this.handleChange.bind(this)}
-              value={moment(fields.date).format('YYYY-MM-DD')}
-              error={fields.dateHasError} />
+              value={!fields.date? '' : moment(fields.date).format('DD-MM-YYYY')}
+              closable
+              popupPosition='bottom right'
+              onChange={this.handleChange.bind(this)} />
           </Form.Group>
           <Header as='h3' content='Medidas' />
           <Form.Group>
@@ -196,7 +201,7 @@ class Add extends Component {
             Guardar
           </Button>
         </Form>
-      </div>
+      </Segment>
     );
   }
 }
