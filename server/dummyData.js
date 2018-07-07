@@ -105,11 +105,17 @@ const dummyData = async function dummyData() {
         models.dashboard_analytics,
       ];
 
-      const suPermissions = [
-        ...adminPermissions,
-        ...receptionistPermissions,
-        ...pediatricianPermissions,
-      ];
+      var suPermissions = [];
+
+      adminPermissions.forEach(p => suPermissions.push(p));
+
+      receptionistPermissions.forEach(p => {
+        !suPermissions.find(ep => p === ep) && suPermissions.push(p);
+      });
+
+      pediatricianPermissions.forEach(p => {
+        !suPermissions.find(ep => p === ep) && suPermissions.push(p);
+      });
 
       const adminRol = new Rol({
         name: 'Administrador',
