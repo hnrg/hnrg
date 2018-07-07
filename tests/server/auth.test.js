@@ -18,7 +18,7 @@ describe('Login Tests', () => {
       .post('/api/auth/login')
       .send({
         email: 'admin@hnrg.com',
-        password: 'admin',
+        password: 'hnrg-admin',
       })
       .end((err, res) => {
         const { token } = res.body;

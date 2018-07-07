@@ -6,8 +6,13 @@ const Permission = require('./models/permission');
 const Rol = require('./models/rol');
 const User = require('./models/user');
 
+
 const dummyData = async function dummyData() {
   await Permission.count().exec((err, count) => {
+    if (err) {
+      throw err;
+    }
+
     if (count > 0) {
       return;
     }
@@ -42,23 +47,17 @@ const dummyData = async function dummyData() {
       'dashboard_analytics',
     ];
 
-    Permission.create(permissions.map(permission => new Permission({ name: permission })));
-  });
+    const permissionsModel = permissions.map(name => new Permission({ name }));
 
-  await Rol.count().exec((error, count) => {
-    if (count > 0) {
-      return;
-    }
-
-    Permission.find().exec((_error, permissions) => {
-      if (!permissions) {
-        return;
+    Permission.create(permissionsModel, ($err, savedPermissions) => {
+      if ($err) {
+        throw $err;
       }
 
       const models = {};
 
-      permissions.forEach((permission) => {
-        models[permission.name] = permission;
+      savedPermissions.forEach(permission => {
+        models[permission.name] = permission._id;
       });
 
       const adminPermissions = [
@@ -99,6 +98,7 @@ const dummyData = async function dummyData() {
         models.control_salud_show,
         models.control_salud_new,
         models.control_salud_update,
+        models.dashboard_analytics,
       ];
 
       const suPermissions = [
@@ -107,80 +107,84 @@ const dummyData = async function dummyData() {
         ...pediatricianPermissions,
       ];
 
-      const admin = new Rol({
+      const adminRol = new Rol({
         name: 'Administrador',
         permissions: adminPermissions,
       });
 
-      admin.save((err, rol) => {
-        User.create({
-          ...secret.admin,
-          active: true,
-          roles: [rol],
-        });
-      });
-
-      const receptionist = new Rol({
+      const receptionistRol = new Rol({
         name: 'Recepcionista',
         permissions: receptionistPermissions,
       });
 
-      receptionist.save((err, rol) => {
-        User.create({
-          email: 'recepcionista@hnrg.com',
-          username: 'recepcionista',
-          password: 'recepcionista',
-          active: true,
-          roles: [rol],
-        });
-      });
-
-      const pediatrician = new Rol({
+      const pediatricianRol = new Rol({
         name: 'Pediatra',
         permissions: pediatricianPermissions,
       });
 
-      pediatrician.save((err, rol) => {
-        User.create({
+      const suRol = new Rol({
+        name: 'SuperAdmin',
+        permissions: suPermissions,
+      });
+
+      Rol.create([adminRol, receptionistRol, pediatricianRol, suRol], ($$err, savedRoles) => {
+        if ($$err) {
+          throw $$err;
+        }
+
+        const admin = new User({
+          ...secret.admin,
+          active: true,
+          roles: [adminRol._id],
+        });
+
+        const receptionist = new User({
+          email: 'recepcionista@hnrg.com',
+          username: 'recepcionista',
+          password: 'recepcionista',
+          active: true,
+          roles: [receptionistRol._id],
+        });
+
+        const pediatrician = new User({
           email: 'pediatra@hnrg.com',
           username: 'pediatra',
           password: 'pediatra',
           active: true,
-          roles: [rol],
+          roles: [pediatricianRol._id],
         });
-      });
 
-      const su = new Rol({
-        name: 'Su',
-        permissions: suPermissions,
-      });
-
-      su.save((err, rol) => {
-        User.create({
+        const su = new User({
           email: 'su@hnrg.com',
           username: 'su',
           password: 'hnrg-su',
           active: true,
-          roles: [rol],
+          roles: [suRol._id],
+        });
+
+        User.create([admin, receptionist, pediatrician, su], ($$$err, savedUsers) => {
+          if ($$$err) {
+            throw $$$err;
+          }
+
+          Configuration.count().exec(($$$$err, count) => {
+            if ($$$$err) {
+              throw $$$$err;
+            }
+
+            if (count > 0) {
+              return;
+            }
+
+            const config = new Configuration({
+              ...appConfig,
+              user: admin._id
+            });
+
+            config.save();
+          });
         });
       });
-    });
-  });
-
-  await Configuration.count().exec((_error, count) => {
-    if (count > 0) {
-      return;
-    }
-
-    User.findOne({
-      email: secret.admin.email,
-    }).exec((__error, user) => {
-      const config = new Configuration({
-        ...appConfig,
-        user,
-      });
-
-      config.save();
     });
   });
 };
