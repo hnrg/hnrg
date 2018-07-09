@@ -36,8 +36,9 @@ Tener en cuenta que se debe utilizar la versión **https** provista por ngrok.
 Luego solo hace falta correr el docker-compose de la siguiente manera:
 
 ```bash
-$ docker-compose -f docker-compose-development.yml up --build
+$ docker-compose -f docker/docker-compose-development.yml up --build
 ```
 
 Con esto se debería contar con todo el ambiente levantado, listo para atender
 consultas en el bot de telegram.
+
