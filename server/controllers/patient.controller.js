@@ -106,6 +106,8 @@ exports.addPatient = async function addPatient(req, res, next) {
       documentType, documentNumber, firstName, lastName, birthday,
     } = req.body.patient;
 
+    console.log(req.body.patient);
+
     if (!documentType || !documentNumber || !firstName || !lastName || !birthday) {
       return res.status(400).end();
     }
@@ -124,7 +126,8 @@ exports.addPatient = async function addPatient(req, res, next) {
 
       if (patient) {
         if (!patient.deleted) {
-          return res.sendStatus(422);
+          res.status(422).send({error: 'Los datos ingresados corresponden a un paciente activo'});
+          return;
         }
 
         const updatedPatient = patient;
@@ -138,6 +141,8 @@ exports.addPatient = async function addPatient(req, res, next) {
 
           res.status(200).json({ patient: saved });
         });
+
+        return;
       }
 
       const newPatient = new Patient(req.body.patient);
