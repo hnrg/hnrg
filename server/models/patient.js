@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const timeZone = require('mongoose-timezone');
+// const timeZone = require('mongoose-timezone');
 
 const { Schema } = mongoose;
 
@@ -67,6 +67,6 @@ patientSchema.index({ documentNumber: 1, documentType: 1 }, { unique: true });
 
 patientSchema.virtual('fullName').get(() => `${this.firstName} ${this.lastName}`);
 
-patientSchema.plugin(timeZone);
+// patientSchema.plugin(timeZone);
 
 module.exports = mongoose.model('Patient', patientSchema);
