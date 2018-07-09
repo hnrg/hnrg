@@ -6,7 +6,7 @@ import {
 
 const Statistics = props => (
   <Segment>
-    <h1>Bienvenido 'inserte aqui el nombre' al área de trabajo del Hospital de Niños Ricardo Gutierrez</h1>
+    <h1>Bienvenido al área de trabajo del Hospital de Niños Ricardo Gutierrez</h1>
   </Segment>
 );
 
