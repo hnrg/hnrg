@@ -97,6 +97,7 @@ exports.addAppointment = async function addAppointment(req, res) {
         if (count > 0) {
           return res.status(422).send({ error: 'El horario ingresado corresponde a un turno registrado' });
         }
+        
         const newAppointment = new Appointment({
           documentNumber,
           date: newDate.toDate(),
