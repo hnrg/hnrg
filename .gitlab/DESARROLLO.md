@@ -41,4 +41,3 @@ $ docker-compose -f docker/docker-compose-development.yml up --build
 
 Con esto se debería contar con todo el ambiente levantado, listo para atender
 consultas en el bot de telegram.
-
