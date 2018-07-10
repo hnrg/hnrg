@@ -1,27 +1,29 @@
 En este documento se van a especificar todo lo requerido para tener la app del Hospital de Niños Ricardo Gutiérrez funcionando.
 
 ## Requerimientos
-- Mínimos:
-    - [NodeJs](https://nodejs.org/en/) v9.5.0
-    - [Yarn](https://yarnpkg.com/lang/en/) v1.7.0
-    - [Mongo](https://www.mongodb.com) 3.6.3
-    - [direnv](https://github.com/direnv/direnv) 2.4.0 o superior
-    - [redis](https://redis.io/) 4
-- Recomendaciones:
-    - Usar [nvm](https://github.com/creationix/nvm) para el versionado de node
-- Opcionales:
-    - [docker](https://www.docker.com/)
-    - [docker-compose](https://docs.docker.com/compose/)
-    - [mongodb compass](https://www.mongodb.com/products/compass)
 
+-   Mínimos:
+    -   [NodeJs](https://nodejs.org/en/) v9.5.0
+    -   [Yarn](https://yarnpkg.com/lang/en/) v1.7.0
+    -   [Mongo](https://www.mongodb.com) 3.6.3
+    -   [direnv](https://github.com/direnv/direnv) 2.4.0 o superior
+    -   [redis](https://redis.io/) 4
+-   Recomendaciones:
+    -   Usar [nvm](https://github.com/creationix/nvm) para el versionado de node
+-   Opcionales:
+    -   [docker](https://www.docker.com/)
+    -   [docker-compose](https://docs.docker.com/compose/)
+    -   [mongodb compass](https://www.mongodb.com/products/compass)
 
 ## Instalación del ambiente
+
 _si le falta cumplir alguno de los requerimientos, seguir a la siguiente sección_
 
 Instalación de los componentes necesarios usando yarn:
+
 ```bash
-$ yarn install
-$ yarn run build:dev
+$ yarn
+$ yarn build:dev
 ```
 
 Con esto, se procederá a crear la carpeta node-modules, y algunos archivos extra
@@ -35,7 +37,6 @@ _Nota: Se recomienda agregar su usuario al grupo de docker para evitar la necesi
 $ sudo usermod -a -G docker $USER
 ```
 
-
 Para esto, podemos seguir 2 diferentes caminos, usando docker y docker-compose, o usando
 simplemente docker
 
@@ -43,7 +44,7 @@ simplemente docker
 
 Para esto, se van a utilizar los archvios Dockerfile y docker-compose.yml (para
 producción) o Dockerfile-development y docker-compose-development.yml (para
-desarrollo) 
+desarrollo)
 
 ##### Ambiente Desarrollo
 
@@ -120,21 +121,21 @@ programas directamente en el SO), no va a ser necesario cambios, a menos que se
 hayan cambiados las configuraciones por defecto de Mongodb.
 Por defecto, son las siguientes:
 
-- Hostname: localhost
-- Port: 27017
-- Authentication: None
-- SSL: off
-- SSH Tunel: off
+-   Hostname: localhost
+-   Port: 27017
+-   Authentication: None
+-   SSL: off
+-   SSH Tunel: off
 
 De utilizar el ambiente dockerizado, va a ser necesario especificar el hostname
 y puerto especificado al momento de levantar el ambiente.
 En los archivos docker-compose se utiliza la siguiente configuración:
 
-- Hostname: 172.17.0.1
-- Port: 27017
-- Authentication: none
-- SSL: off
-- SSH Tunel: off
+-   Hostname: 172.17.0.1
+-   Port: 27017
+-   Authentication: none
+-   SSL: off
+-   SSH Tunel: off
 
 ## Manejo del repositorio en desarrollo
 
@@ -150,7 +151,6 @@ archivo para poder mostrar dicha versión en la app funcionando en producción.
 
 Para que las consultas a las apis sean más amigables, se propone utilizar el
 gist
-[api\_request](https://gist.github.com/lucasdc6/741972836ddff247551e5e8b52277541),
+[api_request](https://gist.github.com/lucasdc6/741972836ddff247551e5e8b52277541),
 el cual es un wrapper de curl, agregando un beautifier para las respuestas en
 JSON.
-
