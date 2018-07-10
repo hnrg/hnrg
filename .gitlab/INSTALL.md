@@ -22,8 +22,8 @@ _si le falta cumplir alguno de los requerimientos, seguir a la siguiente secció
 Instalación de los componentes necesarios usando yarn:
 
 ```bash
-$ yarn install
-$ yarn run build:dev
+$ yarn
+$ yarn build:dev
 ```
 
 Con esto, se procederá a crear la carpeta node-modules, y algunos archivos extra
