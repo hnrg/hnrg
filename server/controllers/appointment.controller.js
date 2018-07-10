@@ -82,7 +82,7 @@ exports.addAppointment = async function addAppointment(req, res) {
 
     const newDate = moment(`${date} ${time}`);
 
-    if (!(newDate.isValid() && timeInArray(newDate, timesArray(from, delta, amount)))) {
+    if (!(newDate.isValid() && timeInArray(newDate, timesArray(newDate, from, delta, amount)))) {
       return res.status(400).send({ error: 'Debe ingresar fecha y horario validos' });
     }
 
@@ -103,12 +103,7 @@ exports.addAppointment = async function addAppointment(req, res) {
         });
 
         const saved = newAppointment.save();
-        res.status(201).json({
-          appointment: {
-            documentNumber: saved.documentNumber,
-            date: saved.date,
-          },
-        });
+        res.status(201).json({ appointment: saved });
       });
   } catch (e) {
     return res.status(500).send(e);
