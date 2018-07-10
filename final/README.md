@@ -27,6 +27,8 @@ en linea de comando las siguiente instrucciones. Nuevamente, la explicación
 de cada una de ellas se encuentra detallada en la documentación.
 
 ```sh
+$ git clone https://gitlab.catedras.linti.unlp.edu.ar/proyecto2017/grupo74.git
+$ cd grupo74
 $ yarn
 $ yarn build:dev
 $ ngrok http localhost:8000
