@@ -10,17 +10,21 @@
 
 El código a evaluar se encuentra en la rama _master_ del repositorio.
 
-En el informe final de la entrega se profundiza respecto de las tecnologías
-utilizadas, aspectos de seguridad y routing, y aspectos relacionados a
-la infraestructura del mismo.
+En el [informe final de la entrega](./INFORME_DESARROLLO.pdf) se profundiza
+respecto de las tecnologías utilizadas, aspectos de seguridad y routing, y
+aspectos relacionados a la infraestructura del mismo.
+
+Así mismo pueden consultarse las wikis del repositorio y
+[documentación del proyecto](http://hnrg.readthedocs.io/) para obtener
+más información.  En este último
+link se pueden observar distintos aspectos de la aplicación en general tales
+como sistema de roles y permisos, API de turnos, entre otros.
 
 ## Instalación y ambiente de desarrollo
 
 Para ver información respecto de como levantar el ambiente de desarrollo,
 se puede consultar la wiki del repositorio o la
-[documentación del proyecto](http://hnrg.readthedocs.io/). En este último
-link se pueden observar distintos aspectos de la aplicación en general tales
-como sistema de roles y permisos, API de turnos, entre otros.
+[documentación del proyecto](http://hnrg.readthedocs.io/).
 
 Para instalar rapidamente el ambiente de desarrollo, puede ejecutarse
 en linea de comando las siguiente instrucciones. Nuevamente, la explicación
